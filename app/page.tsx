@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "./components/site-header";
 import Footer from "./components/site-footer";
+import { announcements as homeAnnouncements } from "./announcements/data";
 import { events as homeEvents } from "./events/data";
 
 export const metadata: Metadata = {
@@ -21,12 +22,6 @@ const executives = [
   { initials: "JE", name: "JOHN-EDWARD SEED'IVINE", role: "Vice President", tone: "cyan" },
   { initials: "EJ", name: "EDDIDIONG UDOM JOHN", role: "General Secretary", tone: "lime" },
   { initials: "E", name: "EMMANUEL", role: "Assistant General Secretary", tone: "lime" }
-];
-
-const announcements = [
-  { category: "Academic", date: "18 Aug 2026", title: "Welcome to the new NIPSA student resource hub", text: "A shared space for departmental updates, learning materials and community notes.", tone: "green" },
-  { category: "Important notice", date: "14 Aug 2026", title: "Departmental Orientation", text: "A notice for dates, rooms and guidance that will be confirmed by the department.", tone: "amber" },
-  { category: "Community", date: "08 Aug 2026", title: "Meet your student community", text: "Discover the people, groups and conversations helping pharmacology students move forward.", tone: "teal" },
 ];
 
 const resources = [
@@ -76,7 +71,7 @@ export default function Home() {
 
         <section className="people section" id="executives"><div className="container"><SectionIntro number="02" eyebrow="FACES OF THE DEPARTMENT" title="People who" accent="make it happen." /><div className="people-grid">{executives.map((person) => <article className={`person-card ${person.tone}`} key={person.role}><div className="placeholder-photo"><span>{person.initials}</span><small>Profile placeholder</small><b>✦</b></div><div className="person-info"><h3>{person.name}</h3><p>{person.role}</p><Link href="/executives" aria-label={`View profile for ${person.name}`}>View Profile <Arrow /></Link></div></article>)}</div></div></section>
 
-        <section className="updates section container"><div className="section-heading"><SectionIntro number="03" eyebrow="STAY IN THE LOOP" title="What’s happening" accent="around NIPSA." /><Link className="text-link" href="/contact">View all updates <Arrow /></Link></div><div className="announcement-grid">{announcements.map((item) => <article className={`announcement-card ${item.tone}`} key={item.title}><div className="card-meta"><span>{item.category}</span><time>{item.date}</time></div><h3>{item.title}</h3><p>{item.text}</p><Link href="/contact" aria-label={`Read ${item.title}`}>Read more <Arrow /></Link></article>)}</div></section>
+        <section className="updates section container"><div className="section-heading"><SectionIntro number="03" eyebrow="STAY IN THE LOOP" title="What’s happening" accent="around NIPSA." /><Link className="text-link" href="/announcements">View all announcements <Arrow /></Link></div><div className="announcement-grid">{homeAnnouncements.map((item) => <article className={`announcement-card ${item.tone}`} key={item.slug}><div className="card-meta"><span>{item.category}</span><time>{item.date}</time></div><h3>{item.title}</h3><p>{item.summary}</p></article>)}</div></section>
 
         <section className="events section" id="events"><div className="container"><div className="section-heading"><SectionIntro number="04" eyebrow="UPCOMING EVENTS" title="Make room for" accent="something new." /><Link className="text-link" href="/events">View all events <Arrow /></Link></div><div className="events-grid">{homeEvents.map((event) => {
           const [day, month] = event.date.split(" ");
