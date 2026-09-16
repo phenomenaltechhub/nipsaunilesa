@@ -13,8 +13,9 @@ export async function generateStaticParams() {
   return announcements.map((announcement) => ({ slug: announcement.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const announcement = getAnnouncementBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const announcement = getAnnouncementBySlug(slug);
 
   if (!announcement) {
     return {
@@ -34,8 +35,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function AnnouncementDetailPage({ params }: { params: { slug: string } }) {
-  const announcement = getAnnouncementBySlug(params.slug);
+export default async function AnnouncementDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const announcement = getAnnouncementBySlug(slug);
 
   if (!announcement) {
     notFound();

@@ -13,14 +13,14 @@ export const metadata: Metadata = {
 const stats = [
   { value: "700+", label: "Students" },
   { value: "500+", label: "Study groups" },
-  { value: "08", label: "Events this term" },
+  { value: String(homeEvents.length).padStart(2, "0"), label: "Events listed" },
   { value: "1000+", label: "Shared resources" },
 ];
 
 const executives = [
-  { initials: "OM", name: "ONIFADE MICHEAL", role: "NIPSA President", tone: "teal" },
+  { initials: "OM", name: "ONIFADE MICHAEL", role: "NIPSA President", tone: "teal" },
   { initials: "JE", name: "JOHN-EDWARD SEED'IVINE", role: "Vice President", tone: "cyan" },
-  { initials: "EJ", name: "EDDIDIONG UDOM JOHN", role: "General Secretary", tone: "lime" },
+  { initials: "EJ", name: "UDOM EDIDIONG JOHN", role: "General Secretary", tone: "lime" },
   { initials: "E", name: "EMMANUEL", role: "Assistant General Secretary", tone: "lime" }
 ];
 
@@ -73,7 +73,7 @@ export default function Home() {
 
         <section className="updates section container"><div className="section-heading"><SectionIntro number="03" eyebrow="STAY IN THE LOOP" title="What’s happening" accent="around NIPSA." /><Link className="text-link" href="/announcements">View all announcements <Arrow /></Link></div><div className="announcement-grid">{homeAnnouncements.map((item) => <article className={`announcement-card ${item.tone}`} key={item.slug}><div className="card-meta"><span>{item.category}</span><time>{item.date}</time></div><h3>{item.title}</h3><p>{item.summary}</p></article>)}</div></section>
 
-        <section className="events section" id="events"><div className="container"><div className="section-heading"><SectionIntro number="04" eyebrow="UPCOMING EVENTS" title="Make room for" accent="something new." /><Link className="text-link" href="/events">View all events <Arrow /></Link></div><div className="events-grid">{homeEvents.map((event) => {
+        <section className="events section" id="events"><div className="container"><div className="section-heading"><SectionIntro number="04" eyebrow="EVENTS" title="Make room for" accent="something new." /><Link className="text-link" href="/events">View all events <Arrow /></Link></div><div className="events-grid">{homeEvents.map((event) => {
           const [day, month] = event.date.split(" ");
           return (
             <article className={`event-card ${event.tone}`} key={event.slug}>

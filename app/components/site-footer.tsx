@@ -29,6 +29,7 @@ export default function Footer({ currentPath = "/" }: { currentPath?: string }) 
           <Link href="/about" aria-current={currentPath === "/about" ? "page" : undefined}>About NIPSA</Link>
           <Link href="/executives" aria-current={currentPath === "/executives" ? "page" : undefined}>Executives</Link>
           <Link href="/events" aria-current={currentPath === "/events" ? "page" : undefined}>Events</Link>
+          <Link href="/announcements" aria-current={currentPath === "/announcements" ? "page" : undefined}>Announcements</Link>
           <Link href="/resources" aria-current={currentPath === "/resources" ? "page" : undefined}>Resources</Link>
         </div>
         <div className="footer-column">

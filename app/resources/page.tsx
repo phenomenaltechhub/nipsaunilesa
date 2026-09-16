@@ -61,9 +61,15 @@ export default function ResourcesPage() {
               <span className="card-tag">{category}</span>
               <h3>{title}</h3>
               <p>{text}</p>
-              <a className="card-link" href={href} download>
-                {label} <span>↗</span>
-              </a>
+              {href.startsWith("/") && href.startsWith("/resources/") ? (
+                <a className="card-link" href={href} download>
+                  {label} <span>↗</span>
+                </a>
+              ) : (
+                <Link className="card-link" href={href}>
+                  {label} <span>↗</span>
+                </Link>
+              )}
             </article>
           ))}
         </section>

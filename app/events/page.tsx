@@ -6,7 +6,7 @@ import { events } from "./data";
 
 export const metadata: Metadata = {
   title: "Events",
-  description: "See upcoming student events, community activities, and learning opportunities for NIPSA UNILESA.",
+  description: "Explore student events, community activities, and learning opportunities for NIPSA UNILESA.",
 };
 
 function Arrow() {
@@ -22,12 +22,12 @@ export default function EventsPage() {
         <section className="page-hero">
           <div className="page-hero-grid">
             <div>
-              <p className="page-kicker">Upcoming events</p>
+              <p className="page-kicker">Student events</p>
               <h1 className="page-title">
                 Make room for <em>new ideas</em>
               </h1>
               <p className="page-subtitle">
-                Explore the upcoming events that bring students, leaders, and the wider community
+                Explore the events that bring students, leaders, and the wider community
                 together for learning, discovery, and support.
               </p>
               <div className="page-cta-row">
