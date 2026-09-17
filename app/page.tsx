@@ -18,7 +18,7 @@ const stats = [
 ];
 
 const executives = [
-  { initials: "OM", name: "ONIFADE MICHAEL", role: "NIPSA President", tone: "teal" },
+  { initials: "OM", name: "ONIFADE MICHAEL", role: "President", tone: "teal" },
   { initials: "JE", name: "JOHN-EDWARD SEED'IVINE", role: "Vice President", tone: "cyan" },
   { initials: "EJ", name: "UDOM EDIDIONG JOHN", role: "General Secretary", tone: "lime" },
   { initials: "E", name: "EMMANUEL", role: "Assistant General Secretary", tone: "lime" }
@@ -28,7 +28,7 @@ const resources = [
   ["▤", "Lecture Materials", "A home for notes and class materials shared by the community."],
   ["⌁", "Past Questions", "Practice with a growing collection of revision prompts."],
   ["✦", "Study Resources", "Useful references to support your next focused study session."],
-  ["↗", "Academic Guides", "Clear, practical signposts for navigating student academic life."],
+  ["↗", "Academic Guides", "Clear, practical signposts for navigating student academic journey."],
 ];
 
 function Arrow() {

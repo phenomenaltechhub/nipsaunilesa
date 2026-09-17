@@ -5,7 +5,7 @@ import Footer from "../components/site-footer";
 
 export const metadata: Metadata = {
   title: "Executives",
-  description: "Meet the current student leadership supporting NIPSA UNILESA and the Department of Pharmacology.",
+  description: "Meet the current members of the Central Executives Council of NIPSA UNILESA chapter.",
 };
 
 type Executive = {
@@ -45,8 +45,8 @@ export default function ExecutivesPage() {
                 The people behind <em>the momentum</em>
               </h1>
               <p className="page-subtitle">
-                Meet the provisional executive team supporting engagement, advocacy, and community
-                support within NIPSAUNILESA.
+                Meet the executives supporting engagement, advocacy, and community
+                support within NIPSA UNILESA chapter.
               </p>
               <div className="page-cta-row">
                 <Link className="button primary" href="/contact">
