@@ -18,10 +18,10 @@ const stats = [
 ];
 
 const executives = [
-  { initials: "OM", name: "ONIFADE MICHAEL", role: "President", tone: "teal" },
+  { initials: "OM", name: "ONIFADE OLAMAYOWA MICHAEL", role: "President", tone: "teal" },
   { initials: "JE", name: "JOHN-EDWARD SEED'IVINE", role: "Vice President", tone: "cyan" },
   { initials: "EJ", name: "UDOM EDIDIONG JOHN", role: "General Secretary", tone: "lime" },
-  { initials: "E", name: "EMMANUEL", role: "Assistant General Secretary", tone: "lime" }
+  { initials: "AE", name: "ADEBOKUN EMMANUEL AYOMIDE", role: "Assistant General Secretary", tone: "lime" }
 ];
 
 const resources = [
@@ -67,7 +67,7 @@ export default function Home() {
 
         <section className="stats container" aria-label="NIPSA statistics">{stats.map((stat) => <div className="stat" key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</section>
 
-        <section className="about section container" id="about"><SectionIntro number="01" eyebrow="ABOUT NIPSA" title="A community for" accent="the curious." /><div className="about-content"><div className="about-lead"><p>NIPSAUNILESA has a student-centred platform for learning, connection and shared progress within the Department of Pharmacology.</p></div><div className="about-detail"><p>We bring together students, aspirants and the wider community around the questions, conversations and resources that make pharmacology feel more accessible.</p><p>Explore at your own pace, find your people and keep building your path.</p><Link className="text-link" href="/community">Discover the community <Arrow /></Link></div></div></section>
+        <section className="about section container" id="about"><SectionIntro number="01" eyebrow="ABOUT NIPSA" title="A community for" accent="the curious." /><div className="about-content"><div className="about-lead"><p>NIPSA UNILESA chapter has a student-centred platform for learning, connection and shared progress within the Department of Pharmacology.</p></div><div className="about-detail"><p>We bring together students, aspirants and the wider community around the questions, conversations and resources that make pharmacology feel more accessible.</p><p>Explore at your own pace, find your people and keep building your path.</p><Link className="text-link" href="/community">Discover the community <Arrow /></Link></div></div></section>
 
         <section className="people section" id="executives"><div className="container"><SectionIntro number="02" eyebrow="FACES OF THE DEPARTMENT" title="People who" accent="make it happen." /><div className="people-grid">{executives.map((person) => <article className={`person-card ${person.tone}`} key={person.role}><div className="placeholder-photo"><span>{person.initials}</span><small>Profile placeholder</small><b>✦</b></div><div className="person-info"><h3>{person.name}</h3><p>{person.role}</p><Link href="/executives" aria-label={`View profile for ${person.name}`}>View Profile <Arrow /></Link></div></article>)}</div></div></section>
 

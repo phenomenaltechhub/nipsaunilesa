@@ -17,14 +17,14 @@ type Executive = {
 };
 
 const leadership: Executive[] = [
-  { initials: "OM", name: "ONIFADE MICHAEL", role: "President", tone: "mint" },
+  { initials: "OM", name: "ONIFADE OLUWAMAYOWA MICHAEL", role: "President", tone: "mint" },
   { initials: "JS", name: "JOHN-EDWARD SEED'IVINE", role: "Vice President", tone: "teal", image: "/Vive President.jpg" },
   { initials: "EJ", name: "UDOM EDIDIONG JOHN", role: "General Secretary", tone: "cyan" },
-  { initials: "E", name: "EMMANUEL", role: "Assistant General Secretary", tone: "lime" },
+  { initials: "E", name: "ADEBOKUN EMMANUEL AYOMIDE", role: "Assistant General Secretary", tone: "lime" },
   { initials: "AP", name: "AJAYI PRECIOUS OLUWABUSOLA", role: "Financial Secretary", tone: "mint" },
   { initials: "OR", name: "OLORUNTOLA OLUWANIFEMI ROONEY", role: "Public Relations Officer", tone: "teal", image: "/Public Relations Officer.jpg" },
   { initials: "IV", name: "IDOWU VICTORIA OPEYEMI", role: "Social Director", tone: "cyan" },
-  { initials: "OM", name: "OLAMIDE", role: "Sports Director", tone: "cyan" },
+  { initials: "OM", name: "ADEGOKE ADEMIDUN FAWAZ", role: "Sports Director", tone: "cyan" },
 ];
 
 function Arrow() {

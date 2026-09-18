@@ -26,7 +26,7 @@ export default function AboutPage() {
                 A community for <em>curious minds</em>
               </h1>
               <p className="page-subtitle">
-                NIPSAUNILESA is presented here as a student-facing platform for shared learning,
+                NIPSA UNILESA chapter is presented here as a student-facing platform for shared learning,
                 mentorship, and community engagement within the Department of Pharmacology.
               </p>
               <div className="page-cta-row">
@@ -66,7 +66,7 @@ export default function AboutPage() {
             <span className="card-tag">Current priorities</span>
             <h3>Shared progress</h3>
             <p>
-              The current project framing emphasizes study groups, communication, and leadership
+              Study groups, communication, and leadership
               opportunities as a practical student experience rather than a verified official policy.
             </p>
             <Link className="card-link" href="/events">
