@@ -1,0 +1,23 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Lint project",
+			"type": "shell",
+			"command": "npm run lint",
+			"isBackground": false,
+			"problemMatcher": [
+				"$eslint"
+			]
+		},
+		{
+			"label": "Type check project",
+			"type": "shell",
+			"command": "npx tsc --noEmit",
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			]
+		}
+	]
+}

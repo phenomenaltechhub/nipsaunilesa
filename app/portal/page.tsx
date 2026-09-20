@@ -53,9 +53,7 @@ export default function PortalPage() {
                 Public student <em>access</em>
               </h1>
               <p className="page-subtitle">
-                This is a public student resource portal for notices, academic support, community updates,
-                and shared learning materials. It does not collect, store, or expose confidential student
-                information.
+                This is a public student resource portal for notices, academic support, and shared learning materials.
               </p>
               <div className="page-cta-row">
                 <Link className="button primary" href="/resources">
@@ -68,9 +66,9 @@ export default function PortalPage() {
             </div>
             <aside className="page-hero-aside">
               <span className="mini-label">Portal status</span>
-              <strong className="big-stat">Public</strong>
+              <strong className="big-stat">Public </strong>
               <p>
-                Public information only. No accounts, personal student records, or confidential academic data are stored here.
+                Public information only. No confidential academic data are stored here.
               </p>
             </aside>
           </div>

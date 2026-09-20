@@ -39,8 +39,8 @@ export default function AboutPage() {
               </div>
             </div>
             <aside className="page-hero-aside">
-              <span className="mini-label">NIPSA value</span>
-              <strong className="big-stat">01</strong>
+              <span className="mini-label"></span>
+              <strong className="big-stat"></strong>
               <p>
                 We are building a supportive professional community where learning, leadership, and
                 student wellbeing keep moving forward together.
@@ -89,7 +89,7 @@ export default function AboutPage() {
         <section className="site-footer-card">
           <div className="section-intro">
             <p className="eyebrow">
-              <span>02</span> / Who we serve
+              Who we serve
             </p>
             <h2>
               Students, aspirants and <em>allies</em>

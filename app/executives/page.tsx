@@ -2,33 +2,29 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
+import { executives } from "./data";
 
 export const metadata: Metadata = {
   title: "Executives",
   description: "Meet the current members of the Central Executives Council of NIPSA UNILESA chapter.",
 };
 
-type Executive = {
-  initials: string;
-  name: string;
-  role: string;
-  tone: string;
-  image?: string;
-};
-
-const leadership: Executive[] = [
-  { initials: "OM", name: "ONIFADE OLUWAMAYOWA MICHAEL", role: "President", tone: "mint" },
-  { initials: "JS", name: "JOHN-EDWARD SEED'IVINE", role: "Vice President", tone: "teal", image: "/Vive President.jpg" },
-  { initials: "EJ", name: "UDOM EDIDIONG JOHN", role: "General Secretary", tone: "cyan" },
-  { initials: "E", name: "ADEBOKUN EMMANUEL AYOMIDE", role: "Assistant General Secretary", tone: "lime" },
-  { initials: "AP", name: "AJAYI PRECIOUS OLUWABUSOLA", role: "Financial Secretary", tone: "mint" },
-  { initials: "OR", name: "OLORUNTOLA OLUWANIFEMI ROONEY", role: "Public Relations Officer", tone: "teal", image: "/Public Relations Officer.jpg" },
-  { initials: "IV", name: "IDOWU VICTORIA OPEYEMI", role: "Social Director", tone: "cyan" },
-  { initials: "OM", name: "ADEGOKE ADEMIDUN FAWAZ", role: "Sports Director", tone: "cyan" },
-];
-
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
+}
+
+function ExecutivePhoto({ person }: { person: (typeof executives)[number] }) {
+  return person.image ? (
+    <div className="executive-photo-wrap">
+      <img className="executive-photo" src={person.image} alt={`Portrait of ${person.name}, ${person.role}, NIPSA-UNILESA`} />
+    </div>
+  ) : (
+    <div className={`placeholder-photo executive-placeholder ${person.tone}`} aria-label={`Photograph of ${person.name} is to be confirmed`}>
+      <span>{person.initials}</span>
+      <small>Profile placeholder</small>
+      <b aria-hidden="true">✦</b>
+    </div>
+  );
 }
 
 export default function ExecutivesPage() {
@@ -68,22 +64,19 @@ export default function ExecutivesPage() {
           </div>
         </section>
 
-        <section className="people-grid" style={{ gridTemplateColumns: "repeat(3, minmax(0, 1fr))", marginTop: "36px" }}>
-          {leadership.map((person) => (
-            <article className={`person-card ${person.tone}`} key={person.role}>
-              {person.image ? (
-                <img className="person-photo" src={person.image} alt={`${person.name}, ${person.role}`} />
-              ) : (
-                <div className="placeholder-photo" aria-hidden="true">
-                  <span>{person.initials}</span>
-                  <b>✦</b>
-                </div>
-              )}
-              <div className="person-info">
-                <h3>{person.name}</h3>
-                <p>{person.role}</p>
-                <Link href="/contact" aria-label={`Contact the office about ${person.name}`}>
-                  Contact office <Arrow />
+        <section className="executive-list" aria-label="NIPSA executives">
+          {executives.map((person) => (
+            <article className={`executive-card ${person.tone}`} key={person.slug}>
+              <ExecutivePhoto person={person} />
+              <div className="executive-card-info">
+                <p className="card-tag">{person.role}</p>
+                <h2>{person.name}</h2>
+                <p className="executive-intro">
+                  {person.intro}
+                </p>
+                {person.email ? <p className="executive-email">{person.email}</p> : null}
+                <Link className="button primary" href={`/executives/${person.slug}`} aria-label={`Contact the office about ${person.name}`}>
+                  Contact Office <Arrow />
                 </Link>
               </div>
             </article>
