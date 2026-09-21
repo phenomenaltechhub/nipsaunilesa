@@ -12,7 +12,6 @@ const resources = [
   { category: "NIPSAUNILESA Materials", icon: "▤", title: "Study skills guide", text: "Public study-planning and revision support distributed by NIPSAUNILESA for student learning routines.", href: "/resources/study-skills-guide.txt", label: "Download study guide" },
   { category: "Department Materials", icon: "⌁", title: "Orientation checklist", text: "Public onboarding and department-use checklist for new students and early-year planning.", href: "/resources/department-orientation-checklist.txt", label: "Download checklist" },
   { category: "Student-Produced Materials", icon: "✦", title: "Pharmacology handbook", text: "Public student-facing guide covering good practice, values, and participation in the department community.", href: "/resources/Academic Resource Handbook.docx", label: "Download handbook" },
-  { category: "External/Open-Licensed Resources", icon: "↗", title: "Open academic support", text: "General academic support guidance is included only when it is public, authorized, and clearly attributed to the original source.", href: "/about", label: "Read guidance" },
 ];
 
 function Arrow() {
@@ -49,14 +48,14 @@ export default function ResourcesPage() {
               <span className="mini-label">Resource notes</span>
               <strong className="big-stat">Public</strong>
               <p>
-                Distributed by NIPSAUNILESA — Department of Pharmacology, University of Ilesa, where applicable.
+                Distributed by NIPSA UNILESA Chapter — Department of Pharmacology, University of Ilesa.
               </p>
             </aside>
           </div>
         </section>
 
         <section className="route-grid">
-          {resources.map(({ category, icon, title, text, href, label }) => (
+          {resources.map(({ category, title, text, href, label }) => (
             <article className="page-card" key={title}>
               <span className="card-tag">{category}</span>
               <h3>{title}</h3>

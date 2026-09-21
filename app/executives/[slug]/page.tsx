@@ -3,11 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "../../components/site-header";
 import Footer from "../../components/site-footer";
-import { executives, getExecutiveBySlug } from "../data";
-
-function Arrow() {
-  return <span aria-hidden="true">↗</span>;
-}
+import { executives, getExecutiveBySlug, getExecutiveOfficeLabel } from "../data";
 
 export async function generateStaticParams() {
   return executives.map((executive) => ({ slug: executive.slug }));
@@ -25,11 +21,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${executive.name} | ${executive.role}`,
-    description: executive.intro ?? `${executive.role} profile for NIPSA UNILESA.`,
+    title: `${executive.name} | ${getExecutiveOfficeLabel(executive.role)}`,
+    description: executive.intro,
     openGraph: {
-      title: `${executive.name} | ${executive.role}`,
-      description: executive.intro ?? `${executive.role} profile for NIPSA UNILESA.`,
+      title: `${executive.name} | ${getExecutiveOfficeLabel(executive.role)}`,
+      description: executive.intro,
       type: "profile",
     },
   };
@@ -37,15 +33,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 function ExecutivePhoto({ executive }: { executive: (typeof executives)[number] }) {
   return executive.image ? (
-    <div className="profile-photo-wrap">
-      <img className="profile-photo" src={executive.image} alt={`Portrait of ${executive.name}, ${executive.role}, NIPSA-UNILESA`} />
-    </div>
+    <span className={`homepage-executive-portrait ${executive.tone}`}>
+      <img src={executive.image} alt={`Portrait of ${executive.name}, ${getExecutiveOfficeLabel(executive.role)}, NIPSA-UNILESA`} />
+    </span>
   ) : (
-    <div className={`placeholder-photo profile-placeholder ${executive.tone}`} aria-label={`Photograph of ${executive.name} is to be confirmed`}>
-      <span>{executive.initials}</span>
+    <span className={`homepage-executive-portrait homepage-executive-placeholder ${executive.tone}`} aria-label={`Photograph of ${executive.name} is to be confirmed`}>
+      <span aria-hidden="true">{executive.initials}</span>
       <small>Profile placeholder</small>
-      <b aria-hidden="true">✦</b>
-    </div>
+    </span>
   );
 }
 
@@ -66,12 +61,22 @@ export default async function ExecutiveProfilePage({ params }: { params: Promise
         </div>
 
         <section className="executive-profile">
-          <ExecutivePhoto executive={executive} />
-          <div className="executive-profile-heading">
-            <p className="page-kicker">{executive.role}</p>
-            <h1 className="page-title">{executive.name}</h1>
-            <p className="profile-email"><a href={`mailto:${executive.email}`}>{executive.email}</a></p>
-            <p className="page-subtitle">{executive.intro}</p>
+          <div className="homepage-executive-profile executive-profile-showcase">
+            <Link className="homepage-executive-identity" href="/executives">
+              <ExecutivePhoto executive={executive} />
+              <span className="homepage-executive-name">{executive.name}</span>
+              <span className="homepage-executive-role">{getExecutiveOfficeLabel(executive.role)}</span>
+              <span className="homepage-executive-organization">NIPSA-UNILESA</span>
+              <span className="homepage-executive-description">{executive.intro}</span>
+            </Link>
+            <dl className="homepage-executive-meta">
+              <div><dt>Official email</dt><dd><a href={`mailto:${executive.email}`}>{executive.email}</a></dd></div>
+              <div><dt>Assumed office date</dt><dd>{executive.assumedOffice}</dd></div>
+              <div><dt>Tenure</dt><dd>{executive.tenure}</dd></div>
+            </dl>
+            <Link className="button primary homepage-executive-contact" href={`mailto:${executive.email}`}>
+              Contact Office <span aria-hidden="true">↗</span>
+            </Link>
           </div>
         </section>
 
@@ -97,7 +102,7 @@ export default async function ExecutiveProfilePage({ params }: { params: Promise
             <span className="card-tag">Tenure</span>
             <h2>Office details</h2>
             <p><strong>Date assumed office:</strong> {executive.assumedOffice}</p>
-            <p><strong>Tenure:</strong> until graduation</p>
+            <p><strong>Tenure:</strong> {executive.tenure}</p>
           </article>
           <article className="page-card">
             <span className="card-tag">Message</span>

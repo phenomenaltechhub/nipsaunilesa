@@ -11,6 +11,7 @@ export type Executive = {
   officeDescription: string;
   responsibilities: string[];
   assumedOffice: string;
+  tenure: string;
   message?: string;
 };
 
@@ -32,6 +33,7 @@ export const executives: Executive[] = [
       "Encourage academic, professional, and social initiatives for members.",
     ],
     assumedOffice: "7th September, 2026",
+    tenure: "Until graduation",
   },
   {
     slug: "john-edward-seedivine",
@@ -50,6 +52,7 @@ export const executives: Executive[] = [
       "Contribute to academic excellence and student welfare.",
     ],
     assumedOffice: "7th September, 2026",
+    tenure: "Until graduation",
   },
   {
     slug: "udom-edidiong-john",
@@ -68,6 +71,7 @@ export const executives: Executive[] = [
       "Coordinate administrative activities and serve as a link with members.",
     ],
     assumedOffice: "7th September, 2026",
+    tenure: "Until graduation",
   },
   {
     slug: "adebokun-emmanuel-ayomide",
@@ -86,6 +90,7 @@ export const executives: Executive[] = [
       "Act in place of the Secretary General when necessary and delegated.",
     ],
     assumedOffice: "7th September, 2026",
+    tenure: "Until graduation",
   },
   {
     slug: "oloruntola-oluwanifemi-rooney",
@@ -104,6 +109,7 @@ export const executives: Executive[] = [
       "Support engagement and maintain the association's public image.",
     ],
     assumedOffice: "7th September, 2026",
+    tenure: "Until graduation",
   },
   {
     slug: "ajayi-precious-oluwabusola",
@@ -122,6 +128,7 @@ export const executives: Executive[] = [
       "Promote transparency and accountability in financial activity.",
     ],
     assumedOffice: "7th September, 2026",
+    tenure: "Until graduation",
   },
   {
     slug: "idowu-victoria-opeyemi",
@@ -129,6 +136,7 @@ export const executives: Executive[] = [
     name: "IDOWU VICTORIA OPEYEMI",
     role: "Social Director",
     tone: "cyan",
+    image: "/images/Social Director.jpg",
     email: "socialdirector@nipsaunilesa.com.ng",
     intro: "Builds participation and connection through creative social and recreational programmes.",
     biography: "The Social Director supports the social life of NIPSA by creating opportunities for interaction, participation, and community building.",
@@ -139,6 +147,7 @@ export const executives: Executive[] = [
       "Bring creativity to activities and make engagement more welcoming.",
     ],
     assumedOffice: "7th September, 2026",
+    tenure: "Until graduation",
   },
   {
     slug: "adegoke-ademidun-fawaz",
@@ -157,6 +166,7 @@ export const executives: Executive[] = [
       "Support sportsmanship and students with sporting interests and talents.",
     ],
     assumedOffice: "7th September, 2026",
+    tenure: "Until graduation",
   },
   {
     slug: "oyebamiji-ifeoluwa",
@@ -166,18 +176,27 @@ export const executives: Executive[] = [
     tone: "mint",
     email: "directorofacademics@nipsaunilesa.com.ng",
     intro: "Encourages learning beyond the classroom through continuous learning, knowledge sharing, and useful academic tools.",
-    biography: "The Director of Academics supports academic development through peer learning, practical resources, and better approaches to education.",
-    officeDescription: "The office connects students with tutorials, academic resources, technology, and innovative approaches that make learning more useful and engaging.",
+    biography: "Oyebamiji Ifeoluwa is a Pharmacology student passionate about academic growth, continuous learning, and finding better ways to approach education. As Director of Academics, she is committed to creating an academic environment where students are encouraged to learn beyond the classroom, share knowledge, and make meaningful progress in their studies.",
+    officeDescription: "The Office of the Director of Academics focuses on promoting academic excellence and supporting the educational development of NIPSA members. The office also seeks to introduce practical and innovative approaches to learning, helping students make better use of available academic resources and opportunities.",
     responsibilities: [
-      "Support academic development, tutorials, and peer learning.",
-      "Share academic resources, useful technology, and practical tools.",
-      "Encourage continuous learning, knowledge sharing, and innovative approaches to education.",
-      "Receive and help address academic concerns.",
+      "Promote academic excellence and a culture of continuous learning among NIPSA members.",
+      "Identify and communicate useful academic resources, opportunities, and materials.",
+      "Organize tutorials, academic programmes, seminars, and other learning-focused activities.",
+      "Encourage peer learning, collaboration, and knowledge sharing among students.",
+      "Support students in identifying effective approaches to studying and academic development.",
+      "Explore innovative approaches and tools that can improve the learning experience of Pharmacology students.",
+      "Work with the executive body to address academic concerns affecting members."
     ],
     assumedOffice: "30th November, 2026",
+    tenure: "Until graduation",
+    message: ""
   },
 ];
 
 export function getExecutiveBySlug(slug: string) {
   return executives.find((executive) => executive.slug === slug);
+}
+
+export function getExecutiveOfficeLabel(role: Executive["role"]) {
+  return `Office of The ${role}`;
 }

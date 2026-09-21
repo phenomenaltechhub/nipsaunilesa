@@ -4,6 +4,8 @@ import Header from "./components/site-header";
 import Footer from "./components/site-footer";
 import { announcements as homeAnnouncements } from "./announcements/data";
 import { events as homeEvents } from "./events/data";
+import { executives } from "./executives/data";
+import { ExecutiveShowcase } from "./executives/executive-showcase";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -15,13 +17,6 @@ const stats = [
   { value: "500+", label: "Study groups" },
   { value: String(homeEvents.length).padStart(2, "0"), label: "Events listed" },
   { value: "1000+", label: "Shared resources" },
-];
-
-const executives = [
-  { initials: "OM", name: "ONIFADE OLAMAYOWA MICHAEL", role: "President", tone: "teal" },
-  { initials: "JE", name: "JOHN-EDWARD SEED'IVINE", role: "Vice President", tone: "cyan" },
-  { initials: "EJ", name: "UDOM EDIDIONG JOHN", role: "General Secretary", tone: "lime" },
-  { initials: "AE", name: "ADEBOKUN EMMANUEL AYOMIDE", role: "Assistant General Secretary", tone: "lime" }
 ];
 
 const resources = [
@@ -69,7 +64,16 @@ export default function Home() {
 
         <section className="about section container" id="about"><SectionIntro number="01" eyebrow="ABOUT NIPSA" title="A community for" accent="the curious." /><div className="about-content"><div className="about-lead"><p>NIPSA UNILESA chapter has a student-centred platform for learning, connection and shared progress within the Department of Pharmacology.</p></div><div className="about-detail"><p>We bring together students, aspirants and the wider community around the questions, conversations and resources that make pharmacology feel more accessible.</p><p>Explore at your own pace, find your people and keep building your path.</p><Link className="text-link" href="/community">Discover the community <Arrow /></Link></div></div></section>
 
-        <section className="people section" id="executives"><div className="container"><SectionIntro number="02" eyebrow="FACES OF THE DEPARTMENT" title="People who" accent="make it happen." /><div className="people-grid">{executives.map((person) => <article className={`person-card ${person.tone}`} key={person.role}><div className="placeholder-photo"><span>{person.initials}</span><small>Profile placeholder</small><b>✦</b></div><div className="person-info"><h3>{person.name}</h3><p>{person.role}</p><Link href="/executives" aria-label={`View profile for ${person.name}`}>View Profile <Arrow /></Link></div></article>)}</div></div></section>
+        <section className="people section" id="executives">
+          <div className="container">
+            <div className="homepage-executive-heading">
+              <p className="eyebrow">OUR EXECUTIVES</p>
+              <h2>Meet Our Executive Team</h2>
+              <p>A dedicated team of students working together to serve, represent, and create a better experience for every NIPSA member.</p>
+            </div>
+            <ExecutiveShowcase people={executives.slice(0, 4)} />
+          </div>
+        </section>
 
         <section className="updates section container"><div className="section-heading"><SectionIntro number="03" eyebrow="STAY IN THE LOOP" title="What’s happening" accent="around NIPSA." /><Link className="text-link" href="/announcements">View all announcements <Arrow /></Link></div><div className="announcement-grid">{homeAnnouncements.map((item) => <article className={`announcement-card ${item.tone}`} key={item.slug}><div className="card-meta"><span>{item.category}</span><time>{item.date}</time></div><h3>{item.title}</h3><p>{item.summary}</p></article>)}</div></section>
 
