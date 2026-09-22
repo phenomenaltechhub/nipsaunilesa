@@ -9,14 +9,14 @@ import { ExecutiveShowcase } from "./executives/executive-showcase";
 
 export const metadata: Metadata = {
   title: "Home",
-  description: "NIPSA UNILESA student community, events, and academic resources for the Department of Pharmacology.",
+  description: "Nigerian Pharmacology Students Association, University of Ilesa Chapter: student representation, academic and research development, professional growth, and university community engagement.",
 };
 
 const stats = [
-  { value: "700+", label: "Students" },
-  { value: "500+", label: "Study groups" },
-  { value: String(homeEvents.length).padStart(2, "0"), label: "Events listed" },
-  { value: "1000+", label: "Shared resources" },
+  { value: "UNILESA", label: "University of Ilesa Chapter" },
+  { value: "PHARM", label: "Department of Pharmacology" },
+  { value: "ACADEMIC", label: "Student-led academic community" },
+  { value: "RESEARCH", label: "Research & professional development" },
 ];
 
 const resources = [
@@ -31,7 +31,7 @@ function Arrow() {
 }
 
 function SectionIntro({ number, eyebrow, title, accent }: { number: string; eyebrow: string; title: string; accent: string }) {
-  return <div className="section-intro"><p className="eyebrow"><span>{number}</span> / {eyebrow}</p><h2>{title} <em>{accent}</em></h2></div>;
+  return <div className="section-intro"><p className="eyebrow">{number ? <><span>{number}</span> / </> : null}{eyebrow}</p><h2>{title} <em>{accent}</em></h2></div>;
 }
 
 export default function Home() {
@@ -42,12 +42,12 @@ export default function Home() {
       <main id="home">
         <section className="hero container">
           <div className="hero-copy">
-            <p className="eyebrow"><span className="status-dot" /> NIGERIA PHARMACOLOGY STUDENTS ASSOCIATION</p>
+            <p className="eyebrow"><span className="status-dot" /> NIGERIAN PHARMACOLOGY STUDENTS ASSOCIATION</p>
             <h1>Learn boldly.<br /><em>Lead</em> brilliantly.</h1>
-            <p className="hero-subtitle">A place for departmental students, aspirants and the wider community to connect, learn and share information.</p>
+            <p className="hero-subtitle">The official student representative body for undergraduates studying Pharmacology at the University of Ilesa, connecting students with academic development, research opportunities, professional networks, student representation, and the wider university community.</p>
             <p className="institution">Department of Pharmacology <span>·</span> University of Ilesa</p>
             <div className="hero-actions"><Link className="button primary" href="/about">Explore NIPSA <Arrow /></Link><Link className="button secondary" href="/portal">Student Portal <span>→</span></Link></div>
-            <div className="hero-trust"><div className="mini-avatars"><i>NP</i><i>HD</i><i>ST</i></div><span><strong>Students, aspirants and allies</strong><br />growing a healthier tomorrow</span></div>
+            <div className="hero-trust"><div className="mini-avatars"><i>NP</i><i>HD</i><i>ST</i></div><span><strong>University of Ilesa Chapter</strong><br />Department of Pharmacology</span></div>
           </div>
           <div className="hero-visual" aria-label="Pharmacological research visual">
             <div className="hero-image-wrap">
@@ -62,40 +62,48 @@ export default function Home() {
 
         <section className="stats container" aria-label="NIPSA statistics">{stats.map((stat) => <div className="stat" key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</section>
 
-        <section className="about section container" id="about"><SectionIntro number="01" eyebrow="ABOUT NIPSA" title="A community for" accent="the curious." /><div className="about-content"><div className="about-lead"><p>NIPSA UNILESA chapter has a student-centred platform for learning, connection and shared progress within the Department of Pharmacology.</p></div><div className="about-detail"><p>We bring together students, aspirants and the wider community around the questions, conversations and resources that make pharmacology feel more accessible.</p><p>Explore at your own pace, find your people and keep building your path.</p><Link className="text-link" href="/community">Discover the community <Arrow /></Link></div></div></section>
+        <section className="about section container" id="about"><SectionIntro number="01" eyebrow="ABOUT NIPSA" title="A chapter for" accent="pharmacology." /><div className="about-content"><div className="about-lead"><p>NIPSA UNILESA is the University of Ilesa Chapter of the Nigerian Pharmacology Students Association, operating within the Department of Pharmacology.</p></div><div className="about-detail"><p>We represent duly registered undergraduate Pharmacology students and serve as a bridge between students, academic resources, professional networks, and health research opportunities.</p><p>As a student-led academic community, we operate in alignment with institutional guidelines and connect our chapter with the wider University of Ilesa community.</p><Link className="text-link" href="/about">About NIPSA <Arrow /></Link></div></div></section>
+
+        <section className="purpose section container" id="purpose"><div className="section-heading"><SectionIntro number="02" eyebrow="PURPOSE & VISION" title="Built for" accent="shared progress." /><Link className="text-link" href="/about">Full mission & objectives <Arrow /></Link></div><div className="purpose-grid">{[
+          ["Representation", "Serving as the unified voice for Pharmacology students in academic boards, faculty committees, and national student assemblies."],
+          ["Academic Development", "Supporting peer mentorship, study resources, and introductory laboratory research opportunities."],
+          ["Student Engagement", "Organizing departmental seminars, health campaigns, and networking activities."],
+          ["Community", "Fostering collaboration between foundational students, senior peers, and departmental alumni."],
+        ].map(([title, text]) => <article className="purpose-card" key={title}><h3 className="card-tag">{title}</h3><p>{text}</p></article>)}</div><div className="vision-callout"><h3 className="card-tag">Chapter vision</h3><p>To be a premier student research community driving excellence in drug discovery and therapeutic innovation for global health improvement.</p></div></section>
 
         <section className="people section" id="executives">
           <div className="container">
             <div className="homepage-executive-heading">
-              <p className="eyebrow">OUR EXECUTIVES</p>
+              <p className="eyebrow">03 / OUR EXECUTIVES</p>
               <h2>Meet Our Executive Team</h2>
               <p>A dedicated team of students working together to serve, represent, and create a better experience for every NIPSA member.</p>
             </div>
             <ExecutiveShowcase people={executives.slice(0, 4)} />
+            <div className="homepage-section-cta"><Link className="button secondary" href="/executives">View All Executives <Arrow /></Link></div>
           </div>
         </section>
 
-        <section className="updates section container"><div className="section-heading"><SectionIntro number="03" eyebrow="STAY IN THE LOOP" title="What’s happening" accent="around NIPSA." /><Link className="text-link" href="/announcements">View all announcements <Arrow /></Link></div><div className="announcement-grid">{homeAnnouncements.map((item) => <article className={`announcement-card ${item.tone}`} key={item.slug}><div className="card-meta"><span>{item.category}</span><time>{item.date}</time></div><h3>{item.title}</h3><p>{item.summary}</p></article>)}</div></section>
+        <section className="updates section container"><div className="section-heading"><SectionIntro number="" eyebrow="ARCHIVED ANNOUNCEMENTS" title="What was shared" accent="with NIPSA." /><Link className="text-link" href="/announcements">View all announcements <Arrow /></Link></div><p className="announcement-archive-note">These announcements were published in August 2026 and remain available as dated reference notes.</p><div className="announcement-track"><div className="announcement-track-scroller">{homeAnnouncements.map((item) => <Link className={`announcement-card ${item.tone} announcement-slide`} key={item.slug} href={`/announcements/${item.slug}`}><div className="card-meta"><span>{item.category}</span><time>{item.date}</time></div><h3>{item.title}</h3><p>{item.summary}</p>{item.additionalInfo?.length ? <span className="announcement-status">{item.additionalInfo[0]}</span> : null}</Link>)}</div></div></section>
 
         <section className="events section" id="events"><div className="container"><div className="section-heading"><SectionIntro number="04" eyebrow="EVENTS" title="Make room for" accent="something new." /><Link className="text-link" href="/events">View all events <Arrow /></Link></div><div className="events-grid">{homeEvents.map((event) => {
           const [day, month] = event.date.split(" ");
           return (
-            <article className={`event-card ${event.tone}`} key={event.slug}>
+            <Link className={`event-card ${event.tone}`} key={event.slug} href={`/events/${event.slug}`}>
               <div className="event-date"><strong>{day}</strong><span>{month}</span></div>
               <div>
-                <p className="event-label">{event.category}</p>
+                <p className="event-label">{event.category} · {new Date(event.date) < new Date() ? "Past" : "Upcoming"}</p>
                 <h3>{event.title}</h3>
                 <p>{event.summary}</p>
               </div>
-            </article>
+            </Link>
           );
         })}</div></div></section>
 
         <section className="resources section container" id="resources"><div className="resource-intro"><SectionIntro number="05" eyebrow="ACADEMIC RESOURCES" title="Find your" accent="flow." /><p>Thoughtful starting points for classes, revision and the learning moments in between.</p><Link className="button dark" href="/resources">Explore resources <Arrow /></Link></div><div className="resource-grid">{resources.map(([icon, title, text]) => <Link className="resource-card" href="/resources" key={title}><span className="resource-icon">{icon}</span><h3>{title}</h3><p>{text}</p><b><Arrow /></b></Link>)}</div></section>
 
-        <section className="community section" id="community"><div className="container community-inner"><div><SectionIntro number="06" eyebrow="STUDY GROUPS & COMMUNITY" title="Your people" accent="are here." /></div><div><p className="community-lead">Learning does not have to happen alone. NIPSA study groups are a place to focus together, exchange ideas and build supportive student connections.</p><p className="community-note">Join and get the community experience.</p><Link className="button primary" href="/community">Find your community <Arrow /></Link></div></div></section>
+        <section className="community section" id="community"><div className="container community-inner"><div><SectionIntro number="06" eyebrow="STUDY GROUPS & COMMUNITY" title="Your people" accent="are here." /></div><div><p className="community-lead">NIPSA fosters peer support and collaboration between foundational students, senior peers, departmental staff, alumni, and the wider university community.</p><p className="community-note">Explore the chapter&apos;s student-development and community-building work.</p><Link className="button primary" href="/community">Find your community <Arrow /></Link></div></div></section>
 
-        <section className="gallery-strip container" id="gallery"><div><p className="eyebrow"><span>07</span> / GALLERY PREVIEW</p><h2>Moments in<br /><em>the making.</em></h2></div><div className="gallery-collage"><div className="gallery-tile tile-a">NIPSA<br /><b>TOGETHER</b></div><div className="gallery-tile tile-b">LEARN<br /><b>BRAVELY</b></div><div className="gallery-tile tile-c">✦</div></div></section>
+        <section className="gallery-strip container" id="gallery"><div><p className="eyebrow"><span>07</span> / GALLERY</p><h2>Moments in<br /><em>the making.</em></h2><p className="gallery-coming-soon">Gallery coming soon. Approved chapter photographs and event memories will be added when available.</p></div><div className="gallery-collage" aria-label="Gallery coming soon"><div className="gallery-tile tile-a">NIPSA<br /><b>TOGETHER</b></div><div className="gallery-tile tile-b">LEARN<br /><b>BRAVELY</b></div><div className="gallery-tile tile-c">✦</div></div></section>
       </main>
 
       <Footer currentPath="/" />

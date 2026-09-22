@@ -36,6 +36,9 @@ export default function Header({ currentPath = "/" }: { currentPath?: string }) 
               {item.label}
             </Link>
           ))}
+          <Link className="mobile-portal-link" href="/portal">
+            Student Portal <Arrow />
+          </Link>
         </div>
         <Link className="portal-button" href="/portal">
           Student Portal <Arrow />

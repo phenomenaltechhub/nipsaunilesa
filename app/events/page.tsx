@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
-import { events } from "./data";
+import { events, getEventTemporalStatus } from "./data";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -40,11 +40,9 @@ export default function EventsPage() {
               </div>
             </div>
             <aside className="page-hero-aside">
-              <span className="mini-label">This term</span>
-              <strong className="big-stat">08</strong>
               <p>
-                A growing slate of events designed to spark collaboration, learning, and campus
-                community connection.
+                Official event dates are listed below, with further logistics added as they are
+                confirmed.
               </p>
             </aside>
           </div>
@@ -52,8 +50,8 @@ export default function EventsPage() {
 
         <section className="events-grid" style={{ marginTop: "36px" }}>
           {events.map((event) => {
-            
             const [day, month] = event.date.split(" ");
+            const temporalStatus = getEventTemporalStatus(event);
             return (
               <Link href={`/events/${event.slug}`} key={event.slug} className="event-card-link" aria-label={`View details for ${event.title}`}>
                 <article className={`event-card ${event.tone}`}>
@@ -62,7 +60,7 @@ export default function EventsPage() {
                     <span>{month}</span>
                   </div>
                   <div>
-                    <p className="event-label">{event.category}</p>
+                    <p className="event-label">{event.category} · {temporalStatus}</p>
                     <h3>{event.title}</h3>
                     <p>{event.summary}</p>
                     <span className="card-link">

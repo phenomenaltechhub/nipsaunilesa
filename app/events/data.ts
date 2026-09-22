@@ -71,3 +71,7 @@ export const events: EventItem[] = [
 export function getEventBySlug(slug: string) {
   return events.find((event) => event.slug === slug);
 }
+
+export function getEventTemporalStatus(event: Pick<EventItem, "date">, now = new Date()) {
+  return new Date(event.date) < now ? "Past" : "Upcoming";
+}

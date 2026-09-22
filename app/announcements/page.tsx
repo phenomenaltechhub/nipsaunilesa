@@ -32,32 +32,47 @@ export default function AnnouncementsPage() {
               </p>
             </div>
             <aside className="page-hero-aside">
-              <span className="mini-label">Latest notes</span>
+              <span className="mini-label">August 2026 archive</span>
               <strong className="big-stat">{String(announcements.length).padStart(2, "0")}</strong>
-              <p>Updates will be expanded as official information becomes available.</p>
+              <p>These dated announcements remain available for reference while newer information is confirmed.</p>
             </aside>
           </div>
         </section>
 
-        <section className="announcement-grid" style={{ marginTop: "36px" }} aria-label="Announcements">
-          {announcements.map((announcement) => (
-            <Link
-              href={`/announcements/${announcement.slug}`}
-              key={announcement.slug}
-              className="announcement-card-link"
-              aria-label={`Read ${announcement.title}`}
-            >
-              <article className={`announcement-card ${announcement.tone}`}>
-                <div className="card-meta">
-                  <span>{announcement.category}</span>
-                  <time>{announcement.date}</time>
-                </div>
-                <h3>{announcement.title}</h3>
-                <p>{announcement.summary}</p>
-                <span className="card-link">Read announcement <Arrow /></span>
-              </article>
-            </Link>
-          ))}
+        <section className="announcement-track" style={{ marginTop: "36px" }} aria-label="Archived announcements">
+          <div className="announcement-track-scroller">
+            {announcements.map((announcement) => (
+              <Link
+                href={`/announcements/${announcement.slug}`}
+                key={announcement.slug}
+                className="announcement-card-link announcement-slide"
+                aria-label={`Read ${announcement.title}`}
+              >
+                <article className={`announcement-card ${announcement.tone}`}>
+                  <div className="card-meta">
+                    <span>{announcement.category}</span>
+                    <time>{announcement.date}</time>
+                  </div>
+                  <h2 className="announcement-card-title">{announcement.title}</h2>
+                  <p>{announcement.summary}</p>
+                  <span className="card-link">Read announcement <Arrow /></span>
+                </article>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="newsletter-track" aria-labelledby="newsletter-title">
+          <div className="newsletter-track-scroller">
+            <article className="newsletter-panel newsletter-slide">
+              <span className="card-tag">Newsletter</span>
+              <h2 id="newsletter-title">Stay informed</h2>
+              <p>
+                A NIPSA newsletter can bring confirmed departmental, academic, and community updates
+                together in one place. Subscription details will be added when an official mechanism is available.
+              </p>
+            </article>
+          </div>
         </section>
       </main>
 

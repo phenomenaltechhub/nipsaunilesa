@@ -71,19 +71,19 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
         <section className="route-grid" style={{ marginTop: "36px" }}>
           <article className="page-card">
             <span className="card-tag">Announcement details</span>
-            <h3>{announcement.title}</h3>
+            <h2 className="announcement-detail-title">{announcement.title}</h2>
             <p>{announcement.description}</p>
           </article>
 
           <article className="page-card">
             <span className="card-tag">Date</span>
-            <h3>Published</h3>
+            <h2 className="announcement-detail-title">Published</h2>
             <p>{announcement.date}</p>
           </article>
 
           <article className="page-card" style={{ gridColumn: "1 / -1" }}>
             <span className="card-tag">Notes</span>
-            <h3>Additional information</h3>
+            <h2 className="announcement-detail-title">Additional information</h2>
             <ul style={{ margin: 0, paddingLeft: "1.1rem", display: "grid", gap: "0.7rem", color: "#355a4c" }}>
               {announcement.additionalInfo?.map((item) => <li key={item}>{item}</li>)}
             </ul>

@@ -17,11 +17,11 @@ export default function Footer({ currentPath = "/" }: { currentPath?: string }) 
           </div>
           <p>CONSERVING HEALTH THROUGH RESEARCH.</p>
           <small>
-            nipsaunilesa.com.ng
+            Nigerian Pharmacology Students Association
             <br />
-            Department of Pharmacology,
+            University of Ilesa Chapter
             <br />
-            University of Ilesa, Ilesa, Osun state.
+            Department of Pharmacology, University of Ilesa, Ilesa, Osun State.
           </small>
         </div>
         <div className="footer-column">

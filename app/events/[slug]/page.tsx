@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "../../components/site-header";
 import Footer from "../../components/site-footer";
-import { events, getEventBySlug } from "../data";
+import { events, getEventBySlug, getEventTemporalStatus } from "../data";
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -43,6 +43,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
     notFound();
   }
 
+  const temporalStatus = getEventTemporalStatus(event);
+
   return (
     <div className="nipsa-site page-shell">
       <Header currentPath="/events" />
@@ -66,9 +68,9 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
               </div>
             </div>
             <aside className="page-hero-aside">
-              <span className="mini-label">Status</span>
-              <strong className="big-stat">{event.status ?? "Public"}</strong>
-              <p>{event.summary}</p>
+              <span className="mini-label">Event status</span>
+              <strong className="big-stat">{temporalStatus}</strong>
+              <p>{event.status ?? "Details to be confirmed"}</p>
             </aside>
           </div>
         </section>
