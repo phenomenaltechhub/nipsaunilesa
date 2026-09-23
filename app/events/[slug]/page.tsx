@@ -75,43 +75,85 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           </div>
         </section>
 
-        <section className="route-grid" style={{ marginTop: "36px" }}>
-          <article className="page-card">
-            <span className="card-tag">Event details</span>
-            <h3>{event.title}</h3>
-            <p>{event.description}</p>
-          </article>
+        <section className="event-feature" aria-labelledby={`${event.slug}-feature-title`}>
+          <div className="event-feature-article">
+            <div className="event-feature-intro">
+              <p className="eyebrow">Event details</p>
+              <h2 id={`${event.slug}-feature-title`}>{event.title}</h2>
+              <p>{event.description}</p>
+            </div>
 
-          <article className="page-card">
-            <span className="card-tag">Schedule</span>
-            <h3>Date & time</h3>
-            <p>
-              <strong>Date:</strong> {event.date}
-              <br />
-              <strong>Time:</strong> {event.time ?? "Time to be confirmed"}
-              <br />
-              <strong>Venue:</strong> {event.venue ?? "Venue to be confirmed"}
-            </p>
-          </article>
-
-          {event.image ? (
-            <article className="page-card" style={{ gridColumn: "1 / -1" }}>
-              <span className="card-tag">Image</span>
-              <img src={event.image} alt={event.title} style={{ width: "100%", borderRadius: "12px", maxHeight: "360px", objectFit: "cover" }} />
-            </article>
-          ) : null}
-
-          <article className="page-card" style={{ gridColumn: "1 / -1" }}>
-            <span className="card-tag">Notes</span>
-            <h3>Additional information</h3>
-            <ul style={{ margin: 0, paddingLeft: "1.1rem", display: "grid", gap: "0.7rem", color: "#355a4c" }}>
-              {event.additionalInfo?.length ? (
-                event.additionalInfo.map((item) => <li key={item}>{item}</li>)
+            <div className="event-feature-meta" aria-label={`${event.title} details`}>
+              {event.details?.length ? (
+                <dl className="event-detail-meta">
+                  {event.details.map((detail) => (
+                    <div key={detail.label}>
+                      <dt>{detail.label}</dt>
+                      <dd>{detail.value}</dd>
+                    </div>
+                  ))}
+                </dl>
               ) : (
-                <li>Details for this event will be added as soon as official information is confirmed.</li>
+                <dl className="event-detail-meta">
+                  <div><dt>Date</dt><dd>{event.date}</dd></div>
+                  <div><dt>Time</dt><dd>{event.time ?? "Time to be confirmed"}</dd></div>
+                  <div><dt>Venue</dt><dd>{event.venue ?? "Venue to be confirmed"}</dd></div>
+                  <div><dt>Status</dt><dd>{event.status ?? "Details to be confirmed"}</dd></div>
+                </dl>
               )}
-            </ul>
-          </article>
+            </div>
+
+            {event.image ? (
+              <div className="event-feature-image-wrap">
+                <img src={event.image} alt={event.title} className="event-feature-image" />
+              </div>
+            ) : null}
+
+            {event.sections?.map((section) => (
+              <section key={section.heading} className="event-feature-section">
+                <p className="event-feature-label">{section.heading}</p>
+                <h3>{section.heading}</h3>
+                {section.paragraphs?.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+                {section.list ? (
+                  <ul className="event-detail-list event-detail-bullets">
+                    {section.list.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                ) : null}
+              </section>
+            ))}
+
+            {event.links?.length ? (
+              <section className="event-feature-section">
+                <p className="event-feature-label">Official links</p>
+                <h3>Relevant official references</h3>
+                <ul className="event-detail-list event-detail-bullets">
+                  {event.links.map((link) => (
+                    <li key={link.label}>
+                      <a href={link.href} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined}>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+
+            <section className="event-feature-section event-feature-notes">
+              <p className="event-feature-label">Additional notes</p>
+              <h3>Additional information</h3>
+              <ul className="event-detail-list event-detail-bullets">
+                {event.additionalInfo?.length ? (
+                  event.additionalInfo.map((item) => <li key={item}>{item}</li>)
+                ) : (
+                  <li>Details for this event will be added as soon as official information is confirmed.</li>
+                )}
+              </ul>
+            </section>
+          </div>
         </section>
       </main>
 

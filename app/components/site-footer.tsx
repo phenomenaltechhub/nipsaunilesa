@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SocialLinkGroup } from "./social-links";
 
 export default function Footer({ currentPath = "/" }: { currentPath?: string }) {
   return (
@@ -39,6 +40,12 @@ export default function Footer({ currentPath = "/" }: { currentPath?: string }) 
           <Link href="/resources" aria-current={currentPath === "/resources" ? "page" : undefined}>Resource library</Link>
           <Link href="/portal" aria-current={currentPath === "/portal" ? "page" : undefined}>Student Portal</Link>
         </div>
+      </div>
+      <div className="container footer-social-wrap">
+        <div className="footer-social-header">
+          <span>Connect</span>
+        </div>
+        <SocialLinkGroup compact />
       </div>
       <div className="container footer-bottom">
         <span>© 2026 Nigerian Pharmacology Students Association, UNILESA Chapter. All Rights Reserved.</span>

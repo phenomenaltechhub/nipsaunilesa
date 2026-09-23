@@ -3,7 +3,7 @@ import Link from "next/link";
 import Header from "./components/site-header";
 import Footer from "./components/site-footer";
 import { announcements as homeAnnouncements } from "./announcements/data";
-import { events as homeEvents } from "./events/data";
+import { events as homeEvents, getEventTemporalStatus } from "./events/data";
 import { executives } from "./executives/data";
 import { ExecutiveShowcase } from "./executives/executive-showcase";
 
@@ -20,10 +20,9 @@ const stats = [
 ];
 
 const resources = [
-  ["▤", "Lecture Materials", "A home for notes and class materials shared by the community."],
-  ["⌁", "Past Questions", "Practice with a growing collection of revision prompts."],
-  ["✦", "Study Resources", "Useful references to support your next focused study session."],
-  ["↗", "Academic Guides", "Clear, practical signposts for navigating student academic journey."],
+  { title: "Study skills guide", description: "Practical study-planning and revision support for better academic routines and focus." },
+  { title: "Orientation checklist", description: "A quick reference for key onboarding steps and early-year preparation guidance." },
+  { title: "Pharmacology handbook", description: "Student-facing guidance covering department expectations and academic support resources." },
 ];
 
 function Arrow() {
@@ -86,12 +85,14 @@ export default function Home() {
         <section className="updates section container"><div className="section-heading"><SectionIntro number="" eyebrow="ARCHIVED ANNOUNCEMENTS" title="What was shared" accent="with NIPSA." /><Link className="text-link" href="/announcements">View all announcements <Arrow /></Link></div><p className="announcement-archive-note">These announcements were published in August 2026 and remain available as dated reference notes.</p><div className="announcement-track"><div className="announcement-track-scroller">{homeAnnouncements.map((item) => <Link className={`announcement-card ${item.tone} announcement-slide`} key={item.slug} href={`/announcements/${item.slug}`}><div className="card-meta"><span>{item.category}</span><time>{item.date}</time></div><h3>{item.title}</h3><p>{item.summary}</p>{item.additionalInfo?.length ? <span className="announcement-status">{item.additionalInfo[0]}</span> : null}</Link>)}</div></div></section>
 
         <section className="events section" id="events"><div className="container"><div className="section-heading"><SectionIntro number="04" eyebrow="EVENTS" title="Make room for" accent="something new." /><Link className="text-link" href="/events">View all events <Arrow /></Link></div><div className="events-grid">{homeEvents.map((event) => {
-          const [day, month] = event.date.split(" ");
+          const parts = event.date.split(" ");
+          const day = parts[0] ?? event.date;
+          const month = parts[1] ?? "";
           return (
             <Link className={`event-card ${event.tone}`} key={event.slug} href={`/events/${event.slug}`}>
               <div className="event-date"><strong>{day}</strong><span>{month}</span></div>
               <div>
-                <p className="event-label">{event.category} · {new Date(event.date) < new Date() ? "Past" : "Upcoming"}</p>
+                <p className="event-label">{event.category} · {getEventTemporalStatus(event)}</p>
                 <h3>{event.title}</h3>
                 <p>{event.summary}</p>
               </div>
@@ -99,7 +100,24 @@ export default function Home() {
           );
         })}</div></div></section>
 
-        <section className="resources section container" id="resources"><div className="resource-intro"><SectionIntro number="05" eyebrow="ACADEMIC RESOURCES" title="Find your" accent="flow." /><p>Thoughtful starting points for classes, revision and the learning moments in between.</p><Link className="button dark" href="/resources">Explore resources <Arrow /></Link></div><div className="resource-grid">{resources.map(([icon, title, text]) => <Link className="resource-card" href="/resources" key={title}><span className="resource-icon">{icon}</span><h3>{title}</h3><p>{text}</p><b><Arrow /></b></Link>)}</div></section>
+        <section className="resources section container" id="resources">
+          <div className="resource-intro">
+            <SectionIntro number="05" eyebrow="ACADEMIC RESOURCES" title="Find your" accent="flow." />
+            <p>Preview the public academic and study materials available to students. Visit the full resource hub for the complete collection.</p>
+            <Link className="button primary" href="/resources">Explore Academic Resources <Arrow /></Link>
+          </div>
+          <div className="resource-grid home-resource-grid">
+            {resources.map(({ title, description }) => (
+              <div className="resource-card resource-preview-card" key={title}>
+                <span className="resource-type resource-preview-tag">Preview</span>
+                <div className="resource-card-body">
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <section className="community section" id="community"><div className="container community-inner"><div><SectionIntro number="06" eyebrow="STUDY GROUPS & COMMUNITY" title="Your people" accent="are here." /></div><div><p className="community-lead">NIPSA fosters peer support and collaboration between foundational students, senior peers, departmental staff, alumni, and the wider university community.</p><p className="community-note">Explore the chapter&apos;s student-development and community-building work.</p><Link className="button primary" href="/community">Find your community <Arrow /></Link></div></div></section>
 

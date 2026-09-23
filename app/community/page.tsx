@@ -8,10 +8,37 @@ export const metadata: Metadata = {
   description: "Explore the student community, study groups, and peer support opportunities within NIPSA UNILESA.",
 };
 
-const groups = [
-  { title: "Study circles", body: "Peer-led spaces to revise together, exchange notes, and build confidence before assessments." },
-  { title: "Mentorship", body: "Guidance for students seeking advice, encouragement, and ideas on how to navigate campus life." },
-  { title: "Campus updates", body: "A shared channel for announcements, events and the practical community information students need." },
+const communityAreas = [
+  {
+    title: "Study circles",
+    paragraphs: [
+      "Study circles are peer-led spaces where NIPSA students can learn together outside the formal classroom. They provide an opportunity to revise difficult pharmacology topics, compare notes, discuss concepts, ask questions, and test understanding through peer discussion.",
+      "The focus is not simply on group study, but on collaborative learning and academic support. Students can work through challenging topics together, share useful study materials, explain concepts to one another, and build confidence before tests, examinations, presentations, and other academic activities.",
+      "Study circles can also encourage consistency and accountability. Learning alongside peers makes it easier to identify areas that need more attention, exchange different approaches to understanding a topic, and maintain productive study habits throughout the semester.",
+    ],
+    ctaLabel: "Explore the Community",
+    href: "/community",
+  },
+  {
+    title: "Mentorship",
+    paragraphs: [
+      "Mentorship provides students with an opportunity to seek guidance from more experienced members of the academic community. It can help students navigate university life, develop better academic habits, understand opportunities within pharmacology, and make more informed decisions about their academic and professional development.",
+      "Mentorship can cover practical questions that are not always answered in the classroom—from managing academic demands and improving study approaches to exploring research interests, professional opportunities, and possible career pathways.",
+      "The goal is to encourage guidance, knowledge-sharing, and personal development, while giving students a channel through which they can seek advice when they need it.",
+    ],
+    ctaLabel: "Connect with NIPSA",
+    href: "/contact",
+  },
+  {
+    title: "Campus updates",
+    paragraphs: [
+      "Campus Updates keeps students informed about the activities, announcements, and important information relevant to the NIPSA community.",
+      "This includes updates about NIPSA activities, departmental events, student programmes, important notices, deadlines, and changes that students need to know about. Having these updates in one place makes it easier for students to stay aware of what is happening around the department and participate when opportunities arise.",
+      "Students should regularly check the announcements channel for new information rather than relying solely on word of mouth or informal communication.",
+    ],
+    ctaLabel: "View Announcements",
+    href: "/announcements",
+  },
 ];
 
 function Arrow() {
@@ -46,22 +73,26 @@ export default function CommunityPage() {
             </div>
             <aside className="page-hero-aside">
               <span className="mini-label">Community focus</span>
-              <strong className="big-stat">500+</strong>
+              <strong className="big-stat community-summary-stat">Peer learning</strong>
               <p>
-                Study groups, peer support, and everyday encouragement strengthen the student journey.
+                Study groups, mentorship, and timely updates help students stay connected, supported, and informed.
               </p>
             </aside>
           </div>
         </section>
 
-        <section className="route-grid">
-          {groups.map((group) => (
-            <article className="page-card" key={group.title}>
+        <section className="community-panel-grid" aria-label="Community programme areas">
+          {communityAreas.map((group) => (
+            <article className="community-panel" key={group.title}>
               <span className="card-tag">Community</span>
               <h3>{group.title}</h3>
-              <p>{group.body}</p>
-              <Link className="card-link" href="/events">
-                Review upcoming activities <span>↗</span>
+
+              {group.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+
+              <Link className="community-panel-link" href={group.href}>
+                {group.ctaLabel} <Arrow />
               </Link>
             </article>
           ))}

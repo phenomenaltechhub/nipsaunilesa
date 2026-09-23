@@ -50,7 +50,9 @@ export default function EventsPage() {
 
         <section className="events-grid" style={{ marginTop: "36px" }}>
           {events.map((event) => {
-            const [day, month] = event.date.split(" ");
+            const parts = event.date.split(" ");
+            const day = parts[0] ?? event.date;
+            const month = parts[1] ?? "";
             const temporalStatus = getEventTemporalStatus(event);
             return (
               <Link href={`/events/${event.slug}`} key={event.slug} className="event-card-link" aria-label={`View details for ${event.title}`}>

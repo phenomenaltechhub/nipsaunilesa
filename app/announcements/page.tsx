@@ -61,19 +61,6 @@ export default function AnnouncementsPage() {
             ))}
           </div>
         </section>
-
-        <section className="newsletter-track" aria-labelledby="newsletter-title">
-          <div className="newsletter-track-scroller">
-            <article className="newsletter-panel newsletter-slide">
-              <span className="card-tag">Newsletter</span>
-              <h2 id="newsletter-title">Stay informed</h2>
-              <p>
-                A NIPSA newsletter can bring confirmed departmental, academic, and community updates
-                together in one place. Subscription details will be added when an official mechanism is available.
-              </p>
-            </article>
-          </div>
-        </section>
       </main>
 
       <Footer currentPath="/announcements" />
