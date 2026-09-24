@@ -176,7 +176,7 @@ export const executives: Executive[] = [
     tone: "mint",
     email: "directorofacademics@nipsaunilesa.com.ng",
     intro: "Encourages learning beyond the classroom through continuous learning, knowledge sharing, and useful academic tools.",
-    biography: "Oyebamiji Ifeoluwa is a Pharmacology student passionate about academic growth, continuous learning, and finding better ways to approach education. As Director of Academics, she is committed to creating an academic environment where students are encouraged to learn beyond the classroom, share knowledge, and make meaningful progress in their studies.",
+    biography: "Oyebamiji Ifeoluwa is a Pharmacology student passionate about academic growth, continuous learning, and finding better ways to approach education. As Director of Academics, he is committed to creating an academic environment where students are encouraged to learn beyond the classroom, share knowledge, and make meaningful progress in their studies.",
     officeDescription: "The Office of the Director of Academics focuses on promoting academic excellence and supporting the educational development of NIPSA members. The office also seeks to introduce practical and innovative approaches to learning, helping students make better use of available academic resources and opportunities.",
     responsibilities: [
       "Promote academic excellence and a culture of continuous learning among NIPSA members.",
@@ -189,7 +189,7 @@ export const executives: Executive[] = [
     ],
     assumedOffice: "30th November, 2026",
     tenure: "Until graduation",
-    message: ""
+    message: "Academics made priority"
   },
 ];
 
