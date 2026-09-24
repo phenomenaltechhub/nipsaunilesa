@@ -7,6 +7,10 @@ export type AnnouncementItem = {
   date: string;
   tone: "green" | "teal" | "cyan" | "lime" | "mint" | "amber";
   additionalInfo?: string[];
+  enquiries?: {
+    email: string;
+    purpose: string;
+  };
 };
 
 export const announcements: AnnouncementItem[] = [
@@ -22,6 +26,10 @@ export const announcements: AnnouncementItem[] = [
     additionalInfo: [
       "Further resource hub information will be added as it is confirmed.",
     ],
+    enquiries: {
+      email: "academics@nipsaunilesa.com.ng",
+      purpose: "academic-related enquiries",
+    },
   },
   {
     slug: "departmental-orientation",
@@ -35,6 +43,10 @@ export const announcements: AnnouncementItem[] = [
     additionalInfo: [
       "Official orientation dates, rooms, and guidance are currently to be confirmed.",
     ],
+    enquiries: {
+      email: "info@nipsaunilesa.com.ng",
+      purpose: "general information and official enquiries",
+    },
   },
   {
     slug: "meet-your-student-community",
@@ -48,6 +60,10 @@ export const announcements: AnnouncementItem[] = [
     additionalInfo: [
       "More community information will be shared as it becomes available.",
     ],
+    enquiries: {
+      email: "info@nipsaunilesa.com.ng",
+      purpose: "general information and guidance",
+    },
   },
 ];
 

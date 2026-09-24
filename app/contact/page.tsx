@@ -145,12 +145,12 @@ export default function ContactPage() {
           </div>
 
           <div className="quick-contact-list" aria-label="Other official NIPSA UNILESA contact addresses">
-            {quickContactAddresses.map((alias) => (
-              <article className="quick-contact-item" key={alias.email}>
+            {quickContactAddresses.map((address) => (
+              <article className="quick-contact-item" key={address.email}>
                 <p className="quick-contact-address">
-                  <ContactEmailLink email={alias.email} />
+                  <ContactEmailLink email={address.email} />
                 </p>
-                <p className="quick-contact-purpose">{alias.purpose}</p>
+                <p className="quick-contact-purpose">{address.purpose}</p>
               </article>
             ))}
           </div>

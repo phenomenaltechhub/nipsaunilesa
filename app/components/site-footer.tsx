@@ -24,6 +24,12 @@ export default function Footer({ currentPath = "/" }: { currentPath?: string }) 
             <br />
             Department of Pharmacology, University of Ilesa, Ilesa, Osun State.
           </small>
+          <div className="footer-contact">
+            <a href="mailto:info@nipsaunilesa.com.ng">info@nipsaunilesa.com.ng</a>
+            <span>Primary general enquiry/contact address</span>
+            <a href="mailto:admin@nipsaunilesa.com.ng">admin@nipsaunilesa.com.ng</a>
+            <span>Administrative/general official correspondence</span>
+          </div>
         </div>
         <div className="footer-column">
           <b>Explore</b>

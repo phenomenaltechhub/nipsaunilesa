@@ -16,8 +16,8 @@ const communityAreas = [
       "The focus is not simply on group study, but on collaborative learning and academic support. Students can work through challenging topics together, share useful study materials, explain concepts to one another, and build confidence before tests, examinations, presentations, and other academic activities.",
       "Study circles can also encourage consistency and accountability. Learning alongside peers makes it easier to identify areas that need more attention, exchange different approaches to understanding a topic, and maintain productive study habits throughout the semester.",
     ],
-    ctaLabel: "Explore the Community",
-    href: "/community",
+    ctaLabel: "Join the WhatsApp Community",
+    href: "https://chat.whatsapp.com/Lr9o3E6iXpmItO0hB8moG7",
   },
   {
     title: "Mentorship",
@@ -91,7 +91,12 @@ export default function CommunityPage() {
                 <p key={paragraph}>{paragraph}</p>
               ))}
 
-              <Link className="community-panel-link" href={group.href}>
+              <Link
+                className="community-panel-link"
+                href={group.href}
+                target={group.href.startsWith("http") ? "_blank" : undefined}
+                rel={group.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              >
                 {group.ctaLabel} <Arrow />
               </Link>
             </article>

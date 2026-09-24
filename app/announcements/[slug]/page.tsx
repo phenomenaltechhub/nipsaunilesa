@@ -73,6 +73,19 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
             <span className="card-tag">Announcement details</span>
             <h2 className="announcement-detail-title">{announcement.title}</h2>
             <p>{announcement.description}</p>
+            {announcement.slug === "meet-your-student-community" && (
+              <p>
+                Explore the wider <Link href="/community">NIPSA student community</Link> for
+                study circles, mentorship, and campus updates.
+              </p>
+            )}
+            {announcement.enquiries && (
+              <p className="announcement-enquiries">
+                <strong>Enquiries:</strong>{" "}
+                <a href={`mailto:${announcement.enquiries.email}`}>{announcement.enquiries.email}</a>{" "}
+                ({announcement.enquiries.purpose}).
+              </p>
+            )}
           </article>
 
           <article className="page-card">
