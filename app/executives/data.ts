@@ -69,7 +69,7 @@ export const executives: Executive[] = [
     image: "/images/Secretary General.jpg",
     email: "secretarygeneral@nipsaunilesa.com.ng",
     intro: "Keeps official correspondence, documentation, and communication moving across the association.",
-    biography: "Udom Edidiong John is the General Secretary of the Nigeria Pharmacology Students Association (NIPSA). He is committed to effective communication, proper documentation, and supporting the executive body in ensuring the smooth administration of the association.",
+    biography: "Udom Edidiong John is the Secretary General of the Nigeria Pharmacology Students Association (NIPSA) UNILESA Chapter. He is committed to effective communication, proper documentation, and supporting the executive body in ensuring the smooth administration of the association.",
     officeDescription: "I manage official correspondence, prepare and keep accurate records and minutes of meetings, communicate decisions and notices to the house and ensure proper documentation of organizational affairs. I also support the leadership in implementing decisions and serve as an important link between the executive body and the students.",
     responsibilities: [
       "Manage official correspondence and documentation.",
@@ -78,7 +78,7 @@ export const executives: Executive[] = [
     ],
     assumedOffice: "7th September, 2026",
     tenure: "Until graduation",
-    message: "It is a privilege to serve as your General Secretary. I look forward to working with the executive body and every NIPSA member to promote effective communication, proper representation, and a more organized association. Together, let us make this tenure meaningful, productive, and impactful.",
+    message: "It is a privilege to serve as the Secretary General of NIPSA UNILESA Chapter. I look forward to working with the Central Executive Council and every NIPSA member to promote effective communication, proper representation, and a more organized association. Together, let us make this tenure meaningful, productive, and impactful.",
   },
   {
     slug: "adebokun-emmanuel-ayomide",

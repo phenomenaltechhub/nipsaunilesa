@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
-import { galleryCollections } from "./data";
+import { galleryCollections, galleryImages } from "./data";
+import GalleryImageViewer from "./gallery-image-viewer";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Practical learning moments from NIPSA UNILESA and the Department of Pharmacology.",
 };
 
-export default function GalleryPage() {
+export default function GalleryPage({ initialImageSlug }: { initialImageSlug?: string }) {
   return (
     <div className="nipsa-site page-shell">
       <Header currentPath="/gallery" />
@@ -29,36 +29,11 @@ export default function GalleryPage() {
           </div>
         </section>
 
-        <div className="gallery-collections">
-          {galleryCollections.map((collection, collectionIndex) => (
-            <section
-              className="gallery-collection"
-              key={collection.title}
-              aria-labelledby={`gallery-collection-${collectionIndex}`}
-            >
-              <div className="gallery-collection-heading">
-                <p className="eyebrow">{String(collectionIndex + 1).padStart(2, "0")} / PRACTICAL SESSION</p>
-                <h2 id={`gallery-collection-${collectionIndex}`}>{collection.title}</h2>
-                <p>{collection.description}</p>
-              </div>
-              <div className="gallery-grid">
-                {collection.images.map((image) => (
-                  <figure className="gallery-item" key={image.src}>
-                    <div className="gallery-image-frame">
-                      <Image
-                        src={image.src}
-                        alt={image.alt}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw"
-                        className="gallery-image"
-                      />
-                    </div>
-                  </figure>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
+        <GalleryImageViewer
+          images={galleryImages}
+          collections={galleryCollections}
+          initialImageSlug={initialImageSlug}
+        />
       </main>
 
       <Footer currentPath="/gallery" />

@@ -7,6 +7,7 @@ import { events as homeEvents, getEventTemporalStatus } from "./events/data";
 import { executives } from "./executives/data";
 import { ExecutiveShowcase } from "./executives/executive-showcase";
 import { galleryCollections } from "./gallery/data";
+import GalleryImageViewer from "./gallery/gallery-image-viewer";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -134,9 +135,14 @@ export default function Home() {
               "/gallery/100-level-physics-practical-02.jpg",
               "/gallery/chubenz.jpg",
             ].includes(image.src)).map((image) => (
-              <div className="gallery-preview-image" key={image.src}>
-                <img src={image.src} alt={image.alt} loading="lazy" />
-              </div>
+              <GalleryImageViewer
+                key={image.src}
+                src={image.src}
+                alt={image.alt}
+                className="gallery-preview-image gallery-viewer-trigger"
+                thumbnailClassName="gallery-preview-thumbnail"
+                sizes="(max-width: 640px) 50vw, 33vw"
+              />
             ))}
           </div>
         </section>
