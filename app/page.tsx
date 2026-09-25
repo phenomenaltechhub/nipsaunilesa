@@ -6,6 +6,7 @@ import { announcements as homeAnnouncements } from "./announcements/data";
 import { events as homeEvents, getEventTemporalStatus } from "./events/data";
 import { executives } from "./executives/data";
 import { ExecutiveShowcase } from "./executives/executive-showcase";
+import { galleryCollections } from "./gallery/data";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -121,7 +122,24 @@ export default function Home() {
 
         <section className="community section" id="community"><div className="container community-inner"><div><SectionIntro number="06" eyebrow="STUDY GROUPS & COMMUNITY" title="Your people" accent="are here." /></div><div><p className="community-lead">NIPSA fosters peer support and collaboration between foundational students, senior peers, departmental staff, alumni, and the wider university community.</p><p className="community-note">Explore the chapter&apos;s student-development and community-building work.</p><Link className="button primary" href="/community">Find your community <Arrow /></Link></div></div></section>
 
-        <section className="gallery-strip container" id="gallery"><div><p className="eyebrow"><span>07</span> / GALLERY</p><h2>Moments in<br /><em>the making.</em></h2><p className="gallery-coming-soon">Gallery coming soon. Approved chapter photographs and event memories will be added when available.</p></div><div className="gallery-collage" aria-label="Gallery coming soon"><div className="gallery-tile tile-a">NIPSA<br /><b>TOGETHER</b></div><div className="gallery-tile tile-b">LEARN<br /><b>BRAVELY</b></div><div className="gallery-tile tile-c">✦</div></div></section>
+        <section className="gallery-preview section container" id="gallery" aria-label="Gallery preview">
+          <div className="section-heading">
+            <SectionIntro number="07" eyebrow="GALLERY PREVIEW" title="Moments in" accent="the making." />
+            <Link className="text-link" href="/gallery">View Gallery <Arrow /></Link>
+          </div>
+          <p className="gallery-preview-intro">A small preview of practical learning moments from the Department of Pharmacology. Visit the gallery for the complete archive.</p>
+          <div className="gallery-preview-grid">
+            {galleryCollections.flatMap((collection) => collection.images).filter((image) => [
+              "/gallery/100-level-physics-practical-01.jpg",
+              "/gallery/100-level-physics-practical-02.jpg",
+              "/gallery/chubenz.jpg",
+            ].includes(image.src)).map((image) => (
+              <div className="gallery-preview-image" key={image.src}>
+                <img src={image.src} alt={image.alt} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
 
       <Footer currentPath="/" />

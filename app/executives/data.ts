@@ -179,6 +179,7 @@ export const executives: Executive[] = [
     name: "OYEBAMIJI IFEOLUWA",
     role: "Director of Academics",
     tone: "mint",
+    image: "/images/Director of Academics.jpg",
     email: "directorofacademics@nipsaunilesa.com.ng",
     intro: "Encourages learning beyond the classroom through continuous learning, knowledge sharing, and useful academic tools.",
     biography: "Oyebamiji Ifeoluwa is a Pharmacology student passionate about academic growth, continuous learning, and finding better ways to approach education. As Director of Academics, he is committed to creating an academic environment where students are encouraged to learn beyond the classroom, share knowledge, and make meaningful progress in their studies.",

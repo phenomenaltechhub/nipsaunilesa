@@ -8,8 +8,9 @@ export default function Footer({ currentPath = "/" }: { currentPath?: string }) 
         <div>
           <div className="brand footer-brand">
             <span className="brand-logos" aria-label="NIPSA and University of Ilesa branding">
-              <img className="brand-logo brand-logo--crest" src="/unilesa-logo.png" alt="University of Ilesa crest" />
               <img className="brand-logo brand-logo--nipsa" src="/nipsa-logo.png" alt="NIPSA logo" />
+              <span className="brand-divider" aria-hidden="true" />
+              <img className="brand-logo brand-logo--crest" src="/unilesa-logo.png" alt="University of Ilesa logo" />
             </span>
             <span className="brand-copy">
               <span className="brand-name">NIPSA UNILESA</span>
@@ -38,6 +39,7 @@ export default function Footer({ currentPath = "/" }: { currentPath?: string }) 
           <Link href="/events" aria-current={currentPath === "/events" ? "page" : undefined}>Events</Link>
           <Link href="/announcements" aria-current={currentPath === "/announcements" ? "page" : undefined}>Announcements</Link>
           <Link href="/resources" aria-current={currentPath === "/resources" ? "page" : undefined}>Resources</Link>
+          <Link href="/gallery" aria-current={currentPath === "/gallery" ? "page" : undefined}>Gallery</Link>
         </div>
         <div className="footer-column">
           <b>Pharmily Connect</b>

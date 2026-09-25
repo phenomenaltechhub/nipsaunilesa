@@ -51,10 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </Script>
         <GuidedTour />
         <div className="site-watermark" aria-hidden="true">
-          <div className="site-watermark-stack">
-            <img className="brand-logo brand-logo--crest" src="/unilesa-logo.png" alt="" />
-            <img className="brand-logo brand-logo--nipsa" src="/nipsa-logo.png" alt="" />
-          </div>
+          <img className="site-watermark-logo" src="/nipsa-logo.png" alt="" />
         </div>
         {children}
       </body>

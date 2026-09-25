@@ -9,8 +9,9 @@ function BrandLink() {
   return (
     <Link className="brand" href="/">
       <span className="brand-logos" aria-label="NIPSA and University of Ilesa branding">
-        <img className="brand-logo brand-logo--crest" src="/unilesa-logo.png" alt="University of Ilesa crest" />
         <img className="brand-logo brand-logo--nipsa" src="/nipsa-logo.png" alt="NIPSA logo" />
+        <span className="brand-divider" aria-hidden="true" />
+        <img className="brand-logo brand-logo--crest" src="/unilesa-logo.png" alt="University of Ilesa logo" />
       </span>
       <span className="brand-copy">
         <span className="brand-name">NIPSA UNILESA</span>
