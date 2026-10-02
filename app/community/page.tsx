@@ -18,6 +18,12 @@ const communityAreas = [
     ],
     ctaLabel: "Join the WhatsApp Community",
     href: "https://chat.whatsapp.com/Lr9o3E6iXpmItO0hB8moG7",
+     secondaryCtaLabel: "Join the Telegram Channel",
+     secondaryHref: "https://t.me/+FYZPQBrwE_U3N2Rk",
+     supportLabel: "Unable to join?",
+     supportText: "Contact the NIPSA administrator at",
+     supportHref: "mailto:admin@nipsaunilesa.com.ng",
+     supportEmail: "admin@nipsaunilesa.com.ng",
   },
   {
     title: "Mentorship",
@@ -91,14 +97,70 @@ export default function CommunityPage() {
                 <p key={paragraph}>{paragraph}</p>
               ))}
 
-              <Link
-                className="community-panel-link"
-                href={group.href}
-                target={group.href.startsWith("http") ? "_blank" : undefined}
-                rel={group.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              >
-                {group.ctaLabel} <Arrow />
-              </Link>
+              {group.title === "Study circles" ? (
+                  <>
+                    <div className="community-access">
+                      <p>
+                        <strong>
+                          The NIPSA UNILESA Community is open to members of the department.
+                        </strong>{" "}
+                        Individual class groups within the community will require admin
+                        approval before access is granted.
+                      </p>
+
+                      <p>
+                        <strong>Connect through either of the official NIPSA channels:</strong>
+                      </p>
+                    </div>
+
+                    <div className="community-panel-actions">
+                      <Link
+                        className="community-panel-link"
+                        href={group.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {group.ctaLabel} <Arrow />
+                      </Link>
+
+                      {group.secondaryHref && (
+                        <Link
+                          className="community-panel-link"
+                          href={group.secondaryHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {group.secondaryCtaLabel} <Arrow />
+                        </Link>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="community-panel-actions">
+                    <Link
+                      className="community-panel-link"
+                      href={group.href}
+                      target={group.href.startsWith("http") ? "_blank" : undefined}
+                      rel={group.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    >
+                      {group.ctaLabel} <Arrow />
+                    </Link>
+                  </div>
+                )}
+
+                {group.supportHref && (
+                  <p className="community-panel-support">
+                    <strong>{group.supportLabel}</strong>{" "}
+                    {group.supportText}{" "}
+                    <Link
+                      href={group.supportHref}
+                      className="community-panel-support-link"
+                    >
+                      {group.supportEmail}
+                    </Link>{" "}
+                    for assistance.
+                  </p>
+                )}
             </article>
           ))}
         </section>
