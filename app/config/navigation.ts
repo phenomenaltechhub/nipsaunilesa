@@ -7,5 +7,7 @@ export const navItems = [
   { label: "Resources", href: "/resources" },
   { label: "Community", href: "/community" },
   { label: "Gallery", href: "/gallery" },
+  { label: "Campus Navigator", href: "/campus-navigator" },
+  { label: "Student Ads", href: "/ads" },
   { label: "Contact", href: "/contact" },
 ] as const;

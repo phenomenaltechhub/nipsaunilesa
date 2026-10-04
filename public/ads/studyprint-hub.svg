@@ -1,0 +1,11 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="18" fill="#F8FFFA"/>
+  <rect x="36" y="40" width="568" height="280" rx="12" fill="#EAFEF3"/>
+  <rect x="116" y="106" width="118" height="142" rx="14" fill="#003B24" fill-opacity="0.82"/>
+  <path d="M138 126H203V242H138V126Z" fill="#DDFEE9"/>
+  <path d="M154 138H188V150H154V138ZM154 160H188V172H154V160ZM154 182H188V194H154V182ZM154 204H188V216H154V204Z" fill="#00C853" fill-opacity="0.8"/>
+  <rect x="286" y="92" width="220" height="18" rx="9" fill="#003B24" fill-opacity="0.75"/>
+  <rect x="286" y="126" width="236" height="18" rx="9" fill="#003B24" fill-opacity="0.54"/>
+  <rect x="286" y="160" width="200" height="18" rx="9" fill="#003B24" fill-opacity="0.42"/>
+  <text x="286" y="248" fill="#003B24" font-family="Arial, sans-serif" font-size="38" font-weight="700">StudyPrint</text>
+</svg>

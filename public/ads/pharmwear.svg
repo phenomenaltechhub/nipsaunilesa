@@ -1,0 +1,11 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="18" fill="#F6FBFF"/>
+  <rect x="38" y="40" width="564" height="280" rx="12" fill="#EAF7FF"/>
+  <path d="M148 116L192 82L242 112V210H148V116Z" fill="#003B24" fill-opacity="0.8"/>
+  <path d="M164 116L206 90L229 108L206 139L164 116Z" fill="#8FE3C8"/>
+  <path d="M182 142H228V235H182V142Z" fill="#D7F6ED"/>
+  <rect x="292" y="98" width="210" height="18" rx="9" fill="#003B24" fill-opacity="0.75"/>
+  <rect x="292" y="133" width="235" height="18" rx="9" fill="#003B24" fill-opacity="0.52"/>
+  <rect x="292" y="168" width="210" height="18" rx="9" fill="#003B24" fill-opacity="0.42"/>
+  <text x="292" y="250" fill="#003B24" font-family="Arial, sans-serif" font-size="42" font-weight="700">PharmWear</text>
+</svg>

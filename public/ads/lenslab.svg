@@ -1,0 +1,12 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="18" fill="#F7FBFF"/>
+  <rect x="36" y="42" width="568" height="276" rx="12" fill="#E9F5FF"/>
+  <circle cx="168" cy="156" r="62" fill="#003B24" fill-opacity="0.8"/>
+  <circle cx="168" cy="156" r="34" fill="#8FE3C8"/>
+  <rect x="226" y="112" width="12" height="84" rx="6" fill="#003B24" fill-opacity="0.7"/>
+  <rect x="112" y="24" width="120" height="26" rx="13" fill="#39FF88" fill-opacity="0.7"/>
+  <rect x="286" y="94" width="208" height="18" rx="9" fill="#003B24" fill-opacity="0.75"/>
+  <rect x="286" y="130" width="240" height="18" rx="9" fill="#003B24" fill-opacity="0.52"/>
+  <rect x="286" y="166" width="205" height="18" rx="9" fill="#003B24" fill-opacity="0.42"/>
+  <text x="286" y="248" fill="#003B24" font-family="Arial, sans-serif" font-size="44" font-weight="700">LensLab</text>
+</svg>
