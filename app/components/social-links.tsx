@@ -1,4 +1,4 @@
-export type SocialPlatform = "instagram" | "linkedin" | "tiktok";
+export type SocialPlatform = "instagram" | "linkedin" | "tiktok" | "facebook" | "whatsapp";
 
 export type SocialLinkItem = {
   platform: SocialPlatform;
@@ -12,7 +12,7 @@ export const socialLinks: SocialLinkItem[] = [
   { platform: "tiktok", label: "TikTok", href: "https://www.tiktok.com/@pharmily.unilesha" },
 ];
 
-function SocialIcon({ platform }: { platform: SocialPlatform }) {
+export function SocialIcon({ platform }: { platform: SocialPlatform }) {
   const commonProps = {
     viewBox: "0 0 24 24",
     fill: "none",
@@ -42,7 +42,20 @@ function SocialIcon({ platform }: { platform: SocialPlatform }) {
     case "tiktok":
       return (
         <svg {...commonProps}>
-          <path d="M14.5 4.5c.8 1.2 1.9 2 3.3 2.3v2.6c-1.4 0-2.7-.4-3.8-1.2v6.7a4.7 4.7 0 1 1-4.7-4.7c.3 0 .6 0 .9.1v2.8a2.2 2.2 0 1 0 1.6 2.1V4.5h2.7Z" />
+          <path d="M14.5 4.5c.8 1.2 1.9 2 3.3 2.3v2.6c-1.4 0-2.7-.4-3.8-1.2v6.7a4.7 4.7 0 1 1-4.7-4.7c.3 0 .6 0 .9.1v2.8a2.2 2.2 0 1 0 1.6 2.1V4.5h2.7Z" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "facebook":
+      return (
+        <svg {...commonProps} fill="currentColor" stroke="none">
+          <path d="M13.8 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.5 1.6-1.5h1.7V3.2c-.3 0-1.3-.2-2.5-.2-2.5 0-4.2 1.5-4.2 4.3v2.3H7.6v3.2h2.8V21z" />
+        </svg>
+      );
+    case "whatsapp":
+      return (
+        <svg {...commonProps}>
+          <path d="M20.1 11.7a8.1 8.1 0 0 1-11.9 7.1l-4.3 1.1 1.1-4.2a8.1 8.1 0 1 1 15.1-4Z" />
+          <path d="M9 8.2c.2-.5.5-.5.8-.5h.5c.2 0 .4.1.5.4l.8 1.9c.1.2.1.4-.1.6l-.6.7c-.2.2-.2.4 0 .6.4.7 1.1 1.4 1.8 1.8.2.1.4.1.6-.1l.8-.9c.2-.2.4-.2.6-.1l1.7.8c.3.1.4.3.3.6-.1.6-.5 1.2-1.1 1.5-.5.3-1.2.4-2 .1-1.2-.4-2.5-1.2-3.5-2.2-1-1-1.8-2.3-2.1-3.3-.3-.8-.2-1.4 0-1.9Z" />
         </svg>
       );
     default:

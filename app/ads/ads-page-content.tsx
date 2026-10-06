@@ -1,123 +1,90 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
-import { advertisementCategories, advertisements, type Advertisement } from "./data";
+import { AdActionLinks } from "./ad-action-links";
+import AdShareButton from "./ad-share-button";
+import {
+  advertisementCategories,
+  advertisements,
+  getAdSummary,
+  sanitizePublicAdCopy,
+  hasDedicatedAdPage,
+  type Advertisement,
+} from "./data";
 
+const siteUrl = "https://nipsaunilesa.com.ng";
 const allCategories = ["All Ads", ...advertisementCategories] as const;
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
 }
 
-function SocialIcon({ label }: { label: "Instagram" | "Facebook" }) {
-  if (label === "Instagram") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle className="ads-social-icon__dot" cx="17.5" cy="6.8" r="1" />
-      </svg>
-    );
-  }
+function AdCard({ ad, anchorId }: { ad: Advertisement; anchorId?: string }) {
+  const summary = getAdSummary(ad);
+  const shareUrl = hasDedicatedAdPage(ad)
+    ? `${siteUrl}/ads/${ad.slug}`
+    : `${siteUrl}/ads#${anchorId ?? `ad-${ad.slug}`}`;
 
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M13.8 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.5 1.6-1.5h1.7V3.2c-.3 0-1.3-.2-2.5-.2-2.5 0-4.2 1.5-4.2 4.3v2.3H7.6v3.2h2.8V21z" />
-    </svg>
-  );
-}
-
-function AdCard({ ad }: { ad: Advertisement }) {
-  return (
-    <article className="ads-card" aria-label={`${ad.businessName} advertisement`}>
+    <article id={anchorId} className="ads-card" aria-label={`${ad.businessName} advertisement`}>
       <div className="ads-card__media-wrap">
-        <img className="ads-card__image" src={ad.image} alt={`${ad.businessName} logo or placeholder`} />
+        <Image
+          className="ads-card__image"
+          src={ad.image}
+          alt={`${ad.businessName} logo or placeholder`}
+          width={640}
+          height={360}
+          unoptimized
+        />
       </div>
 
       <div className="ads-card__content">
         <div className="ads-card__header-row">
-          <span className="ads-card__category">{ad.category}</span>
-          <div className="ads-card__top-actions">
-            {ad.featured ? <span className="ads-card__feature-badge">Featured</span> : null}
-            {ad.listingLabel ? <span className="ads-card__demo-badge">{ad.listingLabel}</span> : null}
-          </div>
+          <span className="ads-card__category">
+            {ad.category}{ad.subcategory ? ` · ${ad.subcategory}` : ""}
+          </span>
         </div>
 
         <div className="ads-card__title-wrap">
           <h3>{ad.businessName}</h3>
         </div>
 
-        <p className="ads-card__description">{ad.description}</p>
+        <p className="ads-card__description">{sanitizePublicAdCopy(ad.description)}</p>
 
         {ad.services?.length ? (
           <div className="ads-card__services">
             <span className="ads-card__detail-label">PRODUCTS &amp; SERVICES</span>
             <ul>
-              {ad.services.map((service) => <li key={service}>{service}</li>)}
+              {ad.services.map((service) => (
+                <li key={service}>{sanitizePublicAdCopy(service)}</li>
+              ))}
             </ul>
           </div>
         ) : null}
 
         <div className="ads-card__detail-block">
           <span className="ads-card__detail-label">WHAT MAKES US DIFFERENT</span>
-          <p>{ad.differentiator}</p>
+          <p>{sanitizePublicAdCopy(ad.differentiator)}</p>
         </div>
-
-        <div className="ads-card__meta">
-          {ad.location ? <span>{ad.location}</span> : null}
-          {ad.deliveryInfo ? <span>{ad.deliveryInfo}</span> : null}
-        </div>
-
-        {(ad.phone || ad.email) ? (
-          <div className="ads-card__support-links" aria-label={`${ad.businessName} contact details`}>
-            {ad.phone ? (
-              <a className="ads-card__support-link" href={`tel:${ad.phone.replace(/\s+/g, "")}`}>
-                {ad.phone}
-              </a>
-            ) : null}
-            {ad.email ? (
-              <a className="ads-card__support-link" href={`mailto:${ad.email}`}>
-                {ad.email}
-              </a>
-            ) : null}
-          </div>
-        ) : null}
 
         <div className="ads-card__actions">
-          <a
-            className="ads-card__button"
-            href={ad.contactHref}
-            target={ad.socialLinks ? "_blank" : undefined}
-            rel={ad.socialLinks ? "noopener noreferrer" : undefined}
-          >
-            {ad.contactLabel}
-            <Arrow />
-          </a>
-          {ad.socialLinks?.length ? (
-            <div className="ads-card__social-links" aria-label={`${ad.businessName} social media`}>
-              {ad.socialLinks.map(({ label, href }) => (
-                <a
-                  key={label}
-                  className="ads-card__social-button"
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Visit ${ad.businessName} on ${label}`}
-                  title={label}
-                >
-                  <SocialIcon label={label} />
-                </a>
-              ))}
-            </div>
+          {ad.tier === "premium" || ad.tier === "premium-plus" ? (
+            <Link className="ads-card__button ads-card__button--view" href={`/ads/${ad.slug}`}>
+              View Ad
+              <Arrow />
+            </Link>
           ) : null}
-          {ad.socialHref ? (
-            <a className="ads-card__secondary-link" href={ad.socialHref}>
-              {ad.socialLabel ?? "Business link"}
-            </a>
-          ) : null}
+
+          <AdActionLinks ad={ad} />
+          <AdShareButton
+            businessName={ad.businessName}
+            description={`${ad.category}. ${summary}`}
+            url={shareUrl}
+          />
         </div>
       </div>
     </article>
@@ -223,7 +190,7 @@ export default function AdsPageContent() {
 
           <div className="ads-grid">
             {filteredAds.map((ad) => (
-              <AdCard key={ad.id} ad={ad} />
+              <AdCard key={ad.id} ad={ad} anchorId={`ad-${ad.slug}`} />
             ))}
           </div>
         </section>
@@ -260,18 +227,6 @@ export default function AdsPageContent() {
               <li>Advertisements should be relevant to the purpose of Student Ads.</li>
               <li>NIPSA may review submitted listings before publication.</li>
             </ul>
-          </div>
-        </section>
-
-        <section className="ads-section ads-section--compact" aria-label="Future sustainability">
-          <div className="ads-sustainability">
-            <span className="card-tag">Future potential</span>
-            <h2>A space that can grow with the community</h2>
-            <p>
-              Student Ads can eventually become a sustainable part of the NIPSA platform, with options
-              such as featured placements or sponsored listings helping support future student-focused
-              initiatives.
-            </p>
           </div>
         </section>
       </main>

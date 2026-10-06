@@ -65,8 +65,7 @@ export default function CommunityPage() {
                 Your people are <em>here</em>
               </h1>
               <p className="page-subtitle">
-                Learning does not have to happen alone. NIPSA supports a welcoming student culture
-                where peers, mentors, and friends can learn and grow together.
+                Learn with your peers, find support from mentors and keep up with what is happening around the department.
               </p>
               <div className="page-cta-row">
                 <Link className="button primary" href="/events">

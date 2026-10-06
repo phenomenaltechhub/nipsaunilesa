@@ -30,10 +30,26 @@ const explorationModes = [
 ];
 
 const facilityGroups = [
-  { title: "Academic locations", items: ["Faculties", "Departments", "Lecture halls", "Classrooms", "Laboratories", "Practical spaces", "Auditoriums", "Libraries", "ICT and computer facilities"] },
-  { title: "Administrative and student services", items: ["Administrative offices", "Student affairs facilities", "Academic support points", "Health facilities", "Student support services", "Other official service points"] },
-  { title: "Campus facilities", items: ["Cafeterias and food points", "Sports facilities", "Recreational areas", "Religious centres", "Hostels and residential areas", "Parking areas", "Campus entrances and gates", "Security points"] },
-  { title: "Landmarks and useful destinations", items: ["Landmarks", "Reference points", "Campus gateways", "Wayfinding anchors", "Useful student meeting points"] },
+  {
+    title: "Academic locations",
+    description: "Faculties, departments, teaching spaces, laboratories, libraries and ICT facilities.",
+    items: ["Faculties", "Departments", "Lecture halls", "Classrooms", "Laboratories", "Practical spaces", "Auditoriums", "Libraries", "ICT and computer facilities"],
+  },
+  {
+    title: "Administrative and student services",
+    description: "Administrative offices, student affairs, health and academic support points.",
+    items: ["Administrative offices", "Student affairs facilities", "Academic support points", "Health facilities", "Student support services", "Other official service points"],
+  },
+  {
+    title: "Campus facilities",
+    description: "Food, sports, recreation, residential areas, parking, entrances and security points.",
+    items: ["Cafeterias and food points", "Sports facilities", "Recreational areas", "Religious centres", "Hostels and residential areas", "Parking areas", "Campus entrances and gates", "Security points"],
+  },
+  {
+    title: "Landmarks and useful destinations",
+    description: "Campus landmarks, gateways, reference points and useful meeting places.",
+    items: ["Landmarks", "Reference points", "Campus gateways", "Wayfinding anchors", "Useful student meeting points"],
+  },
 ];
 
 const locationFields = [
@@ -51,22 +67,26 @@ const locationFields = [
   { label: "Verification information", description: "Details used to keep the record accurate, current, and useful for students over time." },
 ];
 
-const audience = [
+const locationInformationGroups = [
   {
-    title: "New students",
-    text: "New students may still be learning the campus and may not know where important buildings, departments, halls, or facilities are located. The Navigator can provide a central starting point for finding their way around.",
+    title: "Essential location information",
+    text: "Names, categories, a brief description, and faculty or department details where relevant.",
+    fields: locationFields.slice(0, 4),
   },
   {
-    title: "Returning students",
-    text: "Even students who know the campus may occasionally need to find an unfamiliar classroom, office, laboratory, event venue, or support service more quickly and with less uncertainty.",
+    title: "Photographs and visual references",
+    text: "Images of buildings, entrances and surroundings to help you recognise the place.",
+    fields: locationFields.slice(4, 5),
   },
   {
-    title: "Visitors and first-time users",
-    text: "People who are visiting the university for the first time can also benefit from a more structured, recognisable way to find their destination and understand what the place is for.",
+    title: "Mapped position and navigation",
+    text: "A mapped position, coordinates and available route guidance.",
+    fields: locationFields.slice(5, 7).concat(locationFields.slice(10, 11)),
   },
   {
-    title: "Staff and support services",
-    text: "The Navigator can also help staff and support teams direct people more efficiently by providing a common point of reference for campus locations and facilities.",
+    title: "Landmarks and orientation",
+    text: "Nearby reference points, approach notes and familiar or alternative names.",
+    fields: locationFields.slice(7, 10),
   },
 ];
 
@@ -88,7 +108,7 @@ export default function CampusNavigatorPage() {
                 Find your way around <em>campus</em>.
               </h1>
               <p className="page-subtitle">
-                The NIPSA UNILESA Campus Navigator is a practical digital guide being developed to help students find, understand, and navigate important locations around the University of Ilesa.
+                Find your way around campus with locations, landmarks, photographs and useful information collected for students.
               </p>
               <div className="page-cta-row">
                 <Link className="button secondary" href="/portal">
@@ -118,13 +138,13 @@ export default function CampusNavigatorPage() {
               <div className="campus-quote-box">
                 <p className="campus-quote-lead">“Where is this place?”</p>
                 <p>
-                  The campus map provides the wider spatial view, while location information helps students understand what they are looking for and where it is likely to be found.
+                  More than a map, the Navigator helps you understand what a place is and recognise it when you arrive.
                 </p>
               </div>
               <div className="campus-quote-box">
                 <p className="campus-quote-lead">“How do I know I have found the right place?”</p>
                 <p>
-                  Students need more than a map pin. They need context: the building's purpose, nearby landmarks, directorial cues, photographs, and useful details that make recognition easier in the real world.
+                  Photos, landmarks and useful context make campus locations easier to identify.
                 </p>
               </div>
             </div>
@@ -179,11 +199,7 @@ export default function CampusNavigatorPage() {
               {facilityGroups.map((group) => (
                 <article className="campus-card campus-category-card" key={group.title}>
                   <h3>{group.title}</h3>
-                  <ul>
-                    {group.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
+                  <p>{group.description}</p>
                 </article>
               ))}
             </div>
@@ -196,10 +212,10 @@ export default function CampusNavigatorPage() {
             </div>
 
             <div className="campus-info-list">
-              {locationFields.map((field) => (
-                <div className="campus-info-item" key={field.label}>
-                  <h3>{field.label}</h3>
-                  <p>{field.description}</p>
+              {locationInformationGroups.map((group) => (
+                <div className="campus-info-item" key={group.title}>
+                  <h3>{group.title}</h3>
+                  <p>{group.text}</p>
                 </div>
               ))}
             </div>
@@ -239,16 +255,12 @@ export default function CampusNavigatorPage() {
           <section className="campus-section" aria-labelledby="navigator-audience-heading">
             <div className="campus-section-heading">
               <p className="eyebrow">08 · Who is it for?</p>
-              <h2 id="navigator-audience-heading">Useful for students and first-time campus users alike.</h2>
-            </div>
-
-            <div className="campus-audience-grid">
-              {audience.map((group) => (
-                <article className="campus-card campus-audience-card" key={group.title}>
-                  <h3>{group.title}</h3>
-                  <p>{group.text}</p>
-                </article>
-              ))}
+              <h2 id="navigator-audience-heading">A helpful guide for anyone finding their way around campus.</h2>
+              <p className="campus-audience-summary">
+                Whether you are a student, staff member or visitor, the Navigator can help you find
+                your way—with useful context for first-time visitors and familiar guidance for
+                returning campus users.
+              </p>
             </div>
           </section>
         </div>

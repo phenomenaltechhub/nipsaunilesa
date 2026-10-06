@@ -8,6 +8,7 @@ import { executives } from "./executives/data";
 import { ExecutiveShowcase } from "./executives/executive-showcase";
 import { galleryCollections } from "./gallery/data";
 import GalleryImageViewer from "./gallery/gallery-image-viewer";
+import HomepageAdsNotification from "./ads/homepage-ads-notification";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -43,14 +44,13 @@ export default function Home() {
       <main id="home">
         <section className="hero container">
           <div className="hero-copy">
-            <p className="eyebrow"><span className="status-dot" /> NIGERIAN PHARMACOLOGY STUDENTS ASSOCIATION</p>
+            <p className="eyebrow"><span className="status-dot" /> NIGERIA PHARMACOLOGY STUDENTS' ASSOCIATION</p>
             <h1>Learn boldly.<br /><em>Lead</em> brilliantly.</h1>
             <p className="hero-subtitle">The official student representative body for undergraduates studying Pharmacology at the University of Ilesa, connecting students with academic development, research opportunities, professional networks, student representation, and the wider university community.</p>
             <p className="institution">Department of Pharmacology <span>·</span> University of Ilesa</p>
             <div className="hero-actions"><Link className="button primary" href="/about">Explore NIPSA <Arrow /></Link><Link className="button secondary" href="/portal">Student Portal <span>→</span></Link></div>
             <div className="hero-trust"><div className="mini-avatars"><i>NP</i><i>HD</i><i>ST</i></div><span><strong>University of Ilesa Chapter</strong><br />Department of Pharmacology</span></div>
           </div>
-          <div className="hero-visual" aria-label="Pharmacological research visual">
             <div className="hero-image-wrap">
               <img
                 className="homepage-hero-image"
@@ -58,7 +58,6 @@ export default function Home() {
                 alt="Pharmacological research scene with a microscope and green lab samples"
               />
             </div>
-          </div>
         </section>
 
         <section className="stats container" aria-label="NIPSA statistics">{stats.map((stat) => <div className="stat" key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</section>
@@ -148,6 +147,7 @@ export default function Home() {
         </section>
       </main>
 
+      <HomepageAdsNotification />
       <Footer currentPath="/" />
     </div>
   );

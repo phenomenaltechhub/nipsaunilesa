@@ -80,8 +80,7 @@ export default function ResourcesPage() {
                 Student <em>resources</em>
               </h1>
               <p className="page-subtitle">
-                A central library of public academic, study, and department materials for Pharmacology students at the University of Ilesa.
-                These resources support learning, onboarding, and student engagement within the Department of Pharmacology.
+                Find lecture materials, study guidance and key academic resources collected for Pharmacology students at the University of Ilesa.
               </p>
               <div className="page-cta-row">
                 <Link className="button primary" href="/portal">
