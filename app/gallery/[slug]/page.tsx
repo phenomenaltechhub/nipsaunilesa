@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import GalleryPage from "../page";
 import { galleryImages, getGalleryImageBySlug } from "../data";
+import { createPageMetadata } from "../../seo";
 
 type GalleryImagePageProps = {
   params: Promise<{ slug: string }>;
@@ -16,15 +17,13 @@ export async function generateMetadata({ params }: GalleryImagePageProps): Promi
   const entry = getGalleryImageBySlug(slug);
   if (!entry) notFound();
 
-  return {
+  return createPageMetadata({
     title: entry.collection.title,
     description: entry.collection.description,
-    openGraph: {
-      title: entry.collection.title,
-      description: entry.collection.description,
-      images: [entry.image.src],
-    },
-  };
+    path: `/gallery/${entry.image.slug}`,
+    image: entry.image.src,
+    imageAlt: entry.image.alt,
+  });
 }
 
 export default async function GalleryImagePage({ params }: GalleryImagePageProps) {

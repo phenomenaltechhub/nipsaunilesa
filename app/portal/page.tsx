@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
+import { BreadcrumbStructuredData } from "../components/seo-json-ld";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Student Portal",
   description: "Academic information, study support, learning materials, and student tools for Pharmacology students.",
-};
+  path: "/portal",
+});
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -19,6 +22,7 @@ function Status({ status }: { status: "Available" | "Coming Soon" }) {
 export default function PortalPage() {
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData items={[{ name: "Home", path: "/" }, { name: "Student Portal", path: "/portal" }]} />
       <Header currentPath="/portal" />
 
       <main className="page-main container portal-page">

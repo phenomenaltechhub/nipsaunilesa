@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import GuidedTour from "./components/guided-tour";
+import { StructuredData, siteStructuredData } from "./components/seo-json-ld";
+import { defaultSocialImage, siteUrl } from "./seo";
 import "./globals.css";
 
 const GA_MEASUREMENT_ID = "G-BY89T3HT2Z";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nipsaunilesa.com.ng"),
+  metadataBase: new URL(siteUrl),
   title: {
     template: "%s | NIPSA UNILESA",
     default: "NIPSA UNILESA",
@@ -19,13 +21,15 @@ export const metadata: Metadata = {
       "A student network for pharmacology learning, events and community at the University of Ilesa.",
     type: "website",
     locale: "en_NG",
-    url: "https://nipsaunilesa.com.ng",
+    siteName: "NIPSA UNILESA",
+    images: [{ url: defaultSocialImage, alt: "NIPSA University of Ilesa logo" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "NIPSA UNILESA",
     description:
       "A student network for pharmacology learning, events and community at the University of Ilesa.",
+    images: [defaultSocialImage],
   },
 };
 
@@ -37,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className="h-full antialiased"
     >
       <body className="min-h-full flex flex-col">
+        <StructuredData data={siteStructuredData} />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"

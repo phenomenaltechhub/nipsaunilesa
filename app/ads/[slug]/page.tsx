@@ -4,8 +4,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "../../components/site-header";
 import Footer from "../../components/site-footer";
+import { BreadcrumbStructuredData } from "../../components/seo-json-ld";
 import { AdActionLinks } from "../ad-action-links";
 import AdShareButton from "../ad-share-button";
+import { createPageMetadata, siteUrl } from "../../seo";
 import {
   advertisements,
   getAdSummary,
@@ -14,8 +16,6 @@ import {
   hasDedicatedAdPage,
   sanitizePublicAdCopy,
 } from "../data";
-
-const siteUrl = "https://nipsaunilesa.com.ng";
 const noEligibleAdPageSlug = "__no-premium-listings__";
 
 export const dynamicParams = false;
@@ -46,27 +46,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const title = `${ad.businessName} | ${ad.category}`;
   const description = getAdSummary(ad);
   const imageUrl = getSanitizedAdImage(ad);
-  const canonicalUrl = `${siteUrl}/ads/${ad.slug}`;
 
-  return {
+  return createPageMetadata({
     title,
     description,
-    alternates: { canonical: canonicalUrl },
-    metadataBase: new URL(siteUrl),
-    openGraph: {
-      title,
-      description,
-      url: canonicalUrl,
-      type: "website",
-      images: [{ url: imageUrl, alt: `${ad.businessName} advertisement` }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [imageUrl],
-    },
-  };
+    path: `/ads/${ad.slug}`,
+    image: imageUrl,
+    imageAlt: `${ad.businessName} advertisement`,
+  });
 }
 
 export default async function AdvertisementDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -81,6 +68,13 @@ export default async function AdvertisementDetailPage({ params }: { params: Prom
 
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Student Ads", path: "/ads" },
+          { name: ad.businessName, path: `/ads/${ad.slug}` },
+        ]}
+      />
       <Header currentPath="/ads" />
 
       <main className="page-main container ads-detail-page">

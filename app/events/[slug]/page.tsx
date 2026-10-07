@@ -3,7 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "../../components/site-header";
 import Footer from "../../components/site-footer";
+import { BreadcrumbStructuredData } from "../../components/seo-json-ld";
+import SharePageButton from "../../components/share-page-button";
 import { events, getEventBySlug, getEventTemporalStatus } from "../data";
+import { absoluteSiteUrl, createPageMetadata } from "../../seo";
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -24,15 +27,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
-  return {
+  return createPageMetadata({
     title: event.title,
     description: event.summary,
-    openGraph: {
-      title: event.title,
-      description: event.summary,
-      type: "article",
-    },
-  };
+    path: `/events/${event.slug}`,
+    type: "article",
+    image: event.image,
+    imageAlt: event.title,
+  });
 }
 
 export default async function EventDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -47,6 +49,13 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Events", path: "/events" },
+          { name: event.title, path: `/events/${event.slug}` },
+        ]}
+      />
       <Header currentPath="/events" />
 
       <main className="page-main container">
@@ -65,6 +74,11 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                 <Link className="button secondary" href="/contact">
                   Ask a question <Arrow />
                 </Link>
+                <SharePageButton
+                  title={event.title}
+                  text={event.summary}
+                  url={absoluteSiteUrl(`/events/${event.slug}`)}
+                />
               </div>
             </div>
             <aside className="page-hero-aside">

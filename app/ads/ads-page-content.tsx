@@ -7,6 +7,7 @@ import Header from "../components/site-header";
 import Footer from "../components/site-footer";
 import { AdActionLinks } from "./ad-action-links";
 import AdShareButton from "./ad-share-button";
+import { siteUrl } from "../seo";
 import {
   advertisementCategories,
   advertisements,
@@ -16,7 +17,6 @@ import {
   type Advertisement,
 } from "./data";
 
-const siteUrl = "https://nipsaunilesa.com.ng";
 const allCategories = ["All Ads", ...advertisementCategories] as const;
 
 function Arrow() {

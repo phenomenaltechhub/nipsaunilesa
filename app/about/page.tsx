@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
+import { BreadcrumbStructuredData } from "../components/seo-json-ld";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "About NIPSA",
   description:
     "Learn about the Nigerian Pharmacology Students Association, University of Ilesa Chapter, its purpose, vision, mission, and objectives.",
-};
+  path: "/about",
+});
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -100,6 +103,7 @@ const objectives = [
 export default function AboutPage() {
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData items={[{ name: "Home", path: "/" }, { name: "About NIPSA", path: "/about" }]} />
       <Header currentPath="/about" />
 
       <main className="page-main container">
@@ -161,6 +165,12 @@ export default function AboutPage() {
               to foster research interests, provide essential peer support, encourage academic excellence,
               and prepare our members for future careers across the global health, pharmaceutical,
               research, and related industries.
+            </p>
+            <p>
+              Visitors can also browse NIPSA{" "}
+              <Link href="/events">events</Link>,{" "}
+              <Link href="/announcements">student announcements</Link>, and{" "}
+              <Link href="/resources">academic resources</Link>.
             </p>
           </div>
         </section>

@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
+import { BreadcrumbStructuredData } from "../components/seo-json-ld";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Resources",
   description: "Academic resources and student support materials for Pharmacology students in the Department of Pharmacology.",
-};
+  path: "/resources",
+});
 
 type Resource = {
   title: string;
@@ -69,6 +72,7 @@ function Arrow() {
 export default function ResourcesPage() {
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData items={[{ name: "Home", path: "/" }, { name: "Resources", path: "/resources" }]} />
       <Header currentPath="/resources" />
 
       <main className="page-main container">
@@ -77,10 +81,10 @@ export default function ResourcesPage() {
             <div>
               <p className="page-kicker">Academic resources</p>
               <h1 id="resources-page-title" className="page-title">
-                Student <em>resources</em>
+                Pharmacology student <em>resources</em>
               </h1>
               <p className="page-subtitle">
-                Find lecture materials, study guidance and key academic resources collected for Pharmacology students at the University of Ilesa.
+                Browse study guidance, departmental orientation materials, and academic resources for Pharmacology students at the University of Ilesa.
               </p>
               <div className="page-cta-row">
                 <Link className="button primary" href="/portal">
@@ -96,6 +100,9 @@ export default function ResourcesPage() {
               <strong className="big-stat">Public</strong>
               <p>
                 Shared student-facing materials and department guidance for academic support and orientation.
+              </p>
+              <p>
+                For campus wayfinding information, see the <Link href="/campus-navigator">Campus Navigator preview</Link>.
               </p>
             </aside>
           </div>

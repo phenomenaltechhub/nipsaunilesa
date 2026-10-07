@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
+import { BreadcrumbStructuredData } from "../components/seo-json-ld";
 import { events, getEventTemporalStatus } from "./data";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Events",
   description: "Explore student events, community activities, and learning opportunities for NIPSA UNILESA.",
-};
+  path: "/events",
+});
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -16,6 +19,7 @@ function Arrow() {
 export default function EventsPage() {
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData items={[{ name: "Home", path: "/" }, { name: "Events", path: "/events" }]} />
       <Header currentPath="/events" />
 
       <main className="page-main container">
@@ -24,11 +28,11 @@ export default function EventsPage() {
             <div>
               <p className="page-kicker">Student events</p>
               <h1 className="page-title">
-                Make room for <em>new ideas</em>
+                NIPSA <em>student events</em>
               </h1>
               <p className="page-subtitle">
-                Explore the events that bring students, leaders, and the wider community
-                together for learning, discovery, and support.
+                Browse Pharmacology student activities and wider NIPSA events. Dates and chapter
+                logistics are listed below and updated as details are confirmed.
               </p>
               <div className="page-cta-row">
                 <Link className="button primary" href="/community">

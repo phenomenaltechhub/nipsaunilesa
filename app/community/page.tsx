@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
+import { BreadcrumbStructuredData } from "../components/seo-json-ld";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Community",
   description: "Explore the student community, study groups, and peer support opportunities within NIPSA UNILESA.",
-};
+  path: "/community",
+});
 
 const communityAreas = [
   {
@@ -54,6 +57,7 @@ function Arrow() {
 export default function CommunityPage() {
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData items={[{ name: "Home", path: "/" }, { name: "Community", path: "/community" }]} />
       <Header currentPath="/community" />
 
       <main className="page-main container">
@@ -62,7 +66,7 @@ export default function CommunityPage() {
             <div>
               <p className="page-kicker">Study groups & community</p>
               <h1 className="page-title">
-                Your people are <em>here</em>
+                A community for <em>Pharmacology students</em>
               </h1>
               <p className="page-subtitle">
                 Learn with your peers, find support from mentors and keep up with what is happening around the department.

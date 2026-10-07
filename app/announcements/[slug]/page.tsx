@@ -3,7 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "../../components/site-header";
 import Footer from "../../components/site-footer";
+import { BreadcrumbStructuredData } from "../../components/seo-json-ld";
+import SharePageButton from "../../components/share-page-button";
 import { announcements, getAnnouncementBySlug } from "../data";
+import { absoluteSiteUrl, createPageMetadata } from "../../seo";
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -24,15 +27,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
-  return {
+  return createPageMetadata({
     title: announcement.title,
     description: announcement.summary,
-    openGraph: {
-      title: announcement.title,
-      description: announcement.summary,
-      type: "article",
-    },
-  };
+    path: `/announcements/${announcement.slug}`,
+    type: "article",
+  });
 }
 
 export default async function AnnouncementDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -45,6 +45,16 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
 
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Announcements", path: "/announcements" },
+          {
+            name: announcement.title,
+            path: `/announcements/${announcement.slug}`,
+          },
+        ]}
+      />
       <Header currentPath="/announcements" />
 
       <main className="page-main container">
@@ -58,6 +68,11 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
                 <Link className="button primary" href="/announcements">
                   Back to announcements <Arrow />
                 </Link>
+                <SharePageButton
+                  title={announcement.title}
+                  text={announcement.summary}
+                  url={absoluteSiteUrl(`/announcements/${announcement.slug}`)}
+                />
               </div>
             </div>
             <aside className="page-hero-aside">
@@ -73,6 +88,17 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
             <span className="card-tag">Announcement details</span>
             <h2 className="announcement-detail-title">{announcement.title}</h2>
             <p>{announcement.description}</p>
+            {announcement.slug === "welcome-to-the-new-nipsa-student-resource-hub" && (
+              <p>
+                Browse the available <Link href="/resources">academic and student resources</Link>.
+              </p>
+            )}
+            {announcement.slug === "departmental-orientation" && (
+              <p>
+                Use the <Link href="/resources">student orientation checklist</Link> for available
+                onboarding guidance.
+              </p>
+            )}
             {announcement.slug === "meet-your-student-community" && (
               <p>
                 Explore the wider <Link href="/community">NIPSA student community</Link> for

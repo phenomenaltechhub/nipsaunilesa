@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
+import { BreadcrumbStructuredData } from "../components/seo-json-ld";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Campus Navigator",
   description:
     "A feature preview for the NIPSA UNILESA Campus Navigator, bringing campus mapping, search, and location guidance together in one accessible student tool.",
-};
+  path: "/campus-navigator",
+});
 
 const journeySteps = [
   "Search or explore",
@@ -20,12 +23,12 @@ const explorationModes = [
   {
     title: "Campus Map",
     text:
-      "The campus map provides a visual representation of important locations around the university. It helps students see how facilities are positioned relative to one another and understand the layout of the campus.",
+      "A planned campus map could show verified locations in relation to one another. It will be added only after the location information has been collected and checked.",
   },
   {
     title: "Location Directory",
     text:
-      "The location directory provides a searchable and organised collection of campus locations. Students can search by name or browse by category, making it easier to find a destination even when they are not sure where it is located.",
+      "A planned directory could let students search or browse verified campus locations. No searchable location directory is available yet.",
   },
 ];
 
@@ -97,6 +100,7 @@ function Arrow() {
 export default function CampusNavigatorPage() {
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData items={[{ name: "Home", path: "/" }, { name: "Campus Navigator", path: "/campus-navigator" }]} />
       <Header currentPath="/campus-navigator" />
 
       <main className="page-main container campus-page">
@@ -105,10 +109,10 @@ export default function CampusNavigatorPage() {
             <div>
               <p className="page-kicker">Campus navigator</p>
               <h1 id="campus-navigator-title" className="page-title">
-                Find your way around <em>campus</em>.
+                University of Ilesa <em>campus guide</em>
               </h1>
               <p className="page-subtitle">
-                Find your way around campus with locations, landmarks, photographs and useful information collected for students.
+                Preview the campus map and location directory being prepared for the University of Ilesa. The Navigator is not yet a live location lookup.
               </p>
               <div className="page-cta-row">
                 <Link className="button secondary" href="/portal">
@@ -138,13 +142,13 @@ export default function CampusNavigatorPage() {
               <div className="campus-quote-box">
                 <p className="campus-quote-lead">“Where is this place?”</p>
                 <p>
-                  More than a map, the Navigator helps you understand what a place is and recognise it when you arrive.
+                  When location records are available, the Navigator is intended to pair a place with context that can help students recognise it.
                 </p>
               </div>
               <div className="campus-quote-box">
                 <p className="campus-quote-lead">“How do I know I have found the right place?”</p>
                 <p>
-                  Photos, landmarks and useful context make campus locations easier to identify.
+                  Verified photographs, landmarks and orientation notes could help students identify a location.
                 </p>
               </div>
             </div>
@@ -162,10 +166,10 @@ export default function CampusNavigatorPage() {
                   <span className="campus-step-number">0{index + 1}</span>
                   <h3>{step}</h3>
                   <p>
-                    {index === 0 && "Search for a specific place by name, discover by category, or browse the campus map to begin."}
-                    {index === 1 && "Select a destination and open its record to view the associated information for that place."}
-                    {index === 2 && "Explore its description, photographs, landmarks and orientation notes to confirm you have the right location."}
-                    {index === 3 && "Use the mapped position and navigation support to help you get there with more confidence."}
+                    {index === 0 && "When the verified directory is available, students will be able to search by name, browse by category, or use the campus map."}
+                    {index === 1 && "Selecting a listed destination will open its record and any verified information available for that place."}
+                    {index === 2 && "A location record may include a description, photographs, landmarks, or orientation notes where those details have been verified."}
+                    {index === 3 && "Mapped positions and route guidance may be provided where accurate information is available."}
                   </p>
                 </article>
               ))}
@@ -193,6 +197,10 @@ export default function CampusNavigatorPage() {
             <div className="campus-section-heading">
               <p className="eyebrow">04 · What will you be able to find?</p>
               <h2 id="navigator-coverage-heading">A practical directory of the places students use most.</h2>
+              <p>
+                The categories below are examples of information a future directory could cover; they
+                are not a verified list of University of Ilesa locations or facilities.
+              </p>
             </div>
 
             <div className="campus-category-grid">
@@ -257,9 +265,8 @@ export default function CampusNavigatorPage() {
               <p className="eyebrow">08 · Who is it for?</p>
               <h2 id="navigator-audience-heading">A helpful guide for anyone finding their way around campus.</h2>
               <p className="campus-audience-summary">
-                Whether you are a student, staff member or visitor, the Navigator can help you find
-                your way—with useful context for first-time visitors and familiar guidance for
-                returning campus users.
+                Once verified campus information is available, the Navigator is intended to help
+                students, staff and visitors find their way around campus.
               </p>
             </div>
           </section>
@@ -271,6 +278,10 @@ export default function CampusNavigatorPage() {
             <h2 id="campus-coming-heading">The Campus Navigator is being prepared.</h2>
             <p>
               Campus locations, photographs, coordinates, landmarks, and supporting information are currently being collected and verified before the Navigator goes live.
+            </p>
+            <p>
+              While the guide is being prepared, find available study and orientation materials in{" "}
+              <Link href="/resources">Student Resources</Link>.
             </p>
           </div>
           <div className="campus-coming-preparation">

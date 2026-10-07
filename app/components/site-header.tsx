@@ -23,7 +23,7 @@ function BrandLink() {
         <img className="brand-logo brand-logo--crest" src="/unilesa-logo.png" alt="University of Ilesa logo" />
       </span>
       <span className="brand-copy">
-        <span className="brand-name">NIPSA UNILESA</span>
+        <span className="brand-name">NIPSA-UNILESA</span>
         <span className="brand-subtitle">UNILESA – Department of Pharmacology</span>
       </span>
     </Link>

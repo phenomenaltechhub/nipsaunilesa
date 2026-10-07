@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
+import { BreadcrumbStructuredData } from "../components/seo-json-ld";
 import { announcements } from "./data";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Announcements",
   description: "Departmental updates, academic notes, and community announcements from NIPSA UNILESA.",
-};
+  path: "/announcements",
+});
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -16,6 +19,7 @@ function Arrow() {
 export default function AnnouncementsPage() {
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData items={[{ name: "Home", path: "/" }, { name: "Announcements", path: "/announcements" }]} />
       <Header currentPath="/announcements" />
 
       <main className="page-main container">
@@ -24,11 +28,11 @@ export default function AnnouncementsPage() {
             <div>
               <p className="page-kicker">NIPSA updates</p>
               <h1 className="page-title">
-                Keep up with <em>what matters</em>
+                NIPSA <em>announcements</em>
               </h1>
               <p className="page-subtitle">
-                Explore departmental notes, academic updates, and community announcements shared
-                with the NIPSA UNILESA community.
+                Find association notices, academic updates, and community information for students.
+                These dated posts remain available as an archive while newer information is confirmed.
               </p>
             </div>
             <aside className="page-hero-aside">

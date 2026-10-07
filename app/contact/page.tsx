@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
 import { SocialLinkGroup } from "../components/social-links";
+import { BreadcrumbStructuredData } from "../components/seo-json-ld";
+import { createPageMetadata } from "../seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Contact",
   description: "Official NIPSA UNILESA contact channels for administrative and executive correspondence.",
-};
+  path: "/contact",
+});
 
 const officialMailboxes = [
   {
@@ -99,6 +102,7 @@ function ContactEmailLink({ email }: { email: string }) {
 export default function ContactPage() {
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData items={[{ name: "Home", path: "/" }, { name: "Contact", path: "/contact" }]} />
       <Header currentPath="/contact" />
 
       <main className="page-main container">

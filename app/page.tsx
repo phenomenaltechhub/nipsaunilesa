@@ -9,11 +9,14 @@ import { ExecutiveShowcase } from "./executives/executive-showcase";
 import { galleryCollections } from "./gallery/data";
 import GalleryImageViewer from "./gallery/gallery-image-viewer";
 import HomepageAdsNotification from "./ads/homepage-ads-notification";
+import { createPageMetadata } from "./seo";
 
-export const metadata: Metadata = {
-  title: "Home",
-  description: "Nigerian Pharmacology Students Association, University of Ilesa Chapter: student representation, academic and research development, professional growth, and university community engagement.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "Pharmacology Students at University of Ilesa",
+  description:
+    "Nigerian Pharmacology Students Association, University of Ilesa Chapter: student representation, academic and research development, professional growth, and university community engagement.",
+  path: "/",
+});
 
 const stats = [
   { value: "UNILESA", label: "University of Ilesa Chapter" },
@@ -105,6 +108,7 @@ export default function Home() {
           <div className="resource-intro">
             <SectionIntro number="05" eyebrow="ACADEMIC RESOURCES" title="Find your" accent="flow." />
             <p>Preview the public academic and study materials available to students. Visit the full resource hub for the complete collection.</p>
+            <p>For campus information, visit the <Link href="/campus-navigator">Campus Navigator preview</Link>.</p>
             <Link className="button primary" href="/resources">Explore Academic Resources <Arrow /></Link>
           </div>
           <div className="resource-grid home-resource-grid">

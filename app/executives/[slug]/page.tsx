@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "../../components/site-header";
 import Footer from "../../components/site-footer";
+import { BreadcrumbStructuredData } from "../../components/seo-json-ld";
 import { executives, getExecutiveBySlug, getExecutiveOfficeLabel } from "../data";
+import { createPageMetadata } from "../../seo";
 
 export async function generateStaticParams() {
   return executives.map((executive) => ({ slug: executive.slug }));
@@ -20,15 +22,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
-  return {
-    title: `${executive.name} | ${getExecutiveOfficeLabel(executive.role)}`,
+  const title = `${executive.name} | ${getExecutiveOfficeLabel(executive.role)}`;
+
+  return createPageMetadata({
+    title,
     description: executive.intro,
-    openGraph: {
-      title: `${executive.name} | ${getExecutiveOfficeLabel(executive.role)}`,
-      description: executive.intro,
-      type: "profile",
-    },
-  };
+    path: `/executives/${executive.slug}`,
+    type: "profile",
+    image: executive.image,
+    imageAlt: `Portrait of ${executive.name}`,
+  });
 }
 
 function ExecutivePhoto({ executive }: { executive: (typeof executives)[number] }) {
@@ -54,6 +57,13 @@ export default async function ExecutiveProfilePage({ params }: { params: Promise
 
   return (
     <div className="nipsa-site page-shell">
+      <BreadcrumbStructuredData
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Executives", path: "/executives" },
+          { name: executive.name, path: `/executives/${executive.slug}` },
+        ]}
+      />
       <Header currentPath="/executives" />
       <main className="page-main container">
         <div className="profile-back">
