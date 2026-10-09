@@ -28,10 +28,10 @@ const resources: Resource[] = [
     description: "Practical study-planning and revision support for students looking to strengthen their academic routines and learning habits.",
     category: "Academic and study support",
     type: "Download",
-    href: "/resources/study-skills-guide.txt",
+    href: "/resources/nipsa-study-skills-guide.docx",
     actionLabel: "Download study guide",
     audience: "Students",
-    format: "TXT",
+    format: "PDF",
   },
   {
     title: "Orientation checklist",
