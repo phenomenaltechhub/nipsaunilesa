@@ -44,7 +44,7 @@ export const executives: Executive[] = [
     name: "JOHN-EDWARD SEED'IVINE",
     role: "Vice President",
     tone: "teal",
-    image: "/images/Vice President.png",
+    image: "/images/Vice-president.png",
     email: "vicepresident@nipsaunilesa.com.ng",
     intro: "Works closely with the President to support coordination, student welfare, and the work of the executive body.",
     biography: "John-Edward Seed'ivine is a Pharmacology student with a strong interest in technology, innovation and problem-solving. As a technology enthusiast and active builder, he is passionate about using technology and creative ideas to solve real problems and create meaningful impact. He brings this innovative mindset, alongside his commitment to academic growth and student development, into his role as Vice President of NIPSA-UNILESA.",
