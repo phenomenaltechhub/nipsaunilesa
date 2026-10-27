@@ -40,13 +40,23 @@ export default function GuidedTour() {
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const dismiss = useCallback(() => {
-    window.localStorage.setItem(STORAGE_KEY, "true");
+    try {
+      window.localStorage.setItem(STORAGE_KEY, "true");
+    } catch {
+      // Storage may be blocked; dismissal must still work for this page.
+    }
     setOpen(false);
     previousFocusRef.current?.focus();
   }, []);
 
   useEffect(() => {
-    if (window.localStorage.getItem(STORAGE_KEY) !== "true") {
+    let dismissed = false;
+    try {
+      dismissed = window.localStorage.getItem(STORAGE_KEY) === "true";
+    } catch {
+      // The tour remains usable when browser storage is unavailable.
+    }
+    if (!dismissed) {
       const activeElement = document.activeElement;
       previousFocusRef.current = activeElement instanceof HTMLElement && activeElement !== document.body
         ? activeElement

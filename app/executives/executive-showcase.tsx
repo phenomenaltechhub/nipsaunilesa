@@ -18,6 +18,7 @@ export function ExecutiveShowcase({ people = executives }: { people?: typeof exe
             >
               {person.image ? (
                 <span className={`homepage-executive-portrait ${person.tone}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element -- Static export uses CSS-sized native images; preserve existing rendering without an image service. */}
                   <img
                     src={person.image}
                     alt={`Portrait of ${person.name}, ${getExecutiveOfficeLabel(person.role)}, NIPSA-UNILESA`}

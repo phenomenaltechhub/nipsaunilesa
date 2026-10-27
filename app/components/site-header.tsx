@@ -18,8 +18,10 @@ function BrandLink() {
   return (
     <Link className="brand" href="/">
       <span className="brand-logos" aria-label="NIPSA and University of Ilesa branding">
+        {/* eslint-disable-next-line @next/next/no-img-element -- Static export uses CSS-sized native images; preserve existing rendering without an image service. */}
         <img className="brand-logo brand-logo--nipsa" src="/nipsa-logo.png" alt="NIPSA logo" />
         <span className="brand-divider" aria-hidden="true" />
+        {/* eslint-disable-next-line @next/next/no-img-element -- Static export uses CSS-sized native images; preserve existing rendering without an image service. */}
         <img className="brand-logo brand-logo--crest" src="/unilesa-logo.png" alt="University of Ilesa logo" />
       </span>
       <span className="brand-copy">
@@ -43,7 +45,10 @@ export default function Header({ currentPath = "/" }: { currentPath?: string }) 
     let accumulatedDistance = 0;
     let animationFrame = 0;
 
-    setIsScrolled(lastY > 32);
+    animationFrame = window.requestAnimationFrame(() => {
+      animationFrame = 0;
+      setIsScrolled(window.scrollY > 32);
+    });
 
     const updateScrollState = () => {
       animationFrame = 0;

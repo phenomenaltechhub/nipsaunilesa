@@ -47,7 +47,7 @@ export default function Home() {
       <main id="home">
         <section className="hero container">
           <div className="hero-copy">
-            <p className="eyebrow"><span className="status-dot" /> NIGERIA PHARMACOLOGY STUDENTS' ASSOCIATION</p>
+            <p className="eyebrow"><span className="status-dot" /> NIGERIA PHARMACOLOGY STUDENTS&apos; ASSOCIATION</p>
             <h1>Learn boldly.<br /><em>Lead</em> brilliantly.</h1>
             <p className="hero-subtitle">The official student representative body for undergraduates studying Pharmacology at the University of Ilesa, connecting students with academic development, research opportunities, professional networks, student representation, and the wider university community.</p>
             <p className="institution">Department of Pharmacology <span>·</span> University of Ilesa</p>
@@ -55,6 +55,7 @@ export default function Home() {
             <div className="hero-trust"><div className="mini-avatars"><i>NP</i><i>HD</i><i>ST</i></div><span><strong>University of Ilesa Chapter</strong><br />Department of Pharmacology</span></div>
           </div>
             <div className="hero-image-wrap">
+              {/* eslint-disable-next-line @next/next/no-img-element -- Static export uses CSS-sized native images; preserve existing rendering without an image service. */}
               <img
                 className="homepage-hero-image"
                 src="/homepage-image.png"

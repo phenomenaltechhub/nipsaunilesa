@@ -1,3 +1,5 @@
+import { sanitizeAdImage } from "./url-safety";
+
 export type AdvertisementSocialPlatform =
   | "Instagram"
   | "Facebook"
@@ -231,5 +233,5 @@ export function sanitizePublicAdCopy(copy: string) {
 }
 
 export function getSanitizedAdImage(ad: Advertisement) {
-  return ad.image && ad.image.trim().length > 0 ? ad.image : "/file.svg";
+  return sanitizeAdImage(ad.image);
 }

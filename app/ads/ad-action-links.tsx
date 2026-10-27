@@ -1,5 +1,6 @@
 import { SocialIcon, type SocialPlatform } from "../components/social-links";
 import type { Advertisement } from "./data";
+import { getAdUrlPlatform, validateAdContactUrl } from "./url-safety";
 
 type AdAction = {
   href: string;
@@ -7,21 +8,10 @@ type AdAction = {
   platform?: SocialPlatform;
 };
 
-function getUrlPlatform(url: string): SocialPlatform | undefined {
-  const normalizedUrl = url.toLowerCase();
-
-  if (normalizedUrl.includes("wa.me") || normalizedUrl.includes("whatsapp")) return "whatsapp";
-  if (normalizedUrl.includes("instagram.com")) return "instagram";
-  if (normalizedUrl.includes("facebook.com")) return "facebook";
-  if (normalizedUrl.includes("tiktok.com")) return "tiktok";
-  if (normalizedUrl.includes("linkedin.com")) return "linkedin";
-  return undefined;
-}
-
 function getActionLabel(url: string) {
   if (url.startsWith("mailto:")) return "Email";
   if (url.startsWith("tel:")) return "Call";
-  const platform = getUrlPlatform(url);
+  const platform = getAdUrlPlatform(url);
   if (platform) {
     return platform === "whatsapp"
       ? "WhatsApp"
@@ -32,9 +22,10 @@ function getActionLabel(url: string) {
 
 function getAdActions(ad: Advertisement): AdAction[] {
   const actions: AdAction[] = [];
-  const add = (href: string | undefined) => {
+  const add = (value: string | undefined) => {
+    const href = validateAdContactUrl(value);
     if (!href || actions.some((action) => action.href === href)) return;
-    const platform = getUrlPlatform(href);
+    const platform = getAdUrlPlatform(href);
     actions.push({ href, label: getActionLabel(href), platform });
   };
 

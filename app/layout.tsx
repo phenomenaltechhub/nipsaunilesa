@@ -56,6 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </Script>
         <GuidedTour />
         <div className="site-watermark" aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element -- Static export uses CSS-sized native images; preserve existing rendering without an image service. */}
           <img className="site-watermark-logo" src="/nipsa-logo.png" alt="" />
         </div>
         {children}
