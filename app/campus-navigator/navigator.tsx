@@ -22,9 +22,9 @@ function RecordDetails({ record }: { record: CampusRecord }) {
       <div className={styles.detailBody}>
         <span className={styles.eyebrow}>SELECTED DIRECTORY RECORD</span>
         <h2 id="destination-details-heading" tabIndex={-1}>{record.name}</h2>
-        <div className={styles.badges}><span>{record.category}</span><span>{record.verification === "verified" ? "Institution verified" : "Source review pending"}</span></div>
+        <div className={styles.badges}><span>{record.category}</span><span>{record.verification === "verified" ? "Verified record" : "Candidate · source review pending"}</span></div>
         <p>{record.description}</p>
-        <div className={styles.positionNote}>{mapped && record.position ? <><strong>{record.position.precision === "university" ? "University reference point — not a building" : "Verified physical position"}</strong><p>{record.position.latitude}, {record.position.longitude}</p></> : <><strong>{missingPositionMessage}</strong><p>No precise marker or directions are available for this record.</p></>}</div>
+        <div className={styles.positionNote}>{mapped && record.position ? <><strong>Verified physical position</strong><p>{record.position.latitude}, {record.position.longitude}</p></> : <><strong>{missingPositionMessage}</strong><p>No precise marker or directions are available for this record.</p></>}</div>
         <dl className={styles.facts}>
           <div><dt>Faculty</dt><dd>{record.faculty ?? "Not yet verified"}</dd></div>
           <div><dt>Department</dt><dd>{record.department ?? "Not applicable or not yet verified"}</dd></div>
@@ -53,6 +53,12 @@ export default function Navigator() {
   const activeId = selectionForResults(selectedId, records);
   const selected = records.find(record => record.id === activeId);
   const mapped = useMemo(() => records.filter(record => isMappable(record, campusSources)), [records]);
+  const verifiedCount = campusRecords.filter(record => record.verification === "verified").length;
+  const hasMappedDestinations = campusRecords.some(record => isMappable(record, campusSources));
+  const onBrowseDirectory = useCallback(() => {
+    setView("list");
+    window.requestAnimationFrame(() => document.getElementById("campus-directory-search")?.focus());
+  }, []);
   const onSelect = useCallback((id: string) => setSelectedId(id), []);
   const categories = [...new Set(campusRecords.map(record => record.category))];
   const faculties = [...new Set(campusRecords.flatMap(record => record.faculty ? [record.faculty] : []))];
@@ -65,12 +71,13 @@ export default function Navigator() {
         <button aria-pressed={view === "list"} onClick={() => setView("list")}>Directory</button>
         <button aria-pressed={view === "map"} onClick={() => setView("map")}>Map</button>
       </div>
-      <div className={styles.workspace}>
+      <div className={`${styles.workspace} ${!hasMappedDestinations ? styles.directoryFirst : ""}`}>
         <section className={`${styles.directory} ${view === "map" ? styles.mobileHidden : ""}`} aria-labelledby="directory-heading">
-          <div className={styles.directoryHead}><span className={styles.eyebrow}>FIND YOUR STARTING POINT</span><h2 id="directory-heading">University directory</h2><p>Explore records. See exactly what is known.</p></div>
+          <div className={styles.directoryHead}><span className={styles.eyebrow}>FIND YOUR STARTING POINT</span><h2 id="directory-heading">University directory</h2><p>{verifiedCount} verified · {campusRecords.length - verifiedCount} awaiting source review</p></div>
           <div className={styles.filters}>
-            <label className={styles.searchLabel}>Search the directory<input type="search" placeholder="Search names or departments…" value={filters.query} onChange={event => setFilters(current => ({ ...current, query: event.target.value }))} /></label>
+            <label className={styles.searchLabel}>Search the directory<input id="campus-directory-search" type="search" placeholder="Search names or departments…" value={filters.query} onChange={event => setFilters(current => ({ ...current, query: event.target.value }))} /></label>
             <label>Category<select aria-label="Category" value={filters.category} onChange={event => setFilters(current => ({ ...current, category: event.target.value }))}><option>All categories</option>{categories.map(category => <option key={category}>{category}</option>)}</select></label>
+            <label>Verification<select aria-label="Verification" value={filters.verification} onChange={event => setFilters(current => ({ ...current, verification: event.target.value }))}><option>All records</option><option>Verified records</option><option>Candidates awaiting review</option></select></label>
             <div className={styles.filterPair}>
               <label>Faculty<select aria-label="Faculty" disabled={!faculties.length} value={filters.faculty} onChange={event => setFilters(current => ({ ...current, faculty: event.target.value }))}><option>All faculties</option>{faculties.map(faculty => <option key={faculty}>{faculty}</option>)}</select></label>
               <label>Department<select aria-label="Department" value={filters.department} onChange={event => setFilters(current => ({ ...current, department: event.target.value }))}><option>All departments</option>{departments.map(department => <option key={department}>{department}</option>)}</select></label>
@@ -79,14 +86,14 @@ export default function Navigator() {
           </div>
           <div className={styles.resultsHeading}><p role="status">{records.length} {records.length === 1 ? "record" : "records"} · {mapped.length} mapped</p><button className={styles.textButton} onClick={() => setFilters(emptyFilters)}>Reset filters</button></div>
           <ul className={styles.recordList} aria-label="Directory records">
-            {records.map(record => <li key={record.id}><button aria-pressed={activeId === record.id} aria-controls="navigator-details" className={styles.recordCard} onClick={() => onSelect(record.id)}><span className={styles.recordIcon} aria-hidden="true">{record.category === "University" ? "⌂" : "▤"}</span><span><small>{record.category}</small><strong>{record.name}</strong><span>{isMappable(record, campusSources) ? "Verified map position" : "Position awaiting verification"}</span></span><span aria-hidden="true">↗</span></button></li>)}
+            {records.map(record => <li key={record.id}><button aria-pressed={activeId === record.id} aria-controls="navigator-details" className={styles.recordCard} onClick={() => onSelect(record.id)}><span className={styles.recordIcon} aria-hidden="true">{record.category === "University" ? "⌂" : "▤"}</span><span><small>{record.category}</small><strong>{record.name}</strong><span>{record.verification === "candidate" ? "Candidate · source review pending" : isMappable(record, campusSources) ? "Verified map position" : "Verified institution · position pending"}</span></span><span aria-hidden="true">↗</span></button></li>)}
           </ul>
           {!records.length && <div className={styles.empty}><h3>No matching records</h3><p>Try another name or reset the filters. The directory will grow as reliable information is verified.</p><button className={styles.primaryButton} onClick={() => setFilters(emptyFilters)}>Clear filters</button></div>}
         </section>
-        <div className={`${styles.mapColumn} ${view === "list" ? styles.mobileHidden : ""}`}><CampusMap records={mapped} selectedId={activeId} onSelect={onSelect} /></div>
+        <div className={`${styles.mapColumn} ${view === "list" ? styles.mobileHidden : ""}`}><CampusMap records={mapped} selectedId={activeId} onSelect={onSelect} onBrowseDirectory={onBrowseDirectory} /></div>
         <div id="navigator-details" className={styles.detailColumn}>{selected ? <RecordDetails record={selected} /> : <section className={styles.empty}><h2>No destination selected</h2><p>Reset the directory filters to explore the available records.</p></section>}</div>
       </div>
-      <section className={styles.roadmap} aria-labelledby="navigator-progress-heading"><div><span className={styles.eyebrow}>A PREVIEW THAT GROWS WITH THE CAMPUS</span><h2 id="navigator-progress-heading">Useful today. More precise with verification.</h2></div><div><strong>Interactive now</strong><p>Search, category and department filters, record selection, map/list views and geographic map controls.</p></div><div><strong>Awaiting evidence</strong><p>Official directory review, campus coordinates, building photographs, landmarks and accessibility notes.</p></div><div><strong>Planned for the full release</strong><p>Verified entrances and internal walking paths. No campus walking guidance is available in this preview.</p></div></section>
+      <section className={styles.roadmap} aria-labelledby="navigator-progress-heading"><div><span className={styles.eyebrow}>A PREVIEW THAT GROWS WITH THE CAMPUS</span><h2 id="navigator-progress-heading">Useful today. More precise with verification.</h2></div><div><strong>Interactive now</strong><p>Search, category and verification filters, department filtering, record selection, source notes and map/directory views. Map navigation becomes available for verified destinations.</p></div><div><strong>Awaiting evidence</strong><p>Official directory review, campus coordinates, building photographs, landmarks and accessibility notes.</p></div><div><strong>Planned for the full release</strong><p>Verified entrances and internal walking paths. No campus walking guidance is available in this preview.</p></div></section>
     </>
   );
 }

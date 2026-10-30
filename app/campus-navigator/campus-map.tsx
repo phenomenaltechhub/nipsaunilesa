@@ -5,9 +5,9 @@ import type * as Leaflet from "leaflet";
 import type { CampusRecord } from "./data";
 import styles from "./navigator.module.css";
 
-type Props = { records: CampusRecord[]; selectedId: string | null; onSelect: (id: string) => void };
+type Props = { records: CampusRecord[]; selectedId: string | null; onSelect: (id: string) => void; onBrowseDirectory: () => void };
 
-export default function CampusMap({ records, selectedId, onSelect }: Props) {
+export default function CampusMap({ records, selectedId, onSelect, onBrowseDirectory }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<Leaflet.Map | null>(null);
   const leaflet = useRef<typeof Leaflet | null>(null);
@@ -16,14 +16,14 @@ export default function CampusMap({ records, selectedId, onSelect }: Props) {
   const [status, setStatus] = useState<"loading" | "ready" | "tiles-unavailable" | "unavailable">("loading");
 
   useEffect(() => {
-    if (!enabled || !container.current) return;
+    if (!enabled || !records.length || !container.current) return;
     let disposed = false;
     let instance: Leaflet.Map | null = null;
     const element = container.current;
     import("leaflet").then(L => {
       if (disposed) return;
       leaflet.current = L;
-      instance = L.map(element, { scrollWheelZoom: false, maxZoom: 19 }).setView([0, 0], 2);
+      instance = L.map(element, { scrollWheelZoom: false, maxZoom: 19 });
       map.current = instance;
       // Standard OSM tiles: no offline downloads, bulk prefetch or cache bypass.
       const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -32,13 +32,14 @@ export default function CampusMap({ records, selectedId, onSelect }: Props) {
       });
       tiles.on("tileerror", () => { if (!disposed) setStatus("tiles-unavailable"); });
       tiles.addTo(instance);
-      instance.whenReady(() => { if (!disposed) setStatus(current => current === "tiles-unavailable" ? current : "ready"); });
+      // The marker effect fits only verified destinations before the first map view.
+      setStatus("ready");
       const observer = new ResizeObserver(() => instance?.invalidateSize());
       observer.observe(element);
       instance.on("unload", () => observer.disconnect());
     }).catch(() => { if (!disposed) setStatus("unavailable"); });
     return () => { disposed = true; instance?.remove(); map.current = null; leaflet.current = null; };
-  }, [enabled, attempt]);
+  }, [enabled, attempt, records.length]);
 
   useEffect(() => {
     if (!map.current || !leaflet.current || !["ready", "tiles-unavailable"].includes(status)) return;
@@ -51,7 +52,7 @@ export default function CampusMap({ records, selectedId, onSelect }: Props) {
       const point: Leaflet.LatLngExpression = [record.position.latitude, record.position.longitude];
       points.push(point);
       const label = document.createElement("span");
-      label.textContent = `${record.name}${record.position.precision === "university" ? " — university reference, not a building" : ""}`;
+      label.textContent = record.name;
       const marker = L.marker(point, {
         keyboard: true,
         title: record.name,
@@ -67,22 +68,42 @@ export default function CampusMap({ records, selectedId, onSelect }: Props) {
       marker.addTo(group);
     }
     const selected = records.find(record => record.id === selectedId);
-    if (selected?.position) currentMap.setView([selected.position.latitude, selected.position.longitude], selected.position.precision === "university" ? 15 : 18, { animate: false });
+    if (selected?.position) currentMap.setView([selected.position.latitude, selected.position.longitude], 18, { animate: false });
     else if (points.length) currentMap.fitBounds(L.latLngBounds(points), { padding: [30, 30], maxZoom: 16, animate: false });
     return () => { group.remove(); };
   }, [records, selectedId, onSelect, status, attempt]);
 
+  if (!records.length) return (
+    <section className={styles.mapPanel} aria-label="Campus mapping status">
+      <div className={styles.mapHeading}>
+        <div><span className={styles.eyebrow}>MAPPING IN PROGRESS</span><h2>No verified destinations to map yet</h2></div>
+        <span className={styles.count}>0 mapped</span>
+      </div>
+      <div className={`${styles.mapConsent} ${styles.unmappedState}`}>
+        <h3>The directory is your starting point.</h3>
+        <p>Precise campus destinations are still being verified. Until then, explore the directory and its source notes. A general university reference point is not a building location.</p>
+        <ol className={styles.mapRequirements}>
+          <li>Confirm the official name and purpose.</li>
+          <li>Verify the actual building or entrance coordinates.</li>
+          <li>Publish its marker with clear source evidence.</li>
+        </ol>
+        <p>No campus pins, walking directions or map-navigation controls are offered without that evidence.</p>
+        <button className={styles.primaryButton} onClick={onBrowseDirectory}>Browse directory</button>
+      </div>
+    </section>
+  );
+
   return (
     <section className={styles.mapPanel} aria-label="Campus reference map">
       <div className={styles.mapHeading}>
-        <div><span className={styles.eyebrow}>GEOGRAPHIC VIEW</span><h2>{records.length ? "Verified map positions" : "Campus mapping is being verified"}</h2></div>
+        <div><span className={styles.eyebrow}>GEOGRAPHIC VIEW</span><h2>Verified map positions</h2></div>
         <span className={styles.count}>{records.length} mapped</span>
       </div>
       {!enabled ? (
         <div className={styles.mapConsent}>
           <span className={styles.mapGlyph} aria-hidden="true">◎</span>
           <h3>A real map. Only verified pins.</h3>
-          <p>{records.length ? "Select a verified destination on the map or in the directory." : "No campus coordinates have been independently verified yet. You can explore a world reference map; it is not a campus plan and contains no campus pins."}</p>
+          <p>Select a verified destination on the map or in the directory.</p>
           <button className={styles.primaryButton} onClick={() => { setStatus("loading"); setEnabled(true); }}>Load interactive map <span aria-hidden="true">↗</span></button>
           <small>Loads map tiles from OpenStreetMap. Your browser connects to its servers. No geolocation is requested.</small>
         </div>
@@ -96,7 +117,6 @@ export default function CampusMap({ records, selectedId, onSelect }: Props) {
               <button className={styles.textButton} onClick={() => { setStatus("loading"); setAttempt(value => value + 1); }}>Retry map</button>
             </div>
           ) : null}
-          {!records.length && <p className={styles.mapCaption}>World reference map · campus centre and building positions await verification.</p>}
         </>
       )}
       <div className={styles.mapFoot}><span><i aria-hidden="true" /> Verified positions only</span><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors ↗</a></div>

@@ -2,11 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import ts from 'typescript';
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+const require = createRequire(import.meta.url);
 
 async function load(relative) {
   const source = readFileSync(new URL(relative, import.meta.url), 'utf8');
-  const { outputText } = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 } });
-  return import(`data:text/javascript;base64,${Buffer.from(outputText).toString('base64')}`);
+  const { outputText } = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX } });
+  const resolved = outputText
+    .replaceAll('"react/jsx-runtime"', JSON.stringify(pathToFileURL(require.resolve('react/jsx-runtime')).href))
+    .replaceAll('"react"', JSON.stringify(pathToFileURL(require.resolve('react')).href))
+    .replace('"./navigator.module.css"', JSON.stringify('data:text/javascript,export default {}'));
+  return import(`data:text/javascript;base64,${Buffer.from(resolved).toString('base64')}`);
 }
 const { campusRecords, campusSources } = await load('../app/campus-navigator/data.ts');
 const { validateCampusData, filterCampusRecords, emptyFilters, selectionForResults, validCoordinates, isMappable, getDirectionsUrl, safeSourceUrl, missingPositionMessage } = await load('../app/campus-navigator/model.ts');
@@ -103,4 +112,42 @@ test('source metadata rejects duplicate identities and non-HTTPS links', () => {
   assert.ok(validateCampusData([record], [...sources, sources[0]]).length);
   assert.ok(validateCampusData([record], sources.map(source => ({ ...source, url: 'javascript:alert(1)' }))).length);
   assert.equal(safeSourceUrl('https:example.org'), null);
+});
+
+test('verified institutional names do not imply precise physical destinations', () => {
+  const entity = { ...record, kind: 'institutional-entity', position: null };
+  assert.deepEqual(validateCampusData([entity], sources), []);
+  assert.equal(isMappable(entity, sources), false);
+  assert.equal(getDirectionsUrl(entity, sources), null);
+  assert.equal(isMappable({ ...record, kind: 'institutional-entity' }, sources), false);
+  assert.equal(isMappable({ ...record, position: { ...record.position, precision: 'university' } }, sources), false);
+});
+test('verification filter separates reviewed records from unresolved candidates', () => {
+  const candidate = { ...record, id: 'candidate-fixture', name: 'Candidate fixture', verification: 'candidate', position: null };
+  const directory = [record, candidate];
+  assert.deepEqual(filterCampusRecords(directory, { ...emptyFilters, verification: 'Verified records' }).map(item => item.id), [record.id]);
+  assert.deepEqual(filterCampusRecords(directory, { ...emptyFilters, verification: 'Candidates awaiting review' }).map(item => item.id), [candidate.id]);
+  assert.deepEqual(filterCampusRecords(directory, { ...emptyFilters, query: 'Candidate', verification: 'Verified records' }), []);
+  assert.equal(filterCampusRecords(directory, emptyFilters).length, 2);
+});
+test('current source-blocked dataset makes no new verification or coordinate claims', () => {
+  assert.equal(campusRecords.filter(item => item.verification === 'verified').length, 0);
+  assert.equal(campusRecords.filter(item => isMappable(item, campusSources)).length, 0);
+  assert.ok(campusRecords.every(item => item.position === null && item.photographs.length === 0));
+});
+
+const { default: CampusMap } = await load('../app/campus-navigator/campus-map.tsx');
+test('empty map renders useful directory guidance without misleading navigation controls', () => {
+  const html = renderToStaticMarkup(createElement(CampusMap, { records: [], selectedId: null, onSelect() {}, onBrowseDirectory() {} }));
+  assert.ok(html.includes('No verified destinations to map yet'));
+  assert.ok(html.includes('Browse directory'));
+  assert.ok(!html.includes('Load interactive map'));
+  assert.ok(!html.includes('World reference map'));
+  assert.ok(!html.includes('use zoom controls'));
+});
+test('map architecture retains an explicit loading action when verified destinations exist', () => {
+  const html = renderToStaticMarkup(createElement(CampusMap, { records: [record], selectedId: record.id, onSelect() {}, onBrowseDirectory() {} }));
+  assert.ok(html.includes('Load interactive map'));
+  assert.ok(html.includes('OpenStreetMap contributors'));
+  assert.ok(html.includes('No geolocation is requested'));
 });

@@ -1,35 +1,47 @@
-# Local review draft: Campus Navigator interactive preview
+# Campus Navigator publication PR draft
 
-**Not a hosted PR. Do not push, merge or deploy without approval.** The feature branch is stacked on `work`; security commit `a682b4c` must remain unchanged. The security PR must be merged before rebasing this feature onto the updated approved `main` and preparing a separate main-targeting PR.
+Suggested title: **Campus Navigator: publish a transparent directory-first interactive preview**
+
+Base: `main`. Head: `feature/campus-navigator-preview`. The feature is stacked on `work` security commit `a682b4c`; Navigator commits `55bfbab` and `d636dc7` remain unchanged. The owner has authorized committing outstanding Navigator improvements and pushing this feature branch for review. No force-push, merge or deployment is authorized.
+
+## Dependency and release order
+
+At the last remote check, `origin/main` still points to `07037256304e13e9994b2f849db0878dec931ce8`; the security commit has not been incorporated. **Do not merge or deploy the Navigator before the security release.** A main-targeting PR will temporarily include the existing security commit in its ancestry/diff. No security files are newly modified by the Navigator commits. After security approval/merge, inspect the actual merge strategy and safely reconcile the feature history without replaying security changes or force-pushing; rerun all checks. The final release handoff records actual push and hosted-PR outcomes. GitHub API calls currently return Forbidden, so hosted PR/check status is not inferred from Git transport.
 
 ## Summary
 
-Replace the text-only Campus Navigator with a responsive map/directory/details interface, route-scoped styling and browser-only Leaflet. Include local search, category/faculty/department filtering, selection reconciliation, mobile Map/Directory switching, explicit tile-service consent, attribution and graceful service failures. Add typed evidence/coordinate/photo metadata, marker eligibility checks and fixed-origin external directions generation, plus source and maintenance documentation.
+- Replace the text-heavy campus page with a directory-first interactive preview: local search, category/verification/faculty/department filters, selected-record profiles, source notes and mobile Map/Directory switching.
+- Keep **Campus Navigator — Interactive Preview** visible and use accurate current-versus-planned feature copy and SEO metadata.
+- Explicitly identify unresolved candidates, show verified/candidate counts and allow verified-only filtering; do not promote unreviewed names to confirmed records.
+- With no verified physical destinations, show informative mapping status rather than an empty map, world reference view or misleading navigation controls. The directory/details remain primary.
+- Preserve browser-only Leaflet loading, explicit tile consent, attribution, destination selection and service-error/retry architecture for future verified physical destinations. General university coordinates cannot become building pins or directions.
+- Add evidence-aware data checks, security/regression tests, a reproducible browser smoke/screenshot script and source/maintenance documentation. No paid API, backend, database, geolocation permission or fabricated campus information is introduced.
 
-## Critical data caveat — not ready for public-data release
+## Current coverage and transparency
 
-Official University of Ilesa and OSM source reads were blocked by the environment proxy. The directory currently contains only two **candidate** records grounded in the existing NIPSA repository: University of Ilesa and Department of Pharmacology. They are not claimed as independently verified official-directory entries. There are **zero verified campus coordinates**, **zero campus markers**, no campus photographs or invented landmarks, and no internal route guidance. The map explicitly offers a world reference view rather than pretending to show the campus. University-level points, if later verified, cannot be used as building directions.
+**0 verified directory records, 2 candidates, 0 verified markers.** University of Ilesa and Department of Pharmacology are grounded in the existing NIPSA repository but await independent official-source review. No campus photographs, landmarks, accessibility claims or routes have been invented. Official and OSM source reads previously returned proxy 403; these blocked requests are not repeatedly retried. Full location coverage, verified coordinates and route navigation remain under development.
 
-Enable the saved university/OSM network domain requirements in environment settings and resume source review before treating this as the requested data-complete, publicly publishable preview. Do not invent records to close the gap. A network draft save does not establish working runtime access.
+This can be presented as a clearly labeled experimental interface after owner review and the security release. It must not be advertised as a verified campus directory or usable wayfinding service. Sources and evidence requirements are documented in `docs/CAMPUS_NAVIGATOR_SOURCES.md` and `docs/CAMPUS_NAVIGATOR_MAINTENANCE.md`.
 
 ## Validation
 
-Executed on 30 October 2026:
-
-- Clean `npm ci` passed; lint passed without errors/warnings.
-- `npm test`: 67 individual tests passed (47 existing security + 20 navigator), no failures/skips. The sandbox's file-only summaries were not counted as successful case execution.
+- Clean installation and lint passed.
+- **72 individual tests passed**: 47 existing security tests and 25 Navigator cases; zero failures/skips. Includes verification filters, institutional-versus-physical distinction, exclusion of university reference points, coordinate/source/rights checks, safe directions generation and component-rendered empty/loading map states.
 - `npm audit`: zero reported vulnerabilities.
-- Default `npm run build`: compiled, type-checked and exported all 38 static outputs successfully after preserving/clearing stale generated cache. The earlier restricted-worker failure and webpack/gallery diagnostic are documented in the maintenance guide, not hidden.
-- `npm run check:export`: 35 HTML documents, 72 same-origin asset/link references and 65 JSON-LD blocks; no missing internal references.
-- Chromium desktop 1440×1100 and mobile 390×844 smoke checks passed for search/filtering, record/detail selection, empty/reset behavior, safe source links, map consent/zoom, tile service failure/retry, zero unverified pins, mobile view switching, JSON-LD and no horizontal overflow/uncaught runtime errors. Real map tiles and external source availability were not validated; third-party requests were deliberately blocked.
-- Patch whitespace and changed-file scope checks passed. Security commit remains unchanged. Remote `main` still points to `0703725`; no conditional rebase was performed.
+- Default `npm run build`: compilation, TypeScript and 38 static outputs passed.
+- `npm run check:export`: 35 HTML documents, 72 local asset/link references, 65 valid JSON-LD blocks and no missing internal references.
+- Desktop Chromium 1440×1100 and mobile 390×844 smoke tests exercise search, category/verification/department filtering, candidate selection/details, empty/reset states, safe links, mobile Map/Directory return/focus, zero empty-map controls/tile requests, JSON-LD and no overflow/uncaught runtime errors. Actual production-export screenshots are supplied in the cloud handoff; external fonts/analytics are blocked during capture, so typography can fall back.
+- No real marker/tile-service/route interaction is claimed with the current zero-coordinate dataset. The retained positive map-loading branch is component-tested, not a claim of live source verification.
+- Whitespace and changed-file scope checks pass. No source retries, indexing integration, DNS/hosting changes, merges or deployments are part of this publication preparation.
 
- Required gates are clean installation, lint, existing security/new navigator tests, dependency audit, default production build, static-export references and optional desktop/mobile browser smoke tests. The optional Playwright script blocks third-party services intentionally to exercise offline fallbacks and makes no live tile-service or photograph claim. Synthetic test coordinates never ship in production data.
+## Changed-file scope
 
-## Review scope
+Against `work`: only `app/campus-navigator/*`, the minimal Leaflet/type manifest/lockfile additions, Navigator tests/browser script and `CAMPUS_NAVIGATOR_*` documentation. Shared header/footer, security implementation/tests, security report, deployment workflow, navigation configuration and public assets are preserved.
 
-Only `app/campus-navigator/*`, new navigator tests/browser script/docs, and the minimal Leaflet/type-definition manifest/lockfile additions belong in the feature diff against `work`. Existing security tests, security documentation, deployment workflow, shared header/footer, navigation and public assets are unchanged. No API, backend, paid service, geolocation permission, indexing integration or hosting change is introduced.
+## Owner release steps
 
-## After security approval
-
-Inspect the actual security merge strategy, fetch updated main, and rebase only feature commits as described in the maintenance guide. Resolve dependency/lockfile conflicts without dropping the approved security versions. Rerun all gates and browser checks before seeking approval to push and open the separate feature PR. No rebase or hosted PR is claimed until that prerequisite exists and publication is authorized.
+1. Merge the reviewed security PR first. Confirm the security pipeline/release result.
+2. Inspect/reconcile Navigator history against updated approved `main` without force-pushing; rerun lint, tests, audit, build, export and browser checks.
+3. Review the preview's visible limitations and screenshots. Merging this PR into `main` triggers the existing GitHub Pages deployment; merge only with explicit owner approval.
+4. Inspect the actual Actions result and smoke-test the production `/campus-navigator` route, search/filters/details, mobile switching, source disclosures, sitemap/robots and shared navigation.
+5. Add verified institutional names/purposes progressively after readable official evidence is available. Add markers only for independently verified physical destinations; no campus route promises without verified route information.

@@ -9,7 +9,7 @@ import styles from "./navigator.module.css";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Campus Navigator — Interactive Preview",
-  description: "Explore the planned Campus Navigator through an interactive map and searchable university directory. Further campus locations and navigation features are being verified.",
+  description: "Search university directory records and review their verification status. Precise campus mapping is being prepared for the University of Ilesa.",
   path: "/campus-navigator",
 });
 
@@ -20,7 +20,7 @@ export default function CampusNavigatorPage() {
       <Header currentPath="/campus-navigator" />
       <main className={`page-main container ${styles.page}`}>
         <section className={styles.hero} aria-labelledby="campus-navigator-title">
-          <div><p className={styles.previewBadge}><span /> Campus Navigator — Interactive Preview</p><h1 id="campus-navigator-title">Find your way.<br /><em>Know your campus.</em></h1><p className={styles.lead}>Explore the planned Campus Navigator through an interactive map and searchable university directory. Available information is sourced from public university and geographical records, while further campus locations and navigation features are being verified.</p><p className={styles.heroNote}>University of Ilesa <span aria-hidden="true">/</span> Public preview · under development</p></div>
+          <div><p className={styles.previewBadge}><span /> Campus Navigator — Interactive Preview</p><h1 id="campus-navigator-title">Find your way.<br /><em>Know your campus.</em></h1><p className={styles.lead}>Explore the Campus Navigator preview through a searchable directory and source-linked record profiles. Campus locations and map features will be added only as official information and precise destinations are verified.</p><p className={styles.heroNote}>University of Ilesa <span aria-hidden="true">/</span> Public preview · under development</p></div>
           <aside className={styles.heroAside}><span aria-hidden="true">↗</span><strong>Start with what<br />we can verify.</strong><p>A directory record is not a building pin. Precise positions appear only after geographical verification.</p></aside>
         </section>
         <Navigator />

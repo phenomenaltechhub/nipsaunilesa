@@ -779,3 +779,50 @@
     scroll-behavior:auto;
   }
 }
+
+/* With no precise destinations, give directory and details the main canvas. */
+.directoryFirst {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+}
+.directoryFirst .directory {
+  grid-column: 1;
+  grid-row: 1;
+}
+.directoryFirst .mapColumn {
+  grid-column: 1;
+  grid-row: 2;
+}
+.directoryFirst .detailColumn {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+.directoryFirst .details {
+  display: block;
+}
+.unmappedState {
+  min-height: 0;
+  align-items: flex-start;
+  text-align: left;
+  padding: 22px;
+}
+.unmappedState p {
+  max-width: none;
+}
+.mapRequirements {
+  padding-left: 18px;
+  margin: 0 0 20px;
+  font-size: 11px;
+  line-height: 1.9;
+  color: #587365;
+}
+@media (max-width: 760px) {
+  .directoryFirst {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .directoryFirst .directory,
+  .directoryFirst .mapColumn,
+  .directoryFirst .detailColumn {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}

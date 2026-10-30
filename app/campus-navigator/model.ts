@@ -1,7 +1,7 @@
 import type { CampusRecord, Source } from "./data";
 
-export type DirectoryFilters = { query: string; category: string; faculty: string; department: string };
-export const emptyFilters: DirectoryFilters = { query: "", category: "All categories", faculty: "All faculties", department: "All departments" };
+export type DirectoryFilters = { query: string; category: string; faculty: string; department: string; verification: string };
+export const emptyFilters: DirectoryFilters = { query: "", category: "All categories", faculty: "All faculties", department: "All departments", verification: "All records" };
 export const missingPositionMessage = "Exact campus location awaiting verification.";
 
 export function safeSourceUrl(value: string) {
@@ -23,9 +23,9 @@ function validDate(value: string) {
 
 export function isMappable(record: CampusRecord, sources: Source[]) {
   const position = record.position;
-  return record.verification === "verified" && !!position &&
+  return record.verification === "verified" && record.kind === "physical-destination" && !!position &&
     validCoordinates(position.latitude, position.longitude) && position.independentlyVerified &&
-    ["university", "building", "entrance"].includes(position.precision) && validDate(position.verifiedOn) &&
+    ["building", "entrance"].includes(position.precision) && validDate(position.verifiedOn) &&
     position.sourceIds.length > 0 && position.sourceIds.every(id => sources.some(source =>
       source.id === id && source.access === "reviewed" && !!source.evidence && !!safeSourceUrl(source.url),
     )) && position.sourceIds.some(id => sources.some(source => source.id === id && source.kind === "geographic-record"));
@@ -46,7 +46,8 @@ export function filterCampusRecords(records: CampusRecord[], filters: DirectoryF
     (!query || [record.name, record.description, record.faculty, record.department].filter(Boolean).join(" ").toLocaleLowerCase().includes(query)) &&
     (filters.category === "All categories" || record.category === filters.category) &&
     (filters.faculty === "All faculties" || record.faculty === filters.faculty) &&
-    (filters.department === "All departments" || record.department === filters.department),
+    (filters.department === "All departments" || record.department === filters.department) &&
+    (filters.verification === "All records" || (filters.verification === "Verified records" ? record.verification === "verified" : record.verification === "candidate")),
   );
 }
 
