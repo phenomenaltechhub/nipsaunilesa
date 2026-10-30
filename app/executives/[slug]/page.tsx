@@ -37,6 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 function ExecutivePhoto({ executive }: { executive: (typeof executives)[number] }) {
   return executive.image ? (
     <span className={`homepage-executive-portrait ${executive.tone}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- Static export uses CSS-sized native images; preserve existing rendering without an image service. */}
       <img src={executive.image} alt={`Portrait of ${executive.name}, ${getExecutiveOfficeLabel(executive.role)}, NIPSA-UNILESA`} />
     </span>
   ) : (

@@ -28,7 +28,7 @@ const resources: Resource[] = [
     description: "Practical study-planning and revision support for students looking to strengthen their academic routines and learning habits.",
     category: "Academic and study support",
     type: "Download",
-    href: "/resources/nipsa-study-skills-guide.docx",
+    href: "/resources/nipsa-study-skills-guide.pdf",
     actionLabel: "Download study guide",
     audience: "Students",
     format: "PDF",

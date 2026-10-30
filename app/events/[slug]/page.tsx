@@ -119,6 +119,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
             {event.image ? (
               <div className="event-feature-image-wrap">
+                {/* eslint-disable-next-line @next/next/no-img-element -- Static export uses CSS-sized native images; preserve existing rendering without an image service. */}
                 <img src={event.image} alt={event.title} className="event-feature-image" />
               </div>
             ) : null}

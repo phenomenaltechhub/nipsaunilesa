@@ -6,10 +6,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent, RefObject } from "react";
 import {
   advertisements,
+  getSanitizedAdImage,
   sanitizePublicAdCopy,
   validateHomepageNotification,
   type Advertisement,
 } from "./data";
+
+import { getAdUrlPlatform, validateAdContactUrl } from "./url-safety";
 
 const batchSize = 5;
 const stackSize = 136;
@@ -78,17 +81,16 @@ function getActionName(href: string) {
   const url = href.toLowerCase();
   if (url.startsWith("mailto:")) return "Email";
   if (url.startsWith("tel:")) return "Call";
-  if (url.includes("wa.me") || url.includes("whatsapp")) return "WhatsApp";
-  if (url.includes("instagram.com")) return "Instagram";
-  if (url.includes("facebook.com")) return "Facebook";
-  if (url.includes("tiktok.com")) return "TikTok";
+  const platform = getAdUrlPlatform(href);
+  if (platform) return platform === "whatsapp" ? "WhatsApp" : platform.charAt(0).toUpperCase() + platform.slice(1);
   return "Contact";
 }
 
 function getPrimaryContact(ad: Advertisement) {
-  if (ad.contactHref) return { href: ad.contactHref, label: getActionName(ad.contactHref) };
-  if (ad.phone) return { href: `tel:${ad.phone.replace(/\s+/g, "")}`, label: "Call" };
-  if (ad.email) return { href: `mailto:${ad.email}`, label: "Email" };
+  for (const candidate of [ad.contactHref, ad.phone ? `tel:${ad.phone.replace(/\s+/g, "")}` : undefined, ad.email ? `mailto:${ad.email}` : undefined]) {
+    const href = validateAdContactUrl(candidate);
+    if (href) return { href, label: getActionName(href) };
+  }
   return null;
 }
 
@@ -123,7 +125,7 @@ function AdNotificationCard({
       data-no-drag
     >
       <div className="ads-discovery-panel__visual" aria-hidden="true">
-        <Image src={ad.image} alt="" fill sizes="72px" unoptimized />
+        <Image src={getSanitizedAdImage(ad)} alt="" fill sizes="72px" unoptimized />
         <span className="ads-discovery-panel__visual-wash" />
       </div>
       <div className="ads-discovery-panel__body">
@@ -411,7 +413,7 @@ export default function HomepageAdsNotification() {
           <div className="ads-discovery-stack__thumbnails" aria-hidden="true">
             {batch.map((ad, index) => (
               <span className={`ads-discovery-stack__thumbnail ads-discovery-stack__thumbnail--${index}`} key={ad.id}>
-                <Image src={ad.image} alt="" fill sizes="340px" unoptimized />
+                <Image src={getSanitizedAdImage(ad)} alt="" fill sizes="340px" unoptimized />
               </span>
             ))}
           </div>

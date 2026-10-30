@@ -12,6 +12,7 @@ import {
   advertisementCategories,
   advertisements,
   getAdSummary,
+  getSanitizedAdImage,
   sanitizePublicAdCopy,
   hasDedicatedAdPage,
   type Advertisement,
@@ -34,7 +35,7 @@ function AdCard({ ad, anchorId }: { ad: Advertisement; anchorId?: string }) {
       <div className="ads-card__media-wrap">
         <Image
           className="ads-card__image"
-          src={ad.image}
+          src={getSanitizedAdImage(ad)}
           alt={`${ad.businessName} logo or placeholder`}
           width={640}
           height={360}
