@@ -24,11 +24,11 @@
 2. Publishing: announcements, official notices/memos, articles/news, events, homepage placements.
 3. Resources & opportunities: approved academic links and files, opportunities and categories.
 4. Student Ads: student/external application; review; quotation; policy consent; Paystack confirmation; final review; publication; expiry; renewal; Basic/Premium/Premium Plus and featured placements.
-5. Departmental Gallery: public albums grouped by event/date/level; images, captions, consent and attribution, thumbnails, accessible alt text, rights, moderation, archive; Google Drive for originals as appropriate.
+5. Departmental Gallery: public albums grouped by event/date/level; images, captions, consent and attribution, thumbnails, accessible alt text, rights, moderation, archive; Google Drive for originals as appropriate. Future watermarking: private originals, publicly delivered optimised watermarked image derivatives with NIPSA UNILESA website identity. Implement at publishing/asset-generation time rather than merely CSS. Final watermark artwork approved later.
 6. Website management: Campus Navigator verified location data/content, shared site footer and link integrity (no invented map coordinates).
 7. Settings: media management, editorial roles, backups, logs, integration/deploy status.
 - Roles may have several accounts each. Administrator has technical/configuration control AND explicit full publishing rights; Editor-in-Chief, Contributor, Media Editor, Ads Editor and restricted publisher are separate permission sets. Do not pre-create staff accounts.
-- Workflow: Draft -> Submitted -> Review/Revisions -> Approved -> Scheduled -> Published -> Archived. Local browser approval is NOT public publication.
+- Workflow: Draft -> Submitted -> Review/Revisions -> Approved -> Scheduled -> Published -> Archived. Local browser approval is NOT public publication. Optional verified author/sender attribution on announcements, memos and articles: staff, EXCO, class representative or official NIPSA account, with visible position and immutable underlying authenticated actor/audit ID; never allow arbitrary impersonated titles. No staff accounts should be precreated.
 
 ## Student PWA — completed design scope for release
 - One PWA, three level-specific dashboard views: 100L, 200L, 300L, each controlled by the server account level; student visible by real registered name and level, not username.
@@ -39,7 +39,7 @@
 - Existing public website resources link into PWA without duplicated storage. Public Google Drive anyone-with-link material is NOT private merely because viewed from PWA.
 - Glossary: reviewed searchable pharmacology concepts with mechanism/functions/related terms/bookmarks, persistent automatically selected Term of the Day (no auto-disappear).
 - Notifications: in-app feed, targeted level/role/department notices; selected executives gain explicitly assigned publishing privileges. Actual browser push only after verified implementation and consent.
-- Community: exactly ONE full-window general department chat; WhatsApp-style swipe-right-to-reply/quote, @mentions, reactions, avatar profile dialog, group info and member listing, message reporting, chat-only suspension, action audit. Chat stays LOCKED during dues registration, and unlocks only on explicit admin readiness decision after server/realtime load tests and adequate funding. Do not implement level-based chatrooms, direct audio calling or media chat at release.
+- Community: exactly ONE full-window general department chat; WhatsApp-style swipe-right-to-reply/quote, @mentions, reactions, avatar profile dialog, group info and member listing, message reporting, chat-only suspension, action audit. Chat defaults LOCKED during dues registration; an authorised PWA administrator can OPEN or CLOSE it at ANY TIME once safe infrastructure exists. Closing disables posting using server-side checks, preserves appropriate read-only history and logs the action. No automatic unlock based solely on funds collected. Do not implement level-based chatrooms, direct audio calling or media chat at release.
 - Profile/avatar: curate ~20 small static pharmacology/student medicine themed SVG avatar choices (including science icons and diverse clinician illustrations); no personal image uploads. Display student registered name, level, verified office title AND actual name for executives/CRs.
 - Account activation: batches released AFTER successful paid roster import; at activation verify identity/ownership using a secure method to be determined, set password, then administrator approves PWA access. Later logins email/password.
 - Recovery: student contacts admin; admin verifies and issues one-time expiring reset credential/link; student changes password immediately. Never email shared default passwords or forbid urgent changes for one week. Password reset revokes existing sessions. Do not build invasive cross-device tracking.
@@ -47,7 +47,7 @@
 - Graduation: deactivate access and apply disclosed data-retention/deletion policy, preserving only records required by applicable obligations.
 
 ## Design identity
-- Final companion-app name is undecided: use NIPSA UNILESA Student PWA as temporary title, preserve NIPSA chapter affiliation and existing logo until new companion identity is approved.
+- Companion brand is PHARMAIDEIA (selected name), by NIPSA UNILESA. Selected visual identity Concept B: Book–Molecule Interlock (interlocking open-book pages and molecule bonds). Implement an original scalable SVG app emblem with PWA 192/512 icons, mono and light/dark variants. Keep assets editable for future revisions requested by authorised staff/executives. Do not recreate the NIPSA National symbol.
 - Visual direction: course-first, contemporary Moodle/Canvas/Google Classroom-inspired navigation (NOT copying their design); emerald/teal, white/light backgrounds, subtle glass nav, compact real academic content, mobile bottom nav + desktop sidebar.
 - Do not generate placeholder students, fake announcement identities, fabricated timetable/source content or non-functional controls that look active.
 
@@ -57,6 +57,17 @@
 - docs/nipsa-platform/ for diagrams, source schemas, payment import format, permission matrix, editorial/PWA dependency matrix, cost and operations notes.
 - future: a separate backend/ folder for PHP APIs and migrations only after hosting resources are secured.
 - Editorial Site source should be imported only after retrieval of the owned original project/ZIP, with provenance documented.
+
+## Security and data safety — highest priority; release gates
+- Threat-model every shared workflow before implementing it, using least-privilege server-enforced RBAC. Client-side guards, hidden URLs, localStorage and payment redirects are NOT security boundaries.
+- Collect minimum necessary student personal information, with disclosed retention/deletion and rights, photo consent/withdrawal, protected exports, encrypted offsite backups and tested restoration.
+- Repository is PUBLIC: never commit actual student records, NIN/BVN, database dumps, account credentials, API/Paystack secrets, private media or tokens. Add secret scans and safe example env placeholders.
+- Use strong password hashing (Argon2id where available), secure HttpOnly/Secure/SameSite cookies, CSRF checks, narrow CORS, input validation/output encoding, rate limiting, audit logs, safe errors and admin MFA where feasible.
+- Do not create shared/permanent default passwords. Admin-assisted recovery must verify identity, issue one-time expiring credential/link, force immediate password change and invalidate existing sessions. Students can change compromised passwords immediately; never delay security changes one week.
+- Paystack dues registration is hosted by Paystack without a backend. When APIs become available, independently verify server-side reference/status/amount/currency/signature and handle retries/idempotency/chargebacks; never trust frontend payment callbacks.
+- Validate file MIME/size/content, permissions and source; scan uploads where possible; keep private originals outside public paths and prevent unauthorized downloads; Drive 'anyone with link' is not confidential.
+- Test cross-level access isolation, position grant/revoke, accurate author attribution, rollback, moderation and server-side community open/close. A closed community rejects ALL write requests even if clients bypass controls.
+- Require security CI, dependency updates/audits, responsive/accessibility testing and privacy, backup/restore and incident-response reviews before live student accounts, remote content publishing, payments or chat are declared production-ready.
 
 ## Phased implementation & gates
 1. Baseline: inspect current production site and CI; record exact modules and dependencies. Add no secrets; create feature tests; isolate all work on this branch.
@@ -73,6 +84,9 @@
 - All promised launch features must be real and tested, or clearly held behind an intentional administrative availability gate (e.g. locked chat).
 - The PWA cannot be publicly described as a fully operational authenticated student application until backend, privacy controls, payment roster import, permissions and QA are complete.
 - Connected cross-platform workflows must be exercised end to end, with recovery for failures and auditability.
+
+## Mobile Codex execution context
+- The owner is using SMARTPHONE, and an existing Codex Cloud environment named nipsaunilesa already exists. Locate/fetch the remote branch development/nipsa-student-platform in THAT environment; do not ask for PC setup or create another branch/environment/repository. Preserve main.
 
 ## Technical checks
 - Verify npm run lint, npm test, npm run build, npm run check:export on unmodified Next.js baseline and after changes. Keep npm network usage minimal.
