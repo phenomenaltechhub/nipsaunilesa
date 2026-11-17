@@ -32,4 +32,7 @@
   --shadow-dialog: 0 24px 80px #073e3526;
   --focus-ring: 0 0 0 3px #fff, 0 0 0 6px #116d72;
   --transition: 120ms ease;
+  --sidebar-width: 254px;
+  --content-width: 1280px;
+  --control-height: 44px;
 }

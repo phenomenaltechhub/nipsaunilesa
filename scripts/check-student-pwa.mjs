@@ -3,16 +3,27 @@ import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 import { publicAssets } from '../student-pwa/src/pwa/cache-policy.js';
+import { avatars } from '../student-pwa/src/modules/account/avatars.js';
 
 const root = path.resolve('student-pwa');
 const manifest = JSON.parse(fs.readFileSync(path.join(root, 'manifest.webmanifest'), 'utf8'));
 assert.equal(manifest.start_url, './');
 assert.equal(manifest.scope, './');
 assert.equal(manifest.display, 'standalone');
+let publicBytes = 0; let javascriptBytes = 0;
 for (const asset of publicAssets) {
   const file = path.resolve(root, asset === './' ? 'index.html' : asset);
   assert.ok(file.startsWith(root + path.sep));
   assert.ok(fs.statSync(file).isFile(), `Missing public shell asset: ${asset}`);
+  publicBytes += fs.statSync(file).size;
+  if (file.endsWith('.js')) javascriptBytes += fs.statSync(file).size;
+}
+assert.ok(publicBytes <= 200_000, `Public offline shell exceeds 200 KB: ${publicBytes}`);
+assert.ok(javascriptBytes <= 80_000, `PWA JavaScript exceeds 80 KB: ${javascriptBytes}`);
+assert.equal(avatars.length, 20); assert.equal(new Set(avatars.map(avatar => avatar.id)).size, 20);
+for (const name of ['atlas', ...avatars.map(avatar => avatar.id)]) {
+  const svg = fs.readFileSync(path.join(root, 'assets/avatars', name + '.svg'), 'utf8');
+  assert.ok(!/<script\b|<foreignObject\b|\son[a-z]+\s*=|(?:href|src)=["'](?:https?:|\/\/|data:|javascript:)/i.test(svg), `Active/external avatar content: ${name}`);
 }
 for (const icon of manifest.icons) {
   const meta = await sharp(path.join(root, icon.src)).metadata();
@@ -38,4 +49,4 @@ for (const [foreground, background] of [['text', 'bg'], ['text', 'surface'], ['m
   const values = [luminance(color(foreground)), luminance(color(background))].sort((a, b) => a - b);
   assert.ok((values[1] + .05) / (values[0] + .05) >= 4.5, `Insufficient text contrast: ${foreground}/${background}`);
 }
-console.log(`PWA integrity passed: ${publicAssets.length} explicit public assets, 4 manifest icon dimensions, 7 text-contrast pairs, isolated scope and restrictive document policy.`);
+console.log(`PWA integrity passed: ${publicAssets.length} public assets (${publicBytes} bytes, ${javascriptBytes} bytes JS), 20 safe SVG avatars, 4 icon dimensions, 7 contrast pairs, isolated scope/document policy. Budgets: 200 KB shell / 80 KB JS.`);

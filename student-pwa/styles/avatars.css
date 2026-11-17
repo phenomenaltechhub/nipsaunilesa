@@ -1,0 +1,22 @@
+/* Generated from original artwork; one public atlas request for 20 choices. */
+.avatar-art { display: inline-block; flex-shrink: 0; width: var(--avatar-size, 54px); height: var(--avatar-size, 54px); background-image: url("../assets/avatars/atlas.svg"); background-size: 500% 400%; }
+.avatar-molecule { background-position: 0% 0%; }
+.avatar-capsule { background-position: 25% 0%; }
+.avatar-tablets { background-position: 50% 0%; }
+.avatar-flask { background-position: 75% 0%; }
+.avatar-beaker { background-position: 100% 0%; }
+.avatar-microscope { background-position: 0% 33.333333333333336%; }
+.avatar-book { background-position: 25% 33.333333333333336%; }
+.avatar-books { background-position: 50% 33.333333333333336%; }
+.avatar-atom { background-position: 75% 33.333333333333336%; }
+.avatar-dna { background-position: 100% 33.333333333333336%; }
+.avatar-stethoscope { background-position: 0% 66.66666666666667%; }
+.avatar-heart { background-position: 25% 66.66666666666667%; }
+.avatar-shield { background-position: 50% 66.66666666666667%; }
+.avatar-graduate { background-position: 75% 66.66666666666667%; }
+.avatar-compound { background-position: 100% 66.66666666666667%; }
+.avatar-pipette { background-position: 0% 100%; }
+.avatar-clinician-a { background-position: 25% 100%; }
+.avatar-clinician-b { background-position: 50% 100%; }
+.avatar-clinician-c { background-position: 75% 100%; }
+.avatar-clinician-d { background-position: 100% 100%; }

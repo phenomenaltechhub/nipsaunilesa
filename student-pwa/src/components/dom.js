@@ -19,6 +19,7 @@ const paths = {
   home: 'M3 10 12 3l9 7v11h-6v-7H9v7H3Z',
   courses: 'M12 6v15M3 4c4-1 7 0 9 2 2-2 5-3 9-2v15c-4-1-7 0-9 2-2-2-5-3-9-2Z',
   planner: 'M8 2v4m8-4v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Zm3 10h3m-3 4h6',
+  timetable: 'M4 3v18h17M9 4h11v5H9Zm0 9h4v5H9Zm7 0h4v5h-4Z',
   glossary: 'M4 4h14a2 2 0 0 1 2 2v15H6a2 2 0 0 1 0-4h14M4 4v15M9 8h6m-6 4h4',
   notifications: 'M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM9 21h6',
   community: 'M21 11a8 8 0 0 1-8 8H6l-4 3V11a9 9 0 0 1 19 0ZM7 10h10m-10 4h6',
@@ -37,12 +38,12 @@ export function icon(name) {
   return svg;
 }
 
-/** @param {string} title @param {string} copy @param {string} [symbol] */
-export function emptyState(title, copy, symbol = 'courses') {
+/** @param {string} title @param {string} copy @param {string} [symbol] @param {'h2'|'h3'} [heading] */
+export function emptyState(title, copy, symbol = 'courses', heading = 'h3') {
   const section = element('div', 'empty-state');
   const well = element('span', 'icon-well');
   well.append(icon(symbol));
-  section.append(well, element('h3', '', title), element('p', '', copy));
+  section.append(well, element(heading, '', title), element('p', '', copy));
   return section;
 }
 

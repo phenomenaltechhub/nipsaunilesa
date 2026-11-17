@@ -1,11 +1,23 @@
 import { element, pageHeading } from '../../components/dom.js';
 import { createFocus, durations, formatTime, pauseFocus, remainingTime, startFocus } from './focus.js';
+import { academicNavigation } from '../../components/academic.js';
+import { revisionView } from './revision-view.js';
 
-export function plannerView() {
+/** @param {ReturnType<typeof import('./revision.js').createRevisionPlan>} plan */
+export function plannerView(plan) {
   const root = element('div');
-  root.append(pageHeading('A LITTLE STRUCTURE GOES A LONG WAY', 'Make time for learning', 'Start with one focused session. Academic schedules and revision plans will connect once verified course information and secure student access are available.'));
+  root.append(pageHeading('YOUR ACADEMIC WORKSPACE', 'Make time for learning', 'A personal revision plan and a focused session, together. These local tools do not create academic records or replace official course schedules.'), academicNavigation('planner'));
   const layout = element('div', 'focus-layout');
+  layout.dataset.mobileView = 'plan';
+  const switches = element('div', 'planner-view-switch'); switches.setAttribute('role', 'group'); switches.setAttribute('aria-label', 'Planner view');
+  const planButton = element('button', '', 'Personal plan'); planButton.type = 'button'; planButton.setAttribute('aria-controls', 'personal-revision-panel'); planButton.setAttribute('aria-pressed', 'true');
+  const focusButton = element('button', '', 'Focus session'); focusButton.type = 'button'; focusButton.setAttribute('aria-controls', 'focus-session-panel'); focusButton.setAttribute('aria-pressed', 'false');
+  /** @param {boolean} focus */
+  function selectPanel(focus) { layout.dataset.mobileView = focus ? 'focus' : 'plan'; planButton.setAttribute('aria-pressed', String(!focus)); focusButton.setAttribute('aria-pressed', String(focus)); }
+  planButton.addEventListener('click', () => selectPanel(false)); focusButton.addEventListener('click', () => selectPanel(true)); switches.append(planButton, focusButton);
+  root.append(switches);
   const card = element('section', 'card focus-card');
+  card.id = 'focus-session-panel';
   card.append(element('span', 'local-label', 'WORKING LOCAL TOOL · NOT AN ACADEMIC RECORD'));
   const title = element('h2', 'focus-title', 'Focus session');
   const label = element('label', 'field-label', 'Session length'); label.htmlFor = 'focus-duration';
@@ -34,12 +46,9 @@ export function plannerView() {
   select.addEventListener('change', resetTimer); reset.addEventListener('click', resetTimer);
   controls.append(toggle, reset);
   card.append(title, label, select, timer, status, controls, element('p', 'timer-privacy', 'This timer stays in memory. Leaving this view resets it. It does not create a student record, track your device or request notifications.'));
-  const notes = element('section', 'card');
-  notes.append(element('h2', '', 'Choose your next small step'), element('p', 'card-copy', 'Use your own approved learning materials. This tool does not supply course content or measure academic performance.'));
-  const list = element('ul', 'text-list');
-  for (const text of ['Pick one topic from your verified course materials.', 'Choose a session length that suits you.', 'Pause when needed. Your timer uses elapsed time, even if the tab is briefly inactive.', 'After the session, decide what deserves another look.']) list.append(element('li', '', text));
-  notes.append(list, element('p', 'muted', 'Timetables, assignments, topic checklists and saved revision plans are planned. They are not connected in this milestone.'));
-  layout.append(card, notes); root.append(layout);
+  const revision = revisionView(plan); revision.id = 'personal-revision-panel';
+  layout.append(revision, card); root.append(layout);
+  root.append(element('p', 'inline-note', 'Use only non-sensitive personal study reminders. Reviewed course topics, saved bookmarks, flashcards and licensed practice questions are not connected yet. No background reminders or device permissions are enabled.'));
   const interval = window.setInterval(update, 500);
   return { node: root, dispose: () => window.clearInterval(interval) };
 }
