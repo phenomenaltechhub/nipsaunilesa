@@ -1,49 +1,11 @@
-import { element, emptyState, link, pageHeading } from '../../components/dom.js';
-import { searchKey } from '../../components/validation.js';
-import { academicNavigation, sectionHeading } from '../../components/academic.js';
-
+import {element,emptyState,link,pageHeading}from'../../components/dom.js';
+import{searchKey}from'../../components/validation.js';
+import{academicNavigation,sectionHeading}from'../../components/academic.js';
 /** @param {string} title @param {string|null} route @param {Node} body */
-function card(title, route, body) {
-  const section = element('section', 'card');
-  const header = element('div', 'card-heading');
-  header.append(element('h2', '', title));
-  if (route) header.append(link(`#/${route}`, route==='glossary'?'Open glossary →':`View ${title.toLowerCase()} →`));
-  section.append(header, body);
-  return section;
-}
-
+function card(title,route,body){const section=element('section','card');const header=element('div','card-heading');header.append(element('h2','',title));if(route)header.append(link(`#/${route}`,route==='glossary'?'Open glossary →':`View ${title.toLowerCase()} →`));section.append(header,body);return section;}
+function hero(){const banner=element('section','academic-hero');banner.setAttribute('aria-label','Academic study introduction');const picture=element('picture');for(const [media,layout]of [['(max-width: 760px)','mobile'],['(min-width: 761px)','desktop']])for(const type of ['avif','webp']){const source=element('source');source.media=media;source.type='image/'+type;source.srcset=(layout==='mobile'?[480,720]:[960,1280]).map(w=>`./assets/hero/study-${layout}-${w}.${type} ${w}w`).join(',');source.sizes='(max-width: 760px) 100vw, 1100px';picture.append(source);}const image=element('img');image.src='./assets/hero/study-desktop-960.webp';image.alt='';image.width=960;image.height=320;image.decoding='async';image.addEventListener('error',()=>{picture.hidden=true;});picture.append(image);const copy=element('div','hero-copy');copy.append(element('p','hero-kicker','KNOWLEDGE · SCIENCE · PROGRESS'),element('h2','','Make room for your next academic step.'),element('p','','Build a clear study plan. Find your courses and keep revision moving.'));const actions=element('div','button-row');actions.append(link('#/courses','Explore courses','button'),link('#/planner','Plan my study','button hero-secondary'));copy.append(actions);banner.append(picture,copy,element('small','hero-attribution','Illustrative scene · fictional students'));return banner;}
 /** @param {ReturnType<typeof import('../study/revision.js').createRevisionPlan>} plan @param {ReturnType<typeof import('../progress/model.js').createCourseProgress>} [progress] */
-export function homeView(plan, progress) {
-  const root = element('div');
-  root.append(pageHeading('ACADEMICS', 'Dashboard', 'Your courses, schedule and study priorities.'));
-  const grid = element('div', 'dashboard-grid');
-  const courses = card('Courses', 'courses', emptyState('No courses available', 'Your courses will appear here.'));
-  courses.classList.add('wide'); grid.append(courses);
-  grid.append(card('Timetable', 'timetable', emptyState('No timetable entries', 'Your classes and activities will appear here.', 'timetable')));
-  grid.append(card('Deadlines', null, emptyState('No upcoming deadlines', 'Keep track of assignments and examinations.', 'planner')));
-  const personal = element('div', 'personal-summary');
-  const items = plan.list(); const completed = items.filter(item => item.done).length;
-  personal.append(element('strong', 'personal-count', `${items.length} ${items.length === 1 ? 'task' : 'tasks'}`), element('p', 'card-copy', `${completed} completed. Your plan stays in this tab.`), link('#/planner', items.length ? 'Continue your plan →' : 'Add a study task →', 'button subtle'));
-  grid.append(card('Study priorities', null, personal));
-  grid.append(card('Announcements', 'notifications', emptyState('No announcements', 'Departmental updates will appear here.', 'notifications')));
-  grid.append(card('Term of the Day', 'glossary', emptyState('No term available', 'Reviewed terms will appear in the glossary.', 'glossary')));
-  if(progress?.list().length){const summary=progress.summary();personal.append(element('p','inline-note',`Personal topic coverage: ${summary.covered}/${summary.total}.`),link('#/progress','Continue course progress →','back-link'));}
-  root.append(grid); return root;
-}
-
+export function homeView(plan,progress){const root=element('div');root.append(pageHeading('YOUR ACADEMIC SPACE','Dashboard','Your learning day, clearly organised.'),hero());const grid=element('div','dashboard-grid');for(const [title,route,heading,copy,symbol]of [['Courses','courses','No courses available','Reviewed courses appear here.','courses'],['Upcoming classes','timetable','No timetable entries','Browse your timetable.','timetable'],['Academic deadlines','','No upcoming deadlines','Assignments and exam notices appear here.','planner'],['Announcements','notifications','No announcements','Official updates appear here.','notifications'],['Term of the Day','glossary','No term available','Explore the reviewed glossary.','flask'],['CBT assessments','cbt','No assessments available','For assigned students.','cbt']])grid.append(card(title,route||null,emptyState(heading,copy,symbol)));
+ const personal=element('div','personal-summary'),items=plan.list(),complete=items.filter(x=>x.done).length;personal.append(element('strong','personal-count',`${items.length} ${items.length===1?'task':'tasks'}`),element('p','card-copy',`${complete} completed · personal plan in this tab`),link('#/planner',items.length?'Continue your plan →':'Add a study task →','button subtle'));const summary=progress?.summary();if(summary?.total)personal.append(element('p','inline-note',`${summary.covered}/${summary.total} personal topics covered`));personal.append(link('#/progress','Open course progress →','back-link'));grid.append(card('Revision priorities',null,personal));root.append(grid);return root;}
 /** @param {'courses'|'glossary'} kind */
-export function catalogueView(kind) {
-  const isCourse = kind === 'courses'; const root = element('div');
-  root.append(pageHeading('ACADEMICS', isCourse ? 'Courses' : 'Glossary', isCourse ? 'Find course information, study materials and academic updates.' : 'Explore pharmacology terms, definitions and related concepts.'), academicNavigation(kind));
-  const section = element('section', 'card'); section.append(sectionHeading(isCourse ? 'Your courses' : 'Pharmacology glossary'));
-  const search = element('div', 'search-row');
-  const label = element('label', 'field-label', isCourse ? 'Search courses' : 'Search glossary');
-  const input = document.createElement('input'); input.type = 'search'; input.id = 'catalogue-search'; input.maxLength = 120; input.placeholder = isCourse ? 'Course code or title' : 'Term or concept'; label.htmlFor = input.id;
-  search.append(label, input);
-  const status = element('p', 'search-status'); status.setAttribute('role', 'status');
-  const update = () => { status.textContent = searchKey(input.value) ? `No results for “${input.value.trim()}”.` : ''; };
-  input.addEventListener('input', update); update();
-  section.append(search, emptyState(isCourse ? 'No courses available' : 'No terms available', isCourse ? 'Your courses will appear here.' : 'Terms will appear here as they are added.', kind), status);
-  if(isCourse)section.append(link('#/progress','Open personal course progress →','button subtle'),element('p','inline-note','Personal study outlines stay in this tab and are separate from official courses.'));
-  root.append(section); return root;
-}
+export function catalogueView(kind){const courses=kind==='courses',root=element('div');root.append(pageHeading('ACADEMICS',courses?'Courses':'Glossary',courses?'Course information, materials and academic updates.':'Pharmacology terms and related concepts.'),academicNavigation(kind));const section=element('section','card');section.append(sectionHeading(courses?'Your courses':'Pharmacology glossary'));const label=element('label','field-label',courses?'Search courses':'Search glossary'),input=element('input');input.id='catalogue-search';label.htmlFor=input.id;input.type='search';input.maxLength=120;input.placeholder=courses?'Course code or title':'Term or concept';const status=element('p','search-status');status.setAttribute('role','status');input.addEventListener('input',()=>{status.textContent=searchKey(input.value)?`No results for “${input.value.trim()}”.`:'';});section.append(label,input,emptyState(courses?'No courses available':'No terms available',courses?'Reviewed courses appear here.':'Reviewed terms appear here.',kind),status);if(courses)section.append(link('#/progress','Open personal course progress →','button subtle'),element('p','inline-note','Personal outlines stay in this tab, apart from official courses.'));root.append(section);return root;}

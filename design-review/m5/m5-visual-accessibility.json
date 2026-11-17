@@ -1,0 +1,68 @@
+[
+  {
+    "label": "1440-community",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-cbt",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-help-video",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-dark-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "390-community",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-cbt",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-help-video",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-dark-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "320-community",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "320-cbt",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "320-help-video",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "320-dark-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  }
+]

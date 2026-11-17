@@ -1,0 +1,2 @@
+CREATE TABLE academic_drafts(id TEXT PRIMARY KEY,level INTEGER NOT NULL CHECK(level IN(100,200,300)),payload TEXT NOT NULL,actor TEXT NOT NULL REFERENCES accounts(id),created_at INTEGER NOT NULL);
+CREATE TABLE personal_progress(account_id TEXT PRIMARY KEY REFERENCES accounts(id) ON DELETE CASCADE,revision INTEGER NOT NULL,payload TEXT NOT NULL);

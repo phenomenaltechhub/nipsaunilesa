@@ -1,10 +1,3 @@
-import { element, emptyState, pageHeading } from '../../components/dom.js';
-
-export function communityView() {
-  const root = element('div');
-  root.append(pageHeading('GENERAL DEPARTMENTAL COMMUNITY', 'One department. One community.', 'A shared space for 100, 200 and 300 Level students, with verified identities and appropriate moderation.'));
-  const card = element('section', 'card locked-community');
-  card.append(element('span', 'local-label', 'IMPLEMENTATION PENDING · PRE-LAUNCH REQUIREMENT'), emptyState('Community implementation is pending', 'Messaging, member records, reactions and moderation are unavailable until secure authentication and real-time infrastructure are operational. No messages or student profiles are loaded.', 'lock', 'h2'), element('p', 'muted', 'An authorised PWA administrator will be able to open or close this one community. The server must enforce and audit every change.'));
-  root.append(card);
-  return root;
-}
+import{element,emptyState,link,pageHeading}from'../../components/dom.js';
+/** @param {'community'|'cbt'} [kind] */
+export function communityView(kind='community'){const community=kind==='community',root=element('div');root.append(pageHeading(community?'ONE DEPARTMENTAL COMMUNITY':'PRE-EXAMINATION PROGRAMME',community?'Community':'CBT assessments',community?'An academic space for verified students.':'Approved assessments for assigned batches.'));const card=element('section','card restricted-module');card.append(element('span','local-label',community?'Restricted access':'Assigned access'),emptyState(community?'Messaging is restricted':'No assessments available',community?'Messaging is not enabled here. Controlled access is being integrated.':'Approved assessments appear here for assigned students.',community?'community':'cbt','h2'),link('#/help',community?'Read community guidance →':'Read CBT participation guidance →','back-link'));root.append(card);return root;}

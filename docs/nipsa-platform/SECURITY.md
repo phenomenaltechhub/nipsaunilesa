@@ -38,3 +38,7 @@ Backups need encrypted offsite copies, least-privilege access, retention limits 
 ## Current tests versus future security tests
 
 Current unit/browser tests can establish allowlisted local routes, safe DOM rendering, fail-closed disconnected services, a bounded public offline cache, working local timer, session-memory revision plans, safe optional avatar preferences and website regressions. Only the curated avatar ID is eligible for opt-in device storage; personal tasks remain in memory and must never become a public cache/export. Tests **cannot** establish backend auth, cross-level/IDOR isolation, role revocation, community-toggle enforcement, payment signatures/reconciliation, upload security, password recovery or durable admin audit logs. Those integration/security suites remain a M7/M8 release gate against a real test backend. Do not replace them with assertions that documentation or disabled controls exist.
+
+## M5 controlled implementation
+
+Real synthetic account/backend security behavior now exists; earlier future-tense statements remain the history of the original plan. [M5 API/security](m5/API_AND_SECURITY.md) records enforced boundaries and executed tests; [operations](m5/OPERATIONS.md) records production blockers. No real authentication, provider verification, protected upload service, operational messaging or CBT engine has been activated. Private test state is excluded from source/export/cache. Automated tests do not establish complete security or production readiness.

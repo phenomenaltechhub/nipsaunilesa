@@ -13,7 +13,7 @@ if(process.platform==='linux'&&!process.env.PLAYWRIGHT_BROWSERS_PATH){
  if(!await fs.access(bundled).then(()=>true,()=>false)){encoderTools=await fs.mkdtemp(path.join(os.tmpdir(),'pharmaideia-m4-encoder-'));const dir=path.join(encoderTools,`ffmpeg-${revision}`);await fs.mkdir(dir);await fs.symlink('/usr/bin/ffmpeg',path.join(dir,'ffmpeg-linux'));process.env.PLAYWRIGHT_BROWSERS_PATH=encoderTools;}
 }
 const {chromium}=require('playwright');
-const directory='/workspace/artifacts/pharmaideia-m4';await fs.mkdir(directory,{recursive:true});
+const directory=process.env.PHARMAIDEIA_REVIEW_DIR||'/workspace/artifacts/pharmaideia-m4';await fs.mkdir(directory,{recursive:true});
 const temporary=await fs.mkdtemp(path.join(os.tmpdir(),'pharmaideia-m4-'));await fs.cp(path.resolve('student-pwa'),temporary,{recursive:true});
 const testDir=path.join(temporary,'__test-tools');await fs.mkdir(testDir);
 const axeDirectory=path.dirname(require.resolve('axe-core/axe.min.js'));for(const name of ['axe.min.js','LICENSE','LICENSE-3RD-PARTY.txt'])await fs.copyFile(path.join(axeDirectory,name),path.join(testDir,name));

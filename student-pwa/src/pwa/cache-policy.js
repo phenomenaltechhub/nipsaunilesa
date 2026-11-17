@@ -1,6 +1,6 @@
-// Explicit public assets only. Never add API responses, user exports or course files.
+// No private data.
 export const cachePrefix = 'pharmaideia-public-shell-';
-export const cacheName = `${cachePrefix}v4`;
+export const cacheName = `${cachePrefix}v5`;
 export const publicAssets = Object.freeze([
   './', './index.html', './styles/tokens.css', './styles/app.css', './manifest.webmanifest',
   './assets/brand/symbol.svg', './assets/brand/symbol-dark.svg', './assets/brand/favicon.svg',
@@ -14,25 +14,21 @@ export const publicAssets = Object.freeze([
   './src/modules/academic/calendar.js', './src/modules/academic/timetable.js', './src/modules/academic/course-hub.js',
   './src/modules/study/revision.js', './src/modules/study/revision-view.js',
   './src/modules/account/avatars.js', './src/modules/account/avatar-view.js',
-  './src/modules/academic/catalogue.js', './src/modules/academic/glossary.js',
+  './src/modules/academic/catalogue.js',
   './assets/brand/logo-primary.svg', './assets/brand/logo-dark.svg',
   './src/components/fields.js', './src/components/validation.js',
   './src/modules/progress/model.js', './src/modules/progress/view.js',
   './src/modules/notifications/model.js', './src/modules/notifications/view.js',
   './src/modules/settings/model.js', './src/modules/settings/view.js',
-  './src/modules/help/articles.js', './src/modules/help/view.js',
+  './src/modules/community/view.js', './src/modules/help/articles.js', './src/modules/help/view.js',
 ]);
 
 /** @param {{url:string,method:string,credentials?:string,mode?:string,headers:{has:(name:string)=>boolean}}} request @param {string} scope */
 export function publicCacheKey(request, scope) {
   const url = new URL(request.url);
-  // Hash routes select UI only. Chromium retains them on navigation requests,
-  // while the precached public document has no fragment.
   url.hash = '';
   const base = new URL(scope);
-  // Browser document navigation uses credentials:include. It may receive only
-  // the public shell fetched without credentials at installation, never a
-  // personalised network response. Runtime responses are never cache-written.
+  // Anonymous install-time navigation only.
   const shellNavigation = request.mode === 'navigate' && [base.href, new URL('./index.html', base).href].includes(url.href);
   if (request.method !== 'GET' || url.origin !== base.origin || url.search || (request.credentials === 'include' && !shellNavigation) || request.headers.has('authorization') || request.headers.has('range')) return null;
   return publicAssets.map(asset => new URL(asset, base).href).includes(url.href) ? url.href : null;

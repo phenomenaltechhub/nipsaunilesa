@@ -1,0 +1,32 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "manifestErrors": [],
+    "installabilityErrors": [
+      {
+        "errorId": "in-incognito",
+        "errorArguments": []
+      }
+    ]
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "manifestErrors": [],
+    "installabilityErrors": [
+      {
+        "errorId": "in-incognito",
+        "errorArguments": []
+      }
+    ]
+  },
+  {
+    "persistentProfile": true,
+    "installabilityErrors": []
+  }
+]

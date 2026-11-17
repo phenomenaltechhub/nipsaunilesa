@@ -1,0 +1,55 @@
+{
+  "source": "Owner-supplied fictional-student illustration, 17 November 2026",
+  "institutionalPhoto": false,
+  "notes": "No real University of Ilesa students or official photo session are identified. Differently cropped derivatives are optional presentation assets; the offline shell has a dark fallback.",
+  "assets": [
+    {
+      "name": "study-desktop-960.avif",
+      "width": 960,
+      "height": 320,
+      "bytes": 11688
+    },
+    {
+      "name": "study-desktop-960.webp",
+      "width": 960,
+      "height": 320,
+      "bytes": 21134
+    },
+    {
+      "name": "study-desktop-1280.avif",
+      "width": 1280,
+      "height": 427,
+      "bytes": 18362
+    },
+    {
+      "name": "study-desktop-1280.webp",
+      "width": 1280,
+      "height": 427,
+      "bytes": 31586
+    },
+    {
+      "name": "study-mobile-480.avif",
+      "width": 480,
+      "height": 300,
+      "bytes": 9153
+    },
+    {
+      "name": "study-mobile-480.webp",
+      "width": 480,
+      "height": 300,
+      "bytes": 16582
+    },
+    {
+      "name": "study-mobile-720.avif",
+      "width": 720,
+      "height": 450,
+      "bytes": 16155
+    },
+    {
+      "name": "study-mobile-720.webp",
+      "width": 720,
+      "height": 450,
+      "bytes": 28536
+    }
+  ]
+}

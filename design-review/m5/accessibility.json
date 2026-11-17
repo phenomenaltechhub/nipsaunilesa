@@ -1,0 +1,172 @@
+[
+  {
+    "label": "1440-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "1440-courses",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-course-hub",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-timetable",
+    "violations": [],
+    "incomplete": [
+      "aria-prohibited-attr",
+      "color-contrast",
+      "label-content-name-mismatch"
+    ]
+  },
+  {
+    "label": "1440-focus",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-planner",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-avatars",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "390-courses",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-course-hub",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "390-timetable",
+    "violations": [],
+    "incomplete": [
+      "aria-prohibited-attr",
+      "color-contrast",
+      "label-content-name-mismatch"
+    ]
+  },
+  {
+    "label": "390-focus",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-planner",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-avatars",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "320-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "320-courses",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "320-course-hub",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "320-timetable",
+    "violations": [],
+    "incomplete": [
+      "aria-prohibited-attr",
+      "color-contrast",
+      "label-content-name-mismatch"
+    ]
+  },
+  {
+    "label": "320-focus",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "320-planner",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "320-avatars",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "768-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "768-courses",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "768-course-hub",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "768-timetable",
+    "violations": [],
+    "incomplete": [
+      "aria-prohibited-attr",
+      "color-contrast",
+      "label-content-name-mismatch"
+    ]
+  },
+  {
+    "label": "768-focus",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "768-planner",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "768-avatars",
+    "violations": [],
+    "incomplete": []
+  }
+]

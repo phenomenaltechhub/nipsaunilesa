@@ -11,7 +11,7 @@ assert.equal(manifest.start_url, './');
 assert.equal(manifest.scope, './');
 assert.equal(manifest.display, 'standalone');
 assert.ok(!publicAssets.some(asset => /developer|preparation|diagnostic/i.test(asset)), 'Developer interfaces must not be shipped in the student offline cache');
-for (const name of ['developer-tools', 'design-review']) assert.ok(!fs.existsSync(path.resolve('out', name)), 'Development tooling must stay out of the website export');
+for (const name of ['developer-tools', 'design-review','backend']) assert.ok(!fs.existsSync(path.resolve('out', name)), 'Development tooling must stay out of the website export');
 let publicBytes = 0; let javascriptBytes = 0;
 for (const asset of publicAssets) {
   const file = path.resolve(root, asset === './' ? 'index.html' : asset);

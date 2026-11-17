@@ -1,4 +1,4 @@
-import { element, icon, link } from './dom.js';
+import { element, link } from './dom.js';
 
 /** @param {string} active */
 export function academicNavigation(active) {
@@ -18,15 +18,6 @@ export function sectionHeading(title, status = '') {
   header.append(element('h2', '', title));
   if (status) header.append(element('span', 'card-tag', status));
   return header;
-}
-
-/** @param {string} title @param {string} detail */
-export function availabilityNote(title, detail) {
-  const aside = element('aside', 'availability-note');
-  const copy = element('div');
-  copy.append(element('strong', '', title), element('p', '', detail));
-  aside.append(icon('lock'), copy);
-  return aside;
 }
 
 /** Native buttons with roving focus and WAI-ARIA tabs keyboard behavior.

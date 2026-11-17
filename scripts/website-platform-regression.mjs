@@ -7,7 +7,7 @@ import sharp from 'sharp';
 import { startStaticServer } from './lib/static-server.mjs';
 const { chromium } = createRequire(import.meta.url)('playwright');
 const root = path.resolve('out');
-const directory = '/workspace/artifacts/pharmaideia-m1/website-regression';
+const directory = process.env.PHARMAIDEIA_REVIEW_DIR || '/workspace/artifacts/pharmaideia-m1/website-regression';
 await fs.mkdir(directory, { recursive: true });
 const { server, base } = await startStaticServer(root);
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });

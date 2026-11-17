@@ -1,3 +1,4 @@
+import {textField} from '../../components/fields.js';
 import { element } from '../../components/dom.js';
 import { sectionHeading } from '../../components/academic.js';
 import { formatCalendarDate } from '../academic/calendar.js';
@@ -7,16 +8,12 @@ export function revisionView(plan) {
   const section = element('section', 'card revision-card');
   section.append(sectionHeading('Revision plan'), element('p', 'card-copy', 'Add a study task and a target date. Your plan stays in this tab and resets on reload.'));
   const form = element('form', 'revision-form');
-  const titleLabel = element('label', 'field-label', 'Study task'); titleLabel.htmlFor = 'revision-title';
-  const title = element('input'); title.id = titleLabel.htmlFor; title.maxLength = 120; title.required = true; title.placeholder = 'What will you review?'; title.autocomplete = 'off';
-  const dateLabel = element('label', 'field-label', 'Target date (optional)'); dateLabel.htmlFor = 'revision-date';
-  const date = element('input'); date.id = dateLabel.htmlFor; date.type = 'date'; date.min = '2000-01-01'; date.max = '2200-12-31';
+  const titleField=textField('revision-title','Study task'),title=titleField.input;title.maxLength=120;title.required=true;title.placeholder='What will you review?';
+  const dateField=textField('revision-date','Target date (optional)','date'),date=dateField.input;date.min='2000-01-01';date.max='2200-12-31';
   const submit = element('button', 'button', 'Add study task'); submit.type = 'submit';
   const error = element('p', 'field-error'); error.id = 'revision-error'; error.setAttribute('role', 'alert');
   title.setAttribute('aria-describedby', error.id); date.setAttribute('aria-describedby', error.id);
-  const titleField = element('div'); titleField.append(titleLabel, title);
-  const dateField = element('div'); dateField.append(dateLabel, date);
-  form.append(titleField, dateField, submit, error);
+  form.append(titleField.wrap, dateField.wrap, submit, error);
   const summary = element('p', 'search-status'); summary.setAttribute('role', 'status');
   const filterLabel = element('label', 'field-label', 'Show study tasks'); filterLabel.htmlFor = 'revision-filter';
   const filter = element('select'); filter.id = filterLabel.htmlFor;

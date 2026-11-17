@@ -1,5 +1,6 @@
+import {availabilityNote} from './availability.js';
 import { element, emptyState, link, pageHeading } from '../student-pwa/src/components/dom.js';
-import { academicNavigation, availabilityNote, sectionHeading, tabs } from '../student-pwa/src/components/academic.js';
+import { academicNavigation, sectionHeading, tabs } from '../student-pwa/src/components/academic.js';
 import { resourceCategories, eventKinds } from '../student-pwa/src/modules/academic/models.js';
 
 /** @param {ReturnType<typeof import('../student-pwa/src/modules/academic/models.js').createAcademicPreparation>} [preparation] */

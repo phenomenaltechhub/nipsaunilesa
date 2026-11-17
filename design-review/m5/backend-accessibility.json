@@ -1,0 +1,102 @@
+[
+  {
+    "label": "1440-signin",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-account",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-admin-accounts",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-admin-activation",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-admin-roles",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-admin-recovery",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-admin-community",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-admin-audit",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-admin-config",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-admin-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-signin",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-account",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-admin-accounts",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-admin-activation",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-admin-roles",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-admin-recovery",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-admin-community",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-admin-audit",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-admin-config",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-admin-dark",
+    "violations": [],
+    "incomplete": []
+  }
+]

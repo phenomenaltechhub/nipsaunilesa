@@ -4,7 +4,7 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import { startStaticServer } from './lib/static-server.mjs';
 const require = createRequire(import.meta.url); const { chromium } = require('playwright');
-const directory = '/workspace/artifacts/pharmaideia-m3'; await fs.mkdir(directory, { recursive: true });
+const directory = process.env.PHARMAIDEIA_REVIEW_DIR || '/workspace/artifacts/pharmaideia-m3'; await fs.mkdir(directory, { recursive: true });
 const { server, base } = await startStaticServer(path.resolve('.'), 0, ['/developer-tools/', '/student-pwa/src/', '/student-pwa/styles/', '/student-pwa/assets/']);
 for (const file of ['/package.json', '/.git/config', '/student-pwa/src/.env', '/design-review/milestone-3/comparison.html']) assert.equal((await fetch(base + file)).status, 403, 'Developer server enforces its file boundary');
 const browser = await chromium.launch({ executablePath: '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] }); const accessibility = [];

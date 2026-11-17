@@ -1,0 +1,12 @@
+import {DatabaseSync}from'node:sqlite';
+import fs from'node:fs';
+import path from'node:path';
+import {digest}from'./security.mjs';
+export function privateDirectory(directory){const resolved=path.resolve(directory);if(resolved.split(path.sep).some(p=>['public','student-pwa','out','design-review'].includes(p)))throw new Error('Private directory required');fs.mkdirSync(resolved,{recursive:true,mode:0o700});if(fs.realpathSync(resolved)!==resolved||(fs.statSync(resolved).mode&0o077)!==0)throw new Error('Private non-symlink directory required');return resolved;}
+export function openStore(file){if(file!==':memory:'){privateDirectory(path.dirname(file));if(fs.existsSync(file)&&(fs.lstatSync(file).isSymbolicLink()||!fs.statSync(file).isFile()))throw new Error('Private regular database file required');}const db=new DatabaseSync(file);db.exec('PRAGMA foreign_keys=ON;PRAGMA busy_timeout=5000;PRAGMA journal_mode=WAL;');db.exec('CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY,applied_at INTEGER NOT NULL)');
+const directory=new URL('../migrations/',import.meta.url);
+for(const name of fs.readdirSync(directory).filter(n=>/^\d{3}_[a-z_]+\.sql$/.test(n)).sort()){const version=Number(name.slice(0,3));if(db.prepare('SELECT version FROM schema_migrations WHERE version=?').get(version))continue;db.exec('BEGIN IMMEDIATE');try{db.exec(fs.readFileSync(new URL(name,directory),'utf8'));db.prepare('INSERT INTO schema_migrations VALUES(?,?)').run(version,Date.now());db.exec('COMMIT');}catch(e){db.exec('ROLLBACK');throw e;}}
+if(file!==':memory:')fs.chmodSync(file,0o600);return db;}
+export function transaction(db,fn){db.exec('BEGIN IMMEDIATE');try{const result=fn();db.exec('COMMIT');return result;}catch(e){db.exec('ROLLBACK');throw e;}}
+export function appendAudit(db,key,now,actor,action,target=null,metadata={}){const previous=db.prepare('SELECT entry_hash FROM audit ORDER BY id DESC LIMIT 1').get()?.entry_hash??'';const json=JSON.stringify(metadata);const hash=digest(key,JSON.stringify([actor,action,target,json,now,previous]));db.prepare('INSERT INTO audit(actor,action,target,metadata,created_at,previous_hash,entry_hash)VALUES(?,?,?,?,?,?,?)').run(actor,action,target,json,now,previous,hash);}
+export function verifyAudit(db,key){let previous='';for(const row of db.prepare('SELECT * FROM audit ORDER BY id').all()){if(row.previous_hash!==previous||row.entry_hash!==digest(key,JSON.stringify([row.actor,row.action,row.target,row.metadata,row.created_at,previous])))return false;previous=row.entry_hash;}return true;}

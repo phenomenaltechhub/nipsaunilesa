@@ -1,5 +1,6 @@
+import {availabilityNote} from './availability.js';
 import { element, link, pageHeading } from '../student-pwa/src/components/dom.js';
-import { availabilityNote, sectionHeading, tabs } from '../student-pwa/src/components/academic.js';
+import { sectionHeading, tabs } from '../student-pwa/src/components/academic.js';
 import { eventKinds, resourceCategories } from '../student-pwa/src/modules/academic/models.js';
 
 /** @typedef {{key:string,label:string,type?:string,options?:[string,string][],optional?:boolean,max?:number}} Field */

@@ -123,7 +123,7 @@ try {
     await page.getByRole('button', { name: 'Add study task', exact: true }).click();
     assert.equal(await page.locator('.revision-list img').count(), 0);
     await page.getByRole('button', { name: 'Remove task: <img src=x onerror=alert(1)>', exact: true }).click();
-    assert.equal(await page.getByRole('link', { name: 'Community', exact: true }).count(), 0);
+    assert.equal(await page.locator('#primary-nav [data-route=community]').count(),1);
     assert.equal(await page.getByRole('link', { name: 'Account', exact: true }).count(), 0);
     if (viewport.width < 760) {
       await page.getByRole('button', { name: 'More', exact: true }).click();
@@ -165,7 +165,7 @@ try {
     await page.getByRole('button', { name: 'Pause session', exact: true }).waitFor();
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'No horizontal overflow');
     assert.deepEqual(errors, []); assert.deepEqual(thirdParty, []); assert.deepEqual(policyErrors, []);
-    console.log(`PASS PWA ${viewport.width}x${viewport.height}: Dashboard/navigation/course tabs, timetable, real revision actions/focus controls, 20 avatars with denied storage, inactive services hidden, ${publicAssets.length} public-only cached assets, offline reload, axe scans, no overflow/runtime/CSP errors or third-party requests.`);
+    console.log(`PASS PWA ${viewport.width}x${viewport.height}: Dashboard/navigation/course tabs, timetable, real revision actions/focus controls, 20 avatars with denied storage, restricted services clearly identified, ${publicAssets.length} public-only cached assets, offline reload, axe scans, no overflow/runtime/CSP errors or third-party requests.`);
     await context.close();
   }
   const updateContext = await browser.newContext();
@@ -209,5 +209,5 @@ try {
   console.log('PASS avatar preference: opt-in persistence stores one curated ID, survives reload, and opt-out restores the unsaved default.');
   await preferenceContext.close();
   await fs.writeFile(path.join(directory, 'accessibility.json'), JSON.stringify(accessibility, null, 2) + '\n');
-  await fs.writeFile(path.join(directory, 'REVIEW.md'), '# PHARMAIDEIA M3 component review\n\nActual standalone PWA screenshots. Initial views contain no institutional records. Automated metadata fixtures remain test-only, unreviewed and in memory; they are not university courses. Planner screenshots contain a personal test reminder. Accounts, payment verification, server permissions and community remain unavailable. Automated accessibility results do not establish full conformance or physical-device behavior.\n\n' + captures.map(name => `- [${name}](${path.join(directory, name)})`).join('\n') + '\n');
+  await fs.writeFile(path.join(directory, 'REVIEW.md'), '# PHARMAIDEIA M3 component review\n\nActual standalone PWA screenshots. Initial views contain no institutional records. Automated metadata fixtures remain test-only, unreviewed and in memory; they are not university courses. Planner screenshots contain a personal test reminder. This static shell has no live account or payment services. Community messaging remains restricted; the isolated M5 backend is reviewed separately. Automated accessibility results do not establish full conformance or physical-device behavior.\n\n' + captures.map(name => `- [${name}](${path.join(directory, name)})`).join('\n') + '\n');
 } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); await fs.rm(temporary, { recursive: true, force: true }); }

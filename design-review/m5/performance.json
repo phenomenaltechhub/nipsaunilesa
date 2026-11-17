@@ -1,0 +1,190 @@
+[
+  {
+    "viewport": 390,
+    "network": "emulated 400 kbps down / 150 ms latency; no CPU throttling",
+    "navigation": [
+      {
+        "domContentLoadedMs": 3469.1999999955297,
+        "loadMs": 3834.0999999940395
+      }
+    ],
+    "largestContentfulPaintMs": 3852,
+    "resources": [
+      {
+        "name": "/styles/tokens.css",
+        "transferBytes": 1781,
+        "durationMs": 406
+      },
+      {
+        "name": "/styles/app.css",
+        "transferBytes": 23546,
+        "durationMs": 2112.60000000149
+      },
+      {
+        "name": "/styles/avatars.css",
+        "transferBytes": 1747,
+        "durationMs": 462.19999999552965
+      },
+      {
+        "name": "/src/app.js",
+        "transferBytes": 5824,
+        "durationMs": 794.5999999940395
+      },
+      {
+        "name": "/assets/brand/logo-primary.svg",
+        "transferBytes": 4833,
+        "durationMs": 721.2999999970198
+      },
+      {
+        "name": "/assets/brand/logo-dark.svg",
+        "transferBytes": 4803,
+        "durationMs": 840.1000000014901
+      },
+      {
+        "name": "/assets/brand/symbol.svg",
+        "transferBytes": 1690,
+        "durationMs": 779.4000000059605
+      },
+      {
+        "name": "/src/components/dom.js",
+        "transferBytes": 3230,
+        "durationMs": 532.2999999970198
+      },
+      {
+        "name": "/src/state/routes.js",
+        "transferBytes": 1584,
+        "durationMs": 387.70000000298023
+      },
+      {
+        "name": "/src/modules/academic/views.js",
+        "transferBytes": 5352,
+        "durationMs": 741.2999999970198
+      },
+      {
+        "name": "/src/modules/study/view.js",
+        "transferBytes": 4532,
+        "durationMs": 620.9000000059605
+      },
+      {
+        "name": "/src/modules/settings/model.js",
+        "transferBytes": 1675,
+        "durationMs": 800.6000000014901
+      },
+      {
+        "name": "/src/modules/settings/view.js",
+        "transferBytes": 5069,
+        "durationMs": 861.6000000014901
+      },
+      {
+        "name": "/src/modules/progress/model.js",
+        "transferBytes": 4666,
+        "durationMs": 1250.2000000029802
+      },
+      {
+        "name": "/src/modules/progress/view.js",
+        "transferBytes": 7747,
+        "durationMs": 1546.6000000014901
+      },
+      {
+        "name": "/src/modules/notifications/model.js",
+        "transferBytes": 3964,
+        "durationMs": 1335.1999999955297
+      },
+      {
+        "name": "/src/modules/notifications/view.js",
+        "transferBytes": 2743,
+        "durationMs": 1274.8000000044703
+      },
+      {
+        "name": "/src/modules/community/view.js",
+        "transferBytes": 1280,
+        "durationMs": 1185.6000000014901
+      },
+      {
+        "name": "/src/modules/help/view.js",
+        "transferBytes": 2783,
+        "durationMs": 1484.7000000029802
+      },
+      {
+        "name": "/src/pwa/register.js",
+        "transferBytes": 2188,
+        "durationMs": 1574.7999999970198
+      },
+      {
+        "name": "/src/modules/academic/timetable.js",
+        "transferBytes": 3593,
+        "durationMs": 1785.5
+      },
+      {
+        "name": "/src/modules/academic/course-hub.js",
+        "transferBytes": 2542,
+        "durationMs": 1694.2000000029802
+      },
+      {
+        "name": "/src/modules/study/revision.js",
+        "transferBytes": 1769,
+        "durationMs": 1724.5
+      },
+      {
+        "name": "/src/modules/account/avatars.js",
+        "transferBytes": 3374,
+        "durationMs": 1964.1999999955297
+      },
+      {
+        "name": "/src/modules/study/focus.js",
+        "transferBytes": 1507,
+        "durationMs": 1198.2000000029802
+      },
+      {
+        "name": "/src/components/academic.js",
+        "transferBytes": 2814,
+        "durationMs": 1287.3999999985099
+      },
+      {
+        "name": "/src/modules/study/revision-view.js",
+        "transferBytes": 5131,
+        "durationMs": 1623.2999999970198
+      },
+      {
+        "name": "/src/components/validation.js",
+        "transferBytes": 1073,
+        "durationMs": 1260.9000000059605
+      },
+      {
+        "name": "/src/components/fields.js",
+        "transferBytes": 1339,
+        "durationMs": 1231.3999999985099
+      },
+      {
+        "name": "/src/modules/account/avatar-view.js",
+        "transferBytes": 3539,
+        "durationMs": 1492.5
+      },
+      {
+        "name": "/src/modules/help/articles.js",
+        "transferBytes": 3506,
+        "durationMs": 913.7000000029802
+      },
+      {
+        "name": "/src/modules/academic/catalogue.js",
+        "transferBytes": 757,
+        "durationMs": 527
+      },
+      {
+        "name": "/src/modules/academic/calendar.js",
+        "transferBytes": 2066,
+        "durationMs": 669.7000000029802
+      },
+      {
+        "name": "/assets/hero/study-mobile-480.avif",
+        "transferBytes": 9453,
+        "durationMs": 364.19999999552965
+      },
+      {
+        "name": "/assets/brand/favicon.svg",
+        "transferBytes": 1790,
+        "durationMs": 203.39999999850988
+      }
+    ]
+  }
+]

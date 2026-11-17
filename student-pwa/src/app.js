@@ -8,6 +8,7 @@ import { createCourseProgress } from './modules/progress/model.js';
 import { courseProgressView } from './modules/progress/view.js';
 import { createNotificationInbox } from './modules/notifications/model.js';
 import { notificationsView } from './modules/notifications/view.js';
+import { communityView } from './modules/community/view.js';
 import { helpView } from './modules/help/view.js';
 import { registerOfflineShell } from './pwa/register.js';
 import { timetableView } from './modules/academic/timetable.js';
@@ -44,7 +45,7 @@ function clearStudy() { revisionPlan.clear(); courseProgress.clear(); inbox.clea
 function navLink(route, compact = false) {
   const item = link(`#/${route.id}`, '', compact ? '' : 'nav-link');
   item.dataset.route = route.id;
-  item.append(icon(route.id), element('span', '', compact && route.id === 'planner' ? 'Planner' : route.label));
+  item.append(icon(route.id), element('span', '', compact && route.id === 'home' ? 'Home' : compact && route.id === 'planner' ? 'Planner' : route.label));
   item.addEventListener('click', () => { if (more.open) more.close(); });
   return item;
 }
@@ -64,20 +65,10 @@ function render() {
   dispose(); dispose = () => {};
   const route = resolveRoute(location.hash);
   let node;
-  switch (route?.id) {
-    case 'home': node = homeView(revisionPlan, courseProgress); break;
-    case 'courses': node = catalogueView('courses'); break;
-    case 'glossary': node = catalogueView('glossary'); break;
-    case 'planner': { const view = plannerView(revisionPlan); node = view.node; dispose = view.dispose; break; }
-    case 'timetable': node = timetableView(); break;
-    case 'course-hub': node = courseHubView(); break;
-    case 'profile': node = settingsView(avatarPreference, settings, clearStudy); break;
-    case 'progress': node = courseProgressView(courseProgress); break;
-    case 'help': node = helpView(); break;
-    case 'notifications': node = notificationsView(inbox); break;
-    default:
-      node = element('div'); node.append(pageHeading('PHARMAIDEIA', 'Page unavailable', 'Choose a page from the menu to continue.'), link('#/home', 'Return to Dashboard', 'button'));
-  }
+  const views={home:()=>homeView(revisionPlan,courseProgress),courses:()=>catalogueView('courses'),glossary:()=>catalogueView('glossary'),timetable:timetableView,'course-hub':courseHubView,profile:()=>settingsView(avatarPreference,settings,clearStudy),progress:()=>courseProgressView(courseProgress),community:communityView,cbt:()=>communityView('cbt'),help:helpView,notifications:()=>notificationsView(inbox)};
+  if(route?.id==='planner'){const view=plannerView(revisionPlan);node=view.node;dispose=view.dispose;}
+  else if(route&&Object.hasOwn(views,route.id))node=views[/** @type {keyof typeof views} */(route.id)]();
+  else {node=element('div');node.append(pageHeading('PHARMAIDEIA','Page unavailable','Choose a page from the menu to continue.'),link('#/home','Return to Dashboard','button'));}
   main.replaceChildren(node); main.setAttribute('aria-labelledby', 'page-title');
   document.title = `${route?.title ?? 'Page not found'} · PHARMAIDEIA`;
   const activeId = ['course-hub','progress'].includes(route?.id ?? '') ? 'courses' : route?.id;

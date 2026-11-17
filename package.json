@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test tests/*.test.mjs",
+    "test": "node --test tests/*.test.mjs backend/tests/*.test.mjs",
     "check:export": "node scripts/check-static-export.mjs",
     "assets:pwa": "node scripts/generate-pharmaideia-brand.mjs && node scripts/generate-pharmaideia-avatars.mjs",
     "check:pwa": "tsc -p student-pwa/tsconfig.json && tsc -p student-pwa/tsconfig.sw.json && tsc -p developer-tools/tsconfig.json && node scripts/check-student-pwa.mjs",
@@ -24,7 +24,13 @@
     "review:nexus": "node scripts/review-knowledge-nexus.mjs && node scripts/capture-knowledge-nexus.mjs && node scripts/check-knowledge-nexus.mjs",
     "check:nexus": "node scripts/check-knowledge-nexus.mjs",
     "test:m4:browser": "node scripts/student-pwa-m4-browser.mjs",
-    "check:brand": "node scripts/check-approved-pwa-brand.mjs"
+    "check:brand": "node scripts/check-approved-pwa-brand.mjs",
+    "test:backend": "node --test backend/tests/*.test.mjs",
+    "dev:backend": "node backend/run.mjs",
+    "test:m5:browser": "node scripts/pharmaideia-m5-visual.mjs",
+    "test:m5:accounts:browser": "node scripts/pharmaideia-m5-backend-browser.mjs",
+    "check:m5:assets": "node scripts/check-m5-assets.mjs",
+    "review:m5:walkthrough": "node scripts/record-m5-walkthrough.mjs"
   },
   "dependencies": {
     "leaflet": "1.9.4",

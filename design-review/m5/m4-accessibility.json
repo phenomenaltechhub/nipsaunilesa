@@ -1,0 +1,81 @@
+[
+  {
+    "label": "1440-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "1440-progress",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-help",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-announcements",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-settings-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-avatars-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-progress-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "390-progress",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-help",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-announcements",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-settings-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-avatars-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-progress-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "notification-harness-corrected",
+    "violations": [],
+    "incomplete": []
+  }
+]
