@@ -1,6 +1,6 @@
 # PHARMAIDEIA M5 — controlled backend and student experience
 
-17 November 2026. Work remains on `development/nipsa-student-platform`. Verified starting local commit: **398db251d4a70e2e64b325e25700687592134552** (M4); prior identity commit `cecf1ab` and M1–M4 work are preserved. Latest fetched remote development tip was `75cfcfb53ed4a211fa85fc7edb330324577345f3`, three existing feature commits behind local HEAD. This release preserves and normally pushes that history plus M5; it does not rewrite it. `origin/main` remains **92d890a39d9ac056d81e758ebeafb9b96ed781e0**.
+17 November 2026. Work remains on `development/nipsa-student-platform`. Verified starting local commit: **398db251d4a70e2e64b325e25700687592134552** (M4); prior identity commit `cecf1ab` and M1–M4 work are preserved. The local development remote-tracking ref was stale at `75cfcfb53ed4a211fa85fc7edb330324577345f3` because the environment fetch refspec tracked only main. GitHub’s normal push confirmed that M3/M4 were already published at `398db25`; the M5 implementation fast-forwarded that live branch to `4d44b4423b0d9d3658e84673bc5ad26beb2aba43`. Existing history was preserved, not rewritten. A documentation-only follow-up corrects this tracking-ref detail. `origin/main` remains **92d890a39d9ac056d81e758ebeafb9b96ed781e0**.
 
 Read the complete implementation document, current Issue #3, milestone/security/architecture material and inspected actual source before development. Original editorial application source is still absent. Image A was available; Image B design board was not.
 
