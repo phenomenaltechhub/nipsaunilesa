@@ -5,7 +5,7 @@ import { formatCalendarDate } from '../academic/calendar.js';
 /** @param {ReturnType<typeof import('./revision.js').createRevisionPlan>} plan */
 export function revisionView(plan) {
   const section = element('section', 'card revision-card');
-  section.append(sectionHeading('Your personal revision plan', 'This tab only'), element('p', 'card-copy', 'Add your own non-sensitive study reminders. They stay in memory during this visit and clear on reload. This is not an official timetable or a saved student record.'));
+  section.append(sectionHeading('Revision plan'), element('p', 'card-copy', 'Add a study task and a target date. Your plan stays in this tab and resets on reload.'));
   const form = element('form', 'revision-form');
   const titleLabel = element('label', 'field-label', 'Study task'); titleLabel.htmlFor = 'revision-title';
   const title = element('input'); title.id = titleLabel.htmlFor; title.maxLength = 120; title.required = true; title.placeholder = 'What will you review?'; title.autocomplete = 'off';
@@ -27,7 +27,7 @@ export function revisionView(plan) {
   const empty = element('p', 'inline-note');
   function render() {
     const items = plan.list(); const completed = items.filter(item => item.done).length;
-    summary.textContent = `${items.length} personal ${items.length === 1 ? 'task' : 'tasks'} · ${completed} completed · not synced`;
+    summary.textContent = `${items.length} ${items.length === 1 ? 'task' : 'tasks'} · ${completed} completed`;
     progress.max = Math.max(1, items.length); progress.value = completed; progress.textContent = `${completed} of ${items.length} completed`;
     const visible = items.filter(item => filter.value === 'all' || (filter.value === 'done' ? item.done : !item.done));
     list.replaceChildren();

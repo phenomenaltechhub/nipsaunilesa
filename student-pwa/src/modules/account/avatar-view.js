@@ -5,10 +5,10 @@ import { sectionHeading } from '../../components/academic.js';
 /** @param {ReturnType<typeof import('./avatars.js').createAvatarPreference>} preference */
 export function avatarView(preference) {
   const section = element('section', 'card');
-  section.append(sectionHeading('Choose your study avatar', 'Appearance only'), element('p', 'card-copy', 'Choose from 20 original academic and healthcare illustrations. This is a local appearance preview, not a signed-in identity or verified professional status. No photo uploads are supported.'));
+  section.append(sectionHeading('Your avatar'), element('p', 'card-copy', 'Choose an illustration for your study space.'));
   const preview = element('div', 'avatar-preview');
   const image = element('span', 'avatar-art'); image.setAttribute('role', 'img');
-  const name = element('strong'); const text = element('div'); text.append(name, element('p', 'muted', 'Not connected to a student account'));
+  const name = element('strong'); const text = element('div'); text.append(name);
   preview.append(image, text);
   const fieldset = element('fieldset', 'avatar-fieldset');
   fieldset.append(element('legend', 'field-label', 'Curated avatar choices'));
@@ -30,7 +30,7 @@ export function avatarView(preference) {
     image.className = `avatar-art avatar-${state.selected}`; image.setAttribute('aria-label', selected?.name ?? 'Curated avatar');
     name.textContent = selected?.name ?? 'Curated avatar'; remember.checked = state.remembered;
     for (const input of inputs) input.checked = input.value === state.selected;
-    message.textContent = state.message || 'Choose an avatar for this visit. Device saving is optional.';
+    message.textContent = state.message || '';
   }
   for (const avatar of avatars) {
     const label = element('label', 'avatar-option');

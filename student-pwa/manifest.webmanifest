@@ -2,7 +2,7 @@
   "id": "./",
   "name": "PHARMAIDEIA — NIPSA UNILESA",
   "short_name": "Pharmaideia",
-  "description": "NIPSA UNILESA student companion. Development build; connected student services are not yet available.",
+  "description": "Your NIPSA UNILESA academic companion for courses, schedules and study planning.",
   "lang": "en-NG",
   "start_url": "./",
   "scope": "./",

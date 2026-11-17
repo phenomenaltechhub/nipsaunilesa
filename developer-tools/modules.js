@@ -1,0 +1,14 @@
+// Recorded implementation status, not a live health probe or authorization data.
+export const moduleStatus = Object.freeze([
+  ['UI-DASH-001', 'Dashboard and academic navigation', 'implemented', 'Manual device review pending'],
+  ['ACA-001', 'Course metadata validation', 'local-tested', 'Reviewed courses and authorised APIs'],
+  ['ACA-002', 'Resource categories and Drive links', 'local-tested', 'Rights review and protected delivery'],
+  ['ACA-003', 'Schedule/deadline validation', 'local-tested', 'Official sources and server conflict checks'],
+  ['FILE-001', 'File descriptor checks', 'descriptor-only', 'Binary inspection, malware scanning, private storage'],
+  ['AUTH-001', 'Activation, login and recovery', 'infrastructure-blocked', 'Operational secure authentication and email'],
+  ['RBAC-001', 'Academic-level and role enforcement', 'infrastructure-blocked', 'Server sessions, scope checks and audit'],
+  ['PAY-001', 'Payment verification', 'approval-required', 'Approved merchant configuration and server verification'],
+  ['EDT-001', 'Editorial integration', 'source-blocked', 'Owned Sites source/export and review'],
+  ['MSG-001', 'General community', 'infrastructure-blocked', 'Server authorization and real-time infrastructure'],
+  ['PWA-001', 'Public shell cache and updates', 'implemented', 'Physical-device installation review'],
+]);

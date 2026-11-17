@@ -1,6 +1,6 @@
 // Explicit public assets only. Never add API responses, user exports or course files.
 export const cachePrefix = 'pharmaideia-public-shell-';
-export const cacheName = `${cachePrefix}v2`;
+export const cacheName = `${cachePrefix}v3`;
 export const publicAssets = Object.freeze([
   './', './index.html', './styles/tokens.css', './styles/app.css', './manifest.webmanifest',
   './assets/brand/symbol.svg', './assets/brand/symbol-dark.svg', './assets/brand/favicon.svg',
@@ -9,11 +9,12 @@ export const publicAssets = Object.freeze([
   './assets/brand/maskable-192.png', './assets/brand/maskable-512.png',
   './src/app.js', './src/components/dom.js', './src/state/routes.js', './src/api/services.js',
   './src/modules/academic/views.js', './src/modules/study/focus.js', './src/modules/study/view.js',
-  './src/modules/community/view.js', './src/modules/account/view.js', './src/pwa/register.js', './src/pwa/cache-policy.js',
+  './src/modules/account/view.js', './src/pwa/register.js', './src/pwa/cache-policy.js',
   './styles/avatars.css', './assets/avatars/atlas.svg', './src/components/academic.js',
   './src/modules/academic/calendar.js', './src/modules/academic/timetable.js', './src/modules/academic/course-hub.js',
   './src/modules/study/revision.js', './src/modules/study/revision-view.js',
   './src/modules/account/avatars.js', './src/modules/account/avatar-view.js',
+  './src/modules/academic/models.js',
 ]);
 
 /** @param {{url:string,method:string,credentials?:string,mode?:string,headers:{has:(name:string)=>boolean}}} request @param {string} scope */

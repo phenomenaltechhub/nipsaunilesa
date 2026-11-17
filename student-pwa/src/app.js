@@ -2,7 +2,6 @@ import { element, emptyState, icon, link, pageHeading } from './components/dom.j
 import { resolveRoute, routes, mobilePrimary, academicRouteIds } from './state/routes.js';
 import { homeView, catalogueView } from './modules/academic/views.js';
 import { plannerView } from './modules/study/view.js';
-import { communityView } from './modules/community/view.js';
 import { accountView } from './modules/account/view.js';
 import { registerOfflineShell } from './pwa/register.js';
 import { timetableView } from './modules/academic/timetable.js';
@@ -60,14 +59,13 @@ function render() {
     case 'planner': { const view = plannerView(revisionPlan); node = view.node; dispose = view.dispose; break; }
     case 'timetable': node = timetableView(); break;
     case 'course-hub': node = courseHubView(); break;
-    case 'community': node = communityView(); break;
     case 'profile': node = accountView(avatarPreference); break;
     case 'notifications':
       node = element('div');
-      node.append(pageHeading('OFFICIAL INFORMATION, CLEAR OWNERSHIP', 'Stay in the loop', 'Approved announcements may flow from the editorial system. Level-specific notifications need authenticated access.'), emptyState('Notifications are not connected', 'No notification history is stored. Verified senders, read status and publishing permissions require the backend and editorial integration.', 'notifications', 'h2'));
+      node.append(pageHeading('ACADEMICS', 'Announcements', 'Departmental updates and academic notices.'), emptyState('No announcements', 'Announcements will appear here.', 'notifications', 'h2'));
       break;
     default:
-      node = element('div'); node.append(pageHeading('PAGE NOT FOUND', 'Find your next step', 'This route does not exist in the application.'), link('#/home', 'Return to overview', 'button'));
+      node = element('div'); node.append(pageHeading('PHARMAIDEIA', 'Page unavailable', 'Choose a page from the menu to continue.'), link('#/home', 'Return to Dashboard', 'button'));
   }
   main.replaceChildren(node); main.setAttribute('aria-labelledby', 'page-title');
   document.title = `${route?.title ?? 'Page not found'} · PHARMAIDEIA`;
@@ -80,7 +78,7 @@ function render() {
 }
 
 window.addEventListener('hashchange', () => { render(); main.focus(); window.scrollTo(0, 0); });
-function networkStatus() { byId('network-status').textContent = navigator.onLine ? 'Device online' : 'Offline · local tools'; }
+function networkStatus() { const status = byId('network-status'); status.textContent = navigator.onLine ? '' : 'Offline'; status.hidden = navigator.onLine; }
 window.addEventListener('online', networkStatus); window.addEventListener('offline', networkStatus);
 render(); networkStatus();
 registerOfflineShell();

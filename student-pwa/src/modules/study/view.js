@@ -6,7 +6,7 @@ import { revisionView } from './revision-view.js';
 /** @param {ReturnType<typeof import('./revision.js').createRevisionPlan>} plan */
 export function plannerView(plan) {
   const root = element('div');
-  root.append(pageHeading('YOUR ACADEMIC WORKSPACE', 'Make time for learning', 'A personal revision plan and a focused session, together. These local tools do not create academic records or replace official course schedules.'), academicNavigation('planner'));
+  root.append(pageHeading('ACADEMICS', 'Study planner', 'Organise your revision and make time to focus.'), academicNavigation('planner'));
   const layout = element('div', 'focus-layout');
   layout.dataset.mobileView = 'plan';
   const switches = element('div', 'planner-view-switch'); switches.setAttribute('role', 'group'); switches.setAttribute('aria-label', 'Planner view');
@@ -18,7 +18,6 @@ export function plannerView(plan) {
   root.append(switches);
   const card = element('section', 'card focus-card');
   card.id = 'focus-session-panel';
-  card.append(element('span', 'local-label', 'WORKING LOCAL TOOL · NOT AN ACADEMIC RECORD'));
   const title = element('h2', 'focus-title', 'Focus session');
   const label = element('label', 'field-label', 'Session length'); label.htmlFor = 'focus-duration';
   const select = document.createElement('select'); select.id = label.htmlFor;
@@ -45,10 +44,9 @@ export function plannerView(plan) {
   function resetTimer() { state = createFocus(Number(select.value)); toggle.textContent = 'Start session'; toggle.disabled = false; select.disabled = false; status.textContent = 'Ready when you are.'; update(); }
   select.addEventListener('change', resetTimer); reset.addEventListener('click', resetTimer);
   controls.append(toggle, reset);
-  card.append(title, label, select, timer, status, controls, element('p', 'timer-privacy', 'This timer stays in memory. Leaving this view resets it. It does not create a student record, track your device or request notifications.'));
+  card.append(title, label, select, timer, status, controls, element('p', 'timer-privacy', 'Your timer resets when you leave this page.'));
   const revision = revisionView(plan); revision.id = 'personal-revision-panel';
   layout.append(revision, card); root.append(layout);
-  root.append(element('p', 'inline-note', 'Use only non-sensitive personal study reminders. Reviewed course topics, saved bookmarks, flashcards and licensed practice questions are not connected yet. No background reminders or device permissions are enabled.'));
   const interval = window.setInterval(update, 500);
   return { node: root, dispose: () => window.clearInterval(interval) };
 }

@@ -5,12 +5,16 @@ import path from 'node:path';
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.webmanifest': 'application/manifest+json', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.txt': 'text/plain; charset=utf-8', '.ico': 'image/x-icon', '.pdf': 'application/pdf', '.webm': 'video/webm', '.mp4': 'video/mp4' };
 
 // Local development/test helper only. Never used as the production host.
-export async function startStaticServer(root, port = 0) {
+export async function startStaticServer(root, port = 0, allowedPrefixes = null) {
   const realRoot = fs.realpathSync(root);
   const server = createServer((request, response) => {
     if (!['GET', 'HEAD'].includes(request.method)) { response.writeHead(405, { Allow: 'GET, HEAD' }).end(); return; }
     let target;
-    try { target = path.resolve(realRoot, '.' + decodeURIComponent(new URL(request.url, 'http://localhost').pathname)); }
+    try {
+      const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+      if (allowedPrefixes && (!allowedPrefixes.some(prefix => pathname.startsWith(prefix)) || pathname.split('/').some(part => part.startsWith('.')))) { response.writeHead(403).end(); return; }
+      target = path.resolve(realRoot, '.' + pathname);
+    }
     catch { response.writeHead(400).end(); return; }
     const withinRoot = file => file === realRoot || file.startsWith(realRoot + path.sep);
     if (!withinRoot(target)) { response.writeHead(403).end(); return; }

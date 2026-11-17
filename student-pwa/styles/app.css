@@ -31,7 +31,7 @@ svg { display: block; flex-shrink: 0; }
 .sidebar-note strong { font-size: .8rem; }
 .sidebar-note p { color: var(--color-muted); font-size: .76rem; margin-top: 8px; }
 .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--color-teal); margin-right: 8px; }
-.website-link { font-size: .76rem; margin: 16px 12px 0; }
+.website-link { font-size: .76rem; margin: auto 12px 0; padding-top: 28px; }
 .app-body { flex: 1; min-width: 0; }
 .topbar { min-height: 82px; padding: 16px 40px; border-bottom: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; background: #ffffffde; }
 @supports (backdrop-filter: blur(8px)) { .topbar { backdrop-filter: blur(8px); } }
@@ -167,6 +167,12 @@ progress { width: 100%; accent-color: var(--color-brand); height: 10px; }
 .calendar-agenda .calendar-day { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; margin-bottom: 8px; padding: 12px 14px; }
 .calendar-agenda .calendar-day span { margin: 0; }
 .account-service-card { margin-top: 24px; }
+.metadata-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 20px; }
+.metadata-form > .field-error, .metadata-form > .search-status { grid-column: 1 / -1; }
+.metadata-form > button { align-self: end; justify-self: start; }
+.prepared-course { border-bottom: 1px solid var(--color-border); padding: 20px 0; overflow-wrap: anywhere; }
+.prepared-course h3 { margin-bottom: 8px; }
+.prepared-course .button { margin: 14px 10px 0 0; }
 .avatar-preview { display: flex; align-items: center; gap: 18px; padding: 22px 0; }
 .avatar-preview .avatar-art { --avatar-size: 84px; }
 .avatar-preview strong { font-size: 1rem; }
@@ -187,6 +193,7 @@ progress { width: 100%; accent-color: var(--color-brand); height: 10px; }
   .dashboard-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .academic-launcher { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .revision-form { grid-template-columns: 1fr; }
+  .metadata-form { grid-template-columns: 1fr; }
   .calendar-week { gap: 4px; }
   .calendar-day { padding: 9px 5px; }
 }

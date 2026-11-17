@@ -1,13 +1,12 @@
 export const routes = Object.freeze([
-  { id: 'home', label: 'Overview', title: 'Your academic companion' },
-  { id: 'courses', label: 'Courses', title: 'Your course space' },
-  { id: 'timetable', label: 'Timetable', title: 'A clearer view of your week' },
-  { id: 'planner', label: 'Study planner', title: 'Make time for learning' },
-  { id: 'glossary', label: 'Glossary', title: 'Build your understanding' },
-  { id: 'notifications', label: 'Notifications', title: 'Stay in the loop' },
-  { id: 'community', label: 'Community', title: 'One department. One community.' },
-  { id: 'profile', label: 'Account', title: 'Your student account' },
-  { id: 'course-hub', label: 'Course hub structure', title: 'No course selected' },
+  { id: 'home', label: 'Dashboard', title: 'Dashboard' },
+  { id: 'courses', label: 'Courses', title: 'Courses' },
+  { id: 'timetable', label: 'Timetable', title: 'Timetable' },
+  { id: 'planner', label: 'Study planner', title: 'Study planner' },
+  { id: 'glossary', label: 'Glossary', title: 'Glossary' },
+  { id: 'notifications', label: 'Announcements', title: 'Announcements' },
+  { id: 'profile', label: 'Preferences', title: 'Preferences' },
+  { id: 'course-hub', label: 'Course details', title: 'Course details' },
 ]);
 
 export const mobilePrimary = Object.freeze(['home', 'courses', 'timetable', 'planner']);

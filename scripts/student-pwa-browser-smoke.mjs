@@ -7,7 +7,7 @@ import { startStaticServer } from './lib/static-server.mjs';
 import { cacheName, publicAssets } from '../student-pwa/src/pwa/cache-policy.js';
 const { chromium } = createRequire(import.meta.url)('playwright');
 const require = createRequire(import.meta.url);
-const directory = process.env.PHARMAIDEIA_REVIEW_DIR || '/workspace/artifacts/pharmaideia-m2';
+const directory = process.env.PHARMAIDEIA_REVIEW_DIR || '/workspace/artifacts/pharmaideia-m3';
 await fs.mkdir(directory, { recursive: true });
 // Test an exact isolated copy; the update check changes only its public shell
 // version. No production source or private fixtures are modified by this suite.
@@ -48,14 +48,17 @@ try {
     });
     page.on('console', message => { if (message.text().startsWith('POLICY_VIOLATION:')) policyErrors.push(message.text()); });
     assert.equal((await page.goto(base, { waitUntil: 'networkidle' })).status(), 200);
-    await page.getByRole('heading', { name: 'Your academic companion', exact: true }).waitFor();
+    await page.getByRole('heading', { name: 'Dashboard', exact: true }).waitFor();
     assert.equal(await page.locator('main').count(), 1);
+    assert.doesNotMatch(await page.locator('body').innerText(), /Overview|Development build|Services not connected|Academic services unavailable|Not connected yet|infrastructure/i);
+    for (const name of ['No courses available', 'No timetable entries', 'No announcements']) assert.equal(await page.getByRole('heading', { name, exact: true }).count(), 1);
+    assert.equal(await page.getByRole('link', { name: 'View deadlines', exact: false }).count(), 0, 'Unavailable deadline service has no misleading action');
     await page.keyboard.press('Tab');
     assert.equal(await page.locator('.skip-link').evaluate(node => document.activeElement === node), true);
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('main').evaluate(node => document.activeElement === node), true);
-    if (viewport.width === 1440 || viewport.width === 390) await capture(page, `${viewport.width}-overview.png`);
-    await checkAccessibility(page, `${viewport.width}-overview`);
+    if (viewport.width === 1440 || viewport.width === 390) await capture(page, `${viewport.width}-dashboard.png`);
+    await checkAccessibility(page, `${viewport.width}-dashboard`);
     await page.evaluate(() => { location.hash = '/courses'; });
     const search = page.getByLabel('Search courses'); await search.waitFor();
     await search.fill('<img src=x onerror=alert(1)>');
@@ -67,16 +70,16 @@ try {
     await search.fill('');
     if (viewport.width === 1440 || viewport.width === 390) await capture(page, `${viewport.width}-courses.png`);
     await checkAccessibility(page, `${viewport.width}-courses`);
-    await page.getByRole('link', { name: 'Explore the course hub structure →', exact: true }).click();
+    await page.evaluate(() => { location.hash = '/course-hub'; });
     await page.getByRole('heading', { name: 'No course selected', exact: true }).waitFor();
     const hubTabs = page.getByRole('tablist', { name: 'Course hub sections' });
-    await hubTabs.getByRole('tab', { name: 'Overview', exact: true }).focus();
+    await hubTabs.getByRole('tab', { name: 'Course details', exact: true }).focus();
     await page.keyboard.press('ArrowRight');
     assert.equal(await hubTabs.getByRole('tab', { name: 'Topics', exact: true }).getAttribute('aria-selected'), 'true');
     await page.keyboard.press('End');
     assert.equal(await hubTabs.getByRole('tab', { name: 'Revision', exact: true }).getAttribute('aria-selected'), 'true');
     await hubTabs.getByRole('tab', { name: 'Materials', exact: true }).click();
-    await page.getByRole('heading', { name: 'No course materials are available' }).waitFor();
+    await page.getByRole('heading', { name: 'No study materials added' }).waitFor();
     await checkAccessibility(page, `${viewport.width}-course-hub`);
     if (viewport.width === 1440 || viewport.width === 390) await capture(page, `${viewport.width}-course-hub.png`);
     await page.getByRole('navigation', { name: 'Academic workspace' }).getByRole('link', { name: 'Timetable', exact: true }).click();
@@ -110,7 +113,7 @@ try {
     await page.getByLabel('Target date (optional)', { exact: true }).fill('2026-12-01');
     await page.getByRole('button', { name: 'Add study task', exact: true }).click();
     await page.getByRole('checkbox', { name: 'Review my approved notes', exact: true }).check();
-    await page.getByRole('status').filter({ hasText: '1 personal task · 1 completed · not synced' }).waitFor();
+    await page.getByRole('status').filter({ hasText: '1 task · 1 completed' }).waitFor();
     await page.getByLabel('Show study tasks', { exact: true }).selectOption('open');
     await page.getByText('No tasks match this filter.', { exact: true }).waitFor();
     await page.getByLabel('Show study tasks', { exact: true }).selectOption('all');
@@ -120,15 +123,14 @@ try {
     await page.getByRole('button', { name: 'Add study task', exact: true }).click();
     assert.equal(await page.locator('.revision-list img').count(), 0);
     await page.getByRole('button', { name: 'Remove task: <img src=x onerror=alert(1)>', exact: true }).click();
+    assert.equal(await page.getByRole('link', { name: 'Community', exact: true }).count(), 0);
+    assert.equal(await page.getByRole('link', { name: 'Account', exact: true }).count(), 0);
     if (viewport.width < 760) {
       await page.getByRole('button', { name: 'More', exact: true }).click();
-      await page.getByRole('dialog').waitFor();
-      await page.getByRole('dialog').getByRole('link', { name: 'Community', exact: true }).click();
-      assert.equal(await page.getByRole('dialog').isVisible(), false);
-    } else await page.getByRole('navigation', { name: 'Main navigation', exact: true }).getByRole('link', { name: 'Community', exact: true }).click();
-    await page.getByRole('heading', { name: 'The community is not open', exact: true }).waitFor();
-    assert.equal(await page.locator('textarea,[contenteditable=true]').count(), 0);
-    if (viewport.width === 1440 || viewport.width === 390) await capture(page, `${viewport.width}-community.png`);
+      await page.getByRole('dialog').getByRole('link', { name: 'Announcements', exact: true }).click();
+    } else await page.getByRole('navigation', { name: 'Main navigation', exact: true }).getByRole('link', { name: 'Announcements', exact: true }).click();
+    await page.getByRole('heading', { name: 'No announcements', exact: true }).waitFor();
+    assert.equal(await page.locator('textarea,[contenteditable=true],input[type=password],input[type=email]').count(), 0);
     await page.evaluate(() => { location.hash = '/profile'; });
     assert.equal(await page.getByRole('radio').count(), 20);
     await page.getByRole('radio', { name: 'Capsule', exact: true }).check();
@@ -140,11 +142,9 @@ try {
     await page.getByLabel('Avatar category', { exact: true }).selectOption('all');
     await checkAccessibility(page, `${viewport.width}-avatars`);
     if (viewport.width === 1440 || viewport.width === 390) await capture(page, `${viewport.width}-avatars.png`);
-    await page.getByRole('button', { name: 'Check service availability' }).click();
-    await page.getByRole('status').filter({ hasText: 'No request was sent and no account was created.' }).waitFor();
     await page.evaluate(() => { location.hash = '/admin'; });
-    await page.getByRole('heading', { name: 'Find your next step' }).waitFor();
-    await page.getByRole('link', { name: 'Return to overview' }).click();
+    await page.getByRole('heading', { name: 'Page unavailable' }).waitFor();
+    await page.getByRole('link', { name: 'Return to Dashboard' }).click();
     await page.evaluate(() => navigator.serviceWorker.ready);
     await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
     const cached = await page.evaluate(async name => (await (await caches.open(name)).keys()).map(request => request.url), cacheName);
@@ -154,17 +154,17 @@ try {
     assert.equal(after, publicAssets.length, 'Unlisted responses never enter the shell cache');
     await context.setOffline(true);
     await page.reload({ waitUntil: 'domcontentloaded' });
-    await page.getByRole('heading', { name: 'Your academic companion', exact: true }).waitFor();
-    await page.getByRole('status').filter({ hasText: 'Offline · local tools' }).waitFor();
+    await page.getByRole('heading', { name: 'Dashboard', exact: true }).waitFor();
+    await page.getByRole('status').filter({ hasText: 'Offline' }).waitFor();
     await page.evaluate(() => { location.hash = '/planner'; });
-    await page.getByRole('heading', { name: 'Make time for learning', exact: true }).waitFor();
+    await page.getByRole('heading', { name: 'Study planner', exact: true }).waitFor();
     assert.equal(await page.getByRole('checkbox', { name: 'Review my approved notes', exact: true }).count(), 0, 'Personal tasks do not survive reload or enter the public cache');
     if (viewport.width < 760) await page.getByRole('group', { name: 'Planner view' }).getByRole('button', { name: 'Focus session', exact: true }).click();
     await page.getByRole('button', { name: 'Start session', exact: true }).click();
     await page.getByRole('button', { name: 'Pause session', exact: true }).waitFor();
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'No horizontal overflow');
     assert.deepEqual(errors, []); assert.deepEqual(thirdParty, []); assert.deepEqual(policyErrors, []);
-    console.log(`PASS PWA ${viewport.width}x${viewport.height}: academic navigation/course tabs, timetable, real revision actions/focus controls, 20 avatars with denied storage, closed community, ${publicAssets.length} public-only cached assets, offline reload, axe scans, no overflow/runtime/CSP errors or third-party requests.`);
+    console.log(`PASS PWA ${viewport.width}x${viewport.height}: Dashboard/navigation/course tabs, timetable, real revision actions/focus controls, 20 avatars with denied storage, inactive services hidden, ${publicAssets.length} public-only cached assets, offline reload, axe scans, no overflow/runtime/CSP errors or third-party requests.`);
     await context.close();
   }
   const updateContext = await browser.newContext();
@@ -182,9 +182,9 @@ try {
   await fs.appendFile(path.join(appRoot, 'sw.js'), '\n// Isolated browser test: public shell version two.\n');
   await updatePage.evaluate(async () => { await (await navigator.serviceWorker.getRegistration()).update(); });
   await updatePage.getByRole('button', { name: 'Reload app', exact: true }).waitFor();
-  assert.equal(await updatePage.getByRole('heading', { name: 'Make time for learning', exact: true }).count(), 1, 'Update waits for user choice');
+  assert.equal(await updatePage.getByRole('heading', { name: 'Study planner', exact: true }).count(), 1, 'Update waits for user choice');
   await Promise.all([updatePage.waitForNavigation({ waitUntil: 'domcontentloaded' }), updatePage.getByRole('button', { name: 'Reload app', exact: true }).click()]);
-  await updatePage.getByRole('heading', { name: 'Make time for learning', exact: true }).waitFor();
+  await updatePage.getByRole('heading', { name: 'Study planner', exact: true }).waitFor();
   const activeCaches = await updatePage.evaluate(() => caches.keys());
   assert.ok(activeCaches.includes(updateCacheName));
   assert.ok(!activeCaches.includes(cacheName), 'Activation removes only obsolete app shell cache');
@@ -205,5 +205,5 @@ try {
   console.log('PASS avatar preference: opt-in persistence stores one curated ID, survives reload, and opt-out restores the unsaved default.');
   await preferenceContext.close();
   await fs.writeFile(path.join(directory, 'accessibility.json'), JSON.stringify(accessibility, null, 2) + '\n');
-  await fs.writeFile(path.join(directory, 'REVIEW.md'), '# PHARMAIDEIA M2 component review\n\nActual standalone PWA screenshots. No student/course/message/payment records are fabricated. Planner screenshots contain a deliberately entered personal test reminder, not an institutional record. Academic accounts, payments, server permissions and real-time community remain unavailable. Local planning/focus, timetable date navigation, course structure tabs, avatar choices, offline shell and explicit update application are browser-tested. Automated axe scans do not establish full accessibility conformance or physical-device behavior.\n\n' + captures.map(name => `- [${name}](${path.join(directory, name)})`).join('\n') + '\n');
+  await fs.writeFile(path.join(directory, 'REVIEW.md'), '# PHARMAIDEIA M3 component review\n\nActual standalone PWA screenshots. Initial views contain no institutional records. Automated metadata fixtures remain test-only, unreviewed and in memory; they are not university courses. Planner screenshots contain a personal test reminder. Accounts, payment verification, server permissions and community remain unavailable. Automated accessibility results do not establish full conformance or physical-device behavior.\n\n' + captures.map(name => `- [${name}](${path.join(directory, name)})`).join('\n') + '\n');
 } finally { await browser.close(); await new Promise(resolve => server.close(resolve)); await fs.rm(temporary, { recursive: true, force: true }); }

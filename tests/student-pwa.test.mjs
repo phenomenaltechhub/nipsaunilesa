@@ -8,7 +8,7 @@ import { publicAssets, publicCacheKey } from '../student-pwa/src/pwa/cache-polic
 test('PWA local navigation rejects external URLs, encoded module paths and unknown roles', () => {
   assert.equal(resolveRoute('')?.id, 'home');
   assert.equal(resolveRoute('#/courses')?.id, 'courses');
-  for (const value of ['#/admin', '#/300', '#/../../secrets', '#/https://example.org', 'javascript:alert(1)', '#/%63ourses', '#/home?role=administrator']) assert.equal(resolveRoute(value), null);
+  for (const value of ['#/admin', '#/community', '#/academic-preparation', '#/diagnostics', '#/300', '#/../../secrets', '#/https://example.org', 'javascript:alert(1)', '#/%63ourses', '#/home?role=administrator']) assert.equal(resolveRoute(value), null);
 });
 test('student service boundary fails closed without any network request or simulated login', async () => {
   const original = globalThis.fetch;

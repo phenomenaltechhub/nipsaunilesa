@@ -31,7 +31,7 @@ try {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce', recordVideo: { dir: directory, size: { width: 390, height: 844 } } });
   const page = await context.newPage(); const video = page.video();
   await page.goto(base, { waitUntil: 'networkidle' });
-  await page.getByRole('link', { name: 'Open your study planner →', exact: true }).click();
+  await page.getByRole('link', { name: 'Add a study task →', exact: true }).click();
   await page.getByLabel('Study task', { exact: true }).fill('Review my approved notes');
   await page.getByLabel('Target date (optional)', { exact: true }).fill('2026-12-01');
   await page.getByRole('button', { name: 'Add study task', exact: true }).click();

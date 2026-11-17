@@ -10,12 +10,17 @@
     "test": "node --test tests/*.test.mjs",
     "check:export": "node scripts/check-static-export.mjs",
     "assets:pwa": "node scripts/generate-pharmaideia-brand.mjs && node scripts/generate-pharmaideia-avatars.mjs",
-    "check:pwa": "tsc -p student-pwa/tsconfig.json && tsc -p student-pwa/tsconfig.sw.json && node scripts/check-student-pwa.mjs",
+    "check:pwa": "tsc -p student-pwa/tsconfig.json && tsc -p student-pwa/tsconfig.sw.json && tsc -p developer-tools/tsconfig.json && node scripts/check-student-pwa.mjs",
     "preview:pwa": "node scripts/preview-student-pwa.mjs",
     "test:pwa:browser": "node scripts/student-pwa-browser-smoke.mjs",
     "test:website:browser": "node scripts/website-platform-regression.mjs",
     "check:secrets": "node scripts/check-platform-secrets.mjs",
-    "review:pwa:planner": "node scripts/record-student-planner.mjs"
+    "review:pwa:planner": "node scripts/record-student-planner.mjs",
+    "review:m3:logos": "node scripts/generate-pharmaideia-logo-review.mjs",
+    "review:m3:design": "node scripts/capture-pharmaideia-design-review.mjs",
+    "preview:developer": "node scripts/preview-developer-workbench.mjs",
+    "test:developer:browser": "node scripts/developer-workbench-browser-smoke.mjs",
+    "review:m3:identity": "node scripts/refine-pharmaideia-identity.mjs"
   },
   "dependencies": {
     "leaflet": "1.9.4",

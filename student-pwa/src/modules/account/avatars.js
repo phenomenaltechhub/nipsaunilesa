@@ -34,13 +34,13 @@ export function createAvatarPreference(storage) {
   try {
     const stored = storage?.getItem(avatarKey);
     if (validAvatarId(stored)) { selected = /** @type {string} */ (stored); remembered = true; }
-  } catch { message = 'Device storage is unavailable. Avatar choices still work for this visit.'; }
+  } catch { message = 'Your selection is available for this visit.'; }
   function persist() {
     try {
       if (!storage) throw new Error('Storage unavailable');
       if (remembered) storage.setItem(avatarKey, selected); else storage.removeItem(avatarKey);
-      message = remembered ? 'Avatar preference saved on this device only.' : 'Avatar choice is for this visit only.';
-    } catch { remembered = false; message = 'The device preference could not be saved or cleared. This visit still works; check browser storage settings to remove any previous preference.'; }
+      message = remembered ? 'Saved on this device.' : 'Your selection is available for this visit.';
+    } catch { remembered = false; message = 'This preference could not be saved or cleared. You can still use your selection.'; }
   }
   return {
     snapshot() { return { selected, remembered, message }; },
@@ -48,7 +48,7 @@ export function createAvatarPreference(storage) {
     select(id) {
       if (!validAvatarId(id)) throw new RangeError('Choose a curated avatar.');
       selected = id;
-      if (remembered) persist(); else message = 'Avatar choice is for this visit only.';
+      if (remembered) persist(); else message = 'Your selection is available for this visit.';
     },
     /** @param {boolean} value */
     remember(value) { remembered = value === true; persist(); },

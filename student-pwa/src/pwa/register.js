@@ -30,7 +30,6 @@ export function registerOfflineShell() {
       if (registration.waiting) { userRequestedReload = true; registration.waiting.postMessage({ type: 'APPLY_PUBLIC_SHELL_UPDATE' }); }
     });
   }).catch(() => {
-    const status = document.getElementById('network-status');
-    if (status) status.textContent = 'Offline setup unavailable';
+    console.info('PWA-001: offline setup failed.');
   });
 }
