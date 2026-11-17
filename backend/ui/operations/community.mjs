@@ -1,3 +1,4 @@
+import {synchronize} from './sync.mjs';
 import { api, node, button, form, card, heading, empty, notice, selectField } from './common.mjs';
 export async function communityView(root, ctx) {
     const page = await api('/community/messages');
@@ -7,6 +8,7 @@ export async function communityView(root, ctx) {
     const state = card(page.isOpen && !page.suspended ? 'Messaging is open' : 'Messaging is restricted');
     state.append(node('p', page.suspended ? 'Your posting access is suspended. You can read history, report concerns and continue using academic tools.' : page.isOpen ? 'Post responsibly using your verified account.' : 'Administrators have restricted posting. Read-only history and reporting remain available.'));
     root.append(state);
+    const syncStatus=node('p','','status');syncStatus.setAttribute('role','status');root.append(syncStatus);let lastVersion=page.streamVersion;
     const controls = node('div', '', 'choices'), messages = node('section', '', 'community-history');
     messages.setAttribute('aria-label', 'Community message history');
     const compose = card('Message the department');
@@ -104,7 +106,8 @@ export async function communityView(root, ctx) {
         compose.append(composer, button('Clear reply and mention', () => { replyTo = null; mentions.clear(); replyStatus.textContent = 'No reply selected.'; }));
         root.append(compose);
     }
-    return () => { for (const dialog of root.querySelectorAll('dialog')) {
+    const stopSync=synchronize(()=>api('/community/changes'),async data=>{if(!ctx.alive())return;if(lastVersion!==data.version||data.suspended!==page.suspended||data.isOpen!==page.isOpen){const busy=Boolean(compose.querySelector('textarea')?.value.trim())||replyTo!==null||root.querySelector('dialog[open],details[open]');if(busy)syncStatus.textContent='Community updates are available. Finish or copy your draft, then refresh messages.';else ctx.refresh();}lastVersion=data.version;},{interval:12000,onError:error=>{if(ctx.alive())syncStatus.textContent=error.message;}});
+    return () => {stopSync(); for (const dialog of root.querySelectorAll('dialog')) {
         dialog.close();
         dialog.remove();
     } rows.length = 0; };

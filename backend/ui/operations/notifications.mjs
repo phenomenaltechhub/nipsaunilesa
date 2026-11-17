@@ -1,3 +1,4 @@
+import {synchronize} from './sync.mjs';
 import { api, node, button, form, card, heading, empty, notice, selectField } from './common.mjs';
 export async function notificationView(root, ctx) {
     const data = await api('/notifications?includeMuted=true');
@@ -26,7 +27,7 @@ export async function notificationView(root, ctx) {
     tools.append(label, search, fLabel, filter, pLabel, priority, mutedLabel);
     const rows = node('div');
     section.append(tools, rows);
-    root.append(section);
+    root.append(section);let cursor=data.nextCursor,historyExpanded=false;const syncStatus=node('p','','status');section.append(syncStatus);const older=button('Load older updates',async()=>{try{const page=await api('/notifications?includeMuted=true&cursor='+encodeURIComponent(cursor));if(!ctx.alive())return;historyExpanded=true;data.notices.push(...page.notices);cursor=page.nextCursor;older.hidden=!cursor;draw();}catch(error){notice(section,error.message);}});older.hidden=!cursor;section.append(older,button('Refresh announcements',()=>ctx.refresh()));
     const draw = () => { rows.replaceChildren(); const visible = data.notices.filter(n => `${n.title} ${n.message}`.toLowerCase().includes(search.value.toLowerCase()) && (filter.value === 'all' || (filter.value === 'read') === n.read) && (priority.value === 'all' || priority.value === n.priority)).filter(n => muted.checked || n.priority !== 'normal' || ['administrative', 'cbt_invitation'].includes(n.kind) || (n.kind === 'resource' ? data.preferences.resources : data.preferences.announcements)); for (const n of visible) {
         const row = node('article', '', 'notice-item');
         row.append(node('h3', n.title), node('p', `${n.sender.name} · ${n.sender.position} · ${n.priority} · ${n.read ? 'Read' : 'Unread'}`, 'muted'), node('p', n.message, 'preserve-lines'), node('p', new Date(n.publishAt).toLocaleString()));
@@ -54,6 +55,7 @@ export async function notificationView(root, ctx) {
         root.append(manage);
         await notificationManagement(manage, ctx);
     }
+    return synchronize(()=>api('/notifications?includeMuted=true'),latest=>{if(!ctx.alive())return;if(historyExpanded){syncStatus.textContent='Refresh announcements to synchronize the latest reading status and corrections.';return;}data.notices=latest.notices;data.preferences=latest.preferences;cursor=latest.nextCursor;older.hidden=!cursor;draw();},{interval:20000,onError:error=>{if(ctx.alive())notice(section,error.message);}});
 }
 export async function notificationManagement(root, ctx) {
     const history = await api('/notifications/manage'), catalogue = ctx.identity.activeRole === 'administrator' ? await api('/admin/academic/catalogue') : await api('/academic/courses');
@@ -65,7 +67,9 @@ export async function notificationManagement(root, ctx) {
     for (const n of history.notices) {
         const row = node('article', '', 'notice-item');
         row.append(node('h3', n.title), node('p', `${n.status} · revision ${n.revision}`), node('p', n.message, 'preserve-lines'));
+        row.append(node('p',`${n.deliveredCount??0} recipient fetches recorded${n.expiresAt?' · expires '+new Date(n.expiresAt).toLocaleString():''}`,'muted'));
         if (n.kind !== 'cbt_invitation') {
+            row.append(form('Set announcement expiry '+n.id,[{id:'expiresAt',label:'Expiry (UTC ISO; blank removes expiry)',maxLength:30,required:false,value:n.expiresAt??''}],async v=>{await api('/notifications/manage/'+n.id+'/expiry','PUT',{revision:n.revision,expiresAt:v.expiresAt||null});ctx.refresh();}));
             row.append(form('Correct announcement ' + n.title, [{ id: 'title', label: 'Corrected title', value: n.title, maxLength: 120 }, { id: 'message', label: 'Corrected message', value: n.message, multiline: true, maxLength: 2000 }, { ...selectField('priority', 'Priority', [['normal', 'Normal'], ['important', 'Important'], ['urgent', 'Urgent']]), value: n.priority }], async (v) => { await api('/notifications/manage/' + n.id, 'PATCH', { ...v, revision: n.revision, action: 'correct', publishAt: new Date().toISOString() }); ctx.refresh(); }), button('Withdraw ' + n.title, async () => { try {
                 await api('/notifications/manage/' + n.id, 'PATCH', { revision: n.revision, action: 'withdraw' });
                 ctx.refresh();

@@ -1,0 +1,180 @@
+[
+  {
+    "width": 1440,
+    "theme": "light",
+    "measurements": [
+      {
+        "selector": ".hero-kicker",
+        "minimumContrast": 10.49,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 741,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy h2",
+        "minimumContrast": 11.19,
+        "required": 3,
+        "sampledGlyphBackdropPixels": 7258,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy>p:last-of-type",
+        "minimumContrast": 9.31,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 1782,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy .button:not(.hero-secondary)",
+        "minimumContrast": 8.7,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 534,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy .hero-secondary",
+        "minimumContrast": 10.11,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 473,
+        "passed": true
+      },
+      {
+        "selector": ".hero-attribution",
+        "minimumContrast": 9.44,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 702,
+        "passed": true
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "measurements": [
+      {
+        "selector": ".hero-kicker",
+        "minimumContrast": 10.49,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 741,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy h2",
+        "minimumContrast": 11.19,
+        "required": 3,
+        "sampledGlyphBackdropPixels": 7258,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy>p:last-of-type",
+        "minimumContrast": 9.31,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 1782,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy .button:not(.hero-secondary)",
+        "minimumContrast": 13.43,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 534,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy .hero-secondary",
+        "minimumContrast": 10.11,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 473,
+        "passed": true
+      },
+      {
+        "selector": ".hero-attribution",
+        "minimumContrast": 9.44,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 702,
+        "passed": true
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "measurements": [
+      {
+        "selector": ".hero-kicker",
+        "minimumContrast": 5.23,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 669,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy h2",
+        "minimumContrast": 7.06,
+        "required": 3,
+        "sampledGlyphBackdropPixels": 3593,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy .button:not(.hero-secondary)",
+        "minimumContrast": 8.7,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 507,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy .hero-secondary",
+        "minimumContrast": 10.11,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 460,
+        "passed": true
+      },
+      {
+        "selector": ".hero-attribution",
+        "minimumContrast": 10.59,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 704,
+        "passed": true
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "measurements": [
+      {
+        "selector": ".hero-kicker",
+        "minimumContrast": 5.23,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 669,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy h2",
+        "minimumContrast": 7.06,
+        "required": 3,
+        "sampledGlyphBackdropPixels": 3593,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy .button:not(.hero-secondary)",
+        "minimumContrast": 13.43,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 507,
+        "passed": true
+      },
+      {
+        "selector": ".hero-copy .hero-secondary",
+        "minimumContrast": 10.11,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 460,
+        "passed": true
+      },
+      {
+        "selector": ".hero-attribution",
+        "minimumContrast": 10.59,
+        "required": 4.5,
+        "sampledGlyphBackdropPixels": 704,
+        "passed": true
+      }
+    ]
+  }
+]

@@ -1,3 +1,5 @@
+import {examinationEntry} from './examination.mjs';
+import {questionBankView} from './question-bank.mjs';
 import { api, node, button, form, card, heading, empty, notice, selectField, jsonDownload, multi, studentPicker } from './common.mjs';
 const initialStates = ['initial_approved', 'application_revisions'];
 function dateTime(value) { const date = new Date(value); if (!Number.isFinite(date.getTime()))
@@ -16,12 +18,13 @@ function questionEditor(container, topics) { const questions = []; const rows = 
     q.topic.add(new Option(t.title, t.id)); q.category = node('select'); q.category.setAttribute('aria-label', 'Question category ' + questions.length); for (const c of ['recall', 'application', 'analysis'])
     q.category.add(new Option(c, c)); row.append(q.topic, q.category, button('Remove proposed question', () => { questions.splice(questions.indexOf(q), 1); row.remove(); })); rows.append(row); })); return () => questions.map(q => ({ text: q.text.value, topicId: q.topic.value, category: q.category.value, options: q.options.value.split('\n').map(s => s.trim()).filter(Boolean), correctIndex: Number(q.correct.value) - 1, points: Number(q.points.value), sourceUrl: q.sourceUrl.value })); }
 export async function cbtView(root, ctx) {
+    let examinationCleanup=()=>{};
     const data = await api('/cbt/requests'), catalogue = await api('/academic/courses'), assigned = await api('/cbt/assignments');
     if (!ctx.alive())
         return;
     heading(root, 'CBT requests and assessments', 'Apply for approved pre-examination revision assessments and review your assigned schedules.');
     const state = card(data.policy.intakeOpen ? 'Initial requests are open' : 'Initial requests are closed');
-    state.append(node('p', 'Initial approval is required before a full application. An application does not create an examination.'), node('p', 'Examination delivery is not enabled yet. Request, approval and scheduling operations are available here.'));
+    state.append(node('p', 'Initial approval is required before a full application. An application does not create an examination.'), node('p', 'Only selected students may enter administrator-released assessments during their assigned window.'));
     state.append(button('Refresh CBT status', () => ctx.refresh()));
     root.append(state);
     const assignments = card('Your assigned assessments');
@@ -35,6 +38,7 @@ export async function cbtView(root, ctx) {
         catch (error) {
             notice(row, error.code === 'RESULTS_UNAVAILABLE' ? 'No published results available.' : error.message);
         } }));
+        row.append(button('Enter assessment',async()=>{try{examinationCleanup();examinationCleanup=await examinationEntry(root,ctx,a)??(()=>{});}catch(error){notice(row,error.message);}}));
         assignments.append(row);
     }
     if (!assigned.assignments.length)
@@ -64,9 +68,7 @@ export async function cbtView(root, ctx) {
         past.append(node('h3', r.title));
         showAnalytics(past, r, catalogue.courses.find(c => c.id === r.courseId)?.topics ?? []);
     }
-    if (!performance.assessments.length)
-        empty(past, 'No published assessment results');
-    root.append(past);
+    if(performance.assessments.length)root.append(past);
     const history = card('Your applications');
     for (const request of data.requests) {
         const course = catalogue.courses.find(c => c.id === request.courseId), row = node('article', '', 'request-item');
@@ -124,6 +126,8 @@ export async function cbtView(root, ctx) {
     if (!data.requests.length)
         empty(history, 'No CBT requests submitted');
     root.append(history);
+    const attempts=await api('/cbt/attempt-history');if(ctx.alive()){const results=card('Your CBT attempt results');for(const result of attempts.attempts){results.append(node('h3','Attempt '+result.number+' · '+result.percentage+'%'));showAnalytics(results,result.analytics);for(const recommendation of result.recommendations??[])results.append(node('p','Revision priority: '+recommendation.title+' · '+recommendation.action));for(const item of result.review)results.append(node('p',item.text),node('p',item.explanation));}if(!attempts.attempts.length)empty(results,'No released attempt results');root.append(results);}
+    return ()=>examinationCleanup();
 }
 export function showAnalytics(root, data, topics = []) { const section = card('Assessment performance'); section.append(node('p', `${data.score}/${data.maximum} points · ${data.unanswered} unanswered · ${data.elapsedSeconds} seconds`)); for (const [topic, result] of Object.entries(data.topics))
     section.append(node('p', `${topics.find(t => t.id === topic)?.title ?? 'Reviewed topic'}: ${result.score}/${result.maximum}`)); for (const [category, result] of Object.entries(data.categories))
@@ -136,6 +140,7 @@ export async function cbtAdministration(root, ctx) {
     root.append(form('Update CBT intake policy', [{ ...selectField('intakeOpen', 'Initial request intake', [['false', 'Closed'], ['true', 'Open']]), value: String(data.policy.intakeOpen) }, { ...selectField('visibilityWarnings', 'Visibility warning threshold', [['2', 'Two warnings'], ['3', 'Three warnings']]), value: data.policy.visibilityWarnings }], async (v) => { await api('/admin/cbt/policy', 'PUT', { revision: data.policy.revision, intakeOpen: v.intakeOpen === 'true', visibilityWarnings: Number(v.visibilityWarnings) }); ctx.refresh(); }));
     const queue = card('Request and application review');
     const questionChoices = [];
+    await questionBankView(root,ctx,catalogue.courses);
     for (const r of data.requests) {
         const row = node('article', '', 'request-item');
         row.append(node('h3', `${catalogue.courses.find(c => c.id === r.courseId)?.code ?? 'Course request'} · ${r.status.replaceAll('_', ' ')}`), node('p', r.justification));
@@ -192,6 +197,7 @@ export async function cbtAdministration(root, ctx) {
     if (!data.requests.length)
         empty(queue, 'No CBT requests awaiting decisions');
     root.append(queue);
+    const bank=await api('/admin/cbt/question-bank');for(const q of bank.questions.filter(q=>q.status==='authorized'))if(!questionChoices.some(([id])=>id===q.id))questionChoices.push([q.id,q.text]);
     const options = catalogue.courses.map(c => [c.id, `${c.code} · ${c.level} Level`]), questionPicker = multi(questionChoices, 'exam-questions', 'Authorized questions for the selected course');
     const planning = form('Create examination plan', [selectField('courseId', 'Reviewed course', options), selectField('kind', 'Assessment purpose', [['pre_exam_revision', 'Pre-examination revision'], ['periodic', 'Administrator-selected periodic test']]), { ...selectField('requestId', 'Approved application (required for pre-exam revision)', [['', 'None for periodic test'], ...data.requests.filter(r => r.status === 'application_approved').map(r => [r.id, catalogue.courses.find(c => c.id === r.courseId)?.code ?? 'Approved application'])]), required: false }, { id: 'title', label: 'Assessment title' }, { id: 'startsAt', label: 'Planned start (device time)', type: 'datetime-local' }, { id: 'durationMinutes', label: 'Duration in minutes', type: 'number' }, { id: 'attemptLimit', label: 'Maximum attempts (1–3)', type: 'number' }, { id: 'capacity', label: 'Maximum students per batch (1–200)', type: 'number' }], async (v) => { await api('/admin/cbt/exams', 'POST', { ...v, requestId: v.requestId || null, startsAt: dateTime(v.startsAt), durationMinutes: Number(v.durationMinutes), attemptLimit: Number(v.attemptLimit), capacity: Number(v.capacity), questionIds: questionPicker.values() }); ctx.refresh(); });
     planning.querySelector('form').prepend(questionPicker.node);
@@ -227,6 +233,8 @@ export async function cbtAdministration(root, ctx) {
         }
         if (exam.status !== 'cancelled')
             row.append(form('Change examination schedule ' + exam.id, [selectField('action', 'Action', [['reschedule', 'Reschedule'], ['cancel', 'Cancel assessment']]), { id: 'startsAt', label: 'New start (device time; only for reschedule)', type: 'datetime-local', required: false }], async (v) => { await api('/admin/cbt/exams/' + exam.id, 'PATCH', { revision: exam.revision, action: v.action, ...(v.action === 'reschedule' ? { startsAt: dateTime(v.startsAt) } : {}) }); ctx.refresh(); }));
+        const config=await api('/admin/cbt/exams/'+exam.id+'/delivery');if(!ctx.alive())return;
+        row.append(form('Configure delivery '+exam.id,[{id:'opensAt',label:'Delivery opens (UTC ISO)',value:new Date(config.opens_at).toISOString(),maxLength:30},{id:'closesAt',label:'Delivery closes (UTC ISO)',value:new Date(config.closes_at).toISOString(),maxLength:30},{...selectField('releaseQuestions','Question delivery',[['false','Withheld'],['true','Release within assigned windows']]),value:String(Boolean(config.released))},{id:'instructions',label:'Assessment instructions',multiline:true,maxLength:2000,value:config.instructions}],async v=>{await api('/admin/cbt/exams/'+exam.id+'/delivery','PUT',{...v,revision:config.revision,releaseQuestions:v.releaseQuestions==='true'});ctx.refresh();}));
         const statuses = node('div');
         row.append(statuses);
         async function update() { if (!ctx.alive())
@@ -234,9 +242,10 @@ export async function cbtAdministration(root, ctx) {
             const state = await api('/admin/cbt/exams/' + exam.id + '/monitor');
             if (!ctx.alive())
                 return;
-            statuses.replaceChildren(node('h3', 'Participation status'));
-            for (const a of state.assignments)
-                statuses.append(node('p', `${a.name} · ${a.level} Level · ${a.state.replaceAll('_', ' ')}`));
+            const summary=await api('/admin/cbt/exams/'+exam.id+'/summary');if(!ctx.alive())return;statuses.replaceChildren(node('h3','Participation status'),node('p',`${summary.selected} selected · ${summary.marked} marked · ${summary.averagePercentage===null?'No score average':summary.averagePercentage+'% latest-attempt average'}`));
+            const filter=node('select'),label=node('label','Filter participation status'),listing=node('div');label.append(filter);for(const value of ['all','not_started','in_progress','submitted','expired','interrupted','requires_review'])filter.add(new Option(value.replaceAll('_',' '),value));const draw=()=>{listing.replaceChildren();for(const a of state.assignments.filter(a=>filter.value==='all'||a.state===filter.value))listing.append(node('p',`${a.name} · ${a.level} Level · ${a.state.replaceAll('_',' ')}`));};filter.addEventListener('change',draw);statuses.append(label,listing);draw();
+            for(const batch of state.batches){statuses.append(node('p',`${batch.title} · ${state.assignments.filter(a=>a.batch_id===batch.id).length}/${batch.capacity} selected`));if(!state.attempts.length)statuses.append(form('Set batch closing time '+batch.id,[{id:'closesAt',label:'Batch closes (UTC ISO)',maxLength:30,value:new Date(batch.closes_at??batch.starts_at+(batch.duration_minutes??exam.duration_minutes)*60000).toISOString()},{id:'durationMinutes',label:'Batch duration in minutes',type:'number',value:batch.duration_minutes??exam.duration_minutes},{id:'attemptLimit',label:'Batch attempt limit (1–3)',type:'number',value:batch.attempt_limit??exam.attempt_limit}],async v=>{await api('/admin/cbt/batches/'+batch.id+'/window','PUT',{...v,durationMinutes:Number(v.durationMinutes),attemptLimit:Number(v.attemptLimit)});ctx.refresh();}));}
+            for(const a of state.attempts??[]){const attempt=card('Attempt '+a.number+' · '+a.status);attempt.append(node('p',new Date(a.started_at).toLocaleString()));if(a.result_status)attempt.append(form('Review attempt '+a.id,[selectField('action','Result decision',a.result_status==='published'?[['withhold','Withhold result']]:a.result_status==='pending_review'?[['review','Mark reviewed']]:[['publish','Release result']]),{id:'note',label:'Review and incident note',multiline:true,maxLength:1000}],async v=>{await api('/admin/cbt/attempts/'+a.id+'/review','PATCH',{...v,revision:a.result_revision,releaseReview:false});ctx.refresh();}));attempt.append(button('View marked analytics',async()=>{try{const r=await api('/admin/cbt/attempts/'+a.id+'/analytics');if(ctx.alive())showAnalytics(attempt,r.analytics);}catch(error){notice(attempt,error.message);}}));statuses.append(attempt);}for(const event of state.events??[])statuses.append(node('p',`${event.kind} · ${new Date(event.received_at).toLocaleString()}`,'muted'));
             if (!state.assignments.length)
                 statuses.append(node('p', 'No students selected.'));
         }

@@ -1,0 +1,74 @@
+# M7 — Operational integration, controlled CBT engine and backend readiness
+
+17 November 2026. Existing branch: `development/nipsa-student-platform`.
+Verified clean starting HEAD: **b2df50b77c78af3ba645697cdd9d47b3b6f0dfb8** (M6). The interrupted attempt left no M7 code; the restored executor/branch/working tree were verified before implementation. Existing main baseline: `92d890a39d9ac056d81e758ebeafb9b96ed781e0`. No new repository, environment, branch or history rewrite. Existing project/Issue #3/M6 architecture, matrix, security and implementation requirements were reviewed; no applicable AGENTS.md was found.
+
+**This delivers functioning controlled integrations, including real CBT examination delivery. It is not production readiness or full-platform completion.** Startup remains loopback/synthetic-only and refuses production mode. All approved outstanding functions remain mandatory before public launch; [the M8 matrix](m7/PRE_LAUNCH_MATRIX.md) names implemented, blocked and unimplemented scope explicitly.
+
+## Actual implementation status
+
+| Area | Status and evidence |
+| --- | --- |
+| CBT engine | **Implemented/locally tested; integrated in controlled staging.** Real authorized attempt allocation, approved encrypted question snapshots, server deadlines, selected identity/batch/window/duration/attempt policy, writer leases, answer/flag persistence, replay/version conflict handling, navigation, explicit final submission, marking, expiry, interruptions, restart/resume and current revocation checks. No client timer/score authority. |
+| Question bank/admin | **Controlled integrated.** Admin-MFA draft/import/review/correction/withdrawal, difficulty/marks/source/explanation fields, encrypted history and schedule holds. M6 initial request → approval → application → question review → selected scheduling remains intact; intake starts closed. No fabricated university questions/records. |
+| Results/analytics/monitoring | **Controlled integrated.** Server total/percentage/topic/category/unanswered/time/revision projection, own attempt history, withheld/reviewed/released/withheld-again state, optional post-window answer review, admin participation filtering/batch summaries/latest-attempt aggregates and incident notes. No completion notification. Preparation feedback is not a university grade. |
+| Community | **Controlled integrated.** Existing actual persisted interactions/moderation plus stream versions and non-overlapping visible-only adaptive polling, draft-preserving update feedback, closed/open/current suspension/grant enforcement. One general room only. No external persistent-connection service is assumed. |
+| Notifications | **Controlled integrated.** Scoped CR/admin composition, delivery receipts, preferences/read synchronization, correction/withdrawal, explicit expiry, cursor pagination, actual maintenance worker and visible-only polling. In-app notices do not depend on push permission. Device push is **external-blocked/not implemented operationally**. |
+| Course/resource integration | **Controlled integrated.** M6 course/progress retained; independent resource submission/review/correction/publication/withdrawal, strict Drive destinations, actual protected text attachment upload/download and quotas/private encryption/integrity. PDF scanning is **external-blocked and fails closed**; Office formats are **not implemented**. Synthetic scanner verdicts are boundary tests, not a real scanner. |
+| Account/TLS/email | M5 authentication/recovery/MFA/session/role/level enforcement preserved and regression-tested. **Actual local TLS** with verified certificates/Secure cookies and private-file configuration tested. Real host/TLS termination/email are **external-blocked/unverified**. No real account activation or operational email claim. |
+| Payments | **Adapter implemented/locally tested with explicitly synthetic provider transports.** Server initialization/verification, raw webhook HMAC-SHA512, references/amount/currency/test-domain/provider-ID integrity, idempotency/replay and refund/reversal/dispute holds. Actual Paystack access/merchant/sandbox credentials/fees are **unverified/external-blocked**. No live charge, card storage or account eligibility from callbacks. |
+| Infrastructure | Architecture requirements/decision documented before provider recommendation. One Smartweb request was proxy-blocked (CONNECT 403); no retry loop or assumption of compatibility/pricing. **No external production-like host was verified and no provider selected.** |
+| Help/visuals | Approved Classic Standard identity/navigation/hero composition preserved. Accurate AI-generated-composite attribution avoids asserting that every likeness is fictional. Real M7 guides extend existing Help; no autoplay; original captioned tutorial retained. Original mobile CBT review recording demonstrates actual synthetic operations. |
+| Editorial | **Source-blocked; integration not complete.** Separate publishing workstream preserved; no duplicate portal or public website logo change. Final approved Editorial/PWA integration remains M8. |
+
+## Real CBT execution, security and fairness
+
+The M7 browser/backend suites actually exercise selected admission, denial of an unassigned student, server-derived timing, encrypted answer/flag saves, navigation, interruptions, saved-state resume, final submission, duplicate rejection, server marking, admin completion visibility, result withholding/review/release and topic feedback. Backend restart is real, using the same private database/keys/deadline. Browser tests deliberately delay saves, drop an acknowledgement after the server commits, retry the same write, go offline (private content clears), resume and submit. Changing device Date.now does not add examination time.
+
+Current sessions/grants/active roles/course access are checked on each protected operation; administrative actions retain fresh MFA. Session takeover is explicit and invalidates the previous writer's authority. Transactions, revision checks and per-request replay evidence prevent concurrent attempt/submission/lost-update bypasses. No private question/key/result is shipped in JS/static assets/service-worker caches or localStorage. Saved answers persist; unsent answers cannot be guaranteed after private-view disposal or a lost connection.
+
+Visibility/navigation/heartbeat gaps are observations, not proof of cheating. Two/three configurable warnings can flag review; disconnections are separated and no automatic penalty invalidates an examination. The server clock continues through interruptions. Administrators receive actual status/incident records and review notes. No browser lockdown/proctoring guarantee is made.
+
+Confirmed fixes include stale pending-answer/flag merging, lost-acknowledgement retry identity, privacy-state heading/label references, accessible timer semantics, a positional legacy batch-insert migration incompatibility and a dark hero CTA contrast conflict. Existing gallery download-time Canvas behavior remains unchanged. [Security review](m7/SECURITY_REVIEW.md) separates controls/findings from unresolved operational risks; [API/operations](m7/API_AND_OPERATIONS.md) records route/state/size/permission contracts.
+
+## Executed validation
+
+| Check | Actual result |
+| --- | --- |
+| `npm ci` | Passed clean installation, 375 packages. Existing ESLint 9 end-of-support warning recorded; no new package/version/lockfile change. |
+| `npm run lint` | Passed without errors/warnings. |
+| `npx tsc --noEmit` | Passed website type check. |
+| `npm run check:pwa` | Passed strict public PWA/SW/developer checks, public-only cache/file boundaries and budgets. Native backend/online `.mjs` modules are syntax/lint/runtime tested, not represented as strictly TypeScript-checked. |
+| `npm test` | **194 passed, 0 failed**: all 178 existing cases plus 16 M7 engine/security cases. Actual HTTP/database/migrations/TLS/restart/concurrency/provider-boundary tests; no real students/providers used. |
+| `npm run test:m7:browser` | Passed 1440px/390px actual sign-in/dashboard/light-dark/contrast, two-question navigation/save/flag/lost acknowledgement, Date.now manipulation, private offline clearing, resume, submit/mark/release/results/Help and accessibility/layout checks. |
+| `npm run test:m7:workflows` | Passed actual admin UI result review/release, independent representative/reviewer resource workflow, cross-client community/notice polling, local 50-request concurrency and expired-session/offline privacy. |
+| `npm run test:pwa:browser` | Passed 1440/390/320/768px navigation/tools/avatars/storage-denied/offline/cache/update regressions. |
+| `npm run test:m4:browser` | Passed desktop/mobile progress/settings/privacy/dark/large-text/notification/manifest/icon regressions. |
+| `npm run test:m5:browser` | Passed 1440/390/320px visuals/navigation/hero/video/dark/axe and optional-media fallback/slow-network checks. |
+| `npm run test:m5:accounts:browser` | Passed desktop/mobile real sign-in/MFA/roles/account status/community policy/audit/logout. |
+| `npm run test:m6:browser` / `npm run test:m6:workflows` | Passed preserved courses/progress/notices/community/closed intake/Help/privacy and actual M6 two-stage application/review/selected-planning regressions. The historical M6 monitoring fixture is not used as evidence of M7 examination delivery. |
+| `npm run test:developer:browser` | Passed desktop/mobile workbench/file boundaries/axe. |
+| `npm run build` / `npm run check:export` | Passed; 35 HTML documents, 72 local assets, 65 valid JSON-LD blocks; no missing internal references or private backend content exported. |
+| `npm run test:website:browser` | Passed desktop/mobile public-site/gallery regression. Four portrait downloaded JPEGs contain generated watermark while original bytes/top content remain unchanged. |
+| `npm run check:brand` / `npm run check:m5:assets` | Passed seven approved Standard sizes/maskable bounds, eight responsive hero assets and original optional captioned video integrity. |
+| `npm run check:secrets` / `git diff --check` | Passed heuristic credential/whitespace checks; no real records, keys, database dumps or private provider configuration included. Not a full private-record/history certification. |
+| `npm audit --json` | **Nonzero: 14 high development dependency entries from one unpatched picomatch advisory.** Not silenced. |
+| `npm audit --omit=dev --json` | Passed: zero production npm advisories. Does not assess Node/SQLite/OS/cloud tool patching. |
+| Accessibility/contrast | 18 M7 axe scans: zero detected violations. Four dashboard scans leave image contrast incomplete; visual review and 22 actual glyph/backdrop measurements across desktop/mobile light/dark meet applicable thresholds. This resolves the scoped M6 dashboard contrast findings; independent physical-device/screen-reader acceptance remains M8. No automated certification claim. |
+| `npm run review:m7:walkthrough` | Passed original actual-flow mobile MP4/captions/transcript generation using existing Chromium/CDP/system FFmpeg. No credentials/real records shown; not a completed-platform onboarding claim. |
+
+Full audit remains [GHSA-fc5q-39xc-vjpf](https://github.com/advisories/GHSA-fc5q-39xc-vjpf), picomatch repeated-extglob ReDoS `<=4.0.7`; installed 2.3.2/4.0.7 under development-only eslint-config-next tooling, latest published 4.0.7, no patched release verified. No unsafe override/force upgrade/configuration downgrade or security-workflow bypass. The existing full-audit deployment gate remains blocked. Maintain trusted tooling inputs and adopt a compatible upstream fix when available.
+
+## Performance, assets and files
+
+Public offline shell: **199,959 bytes**, **79,967 bytes JavaScript**, 46 public-only cached assets; unchanged 200 KB/80 KB limits. Approximately 109 KB of authenticated online UI source is separate from that shell budget; it is not private offline cache. Actual local 50-request concurrency measurement is in review evidence and does not establish capacity for 887 students. No recurring infrastructure/dependency was added. Browser slow-network/emulation is not a physical Android performance test.
+
+Actual desktop/mobile screenshots, machine-readable accessibility/contrast/performance evidence, the mobile recording, captions and transcript are indexed in [design-review/m7](../../design-review/m7/README.md). Every populated view is explicitly synthetic test content. No localhost URL is a public preview.
+
+Files: migration 005; native examination/question-bank/resource/provider/TLS modules; existing route/worker/session/notification/community integration; connected exam/bank/resource/sync UI; Help/hero attribution/targeted contrast/cache update; M7 fixtures/security/browser/recording scripts; module diagnostics and documentation. [Complete intended inventory](../../design-review/m7/FILES_CHANGED.txt) accompanies the review commit. Main Next.js website/logo/gallery implementation, deployment workflow, production configuration, DNS and package-lock remain unchanged.
+
+## Blockers and M8 requirements
+
+No host/provider/cost/network/operational email/scanner/push/merchant infrastructure is verified. Actual local TLS is not provider certification. Full dependency audit remains unresolved. Reviewed real academic content, privacy/financial retention, operational backup/restore/keys/monitoring/load, independent security/accessibility/Android review and owned Editorial source are required. Approved timetable/calendar/ICS, complete glossary/daily content, bookmark/flashcard/practice/history/profile/activation-batch and remaining payment/editorial integrations are explicitly **not complete** and must be finished in M8 before launch, not silently postponed after launch.
+
+Commit and normal-push verification are reported using the final Git SHA after the review commit; this file avoids a self-referential hash. Only the existing development branch is authorized. No main merge/deployment/real account/live charge/paid provisioning/DNS/hosting modification, or automatic M8 start, is performed.

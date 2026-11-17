@@ -1,5 +1,7 @@
 # M7 implementation dependencies and CBT engine gates
 
+Historical M6 requirements below are retained for traceability. The actual M7 engine/integration evidence now lives in [M7 report](../MILESTONE_7.md), [current APIs](../m7/API_AND_OPERATIONS.md) and [remaining mandatory M8 gates](../m7/PRE_LAUNCH_MATRIX.md). Do not interpret this original M6 boundary as a claim that the implemented M7 engine is still only a proposal.
+
 M6 provides real application/review/planning/batch/assignment/monitoring operations. It deliberately returns `deliveryOperational: false`; no start/answer/submit API exists. Student assignments are real plans, not operational examinations. This boundary must remain explicit until the following flows pass end to end.
 
 ## Server authority and confidentiality

@@ -1,3 +1,4 @@
+import {resourceList} from './resources.mjs';
 import { resourceCategories } from '/src/modules/academic/catalogue.js';
 import { tabs } from '/src/components/academic.js';
 import { api, node, button, form, link, card, heading, empty, selectField, studentPicker } from './common.mjs';
@@ -100,6 +101,7 @@ export async function courseView(root, ctx, target) {
         materials.append(node('h3', r.title), node('p', r.description), sourceLink(r.url, 'Google Drive resource'));
     if (!course.resources.length)
         empty(materials, 'No study materials added');
+    await resourceList(materials,ctx,course.id);if(!ctx.alive())return;
     const inbox = await api('/notifications');
     if (!ctx.alive())
         return;

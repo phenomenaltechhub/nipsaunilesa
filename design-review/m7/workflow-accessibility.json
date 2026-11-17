@@ -1,0 +1,32 @@
+[
+  {
+    "label": "1440-admin-attempts",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-admin-attempts",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-reviewed-resource",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-community-synchronized",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-notifications-synchronized",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-expired-session",
+    "violations": [],
+    "incomplete": []
+  }
+]

@@ -1,0 +1,152 @@
+[
+  {
+    "label": "1440-dashboard-light",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "targets": [
+          [
+            ".hero-kicker"
+          ],
+          [
+            ".hero-copy > h2"
+          ],
+          [
+            ".hero-copy > p:nth-child(3)"
+          ],
+          [
+            ".button[href$=\"#/courses\"]"
+          ],
+          [
+            ".hero-secondary"
+          ],
+          [
+            "small"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "label": "1440-dashboard-dark",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "targets": [
+          [
+            ".hero-kicker"
+          ],
+          [
+            ".hero-copy > h2"
+          ],
+          [
+            ".hero-copy > p:nth-child(3)"
+          ],
+          [
+            ".button[href$=\"#/courses\"]"
+          ],
+          [
+            ".hero-secondary"
+          ],
+          [
+            "small"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "label": "1440-cbt-active",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-cbt-submitted",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-cbt-results",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-help",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-dashboard-light",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "targets": [
+          [
+            ".hero-kicker"
+          ],
+          [
+            ".hero-copy > h2"
+          ],
+          [
+            ".button[href$=\"#/courses\"]"
+          ],
+          [
+            ".hero-secondary"
+          ],
+          [
+            "small"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "label": "390-dashboard-dark",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "targets": [
+          [
+            ".hero-kicker"
+          ],
+          [
+            ".hero-copy > h2"
+          ],
+          [
+            ".button[href$=\"#/courses\"]"
+          ],
+          [
+            ".hero-secondary"
+          ],
+          [
+            "small"
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "label": "390-cbt-active",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-cbt-submitted",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-cbt-results",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-help",
+    "violations": [],
+    "incomplete": []
+  }
+]

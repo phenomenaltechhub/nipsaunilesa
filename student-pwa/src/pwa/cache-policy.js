@@ -1,6 +1,6 @@
 // No private data.
 export const cachePrefix = 'pharmaideia-public-shell-';
-export const cacheName = `${cachePrefix}v6`;
+export const cacheName = `${cachePrefix}v7`;
 export const publicAssets = Object.freeze([
   './', './index.html', './styles/tokens.css', './styles/app.css', './manifest.webmanifest',
   './assets/brand/symbol.svg', './assets/brand/symbol-dark.svg', './assets/brand/favicon.svg',

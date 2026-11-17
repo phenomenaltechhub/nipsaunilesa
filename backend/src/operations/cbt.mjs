@@ -7,7 +7,7 @@ import { fields, fail, plain, integer, identifier, revision, list, choices, futu
 const applicationStates = ['initial_approved', 'application_submitted', 'application_revisions', 'application_approved'];
 export class CbtOperations {
     constructor(service, academic, notifications) { this.s = service; this.db = service.db; this.academic = academic; this.notifications = notifications; }
-    policy(session) { this.s.requireUser(session); const row = this.db.prepare('SELECT * FROM cbt_policy WHERE id=1').get(); return { intakeOpen: Boolean(row.intake_open), visibilityWarnings: row.visibility_warnings, revision: row.revision, deliveryOperational: false }; }
+    policy(session) { this.s.requireUser(session); const row = this.db.prepare('SELECT * FROM cbt_policy WHERE id=1').get(); return { intakeOpen: Boolean(row.intake_open), visibilityWarnings: row.visibility_warnings, revision: row.revision, deliveryOperational: true }; }
     setPolicy(session, input) { fields(input, ['revision', 'intakeOpen', 'visibilityWarnings']); if (typeof input.intakeOpen !== 'boolean' || ![2, 3].includes(input.visibilityWarnings))
         fail(400, 'INVALID_POLICY'); return this.s.tx(() => { const actor = this.s.requireAdmin(session), old = this.policy(session); revision(old, input.revision); this.db.prepare('UPDATE cbt_policy SET intake_open=?,visibility_warnings=?,revision=revision+1 WHERE id=1').run(input.intakeOpen ? 1 : 0, input.visibilityWarnings); this.s.audit(actor.id, 'cbt.policy_changed', null, { intakeOpen: input.intakeOpen, visibilityWarnings: input.visibilityWarnings }); return this.policy(session); }); }
     row(id) { const row = this.db.prepare('SELECT * FROM cbt_requests WHERE id=?').get(identifier(id)); if (!row)
@@ -54,8 +54,7 @@ export class CbtOperations {
         if (!document)
             fail(409, 'APPLICATION_REQUIRED');
         const application = JSON.parse(unseal(this.s.config.encryptionKey, document.encrypted_payload));
-        for (const question of application.questions)
-            this.db.prepare('INSERT INTO cbt_questions(id,request_id,course_id,encrypted_payload)VALUES(?,?,?,?)').run(randomUUID(), id, row.course_id, seal(this.s.config.encryptionKey, JSON.stringify(question)));
+        for (const question of application.questions){const questionId=randomUUID();this.db.prepare('INSERT INTO cbt_questions(id,request_id,course_id,encrypted_payload)VALUES(?,?,?,?)').run(questionId,id,row.course_id,seal(this.s.config.encryptionKey,JSON.stringify(question)));this.bank?.history(this.bank.row(questionId),actor.id,'Application question submitted for review');}
     } if (['withdraw', 'close', 'reject', 'reopen'].includes(input.action)) {
         for (const exam of this.db.prepare('SELECT id FROM cbt_exams WHERE request_id=? UNION SELECT b.exam_id AS id FROM cbt_blueprints b JOIN cbt_questions q ON q.id=b.question_id WHERE q.request_id=?').all(id, id))
             this.cancel(session, exam.id);
@@ -86,7 +85,7 @@ export class CbtOperations {
     questions(session, requestId) { this.s.requireAdmin(session); this.row(requestId); return { questions: this.db.prepare('SELECT * FROM cbt_questions WHERE request_id=? ORDER BY id').all(requestId).map(r => ({ id: r.id, revision: r.revision, status: r.status, ...JSON.parse(unseal(this.s.config.encryptionKey, r.encrypted_payload)) })) }; }
     authorize(session, id, input) { fields(input, ['revision']); return this.s.tx(() => { const actor = this.s.requireAdmin(session), row = this.db.prepare('SELECT * FROM cbt_questions WHERE id=?').get(identifier(id)); if (!row)
         fail(404, 'NOT_FOUND'); revision(row, input.revision); if (this.row(row.request_id).status !== 'application_approved' || row.status !== 'candidate')
-        fail(409, 'INVALID_TRANSITION'); this.db.prepare('UPDATE cbt_questions SET status=\'authorized\',revision=revision+1 WHERE id=?').run(id); this.s.audit(actor.id, 'cbt.question_authorized', id); return { authorized: true }; }); }
+        fail(409, 'INVALID_TRANSITION'); this.db.prepare('UPDATE cbt_questions SET status=\'authorized\',revision=revision+1 WHERE id=?').run(id); if(this.bank)this.bank.history(this.bank.row(id),actor.id,'Application question authorized');else this.s.audit(actor.id,'cbt.question_authorized',id); return { authorized: true }; }); }
     exam(id) { const row = this.db.prepare('SELECT * FROM cbt_exams WHERE id=?').get(identifier(id)); if (!row)
         fail(404, 'NOT_FOUND'); return row; }
     createExam(session, input) { fields(input, ['courseId', 'requestId', 'title', 'kind', 'startsAt', 'durationMinutes', 'attemptLimit', 'capacity', 'questionIds']); const actor = this.s.requireAdmin(session), course = this.academic.row(input.courseId); if (!course.published_payload)
@@ -116,9 +115,9 @@ export class CbtOperations {
         this.db.prepare('INSERT INTO cbt_blueprints VALUES(?,?)').run(id, question); this.db.prepare('UPDATE cbt_exams SET revision=revision+1 WHERE id=?').run(id); this.s.audit(actor.id, 'cbt.blueprint_updated', id, { count: ids.length }); return this.exam(id); }); }
     assertNotStarted(id) { if (this.db.prepare("SELECT 1 FROM cbt_assignments WHERE exam_id=? AND state NOT IN('assigned','not_started')").get(id))
         fail(409, 'ASSESSMENT_STARTED', 'Started or submitted assessments cannot be reset or rescheduled.'); }
-    checkSlots(exam, delta = 0) { const slots = this.db.prepare('SELECT a.account_id,b.starts_at FROM cbt_assignments a JOIN cbt_batches b ON b.id=a.batch_id WHERE a.exam_id=?').all(exam.id); for (const slot of slots) {
+    checkSlots(exam, delta = 0) { const slots = this.db.prepare('SELECT a.account_id,b.starts_at,b.closes_at,b.duration_minutes FROM cbt_assignments a JOIN cbt_batches b ON b.id=a.batch_id WHERE a.exam_id=?').all(exam.id); for (const slot of slots) {
         const start = slot.starts_at + delta;
-        const conflict = this.db.prepare('SELECT b.starts_at,e.duration_minutes FROM cbt_assignments a JOIN cbt_batches b ON b.id=a.batch_id JOIN cbt_exams e ON e.id=a.exam_id WHERE a.account_id=? AND e.id!=? AND e.status!=\'cancelled\'').all(slot.account_id, exam.id).some(other => start < other.starts_at + other.duration_minutes * 60000 && other.starts_at < start + exam.duration_minutes * 60000);
+        const conflict = this.db.prepare('SELECT b.starts_at,b.closes_at,coalesce(b.duration_minutes,e.duration_minutes) AS duration_minutes FROM cbt_assignments a JOIN cbt_batches b ON b.id=a.batch_id JOIN cbt_exams e ON e.id=a.exam_id WHERE a.account_id=? AND e.id!=? AND e.status!=\'cancelled\'').all(slot.account_id, exam.id).some(other => start < (other.closes_at??other.starts_at+other.duration_minutes*60000) && other.starts_at < (slot.closes_at??slot.starts_at+(slot.duration_minutes??exam.duration_minutes)*60000)+delta);
         if (conflict)
             fail(409, 'BATCH_CONFLICT');
     } }
@@ -128,10 +127,10 @@ export class CbtOperations {
         const student = this.s.account(identifier(studentId));
         if (!student || student.status !== 'active' || !this.academic.canRead(student, course) || this.db.prepare('SELECT 1 FROM cbt_assignments WHERE exam_id=? AND account_id=?').get(id, studentId))
             fail(400, 'INVALID_STUDENT');
-        const overlaps = this.db.prepare('SELECT b.starts_at,e.duration_minutes FROM cbt_assignments a JOIN cbt_batches b ON b.id=a.batch_id JOIN cbt_exams e ON e.id=a.exam_id WHERE a.account_id=? AND e.status!=\'cancelled\'').all(studentId).some(other => time < other.starts_at + other.duration_minutes * 60000 && other.starts_at < time + exam.duration_minutes * 60000);
+        const overlaps = this.db.prepare('SELECT b.starts_at,b.closes_at,coalesce(b.duration_minutes,e.duration_minutes) AS duration_minutes FROM cbt_assignments a JOIN cbt_batches b ON b.id=a.batch_id JOIN cbt_exams e ON e.id=a.exam_id WHERE a.account_id=? AND e.status!=\'cancelled\'').all(studentId).some(other => time < (other.closes_at??other.starts_at+other.duration_minutes*60000) && other.starts_at < time + exam.duration_minutes * 60000);
         if (overlaps)
             fail(409, 'BATCH_CONFLICT');
-    } const batch = randomUUID(); this.db.prepare('INSERT INTO cbt_batches VALUES(?,?,?,?,?)').run(batch, id, plain(input.title), time, capacity); for (const student of students)
+    } const batch = randomUUID(); this.db.prepare('INSERT INTO cbt_batches(id,exam_id,title,starts_at,capacity)VALUES(?,?,?,?,?)').run(batch, id, plain(input.title), time, capacity); for (const student of students)
         this.db.prepare('INSERT INTO cbt_assignments(id,exam_id,batch_id,account_id,updated_at)VALUES(?,?,?,?,?)').run(randomUUID(), id, batch, student, this.s.now()); this.db.prepare('UPDATE cbt_exams SET revision=revision+1 WHERE id=?').run(id); this.s.audit(actor.id, 'cbt.batch_created', batch, { count: students.length, examId: id }); return { batchId: batch, revision: this.exam(id).revision }; }); }
     cancel(session, id) { const actor = this.s.requireAdmin(session); this.db.prepare('UPDATE cbt_exams SET status=\'cancelled\',revision=revision+1 WHERE id=?').run(id); this.db.prepare('UPDATE notices SET status=\'withdrawn\',revision=revision+1 WHERE exam_id=?').run(id); this.s.audit(actor.id, 'cbt.exam_cancelled', id); }
     schedule(session, id, input) { fields(input, ['revision', 'action', 'startsAt']); return this.s.tx(() => { const actor = this.s.requireAdmin(session), exam = this.exam(id); revision(exam, input.revision); if (input.action === 'cancel') {
@@ -148,7 +147,7 @@ export class CbtOperations {
             if (request.status !== 'application_approved' || time < Date.parse(period.periodStart) || time > Date.parse(period.periodEnd))
                 fail(400, 'OUTSIDE_PERIOD');
         }
-        this.db.prepare('UPDATE cbt_batches SET starts_at=starts_at+? WHERE exam_id=?').run(delta, id);
+        this.db.prepare('UPDATE cbt_batches SET starts_at=starts_at+?,closes_at=closes_at+? WHERE exam_id=?').run(delta,delta,id);this.db.prepare('DELETE FROM cbt_delivery WHERE exam_id=?').run(id);
         this.db.prepare('UPDATE cbt_exams SET starts_at=?,status=\'planned\',revision=revision+1 WHERE id=?').run(time, id);
         this.db.prepare('UPDATE notices SET status=\'withdrawn\',revision=revision+1 WHERE exam_id=?').run(id);
         this.s.audit(actor.id, 'cbt.exam_rescheduled', id);
@@ -162,10 +161,10 @@ export class CbtOperations {
             fail(409, 'ASSIGNMENT_INVALID');
     } this.db.prepare('UPDATE cbt_exams SET status=\'scheduled\',revision=revision+1 WHERE id=?').run(id); this.db.prepare('UPDATE cbt_assignments SET state=\'not_started\',updated_at=? WHERE exam_id=?').run(this.s.now(), id); this.notifications.invite(session, exam, students); this.s.audit(actor.id, 'cbt.exam_scheduled', id, { selectedCount: students.length }); return this.exam(id); }); }
     exams(session) { this.s.requireAdmin(session); return { exams: this.db.prepare('SELECT * FROM cbt_exams ORDER BY starts_at DESC LIMIT 100').all() }; }
-    monitor(session, id) { this.s.requireAdmin(session); const exam = this.exam(id); return { exam, deliveryOperational: false, batches: this.db.prepare('SELECT * FROM cbt_batches WHERE exam_id=? ORDER BY starts_at').all(id), assignments: this.db.prepare('SELECT a.id,a.account_id,a.batch_id,a.state,a.updated_at,u.name,u.level FROM cbt_assignments a JOIN accounts u ON u.id=a.account_id WHERE a.exam_id=? ORDER BY u.name').all(id), results: this.db.prepare('SELECT r.assignment_id,r.status,r.revision FROM cbt_results r JOIN cbt_assignments a ON a.id=r.assignment_id WHERE a.exam_id=?').all(id) }; }
-    assignment(session, id) { const user = this.s.requireUser(session), row = this.db.prepare('SELECT a.*,b.starts_at,b.title AS batch_title,e.title,e.course_id,e.duration_minutes,e.status AS exam_status FROM cbt_assignments a JOIN cbt_batches b ON b.id=a.batch_id JOIN cbt_exams e ON e.id=a.exam_id WHERE a.id=? AND a.account_id=?').get(identifier(id), user.id); if (!row)
+    monitor(session, id) { this.s.requireAdmin(session); const exam = this.exam(id); return { exam, deliveryOperational: true, batches: this.db.prepare('SELECT * FROM cbt_batches WHERE exam_id=? ORDER BY starts_at').all(id), assignments: this.db.prepare('SELECT a.id,a.account_id,a.batch_id,a.state,a.updated_at,u.name,u.level FROM cbt_assignments a JOIN accounts u ON u.id=a.account_id WHERE a.exam_id=? ORDER BY u.name').all(id), results: this.db.prepare('SELECT r.assignment_id,r.status,r.revision FROM cbt_results r JOIN cbt_assignments a ON a.id=r.assignment_id WHERE a.exam_id=?').all(id) }; }
+    assignment(session, id) { const user = this.s.requireUser(session), row = this.db.prepare('SELECT a.*,b.starts_at,b.title AS batch_title,e.title,e.course_id,coalesce(b.duration_minutes,e.duration_minutes) AS duration_minutes,e.status AS exam_status FROM cbt_assignments a JOIN cbt_batches b ON b.id=a.batch_id JOIN cbt_exams e ON e.id=a.exam_id WHERE a.id=? AND a.account_id=?').get(identifier(id), user.id); if (!row)
         fail(404, 'NOT_FOUND'); this.academic.published(session, row.course_id); return row; }
-    assignments(session) { const user = this.s.requireUser(session); return { deliveryOperational: false, assignments: this.db.prepare('SELECT id FROM cbt_assignments WHERE account_id=? ORDER BY updated_at DESC LIMIT 100').all(user.id).map(r => { try {
+    assignments(session) { const user = this.s.requireUser(session); return { deliveryOperational: true, assignments: this.db.prepare('SELECT id FROM cbt_assignments WHERE account_id=? ORDER BY updated_at DESC LIMIT 100').all(user.id).map(r => { try {
             const a = this.assignment(session, r.id);
             return { id: a.id, title: a.title, courseId: a.course_id, batch: a.batch_title, startsAt: new Date(a.starts_at).toISOString(), durationMinutes: a.duration_minutes, state: a.state, examStatus: a.exam_status };
         }

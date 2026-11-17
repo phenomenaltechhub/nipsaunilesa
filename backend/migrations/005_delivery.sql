@@ -1,0 +1,43 @@
+-- M7 extends the same private database. No operational accounts/content are seeded.
+-- Rebuild both related tables transactionally to allow administrator-authored bank questions
+-- without manufacturing a student application. All M6 question and blueprint rows are copied.
+CREATE TABLE cbt_questions_m7(id TEXT PRIMARY KEY,request_id TEXT REFERENCES cbt_requests(id) ON DELETE CASCADE,course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,encrypted_payload TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'candidate' CHECK(status IN('candidate','authorized','withdrawn')),revision INTEGER NOT NULL DEFAULT 1);
+INSERT INTO cbt_questions_m7 SELECT * FROM cbt_questions;
+CREATE TABLE cbt_blueprints_m7(exam_id TEXT NOT NULL REFERENCES cbt_exams(id) ON DELETE CASCADE,question_id TEXT NOT NULL REFERENCES cbt_questions_m7(id) ON DELETE CASCADE,PRIMARY KEY(exam_id,question_id));
+INSERT INTO cbt_blueprints_m7 SELECT * FROM cbt_blueprints;
+DROP TABLE cbt_blueprints;
+DROP TABLE cbt_questions;
+ALTER TABLE cbt_questions_m7 RENAME TO cbt_questions;
+ALTER TABLE cbt_blueprints_m7 RENAME TO cbt_blueprints;
+CREATE TABLE cbt_question_versions(id INTEGER PRIMARY KEY AUTOINCREMENT,question_id TEXT NOT NULL REFERENCES cbt_questions(id) ON DELETE CASCADE,revision INTEGER NOT NULL,encrypted_payload TEXT NOT NULL,status TEXT NOT NULL,actor TEXT REFERENCES accounts(id) ON DELETE SET NULL,created_at INTEGER NOT NULL,reason TEXT NOT NULL);
+INSERT INTO cbt_question_versions(question_id,revision,encrypted_payload,status,created_at,reason) SELECT id,revision,encrypted_payload,status,CAST(strftime('%s','now') AS INTEGER)*1000,'Preserved M6 baseline; prior actors remain in the existing audit' FROM cbt_questions;
+CREATE TABLE cbt_delivery(exam_id TEXT PRIMARY KEY REFERENCES cbt_exams(id) ON DELETE CASCADE,opens_at INTEGER NOT NULL,closes_at INTEGER NOT NULL,released INTEGER NOT NULL DEFAULT 0,instructions TEXT NOT NULL DEFAULT '',revision INTEGER NOT NULL DEFAULT 1);
+ALTER TABLE cbt_batches ADD COLUMN closes_at INTEGER;
+CREATE TABLE cbt_attempts(id TEXT PRIMARY KEY,assignment_id TEXT NOT NULL REFERENCES cbt_assignments(id) ON DELETE CASCADE,number INTEGER NOT NULL,writer_session TEXT NOT NULL,started_at INTEGER NOT NULL,deadline INTEGER NOT NULL,finished_at INTEGER,status TEXT NOT NULL CHECK(status IN('in_progress','interrupted','requires_review','submitted','expired','cancelled')),encrypted_questions TEXT NOT NULL,encrypted_answers TEXT NOT NULL,revision INTEGER NOT NULL DEFAULT 1,last_seen INTEGER NOT NULL,UNIQUE(assignment_id,number));
+CREATE UNIQUE INDEX cbt_one_active ON cbt_attempts(assignment_id) WHERE status IN('in_progress','interrupted','requires_review');
+CREATE TABLE cbt_answer_writes(attempt_id TEXT NOT NULL REFERENCES cbt_attempts(id) ON DELETE CASCADE,request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,revision INTEGER NOT NULL,PRIMARY KEY(attempt_id,request_id));
+CREATE TABLE cbt_attempt_events(id INTEGER PRIMARY KEY AUTOINCREMENT,attempt_id TEXT NOT NULL REFERENCES cbt_attempts(id) ON DELETE CASCADE,request_id TEXT NOT NULL,kind TEXT NOT NULL,received_at INTEGER NOT NULL,UNIQUE(attempt_id,request_id));
+CREATE TABLE cbt_attempt_results(attempt_id TEXT PRIMARY KEY REFERENCES cbt_attempts(id) ON DELETE CASCADE,encrypted_payload TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'pending_review' CHECK(status IN('pending_review','reviewed','published')),revision INTEGER NOT NULL DEFAULT 1,published_at INTEGER);
+CREATE TABLE cbt_incident_reviews(attempt_id TEXT PRIMARY KEY REFERENCES cbt_attempts(id) ON DELETE CASCADE,actor TEXT REFERENCES accounts(id) ON DELETE SET NULL,note TEXT NOT NULL,reviewed_at INTEGER NOT NULL);
+CREATE TABLE notice_deliveries(notice_id TEXT NOT NULL REFERENCES notices(id) ON DELETE CASCADE,account_id TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,revision INTEGER NOT NULL,delivered_at INTEGER NOT NULL,PRIMARY KEY(notice_id,account_id));
+ALTER TABLE notices ADD COLUMN expires_at INTEGER;
+CREATE TABLE academic_resources(id TEXT PRIMARY KEY,course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,author TEXT REFERENCES accounts(id) ON DELETE SET NULL,last_editor TEXT REFERENCES accounts(id) ON DELETE SET NULL,payload TEXT NOT NULL,published_payload TEXT,status TEXT NOT NULL DEFAULT 'draft' CHECK(status IN('draft','submitted','revisions','published','withdrawn')),revision INTEGER NOT NULL DEFAULT 1,created_at INTEGER NOT NULL);
+CREATE TABLE academic_resource_versions(id INTEGER PRIMARY KEY AUTOINCREMENT,resource_id TEXT NOT NULL REFERENCES academic_resources(id) ON DELETE CASCADE,revision INTEGER NOT NULL,payload TEXT NOT NULL,actor TEXT REFERENCES accounts(id) ON DELETE SET NULL,action TEXT NOT NULL,created_at INTEGER NOT NULL);
+CREATE TABLE protected_files(id TEXT PRIMARY KEY,resource_id TEXT NOT NULL REFERENCES academic_resources(id) ON DELETE CASCADE,encrypted_content TEXT NOT NULL,media_type TEXT NOT NULL,size INTEGER NOT NULL,digest TEXT NOT NULL,scanner TEXT NOT NULL,created_at INTEGER NOT NULL);
+CREATE TABLE payment_orders(id TEXT PRIMARY KEY,purpose TEXT NOT NULL,reference TEXT NOT NULL UNIQUE,amount INTEGER NOT NULL,currency TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'created',provider_id TEXT UNIQUE,created_at INTEGER NOT NULL,verified_at INTEGER);
+CREATE TABLE payment_events(event_id TEXT PRIMARY KEY,order_id TEXT NOT NULL REFERENCES payment_orders(id),status TEXT NOT NULL,created_at INTEGER NOT NULL);
+CREATE TABLE maintenance_runs(name TEXT PRIMARY KEY,last_at INTEGER NOT NULL,status TEXT NOT NULL);
+ALTER TABLE cbt_attempt_results ADD COLUMN release_review INTEGER NOT NULL DEFAULT 0;
+CREATE TABLE community_stream(id INTEGER PRIMARY KEY CHECK(id=1),revision INTEGER NOT NULL DEFAULT 0);
+INSERT INTO community_stream(id)VALUES(1);
+CREATE TRIGGER community_insert AFTER INSERT ON community_messages BEGIN UPDATE community_stream SET revision=revision+1 WHERE id=1;END;
+CREATE TRIGGER community_update AFTER UPDATE ON community_messages BEGIN UPDATE community_stream SET revision=revision+1 WHERE id=1;END;
+CREATE TRIGGER community_reaction_insert AFTER INSERT ON community_reactions BEGIN UPDATE community_stream SET revision=revision+1 WHERE id=1;END;
+CREATE TRIGGER community_reaction_delete AFTER DELETE ON community_reactions BEGIN UPDATE community_stream SET revision=revision+1 WHERE id=1;END;
+CREATE TRIGGER community_policy_update AFTER UPDATE ON community_state BEGIN UPDATE community_stream SET revision=revision+1 WHERE id=1;END;
+CREATE TRIGGER community_suspension_insert AFTER INSERT ON chat_suspensions BEGIN UPDATE community_stream SET revision=revision+1 WHERE id=1;END;
+CREATE TRIGGER community_suspension_delete AFTER DELETE ON chat_suspensions BEGIN UPDATE community_stream SET revision=revision+1 WHERE id=1;END;
+CREATE TRIGGER community_role_insert AFTER INSERT ON roles BEGIN UPDATE community_stream SET revision=revision+1 WHERE id=1;END;
+CREATE TRIGGER community_role_delete AFTER DELETE ON roles BEGIN UPDATE community_stream SET revision=revision+1 WHERE id=1;END;
+ALTER TABLE cbt_batches ADD COLUMN duration_minutes INTEGER;
+ALTER TABLE cbt_batches ADD COLUMN attempt_limit INTEGER;

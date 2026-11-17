@@ -32,7 +32,10 @@
     "check:m5:assets": "node scripts/check-m5-assets.mjs",
     "review:m5:walkthrough": "node scripts/record-m5-walkthrough.mjs",
     "test:m6:browser": "node scripts/pharmaideia-m6-browser.mjs",
-    "test:m6:workflows": "node scripts/pharmaideia-m6-workflows.mjs"
+    "test:m6:workflows": "node scripts/pharmaideia-m6-workflows.mjs",
+    "test:m7:browser": "node scripts/pharmaideia-m7-browser.mjs",
+    "test:m7:workflows": "node scripts/pharmaideia-m7-workflows.mjs",
+    "review:m7:walkthrough": "node scripts/record-m7-walkthrough.mjs"
   },
   "dependencies": {
     "leaflet": "1.9.4",

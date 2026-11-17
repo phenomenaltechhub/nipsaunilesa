@@ -106,6 +106,6 @@ export function mount(identity) {
     }
     render();
     return { dispose() { active = false; generation++; cleanup(); for (const restore of restores)
-            restore(); restores = []; if (privateRoot?.isConnected)
-            privateRoot.replaceChildren(node('p', 'Private workspace cleared. Reconnect or open personal study tools from the menu.')); } };
+            restore(); restores = []; if (privateRoot?.isConnected) {
+            const h=node('h1','Account workspace');h.id='page-title';privateRoot.replaceChildren(h,node('p','Private workspace cleared. Reconnect or open personal study tools from the menu.'),link('/access/','Account access')); } } };
 }

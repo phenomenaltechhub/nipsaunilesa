@@ -1,10 +1,19 @@
+import { QuestionBank } from './question-bank.mjs';
+import { ExaminationEngine } from './examination.mjs';
+import { ResourceOperations } from './resources.mjs';
+import { PaymentOperations } from '../providers/paystack.mjs';
+import { m7Route } from './m7-routes.mjs';
 import { AcademicOperations } from './academic.mjs';
 import { NotificationOperations } from './notifications.mjs';
 import { CommunityOperations } from './community.mjs';
 import { CbtOperations } from './cbt.mjs';
 import { fail } from './common.mjs';
-export function createOperations(service) { const academic = new AcademicOperations(service), notifications = new NotificationOperations(service, academic), community = new CommunityOperations(service), cbt = new CbtOperations(service, academic, notifications); service.academicOperations = academic; return { academic, notifications, community, cbt }; }
+export function createOperations(service) { const academic = new AcademicOperations(service), notifications = new NotificationOperations(service, academic), community = new CommunityOperations(service), cbt = new CbtOperations(service, academic, notifications); service.academicOperations = academic; const bank=new QuestionBank(service,academic),engine=new ExaminationEngine(service,cbt,bank),resources=new ResourceOperations(service,academic),payments=new PaymentOperations(service);
+cbt.bank=bank;const ops={academic,notifications,community,cbt,bank,engine,resources,payments,
+ communityVersion:()=>service.db.prepare('SELECT revision FROM community_stream WHERE id=1').get().revision,
+ maintenance:()=>{notifications.activateDue();const expired=engine.maintain();service.db.prepare("INSERT INTO maintenance_runs VALUES('delivery',?,'ok') ON CONFLICT(name) DO UPDATE SET last_at=excluded.last_at,status=excluded.status").run(service.now());return {...expired,notificationScheduler:'checked',production:false};}}; return ops; }
 export function operationRoute(ops, service, session, method, url, body) {
+    const extended=m7Route(ops,service,session,method,url,body);if(extended!==undefined)return extended;
     const route = url.pathname.replace('/api/v1', ''), parts = route.split('/'), id = parts[3];
     if (route === '/admin/academic/catalogue' && method === 'GET')
         return ops.academic.adminCatalogue(session);
@@ -37,7 +46,7 @@ export function operationRoute(ops, service, session, method, url, body) {
     if (/^\/admin\/academic\/[a-f0-9-]{36}\/access$/.test(route) && method === 'PUT')
         return ops.academic.access(session, id, body);
     if (route === '/notifications' && method === 'GET')
-        return ops.notifications.feed(session, url.searchParams.get('includeMuted') === 'true');
+        return ops.notifications.feed(session, url.searchParams.get('includeMuted') === 'true',url.searchParams.get('cursor'));
     if (route === '/notifications/preferences') {
         if (method === 'GET')
             return ops.notifications.preferences(session);
