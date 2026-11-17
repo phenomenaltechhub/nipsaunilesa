@@ -1,6 +1,6 @@
 # Threat model and security gates
 
-Status: M1 architecture/threat model and tested public-shell boundaries. **No server authentication, authorization, payment verification, recovery, upload or audit-log implementation exists yet.** These requirements must be implemented and tested in the backend before those features are described as secure or operational.
+Historical M1 status: architecture/threat model and tested public-shell boundaries; no backend existed then. **Current M5/M6 controlled backend evidence is linked below.** No real production authentication/payment operation is activated. Historical future-control tables remain requirements, not proof of production readiness.
 
 ## Trust boundaries and threats
 
@@ -42,3 +42,9 @@ Current unit/browser tests can establish allowlisted local routes, safe DOM rend
 ## M5 controlled implementation
 
 Real synthetic account/backend security behavior now exists; earlier future-tense statements remain the history of the original plan. [M5 API/security](m5/API_AND_SECURITY.md) records enforced boundaries and executed tests; [operations](m5/OPERATIONS.md) records production blockers. No real authentication, provider verification, protected upload service, operational messaging or CBT engine has been activated. Private test state is excluded from source/export/cache. Automated tests do not establish complete security or production readiness.
+
+## M6 controlled implementation and current risks
+
+The same service now implements scoped academic publication/progress, notifications, persisted general-community interactions/moderation and two-stage CBT applications/selected-batch planning. Actual HTTP/database/browser security tests run against synthetic records; historical statements above that only local tests exist no longer describe M6. Examination delivery, production integrations and complete launch acceptance remain unfinished. No provider payment verification is claimed.
+
+See [M6 security review](m6/SECURITY_REVIEW.md) for current ASVS mappings, fixed authorization/CSRF integration/privacy issues, test scope and unresolved dependency finding: full npm audit has 14 high development-tool entries from one unpatched picomatch advisory; production dependencies audit clean. The audit is not bypassed. [M6 matrix](m6/PRE_LAUNCH_MATRIX.md) assigns all approved outstanding features to M7/M8 before launch. No live accounts, production configuration, website logo, deployment workflow, hosting or DNS change is authorized or performed.

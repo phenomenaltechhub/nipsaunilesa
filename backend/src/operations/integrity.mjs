@@ -1,0 +1,4 @@
+import {integer,choices,list} from './common.mjs';
+// Observable-event policy projection only. The M7 engine must bind events to an
+// authorized active attempt; browser events never prove misconduct by themselves.
+export function interruptionReview(events,warningThreshold=3){integer(warningThreshold,2,3);list(events,1000);let visibilityWarnings=0,disconnections=0,interruptions=0;for(const event of events){choices(event.kind,['visibility_hidden','disconnected','interrupted']);integer(event.sequence,1,100000);if(event.kind==='visibility_hidden')visibilityWarnings++;else if(event.kind==='disconnected')disconnections++;else interruptions++;}return{visibilityWarnings,warningThreshold,requiresAdministrativeReview:visibilityWarnings>=warningThreshold,disconnections,interruptions,automaticPenalty:false};}

@@ -1,0 +1,32 @@
+[
+  {
+    "label": "academic-review",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "cbt-initial-request",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "cbt-admin",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "cbt-assigned",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "mobile-cbt-admin",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "mobile-cbt-assigned",
+    "violations": [],
+    "incomplete": []
+  }
+]

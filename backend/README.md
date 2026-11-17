@@ -10,5 +10,10 @@ Run `npm run test:backend` from the repository root. Tests create temporary priv
 - [Implemented API and security behavior](../docs/nipsa-platform/m5/API_AND_SECURITY.md)
 - [Host, backup and integration requirements](../docs/nipsa-platform/m5/OPERATIONS.md)
 - [M5 milestone report](../docs/nipsa-platform/MILESTONE_5.md)
+- [M6 actual operations and validation](../docs/nipsa-platform/MILESTONE_6.md)
+- [M6 routes, permissions and JSON-document limits](../docs/nipsa-platform/m6/API_AND_PERMISSIONS.md)
+- [All remaining pre-launch requirements](../docs/nipsa-platform/m6/PRE_LAUNCH_MATRIX.md)
+
+M6 extends this same service/database with reviewed courses, own progress, targeted notices, persisted general-community interactions/moderation and closed-default two-stage CBT applications/selected-batch planning. `npm run test:m6:browser` and `npm run test:m6:workflows` exercise real controlled UI/API/database flows. No examination delivery engine is claimed; no second backend or production endpoint is introduced.
 
 Production activation requires an approved hosting/runtime decision, HTTPS and Secure cookies, operational verified email, private storage/keys/backups, capacity/security review and completed pre-launch modules. Removing the controlled-mode boundary alone is **not** a deployment procedure.

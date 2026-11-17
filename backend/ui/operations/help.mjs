@@ -1,0 +1,25 @@
+import { node } from './common.mjs';
+export function extendHelp(main, identity) {
+    const sections = [['Course progress', 'Students', 'Open a reviewed course study hub. Save coverage, confidence, revision, difficulty and priority. Account progress synchronizes after a successful save. Personal study outlines remain separate. Coverage is not demonstrated mastery.'], ['Notification delivery', 'Students', 'Search and filter your announcements. Mark updates read or unread. Corrections reset reading status; withdrawn notices disappear. Settings controls optional announcements/resources; important administrative and selected CBT invitations remain available.'], ['Community access and conduct', 'Students', 'One departmental community supports messages, replies, mentions and reactions. Swipe right or use Reply. When posting is restricted, read history and report concerns. Chat-only suspension does not remove academic access. Do not disclose private records.'], ['Applying for CBT', 'Students', 'Intake is closed unless an administrator opens it. Submit an initial pre-examination request for a reviewed course. After approval, complete the full application or upload the protected JSON template. Approval does not create an examination.'], ['Examinations and results', 'Students', 'Your assigned batches are specific to your account. M6 supports planning and scheduling; examination delivery is not enabled. The M7 engine must implement server time, attempts, answer saving and recovery. Published results require administrative review. Browser visibility events are observations, not proof of misconduct.']];
+    if (identity.activeRole === 'representative')
+        sections.push(['Representative academic operations', 'Class representatives', 'Submit sourced course information and topics for your own academic level. An independent authorized reviewer publishes them. Use explicit announcement permissions for your level/course; never impersonate another sender. You may apply for CBT through the same initial-approval process.']);
+    if (identity.activeRole === 'reviewer')
+        sections.push(['Independent academic review', 'Academic reviewers', 'Review sources, proposed topics and corrections within your assigned level. Publish only reviewed content. You cannot approve your own submission. Withdraw incorrect publications and record an actionable note.']);
+    if (identity.activeRole === 'administrator')
+        sections.push(['Administrative operations', 'Administrators', 'Use the existing administration for accounts, levels, role appointments and audit. Academic operations, scoped announcements, community moderation and CBT approvals are separate working areas. Select actual students for batches, review questions before scheduling and monitor participation. No completion notification is sent.'], ['Community moderation and audit', 'Administrators', 'Open or close posting using Community controls. Review reports, record decisions and apply chat-only suspensions separately from academic access. Protected operations require a current authorized session and fresh MFA.'], ['CBT planning responsibilities', 'Administrators', 'Review initial requests before authorizing full applications. Record rejection, clarification, revision, reopening or withdrawal. Authorize proposed questions separately. Select batch members and check conflicts/capacity before scheduling. Configure two or three visibility warnings; reviewed recovery must handle mobile/network failures fairly.']);
+    const section = node('section', '', 'card'), heading = node('h2', 'Connected account workflows'), search = node('input'), label = node('label', 'Search account guidance'), results = node('div');
+    search.id = 'connected-help-search';
+    search.type = 'search';
+    search.maxLength = 120;
+    label.htmlFor = search.id;
+    section.append(heading, label, search, results);
+    main.append(section);
+    const draw = () => { results.replaceChildren(); const q = search.value.toLowerCase(); for (const [title, audience, text] of sections.filter(s => s.join(' ').toLowerCase().includes(q))) {
+        const detail = node('details');
+        detail.append(node('summary', title), node('p', audience, 'muted'), node('p', text));
+        results.append(detail);
+    } if (!results.childNodes.length)
+        results.append(node('p', 'No guides match this search.')); };
+    search.addEventListener('input', draw);
+    draw();
+}

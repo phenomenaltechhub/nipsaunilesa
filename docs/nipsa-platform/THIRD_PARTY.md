@@ -18,3 +18,9 @@ Before adopting any further component, record its exact source/version, redistri
 ## M5 reuse decision
 
 No npm dependency is added or version changed. The separate PWA still uses native HTML/CSS/ES modules. Original outlined SVG icons are extended without importing a framework or icon pack. Existing Sharp creates responsive AVIF/WebP crops from the owner-supplied fictional scene; the provenance file records the source and avoids an institutional-photograph claim. Existing Playwright/Chromium/FFmpeg record genuine application interactions; no third-party video/stock photo is imported. The tutorial is a silent original screencast with captions/transcript. Node's built-in crypto/HTTP/SQLite implements the controlled service; runtime patching/host review remains necessary and is outside npm audit's scope.
+
+## M6 reuse and dependency review
+
+No package/version/lockfile change or vendor component/code adoption. Native browser controls, existing M4 models/keyboard tabs, original M5 components and existing Node HTTP/SQLite/crypto are reused. Playwright/Chromium/axe run tests only. OWASP ASVS 5.0.0 and Authorization Cheat Sheet were read as guidance, not copied into application code. No React/framework/icon pack is added to the PWA.
+
+Full audit now finds unpatched development-tool picomatch ReDoS, 14 high dependent-package entries from one advisory; production dependency audit is zero. Historical zero-advisory statements above are point-in-time results and do not describe M6. Existing ESLint 9 deprecation is also recorded. See [security review](m6/SECURITY_REVIEW.md) for versions, sources, boundaries and required upstream remediation. No audit suppression, unsafe override or incompatible configuration downgrade is applied.

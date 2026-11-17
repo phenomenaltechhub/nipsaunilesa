@@ -1,0 +1,159 @@
+{
+  "source": "Actual Chromium controlled synthetic M6 workflow captures",
+  "assets": [
+    {
+      "file": "screenshots/1440-academic-review.png",
+      "width": 1440,
+      "height": 1050,
+      "bytes": 82800,
+      "sha256": "1a0ef0f75d006747a2b1e847931e646d19742f68d272f2c023afa20079e172dd"
+    },
+    {
+      "file": "screenshots/1440-cbt-administration.png",
+      "width": 1440,
+      "height": 3569,
+      "bytes": 310156,
+      "sha256": "5f597351bd98336f60d2899eb5c7f7a2cfaabdf7c6319fdf66f288e2edafb701"
+    },
+    {
+      "file": "screenshots/1440-cbt-assigned.png",
+      "width": 1440,
+      "height": 2146,
+      "bytes": 196454,
+      "sha256": "bd7ea96fe9d674ad54d8a5e9b722a9f341c66f3d8473c2c63e83e6bab4d5f6ca"
+    },
+    {
+      "file": "screenshots/1440-cbt-closed.png",
+      "width": 1440,
+      "height": 1050,
+      "bytes": 113506,
+      "sha256": "314daecd64f8aeef2936dd7979180cc33150cd5abb252bdb13539adbe3d02c96"
+    },
+    {
+      "file": "screenshots/1440-cbt-request.png",
+      "width": 1440,
+      "height": 1891,
+      "bytes": 170205,
+      "sha256": "768249559c78ce61b4ee785d2c9a6b8e545c2b876de16c31bf03d7bceb278fdc"
+    },
+    {
+      "file": "screenshots/1440-community-closed.png",
+      "width": 1440,
+      "height": 1050,
+      "bytes": 81361,
+      "sha256": "639b6cddc728be88bd8f43a6a5274815dc3ee603951ded310a70d10763921f07"
+    },
+    {
+      "file": "screenshots/1440-community-open.png",
+      "width": 1440,
+      "height": 1777,
+      "bytes": 162528,
+      "sha256": "7b8a63d06c846e74ce0c0d189e23009ed8f41f56c6a46ffe38b9abcd935d2af1"
+    },
+    {
+      "file": "screenshots/1440-course-progress.png",
+      "width": 1440,
+      "height": 1301,
+      "bytes": 122894,
+      "sha256": "e70a8cf216d24daadf1f83957f9543dbe07e34d3a22c6fd6fed7dc3b85eae194"
+    },
+    {
+      "file": "screenshots/1440-courses.png",
+      "width": 1440,
+      "height": 1050,
+      "bytes": 79487,
+      "sha256": "3a9d544b5eaba70af1762f5c5c12c760ccab09cfe6be4f970ca8f84ed918a7f5"
+    },
+    {
+      "file": "screenshots/1440-dashboard.png",
+      "width": 1440,
+      "height": 1310,
+      "bytes": 501505,
+      "sha256": "3277e471094d87b026c78ce23a0b7647f97e6789e9869712620160617a705aff"
+    },
+    {
+      "file": "screenshots/1440-help.png",
+      "width": 1440,
+      "height": 2014,
+      "bytes": 160720,
+      "sha256": "169249b3bc397dc287218bce905297c481caf8ef0cec57247eaf0b1c56388cfd"
+    },
+    {
+      "file": "screenshots/1440-notifications.png",
+      "width": 1440,
+      "height": 1050,
+      "bytes": 92557,
+      "sha256": "74ab0335a63c8c2598179a25f0523225e862fd719e899fb023b4be64b9afeff0"
+    },
+    {
+      "file": "screenshots/390-cbt-administration.png",
+      "width": 390,
+      "height": 4658,
+      "bytes": 276146,
+      "sha256": "0e0d172b414eb3973682e1d443344f8ff10f872b6c77d29e52fdc047ec12696e"
+    },
+    {
+      "file": "screenshots/390-cbt-assigned.png",
+      "width": 390,
+      "height": 2360,
+      "bytes": 151700,
+      "sha256": "34d2cbd35ee311800aa33d781570cecd9bbc7de8d80bf0511d8b300c0a541332"
+    },
+    {
+      "file": "screenshots/390-cbt-closed.png",
+      "width": 390,
+      "height": 1071,
+      "bytes": 72986,
+      "sha256": "b755b30f6d2d7058037b6b42405875a28a28a578c0ee6f63b241e840474e1cc1"
+    },
+    {
+      "file": "screenshots/390-community-closed.png",
+      "width": 390,
+      "height": 1257,
+      "bytes": 81583,
+      "sha256": "b9f4cb2352057d55d30673cb65a7d8deb0d5f64fb5df392ef8a6d7ac4fe52e21"
+    },
+    {
+      "file": "screenshots/390-community-open.png",
+      "width": 390,
+      "height": 3061,
+      "bytes": 212154,
+      "sha256": "59b158cafc5a76462d7b85b6b17ca6d92659f09bf5281665882eee85de15c957"
+    },
+    {
+      "file": "screenshots/390-course-progress.png",
+      "width": 390,
+      "height": 1767,
+      "bytes": 98136,
+      "sha256": "782b22c56c80af6990b123c8113099afbbcd88bd7afaf5abbb18199183385415"
+    },
+    {
+      "file": "screenshots/390-courses.png",
+      "width": 390,
+      "height": 926,
+      "bytes": 44873,
+      "sha256": "3b084cafc30fee7696ca73e68ce9e24d16822a6ab738c03e5f17a48d49c906c1"
+    },
+    {
+      "file": "screenshots/390-dashboard.png",
+      "width": 390,
+      "height": 1548,
+      "bytes": 183038,
+      "sha256": "cf45045b20f3b04c2a6ed8b7b1737577092143073ba1215191f592be050cdbde"
+    },
+    {
+      "file": "screenshots/390-help.png",
+      "width": 390,
+      "height": 2248,
+      "bytes": 116902,
+      "sha256": "67c51a4bf4d49300414954dbc7a486d8483f97c5fceba805d4a7e415d01bb577"
+    },
+    {
+      "file": "screenshots/390-notifications.png",
+      "width": 390,
+      "height": 1165,
+      "bytes": 56134,
+      "sha256": "6e18e19d7053003208da789eb97a4acc66c8ab8e940925cf7ccf829310848cba"
+    }
+  ]
+}

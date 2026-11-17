@@ -1,0 +1,86 @@
+[
+  {
+    "label": "1440-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "1440-courses",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-progress",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-notifications",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-community-closed",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-community-open",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-cbt-closed",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-help",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-dashboard",
+    "violations": [],
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  {
+    "label": "390-courses",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-progress",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-notifications",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-community-closed",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-community-open",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-cbt-closed",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-help",
+    "violations": [],
+    "incomplete": []
+  }
+]
