@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+const run=promisify(execFile);
+export async function recordReview(page,outfile,action){const directory=await fs.mkdtemp(path.join(os.tmpdir(),'pharmaideia-review-')),cdp=await page.context().newCDPSession(page),started=Date.now(),frames=[];let writing=Promise.resolve();const frame=data=>{const name=String(frames.length).padStart(6,'0')+'.jpg';frames.push({name,time:(Date.now()-started)/1000});writing=writing.then(()=>fs.writeFile(path.join(directory,name),Buffer.from(data.data,'base64')));cdp.send('Page.screencastFrameAck',{sessionId:data.sessionId}).catch(()=>{});};cdp.on('Page.screencastFrame',frame);try{await cdp.send('Page.startScreencast',{format:'jpeg',quality:74,maxWidth:390,maxHeight:844,everyNthFrame:2});await action();await cdp.send('Page.stopScreencast');await writing;if(frames.length<5)throw new Error('Insufficient actual browser frames.');
+// CDP can skip the final repaint when everyNthFrame is used. Capture the actual
+// final browser state explicitly, then hold it briefly in the review recording.
+const finalTime=(Date.now()-started)/1000,name=String(frames.length).padStart(6,'0')+'.jpg';await page.screenshot({path:path.join(directory,name),type:'jpeg',quality:74});frames.push({name,time:finalTime});const end=finalTime+1.5,source=path.join(directory,'frames.txt');await fs.writeFile(source,frames.map((f,i)=>`file '${path.join(directory,f.name)}'\nduration ${Math.max(.04,(frames[i+1]?.time??end)-f.time).toFixed(3)}`).join('\n')+`\nfile '${path.join(directory,frames.at(-1).name)}'\n`);await run('ffmpeg',['-y','-f','concat','-safe','0','-i',source,'-an','-c:v','libx264','-preset','veryfast','-crf','28','-r','15','-pix_fmt','yuv420p','-movflags','+faststart',outfile],{maxBuffer:1048576});return {frames:frames.length,durationSeconds:end};}finally{await cdp.send('Page.stopScreencast').catch(()=>{});cdp.off('Page.screencastFrame',frame);await writing;await fs.rm(directory,{recursive:true,force:true});}}

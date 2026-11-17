@@ -84,7 +84,7 @@ try {
         assert.equal(typeof (await student.c.request('/api/v1/notifications/preferences')).data.resources, 'boolean');
         await go(page, 'community');
         await page.getByRole('heading', { name: 'Messaging is restricted', exact: true }).waitFor();
-        assert.equal(await page.getByLabel('Your message', { exact: true }).count(), 0);
+        assert.equal(await page.getByLabel('Your message', { exact: true }).isDisabled(), true);
         await capture(page, `${width}-community-closed`);
         await axe(page, `${width}-community-closed`);
         await admin.c.request('/api/v1/admin/community', 'PATCH', { isOpen: true, reason: 'policy_change' });
@@ -97,6 +97,7 @@ try {
         await page.getByLabel('Your message', { exact: true }).fill('Synthetic quoted reply ' + width);
         await page.getByRole('button', { name: 'Send message', exact: true }).click();
         await page.getByText('Synthetic quoted reply ' + width, { exact: true }).waitFor();
+        await page.getByRole('button', { name: 'React to ' + student.user.name, exact: true }).last().click();
         await page.getByRole('button', { name: 'Thanks (0)', exact: true }).first().click();
         await page.getByRole('button', { name: 'Thanks (1)', exact: true }).first().waitFor();
         await capture(page, `${width}-community-open`);

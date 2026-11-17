@@ -2,31 +2,51 @@
   {
     "label": "1440-admin-attempts",
     "violations": [],
-    "incomplete": []
+    "incomplete": [],
+    "incompleteDetails": []
   },
   {
     "label": "390-admin-attempts",
     "violations": [],
-    "incomplete": []
+    "incomplete": [],
+    "incompleteDetails": []
   },
   {
     "label": "390-reviewed-resource",
     "violations": [],
-    "incomplete": []
+    "incomplete": [],
+    "incompleteDetails": []
   },
   {
     "label": "390-community-synchronized",
     "violations": [],
-    "incomplete": []
+    "incomplete": [
+      "color-contrast"
+    ],
+    "incompleteDetails": [
+      {
+        "id": "color-contrast",
+        "nodes": [
+          {
+            "target": [
+              ".chat-text"
+            ],
+            "summary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+          }
+        ]
+      }
+    ]
   },
   {
     "label": "390-notifications-synchronized",
     "violations": [],
-    "incomplete": []
+    "incomplete": [],
+    "incompleteDetails": []
   },
   {
     "label": "390-expired-session",
     "violations": [],
-    "incomplete": []
+    "incomplete": [],
+    "incompleteDetails": []
   }
 ]

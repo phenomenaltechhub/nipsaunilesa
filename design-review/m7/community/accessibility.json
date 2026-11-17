@@ -1,0 +1,52 @@
+[
+  {
+    "label": "1440-community-enabled",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-community-replies",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-community-enabled-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-community-restricted",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-community-enabled",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-community-replies",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-community-enabled-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-community-restricted",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-community-keyboard-resize",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "320-community-enabled",
+    "violations": [],
+    "incomplete": []
+  }
+]

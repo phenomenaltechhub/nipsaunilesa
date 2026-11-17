@@ -1,0 +1,13 @@
+Actual controlled synthetic Community preview. No real students or credentials are shown.
+
+Controlled synthetic Community preview. An administrator has enabled posting.
+
+The group header and persistent composer stay visible while the conversation scrolls.
+
+Reply directly to a message. The quotation stays with your reply.
+
+Reactions are persisted and remain part of the conversation.
+
+When administrators restrict posting, history stays visible and the composer is disabled.
+
+Posting can be enabled again without redeployment. Production still defaults closed.
