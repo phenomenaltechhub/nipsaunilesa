@@ -1,0 +1,296 @@
+[
+  {
+    "option": "a-classic",
+    "size": 16,
+    "optical": false,
+    "file": "sizes/a-classic-16-standard.png",
+    "icon": "sizes/a-classic-icon-16-standard.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 16,
+    "optical": true,
+    "file": "sizes/a-classic-16-optical.png",
+    "icon": "sizes/a-classic-icon-16-optical.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 24,
+    "optical": false,
+    "file": "sizes/a-classic-24-standard.png",
+    "icon": "sizes/a-classic-icon-24-standard.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 24,
+    "optical": true,
+    "file": "sizes/a-classic-24-optical.png",
+    "icon": "sizes/a-classic-icon-24-optical.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 32,
+    "optical": false,
+    "file": "sizes/a-classic-32-standard.png",
+    "icon": "sizes/a-classic-icon-32-standard.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 32,
+    "optical": true,
+    "file": "sizes/a-classic-32-optical.png",
+    "icon": "sizes/a-classic-icon-32-optical.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 48,
+    "optical": false,
+    "file": "sizes/a-classic-48-standard.png",
+    "icon": "sizes/a-classic-icon-48-standard.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 48,
+    "optical": true,
+    "file": "sizes/a-classic-48-optical.png",
+    "icon": "sizes/a-classic-icon-48-optical.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 64,
+    "optical": false,
+    "file": "sizes/a-classic-64-standard.png",
+    "icon": "sizes/a-classic-icon-64-standard.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 64,
+    "optical": true,
+    "file": "sizes/a-classic-64-optical.png",
+    "icon": "sizes/a-classic-icon-64-optical.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 192,
+    "optical": false,
+    "file": "sizes/a-classic-192-standard.png",
+    "icon": "sizes/a-classic-icon-192-standard.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 192,
+    "optical": true,
+    "file": "sizes/a-classic-192-optical.png",
+    "icon": "sizes/a-classic-icon-192-optical.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 512,
+    "optical": false,
+    "file": "sizes/a-classic-512-standard.png",
+    "icon": "sizes/a-classic-icon-512-standard.png"
+  },
+  {
+    "option": "a-classic",
+    "size": 512,
+    "optical": true,
+    "file": "sizes/a-classic-512-optical.png",
+    "icon": "sizes/a-classic-icon-512-optical.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 16,
+    "optical": false,
+    "file": "sizes/b-institutional-16-standard.png",
+    "icon": "sizes/b-institutional-icon-16-standard.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 16,
+    "optical": true,
+    "file": "sizes/b-institutional-16-optical.png",
+    "icon": "sizes/b-institutional-icon-16-optical.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 24,
+    "optical": false,
+    "file": "sizes/b-institutional-24-standard.png",
+    "icon": "sizes/b-institutional-icon-24-standard.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 24,
+    "optical": true,
+    "file": "sizes/b-institutional-24-optical.png",
+    "icon": "sizes/b-institutional-icon-24-optical.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 32,
+    "optical": false,
+    "file": "sizes/b-institutional-32-standard.png",
+    "icon": "sizes/b-institutional-icon-32-standard.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 32,
+    "optical": true,
+    "file": "sizes/b-institutional-32-optical.png",
+    "icon": "sizes/b-institutional-icon-32-optical.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 48,
+    "optical": false,
+    "file": "sizes/b-institutional-48-standard.png",
+    "icon": "sizes/b-institutional-icon-48-standard.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 48,
+    "optical": true,
+    "file": "sizes/b-institutional-48-optical.png",
+    "icon": "sizes/b-institutional-icon-48-optical.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 64,
+    "optical": false,
+    "file": "sizes/b-institutional-64-standard.png",
+    "icon": "sizes/b-institutional-icon-64-standard.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 64,
+    "optical": true,
+    "file": "sizes/b-institutional-64-optical.png",
+    "icon": "sizes/b-institutional-icon-64-optical.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 192,
+    "optical": false,
+    "file": "sizes/b-institutional-192-standard.png",
+    "icon": "sizes/b-institutional-icon-192-standard.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 192,
+    "optical": true,
+    "file": "sizes/b-institutional-192-optical.png",
+    "icon": "sizes/b-institutional-icon-192-optical.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 512,
+    "optical": false,
+    "file": "sizes/b-institutional-512-standard.png",
+    "icon": "sizes/b-institutional-icon-512-standard.png"
+  },
+  {
+    "option": "b-institutional",
+    "size": 512,
+    "optical": true,
+    "file": "sizes/b-institutional-512-optical.png",
+    "icon": "sizes/b-institutional-icon-512-optical.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 16,
+    "optical": false,
+    "file": "sizes/c-essential-16-standard.png",
+    "icon": "sizes/c-essential-icon-16-standard.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 16,
+    "optical": true,
+    "file": "sizes/c-essential-16-optical.png",
+    "icon": "sizes/c-essential-icon-16-optical.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 24,
+    "optical": false,
+    "file": "sizes/c-essential-24-standard.png",
+    "icon": "sizes/c-essential-icon-24-standard.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 24,
+    "optical": true,
+    "file": "sizes/c-essential-24-optical.png",
+    "icon": "sizes/c-essential-icon-24-optical.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 32,
+    "optical": false,
+    "file": "sizes/c-essential-32-standard.png",
+    "icon": "sizes/c-essential-icon-32-standard.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 32,
+    "optical": true,
+    "file": "sizes/c-essential-32-optical.png",
+    "icon": "sizes/c-essential-icon-32-optical.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 48,
+    "optical": false,
+    "file": "sizes/c-essential-48-standard.png",
+    "icon": "sizes/c-essential-icon-48-standard.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 48,
+    "optical": true,
+    "file": "sizes/c-essential-48-optical.png",
+    "icon": "sizes/c-essential-icon-48-optical.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 64,
+    "optical": false,
+    "file": "sizes/c-essential-64-standard.png",
+    "icon": "sizes/c-essential-icon-64-standard.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 64,
+    "optical": true,
+    "file": "sizes/c-essential-64-optical.png",
+    "icon": "sizes/c-essential-icon-64-optical.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 192,
+    "optical": false,
+    "file": "sizes/c-essential-192-standard.png",
+    "icon": "sizes/c-essential-icon-192-standard.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 192,
+    "optical": true,
+    "file": "sizes/c-essential-192-optical.png",
+    "icon": "sizes/c-essential-icon-192-optical.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 512,
+    "optical": false,
+    "file": "sizes/c-essential-512-standard.png",
+    "icon": "sizes/c-essential-icon-512-standard.png"
+  },
+  {
+    "option": "c-essential",
+    "size": 512,
+    "optical": true,
+    "file": "sizes/c-essential-512-optical.png",
+    "icon": "sizes/c-essential-icon-512-optical.png"
+  }
+]

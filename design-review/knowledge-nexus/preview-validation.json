@@ -1,0 +1,67 @@
+{
+  "date": "2026-11-17",
+  "method": "Chromium; modified disposable copies only",
+  "studentPwaUnchanged": true,
+  "captures": [
+    {
+      "option": "a-classic",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "errors": [],
+      "external": [],
+      "file": "a-classic-dashboard-mobile-review.png"
+    },
+    {
+      "option": "a-classic",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "errors": [],
+      "external": [],
+      "file": "a-classic-dashboard-desktop-review.png"
+    },
+    {
+      "option": "b-institutional",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "errors": [],
+      "external": [],
+      "file": "b-institutional-dashboard-mobile-review.png"
+    },
+    {
+      "option": "b-institutional",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "errors": [],
+      "external": [],
+      "file": "b-institutional-dashboard-desktop-review.png"
+    },
+    {
+      "option": "c-essential",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "errors": [],
+      "external": [],
+      "file": "c-essential-dashboard-mobile-review.png"
+    },
+    {
+      "option": "c-essential",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "errors": [],
+      "external": [],
+      "file": "c-essential-dashboard-desktop-review.png"
+    }
+  ]
+}

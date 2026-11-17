@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-17",
+  "xmlAndPassiveChecks": 54,
+  "chromiumMasterRenders": 54,
+  "sharpMasterRenders": 54,
+  "nativePngChecks": 84,
+  "reviewPngChecks": 14,
+  "reviewViewports": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "smallSamplesAtNativeCssSize": 30,
+      "brokenImages": 0,
+      "runtimeErrors": [],
+      "externalRequests": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "smallSamplesAtNativeCssSize": 30,
+      "brokenImages": 0,
+      "runtimeErrors": [],
+      "externalRequests": []
+    }
+  ],
+  "contrast": {
+    "emerald/paper": 8.22,
+    "teal/paper": 4.63,
+    "mint/ink": 8.08,
+    "white/emerald": 8.91
+  },
+  "limits": "Automated XML/raster/layout/contrast checks do not establish human recognition, physical-phone legibility or accessibility conformance."
+}

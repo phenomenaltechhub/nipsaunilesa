@@ -20,7 +20,9 @@
     "review:m3:design": "node scripts/capture-pharmaideia-design-review.mjs",
     "preview:developer": "node scripts/preview-developer-workbench.mjs",
     "test:developer:browser": "node scripts/developer-workbench-browser-smoke.mjs",
-    "review:m3:identity": "node scripts/refine-pharmaideia-identity.mjs"
+    "review:m3:identity": "node scripts/refine-pharmaideia-identity.mjs",
+    "review:nexus": "node scripts/review-knowledge-nexus.mjs && node scripts/capture-knowledge-nexus.mjs && node scripts/check-knowledge-nexus.mjs",
+    "check:nexus": "node scripts/check-knowledge-nexus.mjs"
   },
   "dependencies": {
     "leaflet": "1.9.4",
