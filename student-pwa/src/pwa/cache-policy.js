@@ -1,20 +1,26 @@
 // Explicit public assets only. Never add API responses, user exports or course files.
 export const cachePrefix = 'pharmaideia-public-shell-';
-export const cacheName = `${cachePrefix}v3`;
+export const cacheName = `${cachePrefix}v4`;
 export const publicAssets = Object.freeze([
   './', './index.html', './styles/tokens.css', './styles/app.css', './manifest.webmanifest',
   './assets/brand/symbol.svg', './assets/brand/symbol-dark.svg', './assets/brand/favicon.svg',
   './assets/brand/favicon-32.png', './assets/brand/apple-touch-icon.png',
   './assets/brand/icon-192.png', './assets/brand/icon-512.png',
   './assets/brand/maskable-192.png', './assets/brand/maskable-512.png',
-  './src/app.js', './src/components/dom.js', './src/state/routes.js', './src/api/services.js',
+  './src/app.js', './src/components/dom.js', './src/state/routes.js',
   './src/modules/academic/views.js', './src/modules/study/focus.js', './src/modules/study/view.js',
-  './src/modules/account/view.js', './src/pwa/register.js', './src/pwa/cache-policy.js',
+   './src/pwa/register.js', './src/pwa/cache-policy.js',
   './styles/avatars.css', './assets/avatars/atlas.svg', './src/components/academic.js',
   './src/modules/academic/calendar.js', './src/modules/academic/timetable.js', './src/modules/academic/course-hub.js',
   './src/modules/study/revision.js', './src/modules/study/revision-view.js',
   './src/modules/account/avatars.js', './src/modules/account/avatar-view.js',
-  './src/modules/academic/models.js',
+  './src/modules/academic/catalogue.js', './src/modules/academic/glossary.js',
+  './assets/brand/logo-primary.svg', './assets/brand/logo-dark.svg',
+  './src/components/fields.js', './src/components/validation.js',
+  './src/modules/progress/model.js', './src/modules/progress/view.js',
+  './src/modules/notifications/model.js', './src/modules/notifications/view.js',
+  './src/modules/settings/model.js', './src/modules/settings/view.js',
+  './src/modules/help/articles.js', './src/modules/help/view.js',
 ]);
 
 /** @param {{url:string,method:string,credentials?:string,mode?:string,headers:{has:(name:string)=>boolean}}} request @param {string} scope */

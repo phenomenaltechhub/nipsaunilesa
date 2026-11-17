@@ -1,8 +1,14 @@
-import { element, emptyState, icon, link, pageHeading } from './components/dom.js';
+import { element, icon, link, pageHeading } from './components/dom.js';
 import { resolveRoute, routes, mobilePrimary, academicRouteIds } from './state/routes.js';
 import { homeView, catalogueView } from './modules/academic/views.js';
 import { plannerView } from './modules/study/view.js';
-import { accountView } from './modules/account/view.js';
+import { settingsView } from './modules/settings/view.js';
+import { createSettings, applyAppearance } from './modules/settings/model.js';
+import { createCourseProgress } from './modules/progress/model.js';
+import { courseProgressView } from './modules/progress/view.js';
+import { createNotificationInbox } from './modules/notifications/model.js';
+import { notificationsView } from './modules/notifications/view.js';
+import { helpView } from './modules/help/view.js';
 import { registerOfflineShell } from './pwa/register.js';
 import { timetableView } from './modules/academic/timetable.js';
 import { courseHubView } from './modules/academic/course-hub.js';
@@ -24,9 +30,15 @@ byId('skip-to-main').addEventListener('click', event => {
 const more = /** @type {HTMLDialogElement} */ (byId('more-dialog'));
 let dispose = () => {};
 const revisionPlan = createRevisionPlan();
+const courseProgress = createCourseProgress();
+const inbox = createNotificationInbox();
+const settings = createSettings();
 let storage = null;
 try { storage = window.localStorage; } catch { /* Only the optional avatar preference uses device storage. */ }
 const avatarPreference = createAvatarPreference(storage);
+applyAppearance(settings);
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyAppearance(settings));
+function clearStudy() { revisionPlan.clear(); courseProgress.clear(); inbox.clearRead(); avatarPreference.clear(); }
 
 /** @param {{id:string,label:string}} route @param {boolean} [compact] */
 function navLink(route, compact = false) {
@@ -37,7 +49,7 @@ function navLink(route, compact = false) {
   return item;
 }
 
-const visibleRoutes = routes.filter(route => route.id !== 'course-hub');
+const visibleRoutes = routes.filter(route => !['course-hub', 'progress'].includes(route.id));
 for (const route of visibleRoutes) {
   if (route.id === 'notifications') byId('primary-nav').append(element('p', 'nav-label nav-divider', 'MORE FROM PHARMAIDEIA'));
   byId('primary-nav').append(navLink(route));
@@ -53,23 +65,22 @@ function render() {
   const route = resolveRoute(location.hash);
   let node;
   switch (route?.id) {
-    case 'home': node = homeView(revisionPlan); break;
+    case 'home': node = homeView(revisionPlan, courseProgress); break;
     case 'courses': node = catalogueView('courses'); break;
     case 'glossary': node = catalogueView('glossary'); break;
     case 'planner': { const view = plannerView(revisionPlan); node = view.node; dispose = view.dispose; break; }
     case 'timetable': node = timetableView(); break;
     case 'course-hub': node = courseHubView(); break;
-    case 'profile': node = accountView(avatarPreference); break;
-    case 'notifications':
-      node = element('div');
-      node.append(pageHeading('ACADEMICS', 'Announcements', 'Departmental updates and academic notices.'), emptyState('No announcements', 'Announcements will appear here.', 'notifications', 'h2'));
-      break;
+    case 'profile': node = settingsView(avatarPreference, settings, clearStudy); break;
+    case 'progress': node = courseProgressView(courseProgress); break;
+    case 'help': node = helpView(); break;
+    case 'notifications': node = notificationsView(inbox); break;
     default:
       node = element('div'); node.append(pageHeading('PHARMAIDEIA', 'Page unavailable', 'Choose a page from the menu to continue.'), link('#/home', 'Return to Dashboard', 'button'));
   }
   main.replaceChildren(node); main.setAttribute('aria-labelledby', 'page-title');
   document.title = `${route?.title ?? 'Page not found'} · PHARMAIDEIA`;
-  const activeId = route?.id === 'course-hub' ? 'courses' : route?.id;
+  const activeId = ['course-hub','progress'].includes(route?.id ?? '') ? 'courses' : route?.id;
   for (const item of document.querySelectorAll('[data-route]')) {
     if (item.getAttribute('data-route') === activeId) item.setAttribute('aria-current', 'page'); else item.removeAttribute('aria-current');
   }

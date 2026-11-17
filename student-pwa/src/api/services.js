@@ -16,6 +16,6 @@ export const availability = Object.freeze({
   payments: 'approval-and-infrastructure-blocked',
   academicRecords: 'infrastructure-blocked',
   roleManagement: 'infrastructure-blocked',
-  community: 'closed-infrastructure-blocked',
+  community: 'infrastructure-blocked-pre-launch-required',
   editorial: 'source-and-integration-blocked',
 });

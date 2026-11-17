@@ -21,5 +21,6 @@ export function createRevisionPlan() {
     toggle(id) { items = items.map(item => item.id === id ? { ...item, done: !item.done } : item); },
     /** @param {number} id */
     remove(id) { items = items.filter(item => item.id !== id); },
+    clear() { items = []; },
   };
 }

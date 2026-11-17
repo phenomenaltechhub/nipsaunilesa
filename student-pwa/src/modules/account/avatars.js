@@ -52,5 +52,6 @@ export function createAvatarPreference(storage) {
     },
     /** @param {boolean} value */
     remember(value) { remembered = value === true; persist(); },
+    clear() { selected = 'book'; remembered = false; persist(); },
   };
 }

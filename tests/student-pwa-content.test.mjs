@@ -37,7 +37,7 @@ test('proposed file descriptors reject spoofed types, macros, paths and oversize
   for (const changes of [{ size: 0 }, { size: NaN }, { size: 10 * 1024 * 1024 + 1 }, { size: '100' }, { type: 'text/html' }]) assert.throws(() => academicFileDescriptor({ name: 'fixture.pdf', type: 'application/pdf', size: 100, ...changes }));
 });
 test('academic preparation starts empty and cannot promote data to verified publication', () => {
-  const store = createAcademicPreparation(); assert.deepEqual(store.list(), { courses: [], resources: [], events: [], selected: 0 });
+  const store = createAcademicPreparation(); assert.deepEqual(store.list(), { courses: [], resources: [], events: [], topics: [], selected: 0 });
   store.addCourse(course); store.addResource(resource); store.addEvent(event);
   for (const item of [...store.list().courses, ...store.list().resources, ...store.list().events]) assert.equal(item.status, 'local-unreviewed');
 });

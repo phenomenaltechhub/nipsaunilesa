@@ -92,3 +92,10 @@
 - Verify npm run lint, npm test, npm run build, npm run check:export on unmodified Next.js baseline and after changes. Keep npm network usage minimal.
 - Test PWA with real browser/phone where feasible; no forced heavy framework migration.
 - Preserve existing Pages workflow trigger on main and do not accidentally deploy branch artifacts.
+## M4 owner update — 17 November 2026 (current requirements)
+
+All approved PWA functionality must be fully implemented, integrated, secured and tested **before first public launch**. Community and the complete pre-examination CBT programme are included; neither is deferred to post-launch. M4 is an increment, not whole-platform completion. The current completion assignments and gates are in `docs/nipsa-platform/m4/LAUNCH_COMPLETION_MATRIX.md`. Infrastructure/source/content gaps block the affected launch gate rather than silently removing approved scope.
+
+Approved identity is **Knowledge Nexus — Classic — Standard** from `design-review/knowledge-nexus/masters/a-classic-*` standard files. Preserve the graduation cap/book/molecular structure and proportions. No Institutional, Essential or optical substitution is authorised. PWA integration is authorised in M4; the main website logo remains unchanged. Original sources/review assets remain preserved.
+
+M4 adds working local academic progress, context/topic preparation, notification-centre state, Settings/Help and current security/API specifications. No browser role or level grants access. Authentication requires progressive server restrictions, secure owner recovery and defence against deliberate lockout as specified in `m4/AUTHENTICATION_POLICY.md`. CBT, notifications/progress and community contracts explicitly distinguish local components from operational backend services. No production, DNS, real-account or live-payment action is authorised.

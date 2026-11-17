@@ -19,6 +19,8 @@ try {
     await page.getByLabel('Proposed course code', { exact: true }).fill('TEST101');
     await page.getByLabel('Proposed course title', { exact: true }).fill('Local browser test proposal');
     await page.getByLabel('Proposed units', { exact: true }).fill('2');
+    await page.getByLabel('Proposed academic session',{exact:true}).fill('2026/2027');
+    await page.getByLabel('Proposed semester',{exact:true}).selectOption('first');
     await page.getByLabel('Source reference (HTTPS)', { exact: true }).fill('https://example.invalid/evidence');
     await page.getByRole('button', { name: 'Prepare local proposal', exact: true }).click();
     await page.getByRole('status').filter({ hasText: 'Not reviewed, saved remotely or published.' }).waitFor();

@@ -20,6 +20,14 @@ for (const asset of publicAssets) {
   publicBytes += fs.statSync(file).size;
   if (file.endsWith('.js')) javascriptBytes += fs.statSync(file).size;
 }
+const cached = new Set(publicAssets.map(asset => path.resolve(root,asset==='./'?'index.html':asset)));
+for(const file of cached) if(file.endsWith('.js')) {
+  const source=fs.readFileSync(file,'utf8');
+  for(const match of source.matchAll(/\bfrom\s*['"]([^'"]+)['"]/g)) {
+    assert.ok(match[1].startsWith('.'),'PWA runtime imports must remain local');
+    assert.ok(cached.has(path.resolve(path.dirname(file),match[1])),`Uncached runtime dependency: ${match[1]}`);
+  }
+}
 assert.ok(publicBytes <= 200_000, `Public offline shell exceeds 200 KB: ${publicBytes}`);
 assert.ok(javascriptBytes <= 80_000, `PWA JavaScript exceeds 80 KB: ${javascriptBytes}`);
 assert.equal(avatars.length, 20); assert.equal(new Set(avatars.map(avatar => avatar.id)).size, 20);

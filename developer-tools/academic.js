@@ -1,5 +1,5 @@
 import { createAcademicPreparation } from '../student-pwa/src/modules/academic/models.js';
-import { courseHubView } from '../student-pwa/src/modules/academic/course-hub.js';
+import { courseHubView } from './prepared-course-hub.js';
 import { preparationView } from './academic-preparation.js';
 const preparation = createAcademicPreparation();
 const main = document.getElementById('workbench');

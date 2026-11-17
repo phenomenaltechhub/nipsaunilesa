@@ -1,0 +1,2 @@
+export const resourceCategories = Object.freeze({ 'lecture-note': 'Lecture notes', presentation: 'Presentations', practical: 'Practical materials', 'past-question': 'Past questions', assignment: 'Assignments', revision: 'Revision materials', syllabus: 'Syllabus', reference: 'Related links' });
+export const eventKinds = Object.freeze({ class: 'Class', assignment: 'Assignment deadline', examination: 'Examination notice', activity: 'Academic activity' });

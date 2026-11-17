@@ -1,7 +1,7 @@
 import { parseCalendarDate } from './calendar.js';
 
-export const resourceCategories = Object.freeze({ 'lecture-note': 'Lecture notes', presentation: 'Presentations', practical: 'Practical materials', 'past-question': 'Past questions', assignment: 'Assignments', revision: 'Revision materials', syllabus: 'Syllabus', reference: 'Related links' });
-export const eventKinds = Object.freeze({ class: 'Class', assignment: 'Assignment deadline', examination: 'Examination notice', activity: 'Academic activity' });
+import { resourceCategories,eventKinds } from './catalogue.js';
+export { resourceCategories,eventKinds } from './catalogue.js';
 /** @param {unknown} value @param {string[]} keys */
 function fields(value, keys) {
   if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !keys.includes(key))) throw new TypeError('Use only the documented metadata fields.');
@@ -36,15 +36,19 @@ export function driveResourceUrl(value) {
   url.search = ''; url.hash = ''; if (key) url.searchParams.set('resourcekey', key);
   return url.href;
 }
-/** @param {{code:string,title:string,units:number,level:number,description:string,sourceUrl:string}} value */
+/** @param {{code:string,title:string,units:number,level:number,description:string,sourceUrl:string,session?:string,semester?:string}} value */
 export function courseProposal(value) {
-  fields(value, ['code', 'title', 'units', 'level', 'description', 'sourceUrl']);
+  fields(value, ['code', 'title', 'units', 'level', 'description', 'sourceUrl', 'session', 'semester']);
   const code = text(value.code, 'Course code', 20).toUpperCase();
   if (!/^[A-Z][A-Z0-9 -]{1,19}$/.test(code)) throw new TypeError('Use a short alphanumeric course code.');
   if (!Number.isInteger(value.units) || value.units < 0 || value.units > 10 || ![100, 200, 300].includes(value.level)) throw new RangeError('Use integer units from 0–10 and a proposed 100, 200 or 300 Level.');
   const sourceUrl = academicSourceUrl(value.sourceUrl); if (!sourceUrl) throw new TypeError('Supply a safe HTTPS source reference.');
-  return { code, title: text(value.title, 'Course title', 120), units: value.units, level: value.level, description: text(value.description, 'Description', 1200, true), sourceUrl };
+  const session=value.session??''; const semester=value.semester??'';
+  if((session||semester)&&(!/^20\d{2}\/20\d{2}$/.test(session)||Number(session.slice(5))!==Number(session.slice(0,4))+1||!['first','second'].includes(semester)))throw new TypeError('Use a consecutive academic session and first or second semester.');
+  return { code, title: text(value.title, 'Course title', 120), units: value.units, level: value.level, description: text(value.description, 'Description', 1200, true), sourceUrl, session, semester };
 }
+/** @param {{courseId:number,title:string,parentId:number,sourceUrl:string}} value */
+export function topicProposal(value){fields(value,['courseId','title','parentId','sourceUrl']);const sourceUrl=academicSourceUrl(value.sourceUrl);if(!sourceUrl||!Number.isSafeInteger(value.parentId)||value.parentId<0)throw new TypeError('Use a source reference and valid parent topic.');return {courseId:value.courseId,title:text(value.title,'Topic title',120),parentId:value.parentId,sourceUrl};}
 /** @param {{courseId:number,title:string,category:string,url:string,description:string}} value */
 export function resourceProposal(value) {
   fields(value, ['courseId', 'title', 'category', 'url', 'description']);
@@ -80,21 +84,24 @@ export function createAcademicPreparation() {
   /** @type {(ReturnType<typeof courseProposal>&{id:number,status:string})[]} */ let courses = [];
   /** @type {(ReturnType<typeof resourceProposal>&{id:number,status:string})[]} */ let resources = [];
   /** @type {(ReturnType<typeof eventProposal>&{id:number,status:string})[]} */ let events = [];
+  /** @type {(ReturnType<typeof topicProposal>&{id:number,status:string})[]} */ let topics = [];
   let serial = 0; let selected = 0;
-  const list = () => ({ courses: courses.map(item => ({ ...item })), resources: resources.map(item => ({ ...item })), events: events.map(item => ({ ...item })), selected });
+  const list = () => ({ courses: courses.map(item => ({ ...item })), resources: resources.map(item => ({ ...item })), events: events.map(item => ({ ...item })), topics:topics.map(item=>({...item})), selected });
   /** @param {number} id */
   function requireCourse(id) { const course = courses.find(item => item.id === id); if (!course) throw new RangeError('Choose a course prepared in this tab.'); return course; }
   return {
     list,
     /** @param {Parameters<typeof courseProposal>[0]} value */
-    addCourse(value) { const course = courseProposal(value); if (courses.length >= 20 || courses.some(item => item.code === course.code && item.level === course.level)) throw new RangeError('Avoid duplicate course/level proposals; maximum 20 courses.'); courses.push({ ...course, id: ++serial, status: 'local-unreviewed' }); selected = serial; return serial; },
+    addCourse(value) { const course = courseProposal(value); if (courses.length >= 20 || courses.some(item => item.code === course.code && item.level === course.level && item.session===course.session && item.semester===course.semester)) throw new RangeError('Avoid duplicate course/context proposals; maximum 20 courses.'); courses.push({ ...course, id: ++serial, status: 'local-unreviewed' }); selected = serial; return serial; },
+    /** @param {Parameters<typeof topicProposal>[0]} value */
+    addTopic(value){const topic=topicProposal(value);requireCourse(topic.courseId);if(topics.length>=200||topics.some(t=>t.courseId===topic.courseId&&t.parentId===topic.parentId&&t.title.toLowerCase()===topic.title.toLowerCase()))throw new RangeError('Use unique topics; maximum 200 proposals.');if(topic.parentId&&!topics.some(t=>t.id===topic.parentId&&t.courseId===topic.courseId))throw new RangeError('Parent topic must belong to this course.');topics.push({...topic,id:++serial,status:'local-unreviewed'});},
     /** @param {Parameters<typeof resourceProposal>[0]} value */
     addResource(value) { const resource = resourceProposal(value); requireCourse(resource.courseId); if (resources.length >= 80) throw new RangeError('Maximum 80 local resource proposals.'); resources.push({ ...resource, id: ++serial, status: 'local-unreviewed' }); },
     /** @param {Parameters<typeof eventProposal>[0]} value */
     addEvent(value) {
       const event = eventProposal(value); const course = requireCourse(event.courseId);
       /** @param {string} kind */ const blocks = (kind) => kind === 'class' || kind === 'examination';
-      if (events.length >= 80 || (blocks(event.kind) && events.some(item => blocks(item.kind) && requireCourse(item.courseId).level === course.level && item.date === event.date && clock(item.start) < clock(event.end) && clock(event.start) < clock(item.end)))) throw new RangeError('Conflicting proposed class/examination times or the 80-event limit was reached.');
+      if (events.length >= 80 || (blocks(event.kind) && events.some(item => blocks(item.kind) && requireCourse(item.courseId).level === course.level && requireCourse(item.courseId).session===course.session && requireCourse(item.courseId).semester===course.semester && item.date === event.date && clock(item.start) < clock(event.end) && clock(event.start) < clock(item.end)))) throw new RangeError('Conflicting proposed class/examination times or the 80-event limit was reached.');
       events.push({ ...event, id: ++serial, status: 'local-unreviewed' });
     },
     /** @param {number} id */
@@ -103,7 +110,7 @@ export function createAcademicPreparation() {
     remove(kind, id) {
       if (kind === 'resource') resources = resources.filter(item => item.id !== id);
       if (kind === 'event') events = events.filter(item => item.id !== id);
-      if (kind === 'course') { courses = courses.filter(item => item.id !== id); resources = resources.filter(item => item.courseId !== id); events = events.filter(item => item.courseId !== id); if (selected === id) selected = 0; }
+      if (kind === 'course') { courses = courses.filter(item => item.id !== id); resources = resources.filter(item => item.courseId !== id); events = events.filter(item => item.courseId !== id); topics=topics.filter(item=>item.courseId!==id); if (selected === id) selected = 0; }
     },
   };
 }

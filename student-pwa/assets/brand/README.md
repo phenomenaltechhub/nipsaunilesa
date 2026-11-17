@@ -1,14 +1,13 @@
-# Book–Molecule Interlock
+# Approved PHARMAIDEIA identity — Classic Standard
 
-Original geometric artwork for **PHARMAIDEIA**, affiliated with **NIPSA UNILESA**. Created as vector paths for this project; it does not reproduce the NIPSA national emblem or claim final staff approval. An open book and its central spine interlock with five connected molecular nodes. Emerald and teal form the primary identity; light artwork uses white and mint on dark backgrounds.
+Owner approval in M4, 17 November 2026: **Knowledge Nexus — Classic — Standard**. The source is `design-review/knowledge-nexus/masters/a-classic-*` standard artwork. Graduation cap, flowing open-book geometry, molecular structure, emerald/teal palette and proportions are preserved. No Institutional/Essential/optical substitution is authorised, including at 16px. Small molecular details soften at tiny sizes as noted in the review; that does not authorise a different variant.
 
-- `symbol.svg`: transparent primary symbol and editable SVG master.
-- `logo-primary.svg`: symbol and editable wordmark for light backgrounds.
-- `symbol-dark.svg`, `logo-dark.svg`: light artwork for dark backgrounds.
-- `symbol-mono.svg`, `symbol-mono-light.svg`: monochrome variants.
-- `favicon.svg`, `favicon-32.png`: favicon assets.
-- `icon-192.png`, `icon-512.png`: ordinary PWA icons.
-- `maskable-master.svg`, `maskable-192.png`, `maskable-512.png`: solid-background maskable icons with inset artwork; retain the safe area when revising.
-- `apple-touch-icon.png`: 180px mobile home-screen asset.
+- `symbol.svg`, `symbol-dark.svg`, `symbol-mono.svg`, `symbol-mono-light.svg`: approved standard geometry, transparent light/dark/one-colour artwork.
+- `logo-primary.svg`, `logo-dark.svg`, `logo-stacked.svg`: original path-based wordmarks, no font dependency.
+- `app-icon-master.svg`, `favicon.svg`, `icon-{16,24,32,48,64,192,512}.png`: same Standard artwork; no responsive optical replacement.
+- `maskable-master.svg`, `maskable-{192,512}.png`: Standard geometry proportionally inset into an opaque background, with artwork inside the maskable safe circle.
+- `apple-touch-icon.png`, `favicon-32.png`: ordinary platform assets. Manifest icon paths retain their existing purpose/scope and now contain approved artwork.
 
-Regenerate from the hand-authored geometry using `npm run assets:pwa`. It uses the existing development dependency Sharp; no new asset tool or remote font is required. The wordmark uses editable system-font text; review/outline the approved typography before final external brand distribution. Do not use PHARMAIDEIA artwork to replace the website's approved NIPSA download watermark. The separate original M2 avatar masters and atlas live under `../avatars/`; they do not replace these brand masters.
+Regenerate using `npm run assets:pwa`; check with `npm run check:brand` and the exact-geometry unit test. The generator reads preserved approved SVG masters and changes only accessible title metadata before rasterising. No raster is embedded in a master. Startup/Dashboard branding uses these assets; platform splash presentation depends on browser/OS. Main website identity/watermark is separate and unchanged.
+
+Original M1 source geometry/generator is preserved under `design-review/brand-history/` and Git history. Previous review families remain unchanged. Historical generators are not the current identity build commands.

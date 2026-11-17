@@ -1,54 +1,41 @@
 # PHARMAIDEIA · NIPSA UNILESA
 
-Independent HTML/CSS/ES-module student companion. This directory is **not** copied into the Next.js `public/` folder or GitHub Pages export. Authentication, payments, private academic delivery, server permissions and messaging remain infrastructure-dependent. No backend or student records are connected. The clean student interface does not imply otherwise.
+Standalone HTML/CSS/ES-module student companion. It remains outside Next.js `public/` and the GitHub Pages export. No real accounts, private records, payments, messaging or CBT service is activated. All approved functions, including community and CBT, must be completed and validated before first public launch; see the pre-launch matrix.
 
-## Review in Codex Cloud
+## Current M4 functionality
 
-From the repository root:
+- Approved **Knowledge Nexus Classic Standard** identity across PWA header/startup, icons, favicon and manifest. Standard geometry is preserved at every size; no optical substitution. Website logo is unchanged. Source/review history is preserved.
+- Dashboard, Courses, Timetable, Study planner, Glossary, Announcements, Settings and Help share one responsive shell. Empty states contain no invented institutional information. No inactive authentication, payment or community controls pretend to work.
+- Real personal course-progress outlines: topics/subtopics, coverage, self-assessed understanding, revision, difficulty, priority, filters and per-outline/overall summaries. Leaf topics avoid double counting. Practice and CBT results are separate and absent until actual assessments exist. Personal outlines clear on reload and are not official academic records.
+- Existing revision tasks, focus timer, week/agenda navigation and twenty curated avatars remain functional. Only an explicitly opted-in avatar ID may persist; no task, topic, role, identity or receipt enters storage/cache.
+- Local notification centre has literal search, priority/read filters, read state, revision-aware corrections and withdrawal handling. The app starts with no notices. Independent test fixtures exercise populated behavior; no sender or live delivery is fabricated. Server targeting/publication/receipts remain integration work.
+- Settings offers curated avatars, light/dark/device theme, larger text, session-only notification preferences, privacy clearing, account/recovery information, About and support links. No browser push is requested. Authenticated sign-out/recovery controls await actual sessions.
+- Searchable non-sensitive Help covers students, reps, executives, administration, editorial ownership, privacy/security, community rules and CBT workflows. Private runbooks require future authenticated delivery.
+
+## Developer and content boundary
+
+`developer-tools/` is separate, loopback-only and absent from student cache/export. It includes module statuses and unreviewed course/context/topic/resource/schedule preparation. Level/session/semester fields describe proposals, never permissions. Authenticated rep management must be server-scoped by level/course. File descriptors are not binary/malware validation. No upload endpoint exists.
+
+Preparation models and the populated draft renderer are excluded from the student runtime. Thin shared category metadata retains the student course structure. The integrity check verifies that every static runtime import is precached; size reductions do not omit code that the student UI downloads. The original **200,000-byte public shell / 80,000-byte JavaScript** budgets remain unchanged. No runtime/development dependency is added for M4. UI patterns use native controls and original components; no React UI library is imported into this PWA.
+
+## Review and validation
 
 ```sh
 npm run preview:pwa
 npm run preview:developer
 npm run check:pwa
+npm run check:brand
 npm test
 npm run test:pwa:browser
 npm run test:developer:browser
-npm run review:m3:design
+npm run test:m4:browser
+npm run test:website:browser
 ```
 
-The PWA preview binds loopback port 4173; the separate developer server binds loopback port 4174. These are development tools, not phone-accessible public links. The environment has no supported shared-browser forwarding interface. Actual desktop/mobile screenshots are saved under `/workspace/artifacts/pharmaideia-m3/`; design exports are also under `design-review/milestone-3/exports/`. `npm run review:pwa:planner` records the working planner; set `PHARMAIDEIA_REVIEW_DIR` to choose its artifact directory.
+Preview servers bind loopback only (4173/4174). Localhost URLs are not owner-accessible public links. M4 screenshots, a real mobile recording and validation logs are under `/workspace/artifacts/pharmaideia-m4/`. The M4 suite uses temporary copies/fixtures and the existing system FFmpeg through a temporary recorder directory; no encoder download/new package is needed. Chromium/axe/viewport checks do not certify physical Android/iOS installability, full accessibility or backend security. Regular-profile Chromium installation eligibility is checked separately from incognito test contexts.
 
-## Student interface through M3
+The explicit public cache is v4. Increment it whenever shipped assets change. No runtime API/response caching; private data, questions/keys, personal state, drafts, test tools and diagnostics are never precached. Updates wait for user choice and preserve unrelated caches. New backend integrations require server authorization, CSRF/rates/session controls and security tests, not changing a client flag.
 
-- **Dashboard**, Courses, Timetable, Study planner, Glossary, Announcements and Preferences share one responsive shell. Empty states are concise; no official course, event, term, identity or academic-level assignment is invented. Inactive community, login, payment and management operations are not offered.
-- Dashboard prioritises courses, timetable, deadlines, actual personal study priorities and announcements. No marketing hero, redundant shortcut-card row, fake activity statistics or repeated development banners.
-- Course details include keyboard-accessible details/topics/materials/schedule/revision tabs. The empty catalogue does not offer a fabricated course to select. No protected content is bundled. Calendar controls browse real device-calendar dates and switch Week/Agenda; these dates are not official institutional schedules.
-- Personal revision tasks support valid optional dates, completion, filtering and removal. They remain in tab memory across routes, clearing on reload. The working focus timer resets on leaving/reloading its view. Neither is a server-synced academic record.
-- Twenty original curated avatars remain available. Only an allowlisted appearance ID may persist after explicit opt-in. No account identity, roles, tasks or credentials enter browser storage.
-- Manifest, original active icons, explicit public-only offline shell and user-controlled updates remain functional. Connectivity feedback appears only when offline. Install availability depends on browser/secure context; technical setup errors go to the developer console, without sensitive details.
+## Before launch
 
-## Developer diagnostics and academic preparation
-
-`developer-tools/` sits **outside** the student app/cache and website export. It records module IDs and implementation statuses, not live health statistics. An explicitly started loopback server restricts file prefixes; other repository/dot-file requests return 403. No browser role flag grants developer access. Public source is naturally readable on GitHub, so tooling contains no secrets or protected logs. External hosting/forwarding would require real server authentication first.
-
-The separate content workbench uses reusable `src/modules/academic/models.js` and course-detail components. It validates bounded course/resource metadata, direct external Drive/Docs links and actual dates/times; detects proposed same-level class/exam conflicts; and derives an unreviewed status. All metadata starts empty, stays in memory and clears on reload. No API, publication, permission grant, file upload or institutional approval occurs. File descriptor checks are not malware/binary validation. See the academic contracts and diagnostics guide.
-
-## Structure and security
-
-`assets/brand/`: preserved active M1/M2 Book–Molecule identity and icons.
-`styles/`: shared design tokens and responsive shell.
-`src/components/`: textContent-based DOM composition, shared navigation/tabs.
-`src/modules/`: academic, personal study and appearance components; inactive community source retained.
-`src/state/`: allowlisted local navigation, no student role/identity state.
-`src/api/`: disconnected service boundary; rejects without requests.
-`src/pwa/`, `sw.js`: public asset allowlist, registration and update handling.
-
-No untrusted text is parsed as HTML. No external scripts/fonts/analytics, uploads, account forms or permission prompts are added. `connect-src 'self'` supports public shell installation, not authentication. New sensitive integrations require server enforcement and integration tests, never just changing a client flag. No runtime PWA npm dependency is introduced; axe is an isolated development-only test tool with notices retained.
-
-The M3 public cache is v3. Increment its version when shipped assets change and test installation/update/offline behavior. Never add private/API response caching. Personal tools and developer proposals do not enter Cache Storage. Unrelated app caches remain preserved during updates.
-
-## Integration and release gates
-
-Read `docs/nipsa-platform/ARCHITECTURE.md`, `SECURITY.md`, `INTEGRATION_CONTRACTS.md`, `ACADEMIC_CONTRACTS.md`, `DEVELOPER_DIAGNOSTICS.md` and `MILESTONE_3.md`. Verified academic content, secure operational hosting and approval remain required before public service activation. The proposed app subdomain is not configured. Do not deploy this directory, change DNS, enable live Paystack or collect private student information for this milestone. Headers such as HSTS/frame-ancestors require real hosting configuration.
-
-Three original identity alternatives and the editorial layout are **review proposals**, outside the app. No final variant is selected or applied. The original editorial source remains unavailable and has not been replaced/integrated.
+Read `docs/nipsa-platform/MILESTONE_4.md` and `m4/LAUNCH_COMPLETION_MATRIX.md`, `AUTHENTICATION_POLICY.md`, `NOTIFICATIONS_AND_PROGRESS_API.md`, `CBT_AND_COMMUNITY_ARCHITECTURE.md`. Verified academic/glossary content, rights, editorial source, funded validated hosting/email/private storage/realtime services, operational backend security and M8 acceptance are still required. No approved function is silently deferred beyond launch. Proposed app subdomain remains unconfigured. No deployment, DNS, live Paystack or real student-data collection is part of M4.

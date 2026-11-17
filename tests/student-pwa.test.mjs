@@ -17,7 +17,7 @@ test('student service boundary fails closed without any network request or simul
   try { await assert.rejects(requestStudentServices(), InfrastructureUnavailableError); assert.equal(requests, 0); }
   finally { globalThis.fetch = original; }
   assert.equal(availability.roleManagement, 'infrastructure-blocked');
-  assert.equal(availability.community, 'closed-infrastructure-blocked');
+  assert.equal(availability.community, 'infrastructure-blocked-pre-launch-required');
 });
 test('offline cache excludes sensitive, foreign, query, mutation and credential-bearing requests', () => {
   const scope = 'https://example.org/student-pwa/';

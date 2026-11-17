@@ -132,6 +132,7 @@ try {
     await page.getByRole('heading', { name: 'No announcements', exact: true }).waitFor();
     assert.equal(await page.locator('textarea,[contenteditable=true],input[type=password],input[type=email]').count(), 0);
     await page.evaluate(() => { location.hash = '/profile'; });
+    await page.getByText('Profile & avatars',{exact:true}).click();
     assert.equal(await page.getByRole('radio').count(), 20);
     await page.getByRole('radio', { name: 'Capsule', exact: true }).check();
     await page.getByRole('checkbox', { name: 'Remember this avatar on this device', exact: true }).click();
@@ -193,14 +194,17 @@ try {
   await updateContext.close();
   const preferenceContext = await browser.newContext(); const preferencePage = await preferenceContext.newPage();
   await preferencePage.goto(base + '/#/profile');
+  await preferencePage.getByText('Profile & avatars',{exact:true}).click();
   await preferencePage.getByRole('radio', { name: 'Molecular bonds', exact: true }).check();
   assert.equal(await preferencePage.evaluate(() => localStorage.length), 0, 'No persistence without user choice');
   await preferencePage.getByRole('checkbox', { name: 'Remember this avatar on this device', exact: true }).check();
   await preferencePage.reload({ waitUntil: 'networkidle' });
+  await preferencePage.getByText('Profile & avatars',{exact:true}).click();
   assert.equal(await preferencePage.getByRole('radio', { name: 'Molecular bonds', exact: true }).isChecked(), true);
   assert.deepEqual(await preferencePage.evaluate(() => Object.keys(localStorage)), ['pharmaideia.avatar.v1']);
   await preferencePage.getByRole('checkbox', { name: 'Remember this avatar on this device', exact: true }).uncheck();
   await preferencePage.reload({ waitUntil: 'networkidle' });
+  await preferencePage.getByText('Profile & avatars',{exact:true}).click();
   assert.equal(await preferencePage.getByRole('radio', { name: 'Open book', exact: true }).isChecked(), true);
   console.log('PASS avatar preference: opt-in persistence stores one curated ID, survives reload, and opt-out restores the unsaved default.');
   await preferenceContext.close();

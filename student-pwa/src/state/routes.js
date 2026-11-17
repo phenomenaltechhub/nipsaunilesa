@@ -5,7 +5,9 @@ export const routes = Object.freeze([
   { id: 'planner', label: 'Study planner', title: 'Study planner' },
   { id: 'glossary', label: 'Glossary', title: 'Glossary' },
   { id: 'notifications', label: 'Announcements', title: 'Announcements' },
-  { id: 'profile', label: 'Preferences', title: 'Preferences' },
+  { id: 'profile', label: 'Settings', title: 'Settings' },
+  { id: 'help', label: 'Help & Guide', title: 'Help & Guide' },
+  { id: 'progress', label: 'Course progress', title: 'Course progress' },
   { id: 'course-hub', label: 'Course details', title: 'Course details' },
 ]);
 
