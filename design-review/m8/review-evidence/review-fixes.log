@@ -1,0 +1,12 @@
+✔ M8 office changes roll back when protected audit storage rejects the event (5034.704597ms)
+✔ M8 executive revocation clears the approved-office label so reappointment cannot revive a stale identity (4435.916696ms)
+✔ M8 native feed adapter enforces real HTTP metadata, redirects and streamed size bounds (535.838737ms)
+✔ M8 an unsolicited 304 cannot label the bundled catalogue as a verified live feed (497.923774ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10675.267738

@@ -1,0 +1,628 @@
+{
+  "comparisonBase": "aacd56bebb83377b9b715dee2d299b2f13909710",
+  "preservedFiles": 124,
+  "sourceHashChecks": [
+    {
+      "path": ".github/workflows/deploy.yml",
+      "sha256": "16ada26aec311d9fe9439f9d9757fd6cc35836b2cb5a4283452c9c85b291c93b",
+      "unchanged": true
+    },
+    {
+      "path": "app/gallery/gallery-image-viewer.tsx",
+      "sha256": "d0306f7318a6ae15959d41c3ff5fb7a9b1970a1a211b222bdf28861394d79b6a",
+      "unchanged": true
+    },
+    {
+      "path": "backend/migrations/001_accounts.sql",
+      "sha256": "b53e0b35f7e18a5d10d3c6891cae9985eccf86580705c24ced1006914d846a5b",
+      "unchanged": true
+    },
+    {
+      "path": "backend/migrations/002_academic.sql",
+      "sha256": "6115836f5bd50d5347d538d8a450aeca2320c6bf5dc45be96d22ce861bb65153",
+      "unchanged": true
+    },
+    {
+      "path": "backend/migrations/003_recovery.sql",
+      "sha256": "b4d0366e5383b0e3719bc4eced1ffddfe505e4e19020fd035644816d36e3fbd4",
+      "unchanged": true
+    },
+    {
+      "path": "backend/migrations/004_operations.sql",
+      "sha256": "03f12cb44683a9c21b1eb3bfab0bd06c06e67c4d5f1c12421fea3a5eaf1313f9",
+      "unchanged": true
+    },
+    {
+      "path": "backend/migrations/005_delivery.sql",
+      "sha256": "dd5fa228b51b11ca6915802940965729c81c445dbb74a4abcd5763c5eabcce0e",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/backup.mjs",
+      "sha256": "a35074210251c731bf6f9f3ba4025726801721433324611aa73b0a04e5a0c2e5",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/operations/academic.mjs",
+      "sha256": "352b0d3c957af81e3227b03c77ad92a31ebdc18d8faaa4bd89e2d899bc22ce1b",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/operations/analytics.mjs",
+      "sha256": "b9b305b33b9f959c25fe651c20a0be34929678f44ea3fa438335080c993b96b0",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/operations/cbt.mjs",
+      "sha256": "9349b94a6d2211b8c77547058d35b01cc33712747180a05ecfc4bb086290ea2e",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/operations/examination.mjs",
+      "sha256": "7d6d4fda6a44640a3ac7ce597ba4aff13f63f8ec8f098c69a9a7307a8447b638",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/operations/integrity.mjs",
+      "sha256": "84d97a69ad96eff860d66c76a04f85005df8f71ea504eeb5c66c08e32c639457",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/operations/m7-routes.mjs",
+      "sha256": "7c1d50aee602f419b24a45c9cca562f88074b8cd4a857cd2cd370031859b22b3",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/operations/question-bank.mjs",
+      "sha256": "e986323098dbf0a42f6a6605871fb387bb99551f05bcf050019c9ed459829376",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/operations/resources.mjs",
+      "sha256": "bd2c1a1504b63f81e54ab0bf744ba462b068df6502ee11360fe9748a79f896e3",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/providers/paystack.mjs",
+      "sha256": "1db4bb41c5510e62dd1d81dbd976d1fc440a8f112317a6e7319fa7b2acc42e71",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/security.mjs",
+      "sha256": "e679a98d1543048498ceab800428c2621899c39e0f8105596dfbd815f04d3703",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/store.mjs",
+      "sha256": "aab56fc55505f0bff687b2056413c3233f448dd6abf37fea6b049112c755bc29",
+      "unchanged": true
+    },
+    {
+      "path": "backend/src/tls-configuration.mjs",
+      "sha256": "8a0ba7641341e30046ddf90c33c5578fff2f1b612ad961f5a35a9006849bc5bc",
+      "unchanged": true
+    },
+    {
+      "path": "backend/ui/operations/examination.mjs",
+      "sha256": "f3016901f4407628bee2e37a67a41e4837bcb0af06a9e181095552384a42fdbb",
+      "unchanged": true
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "e553bf372dfa6643b60ad0ebbb4cd41ae45901f949c0db3962392901ba018ea2",
+      "unchanged": true
+    },
+    {
+      "path": "public/nipsa-logo.png",
+      "sha256": "8bd8ed862b854bba5248d91f00c22c8111d22eed5cf18c7bd6d9ffae76c45c4b",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/pharmaideia-m7-browser.mjs",
+      "sha256": "3ea00c9e3182ad975f68f1bfb9800ea42aee194d2e49e9a44fafceefe021d2cd",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/pharmaideia-m7-workflows.mjs",
+      "sha256": "93a346670ee3dd47fa735fd852709642dc3709bf500973536bb9435b8255ccfe",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/README.md",
+      "sha256": "41abe84ffc72546c41ed08466f0fdf2a07bc393ebfa07769a9c7c0fd12161b09",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/README.md",
+      "sha256": "c820f69edb0a759bb6e8b359b0f0cfa3746e13d293859458b5052f4801610ae7",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/atlas.svg",
+      "sha256": "28f0dec3821f271c866670011f6ace0b1faf9714daada9362c60fd7987d180a0",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/atom.svg",
+      "sha256": "be678ef3aece6dcf2f3005446df853605c3d8bb7f068356a817b8c0dbf2ff405",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/beaker.svg",
+      "sha256": "b95ead4ed2982f763fc781f7c2ca46516038c0159a82f21e80511db6ce1c5009",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/book.svg",
+      "sha256": "665b0f3bbca1d2b892c76a91a2e77d8bcebcbb89fe40a167cee99e74c3058e71",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/books.svg",
+      "sha256": "31dfa97e772da2e65cb82281e6139af2a62570f818c4271b26386a46a8892b50",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/capsule.svg",
+      "sha256": "7ac8f7968624d6f50b84fdac988815afc7210aa572f47a42b18b56cc5c57dead",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/clinician-a.svg",
+      "sha256": "3a47790eeec86dd0eb1479865fe7dafa4adfbaa846b3c3a86082c18eb29da72a",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/clinician-b.svg",
+      "sha256": "21e7e58c439f06331eb1c337b4b3f90bf8a505a1d44a233a63ce973f9067b47f",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/clinician-c.svg",
+      "sha256": "cfb722b1c980de273f6baef7793723f53623119e2e5c9d7dc4915feb93716788",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/clinician-d.svg",
+      "sha256": "c2080d11ea211dee0de02416afa0f42de789fc9f14cd653a9ac42755d6a31c4b",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/compound.svg",
+      "sha256": "6c2dbde05d020c39f4d993487965a930b319f115bf4d0d695c30931b5966b572",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/dna.svg",
+      "sha256": "a6849011c30cc6649ab3100c4cfb14b413e55fca37197beb53de14675061b112",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/flask.svg",
+      "sha256": "804e7a98eb0b25143d3e5373cf18776e6248f85039405e25b1669b98a893c534",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/graduate.svg",
+      "sha256": "03de2b743008e6a2e79f52f8ac42bb4816d0b0ea9178ff7b2f313fecbdaf6ccf",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/heart.svg",
+      "sha256": "aece777e3dda63024bc0f819591777d326c94d7fe690c8ea9176c35347d3af86",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/microscope.svg",
+      "sha256": "d1078372e166676276f485c507dd1aff1edada140790d254a0f7a46e13a3322f",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/molecule.svg",
+      "sha256": "607747ba44067fdd991de4ee746db215f855669c005d17d3ba0d1ec0c22235e3",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/pipette.svg",
+      "sha256": "42a3d40641f8c60187799612e201f6bb6756102298644fa5d1365cd10ac8ee25",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/shield.svg",
+      "sha256": "a3661835af6c33b476de957be35ba71000921fba2906eb20f48aff38a0a91578",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/stethoscope.svg",
+      "sha256": "6091ad95a5b0586182d75e1d95aa48cb447858986e803794386afde70b265ee9",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/avatars/tablets.svg",
+      "sha256": "a0396c07490a62dacf54e1d49c7ef845e78f4e485a93da39bdc0acbcb5d727e1",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/README.md",
+      "sha256": "4a4259ea58436e64f9c5bc29c356f2ce46c53d1fae86b546b48c8305a7a63f94",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/app-icon-master.svg",
+      "sha256": "0c86a030a9d225481258610cd617b0d11d9cbcf2aaee90572ca0a35fd5ab4af8",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/apple-touch-icon.png",
+      "sha256": "00cdc62f618c0001e5c7d93c1893b7b804cefae1bb9295b707fbdf7511ffc22b",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/favicon-32.png",
+      "sha256": "ad9f013fb3ff02c8c61635f35c3cec6fe5a9ca319f2f358170981eb398a6fe3a",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/favicon.svg",
+      "sha256": "0c86a030a9d225481258610cd617b0d11d9cbcf2aaee90572ca0a35fd5ab4af8",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/icon-16.png",
+      "sha256": "c395c36b538425aa80c96e61be0614ed6a8a512ce8137ee4193175440c9990c2",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/icon-192.png",
+      "sha256": "d057f5e1c35b66a637acb4003d651a347bad0035e6b8b6766e08c5756cd56747",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/icon-24.png",
+      "sha256": "bfac86c8428caa9afbd9a3c5d00e5a27acd9c71adfa68c407e4e62e3b0d8ef87",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/icon-32.png",
+      "sha256": "ad9f013fb3ff02c8c61635f35c3cec6fe5a9ca319f2f358170981eb398a6fe3a",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/icon-48.png",
+      "sha256": "7bff93c3f91ddef5207da39a6d53a784bcd1c2f38173492a21aeb5ad9591f5f6",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/icon-512.png",
+      "sha256": "f4ec6238f792f9629aa69330d4ca522ee3c46075cd69d13b8610263737ec827c",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/icon-64.png",
+      "sha256": "1c6114f937c1fa22c5ea29bbabac69b8f5b9382175fe645b535f35234460247b",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/logo-dark.svg",
+      "sha256": "22ef5d519180cdadb36f5853b42038450ca715a7f79b2b0d4f76049284ab8249",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/logo-primary.svg",
+      "sha256": "61bd4fc4e91fb9f972011adbcf89ee4e4498da439e67533347cd44fc30eda0fd",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/logo-stacked.svg",
+      "sha256": "b9eaeb185631f7b156d7ce2aea57965f54bfb0729237bfdb2aaa8a33d284d95f",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/maskable-192.png",
+      "sha256": "2f6fa28cccb3d347f9d3bf3c78e773661f135197c90223e3da0095c304bb0bf6",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/maskable-512.png",
+      "sha256": "ae5e6e308527cde0c2866dc1c5089dd8f810797eb61d17c7a77e401253249911",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/maskable-master.svg",
+      "sha256": "502f3f93c7b0fca90b54a45c52585f79f6649d266a783145aee152638172c53f",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/symbol-dark.svg",
+      "sha256": "e99b14a2b9b99e71b1df146fa6a7a979ef6f34a1e66efce7526afea2a071b72c",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/symbol-mono-light.svg",
+      "sha256": "a092d51fcd0f0cc1a751a19929f7c6b58b1e730b5e860c1d81aa588e142db044",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/symbol-mono.svg",
+      "sha256": "65a654a507af55c1e4d8d1615d09aff11f11d8eef178162a5f4eb46e5966fadd",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/brand/symbol.svg",
+      "sha256": "a476ef26df6f655a80a943c95e56d404b425cd25c5d0bdf3f45a4940d889dfd0",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/hero/provenance.json",
+      "sha256": "121009be2800c5fce8b56c76d54775176efce74bec75f9f5d7be4e5b7044df59",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/hero/study-desktop-1280.avif",
+      "sha256": "1c434a6f93d26301845010ab4f99b66058603b7ee6cec90b568f89140b4989c5",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/hero/study-desktop-1280.webp",
+      "sha256": "41a56ba3b0e4b05d347ab05f41ad40eac0d1b8578f68212e3f39e7216c5c9558",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/hero/study-desktop-960.avif",
+      "sha256": "49169c884b4155cb1e25c32de29d989bb6b1ee5029d3b7d38025c30497cbc613",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/hero/study-desktop-960.webp",
+      "sha256": "1546f9ad9a9dd0c75ea61b0a9fe9d59cc3cefbed2202c341c2ed3c0b17e90427",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/hero/study-mobile-480.avif",
+      "sha256": "6ac43bf2277a7053455ab296dc6c5185d7ca2fce7ce2d851c5b7c86069b6a11b",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/hero/study-mobile-480.webp",
+      "sha256": "6a33b2a19818345df78014ffb4e74006da48b7e5c23aa1686dcd1ba7f4fc0d67",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/hero/study-mobile-720.avif",
+      "sha256": "31c81933c10dd137acbcd22bea2a7355337e2e6d2d0b8365ee0b32a62328befa",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/assets/hero/study-mobile-720.webp",
+      "sha256": "41719c4e91d3f23b05f78ef94997f1fefc99fe0e646e5641b3d2d7ada9f320c4",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/index.html",
+      "sha256": "dec6380ab8a8d1759d6580fcc93d4802398f072cf27d7cd4b4bec2e02113def2",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/manifest.webmanifest",
+      "sha256": "e5fb6b30efad5f867888e4a7de3cb02a6187e9ff0466c365f761cc976f4b71ea",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/media/study-tools-transcript.txt",
+      "sha256": "6ebf713ab8f92ec91c6852959a7ed49759810b67d4942bf0251924f36785a64a",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/media/study-tools.en.vtt",
+      "sha256": "3dc009085200ab020ffb856386632f642f4b7306ea3ab643798a69f7a628a0fe",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/media/study-tools.mp4",
+      "sha256": "b0bdcc7894fd79178c67b6666fc6c666ebc5a524639fd7336776db1ddbd7b410",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/media/walkthrough-poster.webp",
+      "sha256": "a57f1f36a62d848699f9b0c9104a52aa9eff2e7dac6d5cb2b1643709359d1e7b",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/package.json",
+      "sha256": "bfa79160bffaf987b66bb857317824910a1b2de8e4ad7e829d3d1dd72713a936",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/api/services.js",
+      "sha256": "5ace8a40e638260e6236f548241fb3622d89c7414892601bbee6cd2d751521b6",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/app.js",
+      "sha256": "fa1bcdfb10c72fb09de38775dafaf09d3212b0ada46eb994e6c1c663c4c71459",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/components/academic.js",
+      "sha256": "c4e94a9fa0ddb91db7bc076f1b8249edb7708b10d42ef6203aace481b9f3ac44",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/components/dom.js",
+      "sha256": "f872bdc396b1f1b445795e059ec941b55021b47b11555c60dc6e1345cc7b8e84",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/components/fields.js",
+      "sha256": "75a33a90f9b1716215c88766d4ea5618119a8a9c28250a3ec07c2eba8243d399",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/components/validation.js",
+      "sha256": "03da9e02c8a62f304bdfc025afb71f369455b829d7a9f9c04214b13cc053b929",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/academic/calendar.js",
+      "sha256": "86b957d6cdbea44a4c21670c8e85e5f5926446c47afa2f0b9e420f9ee827949c",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/academic/catalogue.js",
+      "sha256": "15224f416288e52743ed879a8edb73b7b0a85aa2e959ad078ced7a07243a8918",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/academic/course-hub.js",
+      "sha256": "81ef8f8dbce7d46b187186399fd49e72134c802a575bbcf469b36622253c553c",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/academic/glossary.js",
+      "sha256": "46d66df8794d836f0a360c57c1123f3186dc9b99765a78751087f5dd1d2b0a65",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/academic/models.js",
+      "sha256": "cc590c342adc32841785c5445a350efd27b2360063dc17fc38d8c9a9fd535da2",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/academic/timetable.js",
+      "sha256": "fa73d8b4fef064d32e6c06d5c287d6e93467d2f49f0542072393dce6fc663886",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/academic/views.js",
+      "sha256": "1fe4075a05bea2e38ca4a0537aa2816f67b12f3b9f955c9c49433c1eeb85eb7d",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/account/avatar-view.js",
+      "sha256": "de21249d2c4825d09aba8f1b834a1cfac69e8743f79d879f5ff445809c33c733",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/account/avatars.js",
+      "sha256": "b2a6c0068c8df74f6090bd432d4ebabd92a9260a35bd137ad2aafd8f53a82d6b",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/account/view.js",
+      "sha256": "c5323461281b4385820cb7b2d5f8ba8a19f15d33c2013c7e554d6006a58f2326",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/community/view.js",
+      "sha256": "4be3ce785cd6bfbfe9ed4176eb86d16c615ba774c422beee96e9f3f8c96eb3fd",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/help/articles.js",
+      "sha256": "2583799ccabc3b363e14ba1e5b1809af3186810588251b1094aca86483923bbe",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/help/view.js",
+      "sha256": "ff4562359af18fe51cda0f34e21d163e363e4b7df8a3af5e26160da242bf8d79",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/notifications/model.js",
+      "sha256": "2c2ecd80df394875b1485a065bd7c43e68aa5fad9aeb5c03361fe703852fb1c6",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/notifications/view.js",
+      "sha256": "243256ab45cbaa51489f8cb72602e182abd4852fb689f4cd7eef71b235fc0b9e",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/progress/model.js",
+      "sha256": "557b3d47dfe2036a74b8c5d93a911cb76aea4238a501f9ff83445f34935ab5c9",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/progress/view.js",
+      "sha256": "5635aeea3492b933892abc8663d87e1bed7d470eb756a1c3fc3c0556e5ff9b35",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/settings/model.js",
+      "sha256": "38626cb0ad20d55bd854c7678d2316c658eb1e89740592cb493da5b5853eadab",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/settings/view.js",
+      "sha256": "510a7369b7b6aa5dca13e964aad5c6b734d6980c9f196d2ff4732eb206bea7a1",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/study/focus.js",
+      "sha256": "d456ff1988f10005c74b63b85ac65a10b53dcfa41bb46701ba835136be2983da",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/study/revision-view.js",
+      "sha256": "d08d40a5bd29f00de074879d50178cfa8b871370d13edea7107102ccae32ec5b",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/study/revision.js",
+      "sha256": "9838dd0448228def0685f63cda846670461f6c01b6ab31356c77045b62e63ed0",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/modules/study/view.js",
+      "sha256": "57c617e04d6455bc8dab2c932096866bed9286627932437dd91419f52c61c782",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/pwa/cache-policy.js",
+      "sha256": "b57c73bb152cc1098afa0d9e9e21409de2583ca2092744562c6c1eb2513af342",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/pwa/register.js",
+      "sha256": "7330d11b748a0f0d975793c8537177d5a8a1b58c97c0f0328746cb2176bec33d",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/src/state/routes.js",
+      "sha256": "7e6d2ec65258582eb6a8e4f27f280c2443c7f058904582f99a16d8f67d59a01b",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/styles/app.css",
+      "sha256": "3c26bcb0e1c1d6476024453905b1e4cfdc66604fecd7291a2d0ed0589a7e77f9",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/styles/avatars.css",
+      "sha256": "2c8f30d5cb7695aef55b15b35190f9779305d41c751ffa23d8ccd5070cf52525",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/styles/tokens.css",
+      "sha256": "a92c4dcbffdd8e7505710e8e7fad260eccba17fd0d6de5cf9f44cc8a28b3539b",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/sw.js",
+      "sha256": "987a577619220fda9185d5d5723dae268de2646203e701a09f90e7fb465ec59f",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/tsconfig.json",
+      "sha256": "f701f33765fe94edfdd4ac7378b685b5b7de906b3b58057adb375f98297daded",
+      "unchanged": true
+    },
+    {
+      "path": "student-pwa/tsconfig.sw.json",
+      "sha256": "6734b2d078abe6c5f5aa241a18c86304437fafa79d2fc5b9932ec45a996fb4ae",
+      "unchanged": true
+    }
+  ],
+  "allAncestorsPreserved": true,
+  "scopeNote": "M8 intentionally adds routes/schema/notifications/community, changes chat suspension and now cleans office labels in transactional executive revocation. The original M7 security test only changes total expected migration count; approved composer semantics changed under M8."
+}

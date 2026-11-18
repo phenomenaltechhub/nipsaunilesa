@@ -46,7 +46,8 @@
     "review:m8:community": "node scripts/record-m8-community.mjs",
     "test:m8:private": "node scripts/pharmaideia-m8-private-lifecycle.mjs",
     "references:snapshot": "node scripts/generate-website-reference-feed.mjs --snapshot",
-    "test:m8:references": "node --test backend/tests/website-references.test.mjs && node scripts/pharmaideia-m8-website-references.mjs"
+    "test:m8:references": "node --test backend/tests/website-references.test.mjs && node scripts/pharmaideia-m8-website-references.mjs",
+    "test:m8:review:browser": "node scripts/pharmaideia-m8-review-browser.mjs"
   },
   "dependencies": {
     "leaflet": "1.9.4",

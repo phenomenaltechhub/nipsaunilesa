@@ -27,13 +27,17 @@
 7. Legacy 100,000 message-ID validation would eventually make older retained messages unaddressable. Safe-integer ID handling is tested beyond that boundary.
 8. An old support case could disappear immediately when its last moderation hold was resolved. The final-resolution retention extension is transactionally tested after simulated 91-day periods; open cases remain held.
 
-## Unresolved / review-required
+## Review follow-up
+
+The [requirements review](REQUIREMENTS_REVIEW.md) reproduces and corrects non-atomic office/audit changes, stale office attribution after executive revocation and an unsolicited 304 falsely indicating live feed status. Four new regression cases pass; the actual native downloader was exercised against controlled HTTP responses, without claiming external TLS/proxy verification. M7 engine and password restrictions remain preserved.
+
+## Current unresolved / review-required
 
 | Priority | Finding | Action |
 | --- | --- | --- |
-| High dependency/CI gate | Full `npm audit`: **14 high dependent-package entries** from **one picomatch ReDoS advisory**, [GHSA-fc5q-39xc-vjpf](https://github.com/advisories/GHSA-fc5q-39xc-vjpf), affected `<=4.0.7`; installed 2.3.2/4.0.7 under development ESLint tooling. Registry latest checked: 4.0.7. Production audit: **zero**. | Retain register entry, avoid untrusted glob inputs, apply a supported compatible upstream fix when available and rerun checks. No forced update/unsafe override/audit suppression. The existing full-audit Pages gate would remain blocked. ESLint 9 also emits an existing deprecation notice. |
+| Historical dependency finding — withdrawn | Fresh **full and production npm audits both pass with zero advisories**. The official [GHSA-fc5q-39xc-vjpf page](https://github.com/advisories/GHSA-fc5q-39xc-vjpf) records withdrawal on 18 November 2026. Installed 2.3.2/4.0.7 and latest observed 4.0.7 are unchanged; no dependency patch, override or suppression was applied. | Retain the historical 14-entry/one-advisory result as point-in-time evidence; do not describe it as an active failing gate now. Monitor advisories and avoid untrusted glob inputs. Withdrawal/zero audit is not security certification. Existing ESLint 9 deprecation remains maintenance work. |
 | Release access | GitHub API request returned 403. Git without a helper lacked credentials; the standard GitHub CLI helper's managed credential was rejected as **Invalid username or token**. | Restore authorized GitHub access in Codex Cloud. No push/PR success or current remote-history verification is claimed. No tokens are printed or requested in chat. |
-| Website sync | Production website/feed request proxy 403; the new feed has not been deployed. | Approved feed publication, allowed network and live refresh/withdrawal verification before enabling external refresh. Controlled tests are not external verification. |
+| Website sync | Production website/feed request proxy 403; the new feed has not been deployed. | Approved feed publication, allowed network and live refresh/withdrawal verification before enabling external refresh. Controlled tests are not external verification. Last-good feed/ETag are memory-only; restart/outage staleness remains an acceptance gap. |
 | Infrastructure/providers | Host/runtime/persistent disk/TLS/email/push/Paystack/scanner remain unverified/unconfigured. | Preserve production refusal, synthetic-only accounts and fail-closed unsupported files. No live accounts, charges or public backend. |
 | Availability | Controlled polling/rate limits/quotas are not 887-user sizing or resource-exhaustion certification; measured slow-mobile startup is about 11 seconds in a shared test runner. | Realistic concurrency/latency/load/worker/failure/capacity review on an approved host before launch. |
 | Privacy/retention | New receipts, private snapshots/DMs/support retention require institutional acceptance. SQLite logical deletion does not guarantee erasure from backups/pages/screenshots. | Approve disclosures, retention/legal holds, key custody and restored-deletion procedures. Maintain separate financial retention. |

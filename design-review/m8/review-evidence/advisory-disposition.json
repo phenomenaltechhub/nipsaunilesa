@@ -1,0 +1,16 @@
+{
+  "url": "https://github.com/advisories/GHSA-fc5q-39xc-vjpf",
+  "checkedDate": "2026-11-18",
+  "officialStatus": "Withdrawn",
+  "withdrawalDate": "2026-11-18",
+  "observedExcerpt": "This advisory was withdrawn on Nov 18, 2026",
+  "currentFullNpmAuditAdvisories": 0,
+  "currentProductionNpmAuditAdvisories": 0,
+  "latestPicomatchReleaseObserved": "4.0.7",
+  "installedVersions": [
+    "2.3.2",
+    "4.0.7"
+  ],
+  "dependencyOrLockfileUpdatePerformed": false,
+  "qualification": "Withdrawal and zero active audit findings do not certify all dependency or application security."
+}

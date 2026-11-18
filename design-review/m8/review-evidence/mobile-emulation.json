@@ -1,0 +1,34 @@
+{
+  "scope": "Chromium touch/viewport emulation only; no physical Android, actual IME or installed-PWA certification",
+  "longMessage": {
+    "messageHeight": 918.25,
+    "timelineHeight": 640,
+    "visibleHeight": 640
+  },
+  "geometry": [
+    {
+      "width": 390,
+      "height": 844,
+      "timelineHeight": 604,
+      "composerBottom": 773,
+      "bottomLimit": 773,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 540,
+      "timelineHeight": 300,
+      "composerBottom": 469,
+      "bottomLimit": 469,
+      "overflow": false
+    },
+    {
+      "width": 568,
+      "height": 320,
+      "timelineHeight": 80,
+      "composerBottom": 249,
+      "bottomLimit": 249,
+      "overflow": false
+    }
+  ]
+}

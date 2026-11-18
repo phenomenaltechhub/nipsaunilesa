@@ -44,3 +44,7 @@ No dependency/version/lockfile change or external component source import. The s
 | Existing Sharp / FFmpeg / Node built-ins | Reused for artifact integrity, original review video and native bounded PNG/crypto/SQLite behavior. No new runtime image, websocket, link-preview or paid SaaS dependency. Existing licences remain applicable. |
 
 Unadopted upstream components were assessed for architectural cost; no current upstream security/licence certification is asserted for code that was not fetched or shipped. Before later adoption, reverify exact version, maintenance, vulnerabilities and redistribution terms/notices. Full audit still reports the unpatched picomatch development-tool advisory; production audit is zero. See [M8 security register](m8/SECURITY_REVIEW.md).
+
+## M8 review advisory update
+
+18 November 2026 follow-up: fresh full/production npm audits both report zero advisories. The official GHSA-fc5q-39xc-vjpf page records withdrawal on that date; installed 2.3.2/4.0.7 and observed latest 4.0.7 are unchanged. Historical M6/M7/initial M8 audit results above remain point-in-time evidence. No package upgrade, override or suppression is performed, and no dependency/application security certification is inferred. See [M8 requirements review](m8/REQUIREMENTS_REVIEW.md).

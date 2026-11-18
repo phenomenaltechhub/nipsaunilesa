@@ -19,6 +19,7 @@ backend/testing/operations-fixtures.mjs
 backend/tests/backend.test.mjs
 backend/tests/m7-security.test.mjs
 backend/tests/m8-community.test.mjs
+backend/tests/m8-review.test.mjs
 backend/tests/website-references.test.mjs
 backend/ui/api.mjs
 backend/ui/operations/community-data.mjs
@@ -48,6 +49,17 @@ design-review/m8/index.html
 design-review/m8/media/m8-community-transcript.txt
 design-review/m8/media/m8-community-walkthrough.mp4
 design-review/m8/media/m8-community-walkthrough.vtt
+design-review/m8/review-evidence/390x540-long-message.png
+design-review/m8/review-evidence/390x844-long-message.png
+design-review/m8/review-evidence/568x320-long-message.png
+design-review/m8/review-evidence/RESULTS.json
+design-review/m8/review-evidence/advisory-disposition.json
+design-review/m8/review-evidence/audit-production.json
+design-review/m8/review-evidence/audit.json
+design-review/m8/review-evidence/m7-preservation.json
+design-review/m8/review-evidence/mobile-emulation.json
+design-review/m8/review-evidence/mobile-reproduction.log
+design-review/m8/review-evidence/review-fixes.log
 design-review/m8/screenshots/1440-community-final.png
 design-review/m8/screenshots/1440-group-info.png
 design-review/m8/screenshots/1440-website-picker.png
@@ -87,7 +99,10 @@ docs/nipsa-platform/MILESTONE_8.md
 docs/nipsa-platform/THIRD_PARTY.md
 docs/nipsa-platform/m8/API_PRIVACY_AND_OPERATIONS.md
 docs/nipsa-platform/m8/COMMUNITY_AUDIT.md
+docs/nipsa-platform/m8/DEVICE_AND_LIVE_SYNC_ACCEPTANCE.md
 docs/nipsa-platform/m8/PRE_LAUNCH_MATRIX.md
+docs/nipsa-platform/m8/PR_READINESS.md
+docs/nipsa-platform/m8/REQUIREMENTS_REVIEW.md
 docs/nipsa-platform/m8/SECURITY_REVIEW.md
 eslint.config.mjs
 package.json
@@ -100,6 +115,7 @@ scripts/pharmaideia-m8-browser.mjs
 scripts/pharmaideia-m8-interactions.mjs
 scripts/pharmaideia-m8-performance.mjs
 scripts/pharmaideia-m8-private-lifecycle.mjs
+scripts/pharmaideia-m8-review-browser.mjs
 scripts/pharmaideia-m8-website-references.mjs
 scripts/record-m8-community.mjs
 scripts/run-m8-visual.mjs

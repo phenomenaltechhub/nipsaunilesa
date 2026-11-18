@@ -1,5 +1,7 @@
 # M8 Community implementation and review report
 
+> Follow-up: [requirements and readiness review](m8/REQUIREMENTS_REVIEW.md) records three corrected defects, 220 fresh passing tests and the advisory withdrawal. The validation table below preserves the original 8000069 implementation report; its earlier audit failure is historical, not the current audit result.
+
 18 November 2026. **Implemented and integrated in the existing controlled PWA/backend; not deployed or approved for public launch.** The final review demonstrates enabled Community using isolated synthetic accounts and actual persisted operations. New databases still default closed.
 
 ## Starting point and preservation

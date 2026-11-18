@@ -1,0 +1,42 @@
+{
+  "reviewOf": "8000069fcdd6296aa64bf68c1646d6f33cea577e",
+  "date": "2026-11-18",
+  "runtime": {
+    "node": "24.19.0",
+    "chromium": "154.0.8037.57",
+    "physicalAndroidAvailable": false
+  },
+  "unitBackendSecurity": {
+    "passed": 220,
+    "failed": 0,
+    "skipped": 0
+  },
+  "newFocusedReviewTests": 4,
+  "correctedFindings": [
+    "office/audit transaction rollback",
+    "stale office label after executive revocation",
+    "unexpected 304 must not mark fallback live"
+  ],
+  "screenshots": {
+    "tests": 4,
+    "comparisons": 16,
+    "baselineUpdated": false
+  },
+  "freshReferenceAxe": {
+    "scans": 12,
+    "violations": 0,
+    "incomplete": 0
+  },
+  "m7BrowserAndWorkflowRegressions": "passed",
+  "sourcePreservation": {
+    "protectedFilesUnchanged": 124,
+    "M6M7AncestorsPreserved": true
+  },
+  "productionAudit": 0,
+  "fullAudit": 0,
+  "advisoryDisposition": "GHSA-fc5q-39xc-vjpf officially withdrawn 2026-11-18; no dependency update",
+  "liveWebsiteFeed": "not verified; default refresh off; memory-only last-good fallback",
+  "physicalDeviceAndExternalInfrastructure": "not tested",
+  "githubPublication": "not attempted during review; requires restored authorized access and actual remote/protection checks",
+  "mergeOrDeploymentPerformed": false
+}

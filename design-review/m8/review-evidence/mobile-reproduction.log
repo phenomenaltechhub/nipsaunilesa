@@ -1,0 +1,1 @@
+PASS actual 2000-character send/oversized-message acknowledgement, touch viewport/landscape composer geometry and Enter behavior; physical devices remain untested.

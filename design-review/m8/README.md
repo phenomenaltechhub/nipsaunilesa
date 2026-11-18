@@ -59,10 +59,12 @@ npm audit
 npm run review:m8:community
 ```
 
-The full audit currently exits nonzero for one known unpatched picomatch advisory across 14 development-tool dependency entries. Do not suppress it or claim it passed. `npm audit --omit=dev` reports zero. No npm package/version/lockfile change was made.
+The original implementation recorded a failing picomatch audit. In the follow-up review, both full/production audits pass with zero advisories after the official advisory was withdrawn on 18 November 2026. Versions/lockfile are unchanged; no patch or suppression is claimed. See the current requirements review for evidence, three corrected defects and 220 passing tests.
 
 `npm run test:m8:visual` replays 16 baselines using `expect(page).toHaveScreenshot()`. Regeneration is a separate intentional command, `npm run test:m8:visual -- --update-snapshots`, followed by human inspection and a normal replay. Timestamp masking/reduced motion and fixed .003/.15 tolerances are documented in the test; never update snapshots merely to hide a regression. The M8 browser suite also backs the preserved `test:m7:community` entry point with stronger four-width interaction coverage.
 
 [Milestone report](../../docs/nipsa-platform/MILESTONE_8.md), [security register](../../docs/nipsa-platform/m8/SECURITY_REVIEW.md), [API/privacy/maintenance](../../docs/nipsa-platform/m8/API_PRIVACY_AND_OPERATIONS.md), [remaining pre-launch matrix](../../docs/nipsa-platform/m8/PRE_LAUNCH_MATRIX.md), [changed files](FILES_CHANGED.txt) and [prepared PR text](PULL_REQUEST.md) accompany the review.
 
 GitHub publication is blocked by an invalid managed credential/API access. The review branch/commit is local until authorized access is restored; no remote branch or PR success is implied. The downloadable review archive contains a Git bundle/binary patch and final commit verification. Target the existing **development/nipsa-student-platform** branch for a future PR, never main or production.
+
+Follow-up review: [requirements/status](../../docs/nipsa-platform/m8/REQUIREMENTS_REVIEW.md), [physical Android/live-feed acceptance](../../docs/nipsa-platform/m8/DEVICE_AND_LIVE_SYNC_ACCEPTANCE.md), [normal PR readiness](../../docs/nipsa-platform/m8/PR_READINESS.md). Original images/recording remain unchanged; current review evidence is in `review-evidence/`.
