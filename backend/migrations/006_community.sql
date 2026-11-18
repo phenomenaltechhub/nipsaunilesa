@@ -1,0 +1,22 @@
+-- Additive M8 Community state; M7 examinations and sessions are untouched.
+CREATE TABLE community_images(id TEXT PRIMARY KEY,owner TEXT REFERENCES accounts(id) ON DELETE SET NULL,encrypted_content TEXT NOT NULL,bytes INTEGER NOT NULL,width INTEGER NOT NULL,height INTEGER NOT NULL,created_at INTEGER NOT NULL);
+ALTER TABLE community_messages ADD COLUMN official INTEGER NOT NULL DEFAULT 0 CHECK(official IN(0,1));
+ALTER TABLE community_messages ADD COLUMN image_id TEXT REFERENCES community_images(id) ON DELETE SET NULL;
+ALTER TABLE community_reports ADD COLUMN encrypted_snapshot TEXT;
+CREATE TABLE community_reads(message_id INTEGER NOT NULL REFERENCES community_messages(id) ON DELETE CASCADE,account_id TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,read_at INTEGER NOT NULL,PRIMARY KEY(message_id,account_id));
+CREATE INDEX community_reads_member ON community_reads(account_id,message_id);
+CREATE TABLE community_preferences(account_id TEXT PRIMARY KEY REFERENCES accounts(id) ON DELETE CASCADE,muted INTEGER NOT NULL DEFAULT 0 CHECK(muted IN(0,1)));
+CREATE TABLE community_pins(message_id INTEGER PRIMARY KEY REFERENCES community_messages(id) ON DELETE CASCADE,actor TEXT REFERENCES accounts(id) ON DELETE SET NULL,created_at INTEGER NOT NULL);
+CREATE TABLE community_offices(account_id TEXT PRIMARY KEY REFERENCES accounts(id) ON DELETE CASCADE,title TEXT NOT NULL,precedence INTEGER NOT NULL CHECK(precedence BETWEEN 1 AND 99),actor TEXT REFERENCES accounts(id) ON DELETE SET NULL,updated_at INTEGER NOT NULL);
+CREATE TABLE community_suspension_details(account_id TEXT PRIMARY KEY REFERENCES accounts(id) ON DELETE CASCADE,expires_at INTEGER,encrypted_reason TEXT NOT NULL);
+CREATE TABLE community_threads(id TEXT PRIMARY KEY,kind TEXT NOT NULL CHECK(kind IN('temporary','support')),requester TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,recipient TEXT REFERENCES accounts(id) ON DELETE CASCADE,source_id INTEGER REFERENCES community_messages(id) ON DELETE SET NULL,status TEXT NOT NULL CHECK(status IN('pending','accepted','declined','blocked','closed','expired')),created_at INTEGER NOT NULL,accepted_at INTEGER,expires_at INTEGER NOT NULL,closed_at INTEGER,hold INTEGER NOT NULL DEFAULT 0,revision INTEGER NOT NULL DEFAULT 1);
+CREATE INDEX community_thread_inbox ON community_threads(recipient,status,created_at DESC);
+CREATE INDEX community_thread_owner ON community_threads(requester,status,created_at DESC);
+CREATE TABLE community_private_messages(id INTEGER PRIMARY KEY AUTOINCREMENT,thread_id TEXT NOT NULL REFERENCES community_threads(id) ON DELETE CASCADE,author TEXT REFERENCES accounts(id) ON DELETE SET NULL,encrypted_body TEXT NOT NULL,request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,created_at INTEGER NOT NULL,UNIQUE(thread_id,author,request_id));
+CREATE INDEX community_private_order ON community_private_messages(thread_id,id DESC);
+CREATE TABLE community_blocks(blocker TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,blocked TEXT NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,PRIMARY KEY(blocker,blocked));
+CREATE TABLE community_private_reports(id TEXT PRIMARY KEY,thread_id TEXT REFERENCES community_threads(id) ON DELETE SET NULL,reporter TEXT REFERENCES accounts(id) ON DELETE SET NULL,encrypted_snapshot TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'open',created_at INTEGER NOT NULL,revision INTEGER NOT NULL DEFAULT 1);
+CREATE TABLE community_moderation_notes(id TEXT PRIMARY KEY,message_id INTEGER REFERENCES community_messages(id) ON DELETE SET NULL,actor TEXT REFERENCES accounts(id) ON DELETE SET NULL,encrypted_reason TEXT NOT NULL,created_at INTEGER NOT NULL);
+ALTER TABLE community_private_reports ADD COLUMN resolved_at INTEGER;
+CREATE INDEX community_reports_history ON community_reports(created_at DESC,id);
+CREATE INDEX community_private_reports_history ON community_private_reports(created_at DESC,id);

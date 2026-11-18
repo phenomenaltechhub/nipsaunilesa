@@ -1,205 +1,70 @@
-import { synchronize } from './sync.mjs';
-import { icon } from '/src/components/dom.js';
-import { api, node, button, form, card, heading, empty, notice, selectField } from './common.mjs';
-
-export async function communityView(root, ctx) {
-  let page = await api('/community/messages');
-  if (!ctx.alive()) return;
-  if (!document.getElementById('community-chat-style')) {
-    const style = node('link'); style.id = 'community-chat-style'; style.rel = 'stylesheet'; style.href = '/operations/community.css';style.addEventListener('load',()=>{if(ctx.alive()){layout();toBottom();}},{once:true}); document.head.append(style);
-  }
-  const main = root.closest('main');
-  main?.classList.add('community-main'); document.body.classList.add('community-layout');
-  root.replaceChildren();
-  const screen = node('section', '', 'community-screen'), header = node('header', '', 'chat-header');
-  const mark = node('div', '', 'chat-mark'); mark.append(icon('community')); mark.setAttribute('aria-hidden', 'true');
-  const identity = node('div', '', 'chat-group-identity'), title = node('h1', 'Community'); title.id = 'page-title';
-  identity.append(node('p', 'NIPSA UNILESA', 'chat-affiliation'), title);
-  const tools = node('div', '', 'chat-header-tools');
-  const refresh = button('Refresh messages', () => refreshLatest(true)), members = button('Members and mentions', () => openMembers());
-  const refreshIcon=document.createElementNS('http://www.w3.org/2000/svg','svg');refreshIcon.setAttribute('viewBox','0 0 24 24');refreshIcon.setAttribute('fill','none');refreshIcon.setAttribute('stroke','currentColor');refreshIcon.setAttribute('stroke-width','1.8');refreshIcon.setAttribute('aria-hidden','true');const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d','M20 5v6h-6M19 11a7 7 0 1 0-1.5 6');refreshIcon.append(path);refresh.replaceChildren(refreshIcon); refresh.setAttribute('aria-label', 'Refresh messages'); refresh.title = 'Refresh messages';
-  members.replaceChildren(icon('community')); members.setAttribute('aria-label', 'Members and mentions'); members.title = 'Members and group information';
-  tools.append(refresh, members); header.append(mark, identity, tools);
-  const policy = node('div', '', 'chat-policy'), state = node('h2'), policyCopy = node('p'); policyCopy.id = 'chat-policy-note'; policyCopy.setAttribute('role', 'status'); policy.append(state, policyCopy);
-  const timeline = node('div', '', 'chat-timeline'); timeline.tabIndex = 0; timeline.setAttribute('role', 'region'); timeline.setAttribute('aria-label', 'Conversation timeline');
-  const older = button('Load older messages', loadOlder), messages = node('section', '', 'community-history chat-history');
-  messages.setAttribute('role', 'log'); messages.setAttribute('aria-label', 'Community message history'); messages.setAttribute('aria-live', 'off'); messages.setAttribute('aria-relevant', 'additions text');
-  timeline.append(older, messages);
-  const composer = node('form', '', 'chat-composer'); composer.setAttribute('aria-label', 'Send message');
-  const replyBox = node('div', '', 'chat-compose-context'), replyStatus = node('p'), clearReply = button('Clear reply and mention', () => { replyTo = null; mentions.clear(); showContext(); text.focus(); });
-  clearReply.replaceChildren(node('span', '×')); clearReply.setAttribute('aria-label', 'Clear reply and mention'); replyBox.append(replyStatus, clearReply); replyBox.hidden = true;
-  const composeRow = node('div', '', 'chat-compose-row'), label = node('label', 'Your message', 'chat-visually-hidden'), text = node('textarea');
-  text.id = 'community-draft'; label.htmlFor = text.id; text.rows = 2; text.maxLength = 2000; text.placeholder = 'Message the group'; text.setAttribute('enterkeyhint', 'send'); text.setAttribute('aria-describedby', 'chat-policy-note chat-keyboard-help');
-  const send = node('button', 'Send message', 'chat-send'); send.type = 'submit';
-  composeRow.append(label, text, send);
-  const helper = node('p', 'Enter to send · Shift+Enter for a new line', 'chat-keyboard-help'); helper.id = 'chat-keyboard-help';
-  const status = node('p', '', 'chat-feedback'); status.setAttribute('role', 'status');
-  const restrictedFeedback = 'Posting is restricted. Your unsent draft stays in this view until you leave or sign out.';
-  composer.append(replyBox, composeRow, helper, status);
-  const update = button('New messages · go to latest', () => refreshLatest(true)); update.className = 'chat-updates'; update.hidden = true;
-  screen.append(header, policy, timeline, update, composer); root.append(screen);
-  const records = new Map(page.messages.map(m => [m.id, m])), rendered = new Map(), mentions = new Map();
-  let replyTo = null, cursor = page.olderCursor, disposed = false, sending = false, queuedPost = null, loading = false;
-  let lastVersion = page.streamVersion;
-  const posting = () => page.isOpen && !page.suspended;
-  const alive = () => !disposed && ctx.alive();
-  function layout() {
-    if (!alive()) return;
-    const top = (document.querySelector('.topbar')?.getBoundingClientRect().height ?? 0)+(document.getElementById('update-notice')?.getBoundingClientRect().height??0), nav = document.getElementById('mobile-nav');
-    const bottom = nav && getComputedStyle(nav).display !== 'none' ? nav.getBoundingClientRect().height : 0;
-    const viewport = window.visualViewport;
-    update.style.bottom=composer.getBoundingClientRect().height+12+'px';
-    screen.style.height = Math.max(180, (viewport?.height ?? innerHeight) - top - bottom) + 'px';
-  }
-  function showPolicy() {
-    state.textContent = posting() ? 'Messaging is open' : 'Messaging is restricted';
-    policyCopy.textContent = page.suspended ? 'Your posting access is suspended. Read history or report a concern; academic access remains available.' : page.isOpen ? 'One departmental group. Share responsibly and protect personal information.' : 'Administrators have restricted posting. You can read the conversation and report concerns.';
-    text.disabled = !posting(); send.disabled = !posting() || sending;
-    text.placeholder = posting() ? 'Message the group' : 'Messaging is restricted';
-    helper.textContent = posting() ? 'Enter to send · Shift+Enter for a new line' : 'Posting will be available when an administrator enables it.';
-    if (posting() && status.textContent === restrictedFeedback) status.textContent = '';
-  }
-  function showContext() {
-    const reply = replyTo ? records.get(replyTo) : null;
-    replyStatus.textContent = [reply ? 'Replying to ' + reply.sender.name + ': ' + reply.body.slice(0, 140) : '', mentions.size ? 'Mentioning ' + Array.from(mentions.values()).join(', ') : ''].filter(Boolean).join(' · ');
-    replyBox.hidden = !reply && !mentions.size; layout();
-  }
-  function closeDialog(dialog) { dialog.close(); dialog.remove(); }
-  function dialog(titleText) {
-    const d = node('dialog', '', 'chat-dialog'), h = node('h2', titleText); h.id = 'community-dialog-title'; d.setAttribute('aria-labelledby', h.id);
-    d.append(h); root.append(d); d.addEventListener('close', () => { if (d.isConnected) d.remove(); }); return d;
-  }
-  async function openMembers() {
-    const d = dialog('Community members'), list = node('div'); let offset = 0;
-    d.append(node('p', 'One general departmental group. Respect others, protect personal information and use reporting for moderation concerns.'));
-    const more = button('Load more members', load);
-    async function load() { try {
-      const data = await api('/community/members?offset=' + offset); if (!alive() || !d.isConnected) return;
-      for (const member of data.members) {
-        const row = node('div', '', 'chat-member'); row.append(node('h3', member.name), node('p', `${member.level} Level · ${member.roles.map(roleLabel).join(' · ')}`));
-        if (posting()) row.append(button('Mention ' + member.name, () => { if (mentions.size >= 5 && !mentions.has(member.id)) { notice(d, 'Choose at most five mentions.'); return; } mentions.set(member.id, member.name); showContext(); closeDialog(d); text.focus(); }));
-        list.append(row);
-      }
-      offset = data.nextOffset; more.hidden = data.members.length < 50;
-    } catch (error) { if (d.isConnected) notice(d, error.message); } }
-    d.append(list, more, button('Close members', () => closeDialog(d))); d.showModal(); await load();
-  }
-  function roleLabel(role) { return ({ representative: 'Class representative', administrator: 'Administrator', reviewer: 'Academic reviewer', student: 'Student', executive: 'Executive' })[role] ?? role; }
-  function chooseReply(message) { if (!posting() || message.removed) return; replyTo = message.id; showContext(); text.focus(); }
-  function showProfile(message) {
-    const d = dialog('Member profile'); d.append(node('h3', message.sender.name), node('p', `${message.sender.level ?? 'Former member'} Level`), node('p', message.sender.roles.map(roleLabel).join(' · ')), button('Close profile', () => closeDialog(d))); d.showModal();
-  }
-  function showReactions(message) {
-    const d = dialog('Message reactions');
-    for (const [value, label] of [['thanks', 'Thanks'], ['agree', 'Agree'], ['question', 'Question']]) {
-      const reaction = message.reactions.find(r => r.reaction === value), b = button(`${label} (${reaction?.count ?? 0})`, async () => { try {
-        const saved = await api('/community/messages/' + message.id + '/reaction', 'PUT', { reaction: value, active: !reaction?.mine });
-        if (!alive()) return; records.set(saved.id, saved); closeDialog(d); draw();rendered.get(message.id)?.row.querySelector('.chat-react-trigger')?.focus({preventScroll:true}); status.textContent = 'Reaction updated.';
-      } catch (error) { if (d.isConnected) notice(d, error.message); } });
-      b.disabled = !posting(); b.setAttribute('aria-pressed', String(Boolean(reaction?.mine))); d.append(b);
-    }
-    d.append(button('Close reactions', () => closeDialog(d))); d.showModal();
-  }
-  function showActions(message) {
-    const d = dialog('Message actions');
-    d.append(node('p', message.sender.name), node('p', message.body, 'preserve-lines'));
-    if (posting() && message.sender.id === ctx.identity.user.id && !message.removed) d.append(form('Update my message ' + message.id, [selectField('action', 'Action', [['correct', 'Correct message'], ['remove', 'Remove message']]), { id: 'body', label: 'Corrected message', value: message.body, multiline: true, maxLength: 2000 }], async v => {
-      const saved = await api('/community/messages/' + message.id, 'PATCH', { ...v, revision: message.revision }); if (!alive()) return; records.set(saved.id, saved); closeDialog(d); await refreshLatest(false); draw(); status.textContent = 'Message updated.';
-    }));
-    if (!message.removed) d.append(form('Send report ' + message.id, [selectField('reason', 'Reason', [['spam', 'Spam'], ['abuse', 'Abuse'], ['privacy', 'Privacy'], ['other', 'Other']]), { id: 'note', label: 'Brief report note (optional)', required: false, maxLength: 300 }], async (v, feedback) => { await api('/community/messages/' + message.id + '/report', 'POST', v); feedback.textContent = 'Report received for administrator review.'; }));
-    d.append(button('Close actions', () => closeDialog(d))); d.showModal();
-  }
-  function messageNode(message) {
-    const own = message.sender.id === ctx.identity.user.id, row = node('article', '', 'community-message chat-message ' + (own ? 'chat-own' : 'chat-other'));
-    row.dataset.messageId = String(message.id); row.setAttribute('aria-label', 'Message from ' + message.sender.name);
-    const bubble = node('div', '', 'chat-bubble'), by = button(message.sender.name, () => showProfile(message)); by.className = 'chat-sender';
-    const identity = node('div', '', 'chat-message-identity'); identity.append(by, node('span', message.sender.level?`${message.sender.level} Level`:'Former member', 'chat-level'));
-    for (const role of message.sender.roles.filter(role => role !== 'student')) identity.append(node('span', roleLabel(role), 'chat-role'));
-    bubble.append(identity);
-    if (message.replyTo) bubble.append(node('blockquote', message.replyTo.sender + '\n' + message.replyTo.body, 'chat-quote'));
-    bubble.append(node('p', message.body, 'chat-text'));
-    if (message.mentions.length) bubble.append(node('p', message.mentions.map(member => '@' + member.name).join(' '), 'chat-mentions'));
-    const time = node('time', new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })); time.dateTime = message.createdAt; time.title = new Date(message.createdAt).toLocaleString();
-    const footer = node('div', '', 'chat-message-footer'); if (message.edited) footer.append(node('span', 'Corrected')); footer.append(time); bubble.append(footer);
-    const actions = node('div', '', 'chat-message-actions');
-    if (!message.removed) {
-      const reply = button('Reply', () => chooseReply(message)); reply.setAttribute('aria-label', 'Reply to ' + message.sender.name); reply.disabled = !posting();
-      const react = button('React', () => showReactions(message)); react.className='chat-react-trigger'; react.setAttribute('aria-label', 'React to ' + message.sender.name); react.disabled = !posting();
-      const more = button('More', () => showActions(message)); more.setAttribute('aria-label', 'Message actions for ' + message.sender.name);
-      actions.append(reply, react, more);
-      for (const [value, label] of [['thanks', 'Thanks'], ['agree', 'Agree'], ['question', 'Question']]) {
-        const reaction = message.reactions.find(r => r.reaction === value); if (!reaction?.count) continue;
-        const chip = button(`${label} (${reaction.count})`, () => showReactions(message)); chip.className = 'chat-reaction'; chip.disabled = !posting(); chip.setAttribute('aria-pressed', String(reaction.mine)); actions.append(chip);
-      }
-    }
-    bubble.append(actions); row.append(bubble);
-    let pointer = null;
-    row.addEventListener('pointerdown', event => { if (event.pointerType === 'touch' && !event.target.closest('button,a,input,textarea')) pointer = { x: event.clientX, y: event.clientY }; });
-    row.addEventListener('pointerup', event => { if (pointer && event.clientX - pointer.x > 60 && Math.abs(event.clientY - pointer.y) < 40) chooseReply(message); pointer = null; });
-    return row;
-  }
-  function draw() {
-    const ordered = Array.from(records.values()).sort((a, b) => a.id - b.id); const changed = posting() !== (messages.dataset.posting === 'true');
-    messages.dataset.posting = String(posting());
-    for (const message of ordered) {
-      const fingerprint = JSON.stringify(message), old = rendered.get(message.id);
-      if (!old || old.fingerprint !== fingerprint || changed) {
-        const row = messageNode(message); if (old) old.row.replaceWith(row); rendered.set(message.id, { row, fingerprint });
-      }
-    }
-    messages.querySelector('.chat-empty')?.remove();
-    for (let i = 0; i < ordered.length; i++) { const row = rendered.get(ordered[i].id).row; if (messages.children[i] !== row) messages.insertBefore(row, messages.children[i] ?? null); }
-    if (!ordered.length) { const blank = node('div', '', 'chat-empty'); blank.append(node('h3', 'No messages yet'), node('p', 'This is the general departmental conversation. Messages will appear here.')); messages.append(blank); }
-    older.hidden = !cursor;
-  }
-  const nearBottom = () => timeline.scrollHeight - timeline.scrollTop - timeline.clientHeight < 100;
-  function toBottom() { timeline.scrollTop = timeline.scrollHeight; update.hidden = true; }
-  async function loadOlder() {
-    if (loading || !cursor) return; loading = true; older.disabled = true;
-    const height = timeline.scrollHeight, top = timeline.scrollTop;
-    try { const data = await api('/community/messages?before=' + cursor); if (!alive()) return; for (const message of data.messages) records.set(message.id, message); cursor = data.olderCursor; messages.setAttribute('aria-live', 'off'); draw(); timeline.scrollTop = top + timeline.scrollHeight - height; requestAnimationFrame(() => { if (alive()) messages.setAttribute('aria-live', 'polite'); }); }
-    catch (error) { if (alive()) status.textContent = error.message; }
-    finally { loading = false; older.disabled = false; }
-  }
-  async function refreshLatest(force = false) {
-    if (loading || !alive()) return; loading = true;
-    const atBottom = nearBottom(), previousTop = timeline.scrollTop;
-    try { const data = await api('/community/messages'); if (!alive()) return; const changedPolicy = data.isOpen !== page.isOpen || data.suspended !== page.suspended; page = data; lastVersion = data.streamVersion;
-      if (force) { records.clear(); rendered.clear(); messages.replaceChildren(); cursor = data.olderCursor; }
-      for (const message of data.messages) records.set(message.id, message);
-      showPolicy(); draw(); if (force || atBottom) toBottom(); else { timeline.scrollTop = previousTop; update.hidden = false; }
-      if (changedPolicy && !posting()) status.textContent = restrictedFeedback;
-    } catch (error) { if (alive()) status.textContent = error.message; }
-    finally { loading = false; }
-  }
-  async function submit(event) {
-    event.preventDefault(); if (sending || !posting() || !alive()) return;
-    if (!queuedPost) { if (!text.value.trim()) { status.textContent = 'Write a message before sending.'; text.focus(); return; } queuedPost = { requestId: crypto.randomUUID(), body: text.value, replyTo, mentions: Array.from(mentions.keys()) }; }
-    const payload = queuedPost; sending = true; send.disabled = true; status.textContent = 'Sending…';
-    try { const saved = await api('/community/messages', 'POST', payload); if (!alive()) return; records.set(saved.id, saved); if (text.value === payload.body) text.value = ''; if (replyTo === payload.replyTo) replyTo = null; for (const id of payload.mentions) mentions.delete(id); queuedPost = null; showContext(); draw(); toBottom(); status.textContent = 'Message sent.'; text.focus(); }
-    catch (error) { if (alive()) { status.textContent = error.message + ' Your draft has not been cleared.'; try { const data = await api('/community/changes'); if (alive()) { page.isOpen = data.isOpen; page.suspended = data.suspended; showPolicy(); draw(); } } catch { /* Existing session middleware clears revoked/expired views. */ } } }
-    finally { sending = false; if (alive()) send.disabled = !posting(); }
-  }
-  composer.addEventListener('submit', submit);
-  text.addEventListener('keydown', event => { if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); composer.requestSubmit(); } });
-  text.addEventListener('input', () => { const bottom = nearBottom(); text.style.height = 'auto'; text.style.height = Math.min(120, text.scrollHeight) + 'px';layout(); if (bottom) toBottom(); });
-  timeline.addEventListener('scroll', () => { if (nearBottom()) update.hidden = true; });
-  showPolicy(); draw(); layout(); toBottom();
-  requestAnimationFrame(() => { if (alive()) { layout(); toBottom(); messages.setAttribute('aria-live', 'polite'); } });
-  const resize = () => { const bottom = nearBottom(); layout(); if (bottom) toBottom(); };
-  window.addEventListener('resize', resize); window.visualViewport?.addEventListener('resize', resize);
-  const stopSync = synchronize(() => api('/community/changes'), async data => { if (!alive()) return;
-    if (data.isOpen !== page.isOpen || data.suspended !== page.suspended) { page.isOpen = data.isOpen; page.suspended = data.suspended; showPolicy(); draw(); }
-    if (lastVersion !== data.version) { if (nearBottom() && !root.querySelector('dialog[open]')) await refreshLatest(false); else { update.hidden = false; status.textContent = 'Conversation updates are available.'; } }
-  }, { interval: 12000, onError: error => { if (alive()) status.textContent = error.message; } });
-  return () => { disposed = true; stopSync(); window.removeEventListener('resize', resize); window.visualViewport?.removeEventListener('resize', resize); main?.classList.remove('community-main'); document.body.classList.remove('community-layout'); for (const d of root.querySelectorAll('dialog')) { d.close(); d.remove(); } text.value = ''; queuedPost = null; records.clear(); rendered.clear(); mentions.clear(); };
+import{api,node,button}from'./common.mjs';
+import{synchronize}from'./sync.mjs';
+import{glyph,iconButton,avatar,memberStatus,modal}from'./community-tools.mjs';
+import{communityText,reactionGlyph}from'./community-data.mjs';
+import{communityPanels}from'./community-panels.mjs';
+import{websiteComposer,websiteStyles,renderWebsiteText,referenceCards}from'./website-references.mjs';
+import{prepareImage}from'./community-image-client.mjs';
+export{moderationView}from'./community-moderation.mjs';
+// Drafts are short-lived memory only. No credentials/messages enter persistent storage.
+const drafts=new Map();const accountChanges=new BroadcastChannel('pharmaideia-account-state');accountChanges.addEventListener('message',()=>drafts.clear());
+export async function communityView(root,ctx){
+ let page=await api('/community/messages');if(!ctx.alive())return;
+ let style=document.getElementById('community-chat-style');if(!style){style=node('link');style.id='community-chat-style';style.rel='stylesheet';style.href='/operations/community.css';document.head.append(style);}if(!style.sheet)await new Promise((resolve,reject)=>{style.addEventListener('load',resolve,{once:true});style.addEventListener('error',()=>reject(new Error('The chat layout could not load. Refresh to retry.')),{once:true});});if(!ctx.alive())return;await websiteStyles();if(!ctx.alive())return;
+ const main=root.closest('main');main?.classList.add('community-main');document.body.classList.add('community-layout');root.replaceChildren();root.classList.add('community-workspace');
+ const screen=node('section','','community-screen'),stage=node('div','','chat-stage'),header=node('header','','chat-header');
+ const h1=node('h1','Community','chat-sr-only');h1.id='page-title';
+ const title=button('Group information: General Community',()=>run(()=>panels.groupInfo()));title.className='chat-group-title';title.setAttribute('aria-label','Group information: General Community');const mark=node('span','','chat-group-avatar');mark.append(glyph('people'));const identity=node('span','','chat-group-identity'),typingText=node('span','One departmental community','chat-header-subtitle');typingText.setAttribute('role','status');identity.append(node('span','NIPSA UNILESA','chat-school'),node('strong','General Community'),typingText);title.replaceChildren(mark,identity);
+ const menu=iconButton('more','Community menu',()=>panels.headerMenu()),menuBadge=node('span','','chat-menu-badge'),requestStatus=node('p','','chat-sr-only');menuBadge.setAttribute('aria-hidden','true');menuBadge.hidden=true;requestStatus.id='chat-private-status';requestStatus.setAttribute('role','status');menu.setAttribute('aria-describedby',requestStatus.id);menu.append(menuBadge);header.append(h1,title,menu);
+ const state=node('h2','','chat-sr-only'),timeline=node('div','','chat-timeline');timeline.tabIndex=0;timeline.setAttribute('role','region');timeline.setAttribute('aria-label','Conversation timeline');
+ const older=button('Load older messages',()=>run(loadOlder)),messages=node('section','','community-history chat-history');messages.setAttribute('role','log');messages.setAttribute('aria-label','Community message history');messages.setAttribute('aria-live','off');timeline.append(older,messages);
+ const footer=node('footer','','chat-dock'),typingAvatars=node('div','','chat-typing-avatars');typingAvatars.setAttribute('aria-hidden','true');typingAvatars.hidden=true;
+ const context=node('div','','chat-compose-context'),contextText=node('span'),cancel=iconButton('close','Cancel reply or attachment',()=>{replyTo=null;mentions.clear();clearImage();drawContext();text.focus();});context.append(contextText,cancel);context.hidden=true;
+ const composer=node('form','','chat-composer');composer.setAttribute('aria-label','Send message');
+ const attach=iconButton('plus','Add image or website content',()=>websiteTools.attachments(()=>file.click())),emoji=iconButton('smile','Insert emoji',()=>panels.emojiPicker(value=>{text.setRangeText(value,text.selectionStart,text.selectionEnd,'end');inputChanged();text.focus();})),text=node('textarea'),label=node('label','Your message','chat-sr-only'),send=iconButton('send','Send message',()=>{}),file=node('input');
+ file.type='file';file.accept='image/png,image/jpeg';file.hidden=true;file.setAttribute('aria-label','Choose a PNG or JPEG image');text.id='community-draft';label.htmlFor=text.id;text.placeholder='Send message...';text.rows=1;text.setAttribute('enterkeyhint','enter');text.setAttribute('aria-describedby','chat-draft-count');send.type='submit';composer.append(attach,emoji,label,text,send,file);
+ const locked=node('div','','chat-locked');locked.append(glyph('lock'),node('strong',"You can't send messages now"));const help=button('Message admin',()=>run(()=>panels.support()));help.className='chat-inline-link';locked.append(help);
+ const count=node('p','','chat-draft-count');count.id='chat-draft-count';count.setAttribute('role','status');const feedback=node('p','','chat-feedback');feedback.setAttribute('role','status');
+ const websiteHost=node('div','','website-draft'),extras=node('div','','chat-compose-extras');extras.append(websiteHost,context);footer.append(typingAvatars,extras,composer,locked,count,feedback);const update=button('New messages · go to latest',requestLatest);update.className='chat-new-messages';update.hidden=true;stage.append(header,state,requestStatus,timeline,update,footer);screen.append(stage);root.append(screen);
+ const records=new Map(page.messages.map(m=>[m.id,m])),rendered=new Map(),mentions=new Map(),visible=new Set(),read=new Set(),gestureCleanups=new Set();let cursor=page.olderCursor,replyTo=null,upload=null,previewUrl=null,disposed=false,loading=false,sending=false,pending=null,official=false,typingTimer=null,typingStop=null,lastTyping=0,readTimer=null,lastVersion=page.streamVersion,privatePending=0,latestWebsiteVersion=null,latestId=page.messages.at(-1)?.id??0,latestQueued=false;
+ const restoredDraft=drafts.get(ctx.identity.user.id);text.value=restoredDraft?.value??'';pending=restoredDraft?.pending??null;drafts.delete(ctx.identity.user.id);
+ const alive=()=>!disposed&&ctx.alive(),posting=()=>page.isOpen&&!page.suspended,canModerate=()=>page.canModerate;
+ const panels=communityPanels(root,ctx,{posting,canModerate,isOpen:()=>page.isOpen,muted:()=>page.muted,pending:()=>privatePending,normalize:value=>communityText(value),run,saved,mention(member){if(mentions.size>=5&&!mentions.has(member.id)){feedback.textContent='Choose at most five mentions.';return;}mentions.set(member.id,member.name);for(const d of root.querySelectorAll('dialog[open]'))d.close();drawContext();text.focus();},feedback:value=>feedback.textContent=value,reply(message){replyTo=message.id;drawContext();text.focus();},refresh:()=>refresh(false),jump,earlier:()=>{timeline.scrollTop=0;return loadOlder();},official(){official=!official;feedback.textContent=official?'Publishing as Admin · Official account.':'Publishing with your registered identity.';drawContext();},async toggleMute(){page.muted=(await api('/community/preferences','PUT',{muted:!page.muted})).muted;feedback.textContent=page.muted?'Optional group-update prompts muted.':'Optional group-update prompts enabled.';}});
+ const websiteTools=websiteComposer(root,text,{host:websiteHost,alive,onInput:inputChanged,onLayout:layout,nearBottom:atBottom,scrollToLatest:toBottom,feedback:value=>feedback.textContent=value,initial:restoredDraft?.pending??restoredDraft?.referenceIntent});
+ async function run(fn){try{return await fn();}catch(error){if(alive())feedback.textContent=error.message;}}
+ function layout(){if(!alive())return;const nav=document.getElementById('mobile-nav'),bottom=nav&&getComputedStyle(nav).display!=='none'?nav.getBoundingClientRect().height:0;screen.style.height=Math.max(180,(window.visualViewport?.height??innerHeight)-bottom)+'px';update.style.bottom=footer.getBoundingClientRect().height+12+'px';}
+ function atBottom(){return timeline.scrollHeight-timeline.scrollTop-timeline.clientHeight<100;}
+ function toBottom(){timeline.scrollTop=timeline.scrollHeight;update.hidden=true;}
+ function policy(){state.textContent=posting()?'Messaging is open':'Messaging is restricted';composer.hidden=!posting();locked.hidden=posting();help.hidden=posting()||canModerate();text.disabled=!posting();send.disabled=!posting()||sending;attach.disabled=sending||Boolean(pending);emoji.disabled=sending;}
+ function clearImage(){upload=null;if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=null;file.value='';}
+ function drawContext(){contextText.replaceChildren();const reply=replyTo?records.get(replyTo):null;if(reply)contextText.append(node('strong','Replying to '+reply.sender.name),node('span',reply.body.slice(0,140)));if(mentions.size)contextText.append(node('span','Mentioning '+Array.from(mentions.values()).join(', ')));if(upload&&previewUrl){const img=node('img');img.src=previewUrl;img.alt='Selected image preview';contextText.append(img,node('span','Image ready · '+Math.ceil(upload.blob.size/1024)+' KB'));}if(official)contextText.append(node('strong','Admin · Official account'));context.hidden=!reply&&!upload&&!official&&!mentions.size;layout();}
+ function scheduleRead(){if(readTimer)return;readTimer=setTimeout(async()=>{readTimer=null;if(!alive()||document.hidden||!navigator.onLine||root.querySelector('dialog[open]'))return;const ids=Array.from(visible).filter(id=>!read.has(id)&&records.get(id)?.sender.id!==ctx.identity.user.id).slice(0,50);if(!ids.length)return;try{await api('/community/reads','POST',{ids});if(alive())for(const id of ids)read.add(id);}catch{/* A failed acknowledgement remains retryable; session middleware handles expiry. */}},500);}
+ const observer=new IntersectionObserver(entries=>{for(const entry of entries){const id=Number(entry.target.dataset.messageId);if(entry.isIntersecting&&entry.intersectionRatio>=.6)visible.add(id);else visible.delete(id);}scheduleRead();},{root:timeline,threshold:[0,.6,1]});
+ function saved(message){latestId=Math.max(latestId,message.id);records.set(message.id,message);draw();}
+ function requestLatest(){if(!alive())return;if(loading){latestQueued=true;return;}return run(()=>refresh(true));}
+ function finishRead(){loading=false;older.disabled=false;if(latestQueued){latestQueued=false;requestLatest();}}
+ function receiptText(message){return message.readCount>0?'Read by '+message.readCount:'Saved';}
+ function protectTouchRelease(){if(gestureCleanups.size)return;const cleanup=()=>{document.removeEventListener('touchend',release,true);document.removeEventListener('touchcancel',cleanup,true);document.removeEventListener('touchstart',cleanup,true);gestureCleanups.delete(cleanup);};const release=event=>{event.preventDefault();cleanup();};document.addEventListener('touchend',release,{capture:true,passive:false});document.addEventListener('touchcancel',cleanup,{capture:true,once:true});document.addEventListener('touchstart',cleanup,{capture:true,once:true});gestureCleanups.add(cleanup);}
+ function messageRow(message){const own=message.mine??message.sender.id===ctx.identity.user.id,row=node('article','','community-message chat-message '+(own?'chat-own':'chat-other'));row.dataset.messageId=String(message.id);row.tabIndex=0;row.setAttribute('aria-label','Message from '+message.sender.name+'. Press Shift+F10 for actions.');const av=avatar(message.sender),bubble=node('div','','chat-bubble'),by=node('button',message.sender.name,'chat-sender');by.type='button';by.addEventListener('click',()=>panels.profile(message.sender));const who=node('div','','chat-message-identity');who.append(by);if(message.sender.verified){const verified=node('span','','chat-verified');verified.setAttribute('role','img');verified.append(glyph('check'));verified.setAttribute('aria-label',message.official?'Official sender':'Verified role');who.append(verified);}const subtitle=node('small',memberStatus(message.sender),'chat-member-status');bubble.append(who,subtitle);
+ if(message.replyTo){const quote=button(message.replyTo.sender+'\n'+message.replyTo.body,()=>run(()=>jump(message.replyTo.id)));quote.className='chat-quote';quote.setAttribute('aria-label','Show replied message from '+message.replyTo.sender);bubble.append(quote);}if(message.image){const image=node('img');image.src=message.image.url;image.alt=message.body||'Shared community image';image.width=message.image.width;image.height=message.image.height;image.loading='lazy';image.decoding='async';const open=button('View shared image',()=>{const p=modal(root,'Shared image',{kind:'image-viewer'}),full=node('img');full.src=message.image.url;full.alt=image.alt;p.body.append(full);});open.className='chat-shared-image';open.replaceChildren(image);bubble.append(open);}if(message.references?.length)bubble.append(referenceCards(message.references));const messageText=node('p','','chat-text');messageText.append(renderWebsiteText(message.body,message.references));bubble.append(messageText);if(message.mentions.length)bubble.append(node('p',message.mentions.map(m=>'@'+m.name).join(' '),'chat-mentions'));
+ const meta=node('div','','chat-message-meta');if(message.pinned)meta.append(glyph('pin'),node('span','Pinned'));if(message.edited)meta.append(node('span','Edited'));const time=node('time',new Date(message.createdAt).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}));time.dateTime=message.createdAt;time.title=new Date(message.createdAt).toLocaleString();meta.append(time);if(own){const receipt=node('span');receipt.setAttribute('role','img');receipt.className='chat-receipt';receipt.setAttribute('aria-label',receiptText(message));receipt.replaceChildren(glyph('check'));if(message.readCount>0)receipt.append(glyph('check'));meta.append(receipt);}bubble.append(meta);
+ if(message.reactions.length&&!message.removed){const reactions=node('div','','chat-reactions');for(const reaction of message.reactions){const value=reactionGlyph(reaction.reaction),b=button(value+' '+reaction.count,()=>run(()=>panels.react(message,reaction.reaction)));b.className='chat-reaction';b.setAttribute('aria-label',(reaction.reaction==='thanks'?'Thanks':reaction.reaction==='agree'?'Agree':reaction.reaction==='question'?'Question':value)+' ('+reaction.count+')');b.setAttribute('aria-pressed',String(reaction.mine));b.disabled=!posting();reactions.append(b);}bubble.append(reactions);}
+ const tray=node('div','','chat-hover-tray');tray.append(iconButton('more','Message actions for '+message.sender.name,()=>panels.messageContext(message)));bubble.append(tray);row.append(av,bubble);
+ row.addEventListener('contextmenu',event=>{event.preventDefault();if(event.pointerType==='touch'||touch)protectTouchRelease();panels.messageContext(message);});row.addEventListener('keydown',event=>{if(event.target===row&&((event.key==='F10'&&event.shiftKey)||event.key==='ContextMenu'||event.key==='Enter')){event.preventDefault();panels.messageContext(message);}});
+ let touch=null,hold=null;function cancelHold(){clearTimeout(hold);hold=null;}row.addEventListener('pointerdown',event=>{if(event.pointerType!=='touch'||event.target.closest('button,a,img'))return;touch={x:event.clientX,y:event.clientY};hold=setTimeout(()=>{hold=null;protectTouchRelease();touch=null;if(alive())panels.messageContext(message);},550);});row.addEventListener('pointermove',event=>{if(touch&&(Math.abs(event.clientX-touch.x)>12||Math.abs(event.clientY-touch.y)>12))cancelHold();});row.addEventListener('pointerup',event=>{if(touch&&event.clientX-touch.x>65&&Math.abs(event.clientY-touch.y)<40&&posting()){replyTo=message.id;drawContext();text.focus();}touch=null;cancelHold();});row.addEventListener('pointercancel',()=>{touch=null;cancelHold();});return row;}
+ function draw(){if(records.size>300){const ids=Array.from(records.keys()).sort((a,b)=>a-b),remove=loading&&!atBottom()?ids.slice(300):ids.slice(0,ids.length-300);for(const id of remove){records.delete(id);const row=rendered.get(id)?.row;if(row){observer.unobserve(row);row.remove();}rendered.delete(id);visible.delete(id);}}const ordered=Array.from(records.values()).sort((a,b)=>a.id-b.id),changed=messages.dataset.open!==String(posting());messages.dataset.open=String(posting());for(const message of ordered){const hash=JSON.stringify(message),old=rendered.get(message.id);if(!old||old.hash!==hash||changed){const row=messageRow(message);if(old){observer.unobserve(old.row);old.row.replaceWith(row);}rendered.set(message.id,{hash,row});observer.observe(row);}}for(let i=0;i<ordered.length;i++){const row=rendered.get(ordered[i].id).row;if(messages.children[i]!==row)messages.insertBefore(row,messages.children[i]??null);}messages.querySelector('.chat-empty')?.remove();if(!ordered.length){const empty=node('div','','chat-empty');empty.append(glyph('people'),node('h3','No messages yet'),node('p','The departmental conversation will appear here.'));messages.append(empty);}older.hidden=!cursor;scheduleRead();}
+ function resetMessages(){observer.disconnect();visible.clear();rendered.clear();messages.replaceChildren();records.clear();}
+ async function loadOlder(){if(loading||!cursor)return;loading=true;older.disabled=true;const anchor=messages.querySelector('[data-message-id]'),anchorId=anchor?.dataset.messageId,anchorTop=anchor?.getBoundingClientRect().top,height=timeline.scrollHeight,top=timeline.scrollTop;try{const data=await api('/community/messages?before='+cursor);if(!alive())return;for(const message of data.messages)records.set(message.id,message);cursor=data.olderCursor;draw();const after=anchorId?messages.querySelector('[data-message-id="'+anchorId+'"]'):null;timeline.scrollTop=after&&anchorTop!==undefined?top+after.getBoundingClientRect().top-anchorTop:top+timeline.scrollHeight-height;update.textContent='Go to latest messages';update.hidden=false;}finally{finishRead();}}
+ async function refresh(force=false){if(loading||!alive())return;loading=true;const bottom=atBottom(),top=timeline.scrollTop;try{const data=await api('/community/messages');if(!alive())return;page=data;latestId=data.messages.at(-1)?.id??latestId;lastVersion=data.streamVersion;if(force){resetMessages();cursor=data.olderCursor;}for(const message of data.messages)records.set(message.id,message);policy();draw();if(bottom||force)toBottom();else{timeline.scrollTop=top;if(!page.muted)update.hidden=false;}}finally{finishRead();}}
+ async function jump(id){const data=await api('/community/search?around='+id);if(!alive())return;resetMessages();for(const message of data.messages)records.set(message.id,message);cursor=data.messages[0]?.id;draw();update.textContent='Go to latest messages';update.hidden=false;requestAnimationFrame(()=>rendered.get(id)?.row.scrollIntoView({block:'center',behavior:'instant'}));}
+ function stopTyping(){clearTimeout(typingTimer);clearTimeout(typingStop);if(lastTyping){lastTyping=0;api('/community/typing','PUT',{typing:false}).catch(()=>{});}}
+ function inputChanged(){const normalized=text.value.normalize('NFC'),length=Array.from(normalized).length;text.setCustomValidity(length>2000?'Use at most 2,000 Unicode characters.':'');count.textContent=length>=1800?length+' / 2,000 characters':'';text.style.height='auto';text.style.height=Math.min(104,text.scrollHeight)+'px';layout();clearTimeout(typingStop);if(posting()&&text.value.trim()){if(!typingTimer)typingTimer=setTimeout(()=>{typingTimer=null;if(!alive()||lastTyping&&performance.now()-lastTyping<3000)return;lastTyping=performance.now();api('/community/typing','PUT',{typing:true}).catch(()=>{});},350);typingStop=setTimeout(stopTyping,5000);}else stopTyping();}
+ text.addEventListener('input',inputChanged);text.addEventListener('blur',stopTyping);
+ file.addEventListener('change',()=>run(async()=>{if(!file.files?.[0])return;attach.disabled=true;try{const prepared=await prepareImage(file.files[0]);if(!alive())return;clearImage();upload=prepared;previewUrl=URL.createObjectURL(prepared.blob);drawContext();}finally{attach.disabled=false;}}));
+ composer.addEventListener('submit',event=>{event.preventDefault();if(event.submitter!==send||sending||!posting())return;run(async()=>{messages.querySelectorAll('.chat-pending').forEach(row=>row.remove());if(!pending){const body=communityText(text.value,Boolean(upload));pending={requestId:crypto.randomUUID(),body,replyTo,mentions:Array.from(mentions.keys()),official,...websiteTools.payload()};}sending=true;send.disabled=true;feedback.textContent='Sending…';const waiting=node('article','','chat-pending chat-own');waiting.setAttribute('role','status');waiting.append(node('p',pending.body||'Image message'),node('small','Sending…'));messages.append(waiting);toBottom();stopTyping();try{if(upload&&!pending.imageId){const image=await api('/community/images','POST',{mediaType:'image/png',content:upload.content});pending.imageId=image.id;}const sentPayload=pending;const sent=await api('/community/messages','POST',sentPayload);if(!alive())return;const same=text.value.normalize('NFC').trim()===pending.body;pending=null;waiting.remove();if(same){text.value='';websiteTools.reset();}if(replyTo===sentPayload.replyTo)replyTo=null;for(const id of sentPayload.mentions)mentions.delete(id);clearImage();drawContext();const needsLatest=!records.has(latestId);saved(sent);toBottom();if(needsLatest)requestLatest();feedback.textContent='Message saved.';inputChanged();text.focus();}catch(error){if(error.status>=400&&error.status<500&&![408,429].includes(error.status)){pending=null;waiting.remove();feedback.textContent=error.message+' Adjust your draft before sending again.';}else{waiting.querySelector('small').textContent='Not confirmed · use Send to retry';feedback.textContent=error.message+' Your draft is kept here. Use Send to retry.';}}finally{sending=false;if(alive())policy();}});});
+ timeline.addEventListener('scroll',()=>{if(atBottom()&&records.has(latestId))update.hidden=true;else if(!records.has(latestId)){update.textContent='Go to latest messages';update.hidden=false;}scheduleRead();});root.addEventListener('close',scheduleRead,true);
+ policy();draw();inputChanged();layout();requestAnimationFrame(()=>{if(alive()){layout();toBottom();messages.setAttribute('aria-live','polite');}});
+ const resize=()=>{const bottom=atBottom();layout();if(bottom)toBottom();};window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);
+ const stop=synchronize(()=>api('/community/live'),async data=>{if(!alive())return;if(data.websiteVersion!==latestWebsiteVersion){const catalogue=await websiteTools.refresh(data.websiteVersion);if(!alive())return;if(catalogue){latestWebsiteVersion=catalogue.version;for(const record of records.values())record.references=(record.references??[]).map(ref=>{const item=catalogue.items.find(item=>item.id===ref.id);return item?{...item,label:ref.label,available:true}:{id:ref.id,label:ref.label,available:false};});}}const old=posting();page.isOpen=data.isOpen;page.suspended=data.suspended;page.canModerate=data.canModerate;const nextPending=data.privatePending+data.supportPending;if(privatePending!==nextPending){privatePending=nextPending;menuBadge.textContent=privatePending>99?'99+':String(privatePending);menuBadge.hidden=!privatePending;requestStatus.textContent=privatePending?privatePending+' private requests or assistance conversations await attention.':'';}policy();if(old!==posting())draw();const names=data.typers;typingText.textContent=names.length===1?names[0].name.split(' ')[0]+' is typing...':names.length>1?names.length+' people typing...':'One departmental community';typingAvatars.replaceChildren();typingAvatars.hidden=!names.length;if(names.length){for(const member of names.slice(0,3))typingAvatars.append(avatar(member));if(names.length>3)typingAvatars.append(node('span','+'+(names.length-3)));const dots=node('span','','chat-typing-dots');for(let i=0;i<3;i++)dots.append(node('i'));typingAvatars.append(dots);}for(const receipt of data.receipts){const record=records.get(receipt.id);if(record)record.readCount=receipt.readCount;}if(lastVersion!==data.version){if(atBottom()&&(latestId===0||records.has(latestId))&&!root.querySelector('dialog[open]'))await refresh(false);else if(!page.muted)update.hidden=false;}else draw();layout();},{interval:4000,onError:error=>{if(alive())feedback.textContent=error.message;}});
+ return()=>{if(!navigator.onLine&&text.value)drafts.set(ctx.identity.user.id,{value:text.value,pending,referenceIntent:websiteTools.state()});else drafts.delete(ctx.identity.user.id);disposed=true;websiteTools.dispose();for(const cleanup of gestureCleanups)cleanup();stop();stopTyping();clearTimeout(readTimer);observer.disconnect();for(const d of root.querySelectorAll('dialog[open]'))d.close();clearImage();window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize);main?.classList.remove('community-main');document.body.classList.remove('community-layout');};
 }
-export async function moderationView(root, ctx) { const data = await api('/admin/community/reports'); if (!ctx.alive())
-    return; heading(root, 'Community moderation', 'Reports and removal decisions are authorized and audited.'); for (const report of data.reports) {
-    const row = card('Report: ' + report.reason);
-    row.append(node('p', `${report.message.sender.name} · ${report.status}`), node('p', report.message.body, 'preserve-lines'), node('p', report.note));
-    if (report.status === 'open')
-        row.append(form('Record moderation decision ' + report.id, [selectField('action', 'Decision', [['resolve', 'Resolve report'], ['dismiss', 'Dismiss report'], ['remove', 'Remove message']]), { id: 'note', label: 'Decision note', multiline: true, maxLength: 500 }], async (v) => { await api('/admin/community/reports/' + report.id, 'PATCH', { ...v, revision: report.revision }); ctx.refresh(); }));
-    root.append(row);
-} if (!data.reports.length)
-    empty(root, 'No reports awaiting review'); }

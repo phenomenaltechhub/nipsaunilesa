@@ -8,7 +8,7 @@ import { startBackend } from '../src/http.mjs';
 import { syntheticAccount, testConfig } from './fixtures.mjs';
 import { client } from './client.mjs';
 import { totp } from '../src/security.mjs';
-export async function operationEnvironment() { const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'pharmaideia-m6-')); let clock = Date.now(); const app = await startBackend(testConfig(path.join(directory, 'operations.sqlite'), { now: () => clock })); return { ...app, directory, now: () => clock, advance(ms) { clock += ms; }, async member(role = 'student', level = 200) { const user = await syntheticAccount(app.service, { role, level, name: `Synthetic ${role} ${level} ${randomUUID().slice(0, 6)} · isolated M6 test` }), c = client(app.origin); if (role === 'representative')
+export async function operationEnvironment(overrides = {}) { const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'pharmaideia-m6-')); let clock = Date.now(); const app = await startBackend(testConfig(path.join(directory, 'operations.sqlite'), { now: () => clock, ...overrides })); return { ...app, directory, now: () => clock, advance(ms) { clock += ms; }, async member(role = 'student', level = 200) { const user = await syntheticAccount(app.service, { role, level, name: `Synthetic ${role} ${level} ${randomUUID().slice(0, 6)} · isolated M6 test` }), c = client(app.origin); if (role === 'representative')
         app.service.db.prepare('UPDATE roles SET permissions=? WHERE account_id=? AND role=?').run(JSON.stringify(['notices.publish.level']), user.id, role); assert.equal((await c.login(user)).status, 200); if (role !== 'student') {
         const enrollment = await c.request('/api/v1/mfa/enroll', 'POST', { password: user.password });
         assert.equal(enrollment.status, 200);

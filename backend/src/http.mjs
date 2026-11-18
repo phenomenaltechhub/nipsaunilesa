@@ -17,14 +17,14 @@ export async function startBackend(config,{port=0,logger=()=>{}}={}){
  const makeServer=config.tls?(handler)=>createSecureServer(config.tls,handler):createServer;
  const server=makeServer(async(req,res)=>{
   const requestId=randomUUID();res.setHeader('X-Request-ID',requestId);res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('X-Frame-Options','DENY');res.setHeader('Permissions-Policy','camera=(), microphone=(), geolocation=()');
-  res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
+  res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob:; media-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'");
   try{
    if(req.headers.host!==new URL(origin).host||req.headers['sec-fetch-site']==='cross-site'||(req.headers.origin&&req.headers.origin!==origin))throw new ApiError(403,'ORIGIN_DENIED');
    if(req.url.length>2048)throw new ApiError(400,'BAD_REQUEST');const url=new URL(req.url,origin),route=url.pathname;const api=route.startsWith('/api/');
    if(api){service.rate('api-global',1000);service.rate('api:'+req.socket.remoteAddress,300);if(req.method==='POST'&&route==='/api/v1/payments/webhook'){const parts=[];let size=0;for await(const chunk of req){size+=chunk.length;if(size>20000)throw new ApiError(413,'BODY_TOO_LARGE');parts.push(chunk);}json(res,200,await operations.payments.webhook(Buffer.concat(parts),req.headers['x-paystack-signature']));return;}const raw=cookie(req);let session=service.session(raw);const setSession=token=>{const age=Math.floor((service.session(token).expires_at-service.now())/1000);res.setHeader('Set-Cookie',`pharmaideia_session=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${age}${config.tls?'; Secure':''}`);};
     if(req.method==='GET'&&route==='/api/v1/health'){service.db.prepare('SELECT 1').get();json(res,200,{status:'ok',mode:service.config.mode,publicActivation:false});return;}
     if(req.method==='GET'&&route==='/api/v1/session'){if(!session){const token=service.createSession();setSession(token);session=service.session(token);}json(res,200,service.snapshot(session));return;}
-    let body=null;if(!['GET','HEAD'].includes(req.method)){if(req.headers.origin!==origin)throw new ApiError(403,'ORIGIN_DENIED');if(!session)throw new ApiError(401,'SESSION_EXPIRED');service.checkCsrf(raw,req.headers['x-csrf-token']);if(/^\/api\/v1\/academic\/resources\/[a-f0-9-]{36}\/file$/.test(route)){const user=service.requireUser(session);service.requireLevel(session,user.level,true);service.rate('resource-upload-http:'+user.id,10,3600000);}body=await readBody(req,/^\/api\/v1\/academic\/resources\/[a-f0-9-]{36}\/file$/.test(route)?1500000:16384);}
+    let body=null;if(!['GET','HEAD'].includes(req.method)){if(req.headers.origin!==origin)throw new ApiError(403,'ORIGIN_DENIED');if(!session)throw new ApiError(401,'SESSION_EXPIRED');service.checkCsrf(raw,req.headers['x-csrf-token']);if(/^\/api\/v1\/academic\/resources\/[a-f0-9-]{36}\/file$/.test(route)){const user=service.requireUser(session);service.requireLevel(session,user.level,true);service.rate('resource-upload-http:'+user.id,10,3600000);}if(route==='/api/v1/community/images'){const user=service.checkChatWrite(session);service.rate('community-image-http:'+user.id,10,3600000);}body=await readBody(req,route==='/api/v1/community/images'?1450000:/^\/api\/v1\/academic\/resources\/[a-f0-9-]{36}\/file$/.test(route)?1500000:16384);}
     let output=await operationRoute(operations,service,session,req.method,url,body),status=200;
     if(output!==undefined){}
     else if(req.method==='POST'&&route==='/api/v1/auth/login'){output=await service.login(body,raw,req.socket.remoteAddress);if(output.failed)throw new ApiError(401,'AUTH_FAILED');}
@@ -42,7 +42,7 @@ export async function startBackend(config,{port=0,logger=()=>{}}={}){
     else if(req.method==='POST'&&route==='/api/v1/auth/role')output=service.switchRole(session,body);
     else if(req.method==='GET'&&route==='/api/v1/admin/accounts')output={accounts:service.accounts(session,Number(url.searchParams.get('offset')??0)),total:service.db.prepare('SELECT count(*) AS n FROM accounts').get().n,offset:Number(url.searchParams.get('offset')??0),limit:100};
     else if(req.method==='GET'&&route==='/api/v1/admin/audit')output=service.auditLog(session);
-    else if(req.method==='GET'&&route==='/api/v1/admin/config'){service.requireAdmin(session);output={mode:service.config.mode,backend:'Node 24 / SQLite',publicActivation:false,emailDelivery:service.config.mailMode,sessionMs:service.config.sessionMs,idleMs:service.config.idleMs};}
+    else if(req.method==='GET'&&route==='/api/v1/admin/config'){service.requireAdmin(session);output={mode:service.config.mode,backend:'Node 24 / SQLite',publicActivation:false,emailDelivery:service.config.mailMode,websiteFeed:operations.website.diagnostics(),sessionMs:service.config.sessionMs,idleMs:service.config.idleMs};}
     else if(req.method==='POST'&&route==='/api/v1/admin/deletion/run'){fields(body,[]);output=service.deleteDue(session);}
     else if(req.method==='PATCH'&&/^\/api\/v1\/admin\/accounts\/[a-f0-9-]{36}$/.test(route))output=service.updateAccount(session,route.split('/').at(-1),body);
     else if(req.method==='POST'&&/^\/api\/v1\/admin\/accounts\/[a-f0-9-]{36}\/roles$/.test(route))output=service.assignRole(session,route.split('/').at(-2),body);
@@ -54,6 +54,7 @@ export async function startBackend(config,{port=0,logger=()=>{}}={}){
     else if(req.method==='POST'&&route==='/api/v1/academic/drafts'){output=service.createDraft(session,body);status=201;}
     else if(req.method==='PATCH'&&route==='/api/v1/admin/community')output=service.setCommunity(session,body);
     else throw new ApiError(404,'NOT_FOUND');
+    if(output?.inlineImage){res.writeHead(200,{'Content-Type':'image/png','Cache-Control':'private, no-store','Vary':'Cookie','Content-Length':output.bytes.length});res.end(output.bytes);return;}
     if(output?.download){res.writeHead(200,{'Content-Type':output.mediaType,'Content-Disposition':'attachment; filename="'+output.filename+'"','Cache-Control':'private, no-store','Content-Length':output.bytes.length,'X-Content-Type-Options':'nosniff'});res.end(output.bytes);return;}
     if(output?.raw){setSession(output.raw);delete output.raw;}json(res,status,output);return;
    }
@@ -70,5 +71,5 @@ export async function startBackend(config,{port=0,logger=()=>{}}={}){
  });
  server.requestTimeout=15000;server.headersTimeout=10000;await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(port,'127.0.0.1',resolve);});origin=`${config.tls?'https':'http'}://127.0.0.1:${server.address().port}`;
  const maintenance=setInterval(()=>{try{operations.maintenance();}catch{logger({code:'MAINTENANCE_UNAVAILABLE'});}},5000);maintenance.unref();
- return{service,operations,server,origin,async close(){clearInterval(maintenance);await new Promise(resolve=>server.close(resolve));service.close();}};
+ return{service,operations,server,origin,async close(){operations.website.close();clearInterval(maintenance);await new Promise(resolve=>server.close(resolve));service.close();}};
 }

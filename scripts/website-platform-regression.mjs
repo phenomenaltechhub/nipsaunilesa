@@ -24,6 +24,16 @@ try {
       assert.equal(await page.locator('h1').count(), 1);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `Overflow: ${route}`);
     }
+    const feed = await (await page.request.get(base + '/pharmaideia-content.json')).json();
+    assert.equal(feed.schemaVersion, 1);
+    assert.ok(feed.items.length > 0);
+    const destination = feed.items.filter(item => item.kind === 'directory-record').at(-1);
+    assert.ok(destination);
+    await page.goto(base + new URL(destination.url).pathname + new URL(destination.url).search, {waitUntil:'networkidle'});
+    await page.locator('#destination-details-heading').filter({hasText:destination.title}).waitFor();
+    if(destination.verification==='candidate') await page.getByText('Candidate · source review pending',{exact:true}).first().waitFor();
+    await page.screenshot({path:path.join(directory,viewport.width+'-navigator-reference.png'),fullPage:true,animations:'disabled'});
+    console.log(`PASS ${viewport.width}px public reference feed: actual metadata and directory deep link, candidate status retained.`);
     for (const slug of ['100-level-physics-practical-01', '100-level-biology-practical']) {
       await page.goto(base + '/gallery/' + slug, { waitUntil: 'networkidle' });
       const dialog = page.getByRole('dialog'); await dialog.waitFor();

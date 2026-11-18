@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "version": "39b1df6f2daad36d6d88fc2b32f24056f6cca5412bd37cf2304aa769c7ab24d4",
+  "generatedAt": "2026-11-18T11:31:06.008Z",
+  "items": [
+    {
+      "id": "/",
+      "title": "Pharmacology Students at University of Ilesa",
+      "description": "Nigerian Pharmacology Students Association, University of Ilesa Chapter: student representation, academic and research development, professional growth, and university community engagement.",
+      "url": "https://nipsaunilesa.com.ng/",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/about",
+      "title": "About NIPSA",
+      "description": "Learn about the Nigerian Pharmacology Students Association, University of Ilesa Chapter, its purpose, vision, mission, and objectives.",
+      "url": "https://nipsaunilesa.com.ng/about",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/ads",
+      "title": "Student Ads",
+      "description": "Discover student-led businesses, services, creators, and ventures featured in the NIPSA UNILESA Student Ads directory.",
+      "url": "https://nipsaunilesa.com.ng/ads",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/announcements",
+      "title": "Announcements",
+      "description": "Departmental updates, academic notes, and community announcements from NIPSA UNILESA.",
+      "url": "https://nipsaunilesa.com.ng/announcements",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/announcements/departmental-orientation",
+      "title": "Departmental Orientation",
+      "description": "A notice for dates, rooms and guidance that will be confirmed by the department.",
+      "url": "https://nipsaunilesa.com.ng/announcements/departmental-orientation",
+      "kind": "announcement",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/announcements/meet-your-student-community",
+      "title": "Meet your student community",
+      "description": "Discover the people, groups and conversations helping pharmacology students move forward.",
+      "url": "https://nipsaunilesa.com.ng/announcements/meet-your-student-community",
+      "kind": "announcement",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/announcements/welcome-to-the-new-nipsa-student-resource-hub",
+      "title": "Welcome to the new NIPSA student resource hub",
+      "description": "A shared space for departmental updates, learning materials and community notes.",
+      "url": "https://nipsaunilesa.com.ng/announcements/welcome-to-the-new-nipsa-student-resource-hub",
+      "kind": "announcement",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/campus-navigator",
+      "title": "Campus Navigator — Interactive Preview",
+      "description": "Search university directory records and review their verification status. Precise campus mapping is being prepared for the University of Ilesa.",
+      "url": "https://nipsaunilesa.com.ng/campus-navigator",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/campus-navigator?record=department-of-pharmacology",
+      "title": "Department of Pharmacology",
+      "description": "The department identified by the existing NIPSA chapter website. Independent official-source verification is pending. Its name does not establish a separate building or its position.",
+      "url": "https://nipsaunilesa.com.ng/campus-navigator?record=department-of-pharmacology",
+      "kind": "directory-record",
+      "verification": "candidate",
+      "automatic": false
+    },
+    {
+      "id": "/campus-navigator?record=university-of-ilesa",
+      "title": "University of Ilesa",
+      "description": "The university named in this campus guide. Official-source review and a geographical reference point are pending; this record does not identify a building or entrance.",
+      "url": "https://nipsaunilesa.com.ng/campus-navigator?record=university-of-ilesa",
+      "kind": "directory-record",
+      "verification": "candidate",
+      "automatic": false
+    },
+    {
+      "id": "/community",
+      "title": "Community",
+      "description": "Explore the student community, study groups, and peer support opportunities within NIPSA UNILESA.",
+      "url": "https://nipsaunilesa.com.ng/community",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/contact",
+      "title": "Contact",
+      "description": "Official NIPSA UNILESA contact channels for administrative and executive correspondence.",
+      "url": "https://nipsaunilesa.com.ng/contact",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/events",
+      "title": "Events",
+      "description": "Explore student events, community activities, and learning opportunities for NIPSA UNILESA.",
+      "url": "https://nipsaunilesa.com.ng/events",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/events/nipsa-annual-convention",
+      "title": "NIPSA ANNUAL CONVENTION",
+      "description": "A national gathering of Pharmacology students and healthcare stakeholders across NIPSA chapters for learning, competition, networking, and community engagement.",
+      "url": "https://nipsaunilesa.com.ng/events/nipsa-annual-convention",
+      "kind": "event",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/events/nipsa-day",
+      "title": "NIPSA DAY",
+      "description": "A day where Pharmacology students across chapters have their moment to celebrate the discipline, the community and, of course, ourselves.",
+      "url": "https://nipsaunilesa.com.ng/events/nipsa-day",
+      "kind": "event",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/events/nipsa-health-week",
+      "title": "NIPSA HEALTH WEEK",
+      "description": "A health-focused student engagement period designed to highlight wellness, awareness, and public health conversations.",
+      "url": "https://nipsaunilesa.com.ng/events/nipsa-health-week",
+      "kind": "event",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/executives",
+      "title": "Executives",
+      "description": "Meet the current executive leadership of the NIPSA University of Ilesa Chapter.",
+      "url": "https://nipsaunilesa.com.ng/executives",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/gallery",
+      "title": "Gallery",
+      "description": "Practical learning moments from NIPSA UNILESA and the Department of Pharmacology.",
+      "url": "https://nipsaunilesa.com.ng/gallery",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/gallery/100-level-biology-practical",
+      "title": "100 Level Biology Practical",
+      "description": "A look back at one of our current 300-level students during a 100-level biology practical session.",
+      "url": "https://nipsaunilesa.com.ng/gallery/100-level-biology-practical",
+      "kind": "gallery",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/gallery/100-level-physics-practical-01",
+      "title": "100 Level Physics Practical",
+      "description": "A look back at our current 300-level students during their 100-level physics practical session.",
+      "url": "https://nipsaunilesa.com.ng/gallery/100-level-physics-practical-01",
+      "kind": "gallery",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/gallery/100-level-physics-practical-02",
+      "title": "100 Level Physics Practical",
+      "description": "A look back at our current 300-level students during their 100-level physics practical session.",
+      "url": "https://nipsaunilesa.com.ng/gallery/100-level-physics-practical-02",
+      "kind": "gallery",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/gallery/100-level-physics-practical-03",
+      "title": "100 Level Physics Practical",
+      "description": "A look back at our current 300-level students during their 100-level physics practical session.",
+      "url": "https://nipsaunilesa.com.ng/gallery/100-level-physics-practical-03",
+      "kind": "gallery",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/gallery/100-level-physics-practical-04",
+      "title": "100 Level Physics Practical",
+      "description": "A look back at our current 300-level students during their 100-level physics practical session.",
+      "url": "https://nipsaunilesa.com.ng/gallery/100-level-physics-practical-04",
+      "kind": "gallery",
+      "verification": "published-page",
+      "automatic": true
+    },
+    {
+      "id": "/portal",
+      "title": "Student Portal",
+      "description": "Academic information, study support, learning materials, and student tools for Pharmacology students.",
+      "url": "https://nipsaunilesa.com.ng/portal",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    },
+    {
+      "id": "/resources",
+      "title": "Resources",
+      "description": "Academic resources and student support materials for Pharmacology students in the Department of Pharmacology.",
+      "url": "https://nipsaunilesa.com.ng/resources",
+      "kind": "page",
+      "verification": "published-page",
+      "automatic": false
+    }
+  ]
+}

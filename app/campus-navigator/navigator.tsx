@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import CampusMap from "./campus-map";
 import { campusRecords, campusSources, type CampusRecord } from "./data";
 import { emptyFilters, filterCampusRecords, getDirectionsUrl, isMappable, missingPositionMessage, safeSourceUrl, selectionForResults, validateCampusData } from "./model";
@@ -59,7 +59,26 @@ export default function Navigator() {
     setView("list");
     window.requestAnimationFrame(() => document.getElementById("campus-directory-search")?.focus());
   }, []);
-  const onSelect = useCallback((id: string) => setSelectedId(id), []);
+  useEffect(() => {
+    const readRecord = () => {
+      const id = new URL(window.location.href).searchParams.get("record");
+      if (id && campusRecords.some(record => record.id === id)) {
+        setSelectedId(id);
+        setFilters(emptyFilters);
+        setView("list");
+      }
+    };
+    readRecord();
+    window.addEventListener("popstate", readRecord);
+    return () => window.removeEventListener("popstate", readRecord);
+  }, []);
+  const onSelect = useCallback((id: string) => {
+    if (!campusRecords.some(record => record.id === id)) return;
+    setSelectedId(id);
+    const url = new URL(window.location.href);
+    url.searchParams.set("record", id);
+    window.history.replaceState(null, "", url);
+  }, []);
   const categories = [...new Set(campusRecords.map(record => record.category))];
   const faculties = [...new Set(campusRecords.flatMap(record => record.faculty ? [record.faculty] : []))];
   const departments = [...new Set(campusRecords.flatMap(record => record.department ? [record.department] : []))];

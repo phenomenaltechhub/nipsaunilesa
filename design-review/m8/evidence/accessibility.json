@@ -1,0 +1,152 @@
+[
+  {
+    "label": "360-enabled",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "360-reply-reaction",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "360-group-info",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "360-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "360-locked",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "360-support",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-enabled",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-reply-reaction",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-group-info",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-locked",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-support",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-keyboard-resize",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "320-regression",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "768-enabled",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "768-reply-reaction",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "768-group-info",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "768-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "768-locked",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "768-support",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-enabled",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-reply-reaction",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-group-info",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-dark",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-locked",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "1440-support",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-typing",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-image",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-private-request",
+    "violations": [],
+    "incomplete": []
+  },
+  {
+    "label": "390-private-accepted",
+    "violations": [],
+    "incomplete": []
+  }
+]

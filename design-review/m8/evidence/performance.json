@@ -1,0 +1,16 @@
+{
+  "scope": "Controlled Chromium emulation, not physical Android or 887-student capacity certification",
+  "viewport": "390x844",
+  "cpuSlowdown": 4,
+  "network": {
+    "latencyMs": 180,
+    "downloadBytesPerSecond": 50000,
+    "uploadBytesPerSecond": 25000
+  },
+  "readyMs": 11353,
+  "persistedMessages": 360,
+  "maximumRenderedMessages": 300,
+  "latestRenderedMessages": 30,
+  "usedJSHeapBytes": 2869416,
+  "embedPrivateDataInOfflineCache": false
+}

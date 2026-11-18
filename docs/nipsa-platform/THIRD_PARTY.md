@@ -28,3 +28,19 @@ Full audit now finds unpatched development-tool picomatch ReDoS, 14 high depende
 ## M7 reuse decision
 
 No package/version/lockfile change and no vendor interface/template/code adoption. The same native browser/Node HTTP/HTTPS/SQLite/crypto, original PWA components and existing Sharp/Chromium/Playwright/axe tooling are reused. Temporary OpenSSL certificates test actual local TLS with verification enabled; no keys/binaries are redistributed. Existing system FFmpeg encodes an original synthetic mobile CBT screencast from Chromium/CDP frames; no Playwright binary download or new runtime service is required. Only the generated original video/captions/transcript are review assets. OWASP guidance is referenced, not copied as application source. The full-audit picomatch advisory remains unpatched at the M7 check; production npm audit is zero. See [current security register](m7/SECURITY_REVIEW.md).
+
+## M8 Community reuse evaluation
+
+No dependency/version/lockfile change or external component source import. The supplied image is visual direction; names, notices, branding and proprietary code are not copied into the application. Original outlined SVG geometry, native dialogs/focus management and CSS implement the chat. Public website titles/descriptions come from this repository's actual static export, not a third-party scrape/unfurl service.
+
+| Reference | Decision / compatibility / notices |
+| --- | --- |
+| Playwright 1.62.1 / Chromium | Existing cloud tool reused for real browser/touch/keyboard/network tests, `expect(page).toHaveScreenshot()` and original recordings. Installed package licence inspected: Apache-2.0. Browser/tool binaries stay outside the PWA/repository; npm audit does not certify separately installed cloud tools. |
+| axe-core 4.14.1 | Existing pinned development-only MPL-2.0 tool, bundled licence/notices preserved. No library copied into runtime/offline shell. Automated scans supplement human/device review. |
+| Storybook | Considered; not adopted. An actual authenticated service/fixture and four-width Playwright state harness covers the real components without an extra workbench framework or duplicate fake UI. |
+| Radix / shadcn | Considered as interaction patterns; not adopted/copied. React-oriented packages do not justify adding React to the native PWA. Native HTML dialogs/labels/buttons and explicit focus restoration are tested instead. |
+| Lucide | Considered; not imported. Existing original outlined icon vocabulary is extended in place, avoiding a new icon bundle or copied source/licence obligations. |
+| Motion | Considered; not adopted/copied. CSS handles restrained hover/typing states with reduced-motion fallback. |
+| Existing Sharp / FFmpeg / Node built-ins | Reused for artifact integrity, original review video and native bounded PNG/crypto/SQLite behavior. No new runtime image, websocket, link-preview or paid SaaS dependency. Existing licences remain applicable. |
+
+Unadopted upstream components were assessed for architectural cost; no current upstream security/licence certification is asserted for code that was not fetched or shipped. Before later adoption, reverify exact version, maintenance, vulnerabilities and redistribution terms/notices. Full audit still reports the unpatched picomatch development-tool advisory; production audit is zero. See [M8 security register](m8/SECURITY_REVIEW.md).

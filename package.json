@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/generate-website-reference-feed.mjs",
     "start": "next start",
     "lint": "eslint",
     "test": "node --test tests/*.test.mjs backend/tests/*.test.mjs",
@@ -37,7 +37,16 @@
     "test:m7:workflows": "node scripts/pharmaideia-m7-workflows.mjs",
     "review:m7:walkthrough": "node scripts/record-m7-walkthrough.mjs",
     "test:m7:community": "node scripts/pharmaideia-m7-community.mjs",
-    "review:m7:community": "node scripts/record-m7-community.mjs"
+    "review:m7:community": "node scripts/record-m7-community.mjs",
+    "test:m8:security": "node --test backend/tests/m8-community.test.mjs",
+    "test:m8:browser": "node scripts/pharmaideia-m8-browser.mjs",
+    "test:m8:interactions": "node scripts/pharmaideia-m8-interactions.mjs",
+    "test:m8:visual": "node scripts/run-m8-visual.mjs",
+    "test:m8:performance": "node scripts/pharmaideia-m8-performance.mjs",
+    "review:m8:community": "node scripts/record-m8-community.mjs",
+    "test:m8:private": "node scripts/pharmaideia-m8-private-lifecycle.mjs",
+    "references:snapshot": "node scripts/generate-website-reference-feed.mjs --snapshot",
+    "test:m8:references": "node --test backend/tests/website-references.test.mjs && node scripts/pharmaideia-m8-website-references.mjs"
   },
   "dependencies": {
     "leaflet": "1.9.4",

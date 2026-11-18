@@ -1,0 +1,1 @@
+import{createRequire}from'node:module';import{execFileSync}from'node:child_process';import path from'node:path';const require=createRequire(import.meta.url),cli=path.join(path.dirname(require.resolve('playwright/package.json')),'cli.js');execFileSync(process.execPath,[cli,'test','--config=scripts/m8-visual/playwright.config.mjs',...process.argv.slice(2)],{stdio:'inherit'});

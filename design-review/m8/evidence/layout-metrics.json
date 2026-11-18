@@ -1,0 +1,172 @@
+[
+  {
+    "label": "360-enabled",
+    "width": 360,
+    "height": 900,
+    "headerHeight": 67,
+    "footerHeight": 64,
+    "timelineHeight": 696,
+    "scrollable": true,
+    "rendered": 30,
+    "nav": [
+      "Home",
+      "Courses",
+      "Community",
+      "Planner",
+      "More"
+    ]
+  },
+  {
+    "label": "360-locked",
+    "width": 360,
+    "height": 900,
+    "headerHeight": 67,
+    "footerHeight": 125,
+    "timelineHeight": 635,
+    "scrollable": true,
+    "rendered": 92,
+    "nav": [
+      "Home",
+      "Courses",
+      "Community",
+      "Planner",
+      "More"
+    ]
+  },
+  {
+    "label": "390-enabled",
+    "width": 390,
+    "height": 900,
+    "headerHeight": 67,
+    "footerHeight": 64,
+    "timelineHeight": 696,
+    "scrollable": true,
+    "rendered": 30,
+    "nav": [
+      "Home",
+      "Courses",
+      "Community",
+      "Planner",
+      "More"
+    ]
+  },
+  {
+    "label": "390-locked",
+    "width": 390,
+    "height": 900,
+    "headerHeight": 67,
+    "footerHeight": 95,
+    "timelineHeight": 665,
+    "scrollable": true,
+    "rendered": 92,
+    "nav": [
+      "Home",
+      "Courses",
+      "Community",
+      "Planner",
+      "More"
+    ]
+  },
+  {
+    "label": "390-keyboard-resize",
+    "width": 390,
+    "height": 540,
+    "headerHeight": 67,
+    "footerHeight": 83,
+    "timelineHeight": 317,
+    "scrollable": true,
+    "rendered": 92,
+    "nav": [
+      "Home",
+      "Courses",
+      "Community",
+      "Planner",
+      "More"
+    ]
+  },
+  {
+    "label": "320-regression",
+    "width": 320,
+    "height": 740,
+    "headerHeight": 67,
+    "footerHeight": 83,
+    "timelineHeight": 517,
+    "scrollable": true,
+    "rendered": 92,
+    "nav": [
+      "Home",
+      "Courses",
+      "Community",
+      "Planner",
+      "More"
+    ]
+  },
+  {
+    "label": "768-enabled",
+    "width": 768,
+    "height": 900,
+    "headerHeight": 75,
+    "footerHeight": 70,
+    "timelineHeight": 753,
+    "scrollable": true,
+    "rendered": 30,
+    "nav": [
+      "Home",
+      "Courses",
+      "Community",
+      "Planner",
+      "More"
+    ]
+  },
+  {
+    "label": "768-locked",
+    "width": 768,
+    "height": 900,
+    "headerHeight": 75,
+    "footerHeight": 99,
+    "timelineHeight": 724,
+    "scrollable": true,
+    "rendered": 92,
+    "nav": [
+      "Home",
+      "Courses",
+      "Community",
+      "Planner",
+      "More"
+    ]
+  },
+  {
+    "label": "1440-enabled",
+    "width": 1440,
+    "height": 900,
+    "headerHeight": 75,
+    "footerHeight": 70,
+    "timelineHeight": 753,
+    "scrollable": true,
+    "rendered": 30,
+    "nav": [
+      "Home",
+      "Courses",
+      "Community",
+      "Planner",
+      "More"
+    ]
+  },
+  {
+    "label": "1440-locked",
+    "width": 1440,
+    "height": 900,
+    "headerHeight": 75,
+    "footerHeight": 99,
+    "timelineHeight": 724,
+    "scrollable": true,
+    "rendered": 92,
+    "nav": [
+      "Home",
+      "Courses",
+      "Community",
+      "Planner",
+      "More"
+    ]
+  }
+]

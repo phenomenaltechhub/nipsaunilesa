@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { fields, fail, plain, integer, revision, list, choices, actorLabel } from './common.mjs';
 export class CommunityOperations {
     constructor(service) { this.s = service; this.db = service.db; }
-    row(id) { const row = this.db.prepare('SELECT * FROM community_messages WHERE id=?').get(integer(id, 1)); if (!row)
+    row(id) { const row = this.db.prepare('SELECT * FROM community_messages WHERE id=?').get(integer(id, 1, Number.MAX_SAFE_INTEGER)); if (!row)
         fail(404, 'NOT_FOUND'); return row; }
     dto(row, user) { let quote = null; if (row.reply_to) {
         const parent = this.row(row.reply_to);
@@ -27,7 +27,7 @@ export class CommunityOperations {
         fail(429, 'POST_RATE_LIMIT', 'Please pause before posting again.'); const hourly = this.db.prepare('SELECT count(*) AS n FROM community_messages WHERE author=? AND created_at>?').get(id, this.s.now() - 3600000).n; if (hourly >= 60)
         fail(429, 'POST_RATE_LIMIT'); }
     edit(session, id, input) { fields(input, ['revision', 'action', 'body']); return this.s.tx(() => { const user = this.s.checkChatWrite(session), row = this.row(id); revision(row, input.revision); if (row.author !== user.id || row.removed || row.created_at + 15 * 60000 < this.s.now())
-        fail(403, 'EDIT_FORBIDDEN'); this.db.prepare('INSERT INTO community_versions(message_id,actor,body,revision,created_at)VALUES(?,?,?,?,?)').run(id, user.id, row.body, row.revision, this.s.now()); if (input.action === 'remove')
+        fail(403, 'EDIT_FORBIDDEN'); this.db.prepare('INSERT INTO community_versions(message_id,actor,body,revision,created_at,website_refs)VALUES(?,?,?,?,?,?)').run(id, user.id, row.body, row.revision, this.s.now(),row.website_refs??'[]'); if (input.action === 'remove')
         this.db.prepare('UPDATE community_messages SET body=\'Message removed\',removed=1,revision=revision+1,updated_at=? WHERE id=?').run(this.s.now(), id);
     else if (input.action === 'correct')
         this.db.prepare('UPDATE community_messages SET body=?,revision=revision+1,updated_at=? WHERE id=?').run(plain(input.body, 2000), this.s.now(), id);
@@ -46,7 +46,7 @@ export class CommunityOperations {
         fail(404, 'NOT_FOUND'); revision(row, input.revision); if (row.status !== 'open')
         fail(409, 'REPORT_CLOSED'); choices(input.action, ['dismiss', 'resolve', 'remove']); if (input.action === 'remove') {
         const message = this.row(row.message_id);
-        this.db.prepare('INSERT INTO community_versions(message_id,actor,body,revision,created_at)VALUES(?,?,?,?,?)').run(message.id, actor.id, message.body, message.revision, this.s.now());
+        this.db.prepare('INSERT INTO community_versions(message_id,actor,body,revision,created_at,website_refs)VALUES(?,?,?,?,?,?)').run(message.id, actor.id, message.body, message.revision, this.s.now(),message.website_refs??'[]');
         this.db.prepare('UPDATE community_messages SET removed=1,body=\'Message removed\',revision=revision+1,updated_at=? WHERE id=?').run(this.s.now(), message.id);
     } this.db.prepare('UPDATE community_reports SET status=?,revision=revision+1,decision_note=? WHERE id=?').run(input.action === 'dismiss' ? 'dismissed' : 'resolved', input.note, id); this.s.audit(actor.id, 'community.report_' + input.action, id, { messageId: row.message_id }); return { updated: true }; }); }
 }
