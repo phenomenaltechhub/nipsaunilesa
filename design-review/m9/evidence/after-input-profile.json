@@ -1,0 +1,11 @@
+{
+  "scope": "After-only Chromium observation, 90 persisted synthetic messages / latest 30 visible; same adverse network/CPU. No baseline input or transfer measurement exists, so no comparative claim.",
+  "firstUsableInputMs": 5854,
+  "visibleConversationMs": 5854,
+  "playwrightFillRoundTripMs": 35,
+  "firstContentfulPaintMs": 900,
+  "requests": 57,
+  "transferBytes": 129552,
+  "scriptEncodedBytes": 62112,
+  "scriptDecodedBytes": 168483
+}

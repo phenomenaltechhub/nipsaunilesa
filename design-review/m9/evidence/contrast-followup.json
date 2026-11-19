@@ -1,0 +1,65 @@
+{
+  "scope": "Follow-up of two incomplete full-page axe color checks at 768px: same message fully scrolled into view; actual DOM colors and normal-text WCAG contrast. Not screen-reader/device certification.",
+  "results": [
+    {
+      "theme": "light",
+      "pairs": [
+        {
+          "element": "chat-member-status",
+          "color": "rgb(80, 104, 95)",
+          "background": "rgb(255, 255, 255)",
+          "fontSize": "9.92px",
+          "ratio": 6.023292628099697
+        },
+        {
+          "element": "chat-text",
+          "color": "rgb(22, 62, 52)",
+          "background": "rgb(255, 255, 255)",
+          "fontSize": "13.76px",
+          "ratio": 11.845994815303202
+        },
+        {
+          "element": "TIME",
+          "color": "rgb(80, 104, 95)",
+          "background": "rgb(255, 255, 255)",
+          "fontSize": "9.44px",
+          "ratio": 6.023292628099697
+        }
+      ],
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    },
+    {
+      "theme": "dark",
+      "pairs": [
+        {
+          "element": "chat-member-status",
+          "color": "rgb(176, 199, 187)",
+          "background": "rgb(25, 43, 36)",
+          "fontSize": "9.92px",
+          "ratio": 8.307343006731342
+        },
+        {
+          "element": "chat-text",
+          "color": "rgb(227, 240, 231)",
+          "background": "rgb(25, 43, 36)",
+          "fontSize": "13.76px",
+          "ratio": 12.662574402638853
+        },
+        {
+          "element": "TIME",
+          "color": "rgb(176, 199, 187)",
+          "background": "rgb(25, 43, 36)",
+          "fontSize": "9.44px",
+          "ratio": 8.307343006731342
+        }
+      ],
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  ]
+}

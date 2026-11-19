@@ -1,0 +1,5 @@
+
+> pharm-project@0.1.0 test:m6:workflows
+> node scripts/pharmaideia-m6-workflows.mjs
+
+PASS real UI course submission/independent review, two-stage CBT application/template, question authorization, selected batch scheduling and desktop/mobile monitoring. Exam delivery was not simulated as operational.

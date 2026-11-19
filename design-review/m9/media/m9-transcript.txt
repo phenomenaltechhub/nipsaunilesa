@@ -1,0 +1,15 @@
+Actual M9 build. All accounts, courses and messages here are isolated synthetic fixtures, not university records.
+
+Reviewed courses use the existing publication workflow. Topics record coverage and confidence, not demonstrated mastery.
+
+The personal tab planner and focus timer still work offline. A separate account plan offers explicit saving across devices.
+
+Account plans use actual private API persistence. Changes are saved explicitly and conflicting device versions are rejected.
+
+Community remains a traditional group conversation with a persistent composer. Enter adds a line; the send arrow publishes.
+
+Website content suggestions use known public metadata. Freshness badges explicitly distinguish cached and unverified information.
+
+Restricted posting retains readable history and private assistance. The server enforces this policy.
+
+Final preview: messaging is enabled through the real test administrator policy. New databases remain closed by default. Nothing is deployed.

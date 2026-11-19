@@ -1,0 +1,5 @@
+
+> pharm-project@0.1.0 check:pwa
+> tsc -p student-pwa/tsconfig.json && tsc -p student-pwa/tsconfig.sw.json && tsc -p developer-tools/tsconfig.json && node scripts/check-student-pwa.mjs
+
+PWA integrity passed: 46 public assets (199959 bytes, 79967 bytes JS), 20 safe SVG avatars, 4 icon dimensions, 7 contrast pairs, isolated scope/document policy. Budgets: 200 KB shell / 80 KB JS.

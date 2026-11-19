@@ -1,0 +1,116 @@
+{
+  "actualScreenshots": 13,
+  "assets": [
+    {
+      "path": "screenshots/1440-activation-batches.png",
+      "width": 1440,
+      "height": 1959,
+      "bytes": 175578,
+      "sha256": "697e4e3157ff2636311311aeceab7af97e66127eb3e5d967ea2be09ce077bf41"
+    },
+    {
+      "path": "screenshots/1440-community-light.png",
+      "width": 1440,
+      "height": 844,
+      "bytes": 123071,
+      "sha256": "d8159f6bc37774f5f25be0820acbe05b8499d9c113b369110bfb259eb4679120"
+    },
+    {
+      "path": "screenshots/1440-planner.png",
+      "width": 1440,
+      "height": 1180,
+      "bytes": 130015,
+      "sha256": "102b834998d35e389830820ac0940bd2f8832f1f3f9e22a753b0f00dd15939cb"
+    },
+    {
+      "path": "screenshots/1440-support-handover.png",
+      "width": 1440,
+      "height": 844,
+      "bytes": 168245,
+      "sha256": "8d5b2f2f2ad9b1cd38bc3777e346ccf0029861c0742f9eb3414042a326e4ea59"
+    },
+    {
+      "path": "screenshots/320-community-dark.png",
+      "width": 320,
+      "height": 844,
+      "bytes": 71618,
+      "sha256": "4087ec50db98c5219209d8b5f4166830ee3c9b6d4d4c9f061b1802e2c1045bea"
+    },
+    {
+      "path": "screenshots/390-assigned-support-role.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 45972,
+      "sha256": "f51e2f971173d01fad0821b8d2d35953e6cee4de9b145ff3c48617d9aa3feb21"
+    },
+    {
+      "path": "screenshots/390-community-enabled-final.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 72050,
+      "sha256": "ae4ecb86675a0e0a7a4ab7fcb741e8cec28ac73cdd5ca444cf2b1c5442ad8638"
+    },
+    {
+      "path": "screenshots/390-community-restricted.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 71741,
+      "sha256": "5713993d41ed7f3487b43a4c26efeb2d1efc1b3a2e3f75484f5745b4b73d38f2"
+    },
+    {
+      "path": "screenshots/390-course-schedule.png",
+      "width": 390,
+      "height": 1305,
+      "bytes": 80235,
+      "sha256": "2a6b8059154b35f2af3837d219664a1d1dd966813ea31a9d18d7452557a7f7a4"
+    },
+    {
+      "path": "screenshots/390-planner.png",
+      "width": 390,
+      "height": 1480,
+      "bytes": 78901,
+      "sha256": "cdb4c583f7eee77e706e85d5826917bc8be7fadfe9714b23ec9a95ab8bba0073"
+    },
+    {
+      "path": "screenshots/390-representative-schedule.png",
+      "width": 390,
+      "height": 1576,
+      "bytes": 98602,
+      "sha256": "6c23c90e3196169d90e5ed7f5f5a4cc27227d43117ff7ab52d65f8ef5ddf440c"
+    },
+    {
+      "path": "screenshots/390-study-aids.png",
+      "width": 390,
+      "height": 1573,
+      "bytes": 97542,
+      "sha256": "6bfd556d9e9d0a755b29884d35ad9af303ee32db091f77565eeac1069299bc64"
+    },
+    {
+      "path": "screenshots/390-updated-help.png",
+      "width": 390,
+      "height": 2325,
+      "bytes": 120532,
+      "sha256": "29b7ece4ae817bdcfa3be940894269aef40eb10d23aef905573eb075e7a36e35"
+    },
+    {
+      "path": "media/m9-transcript.txt",
+      "bytes": 987,
+      "sha256": "138d8bd12f67f5930a32a8b465c5d397e74f434aca89ea04f80c5e06cc74cf03"
+    },
+    {
+      "path": "media/m9-walkthrough.mp4",
+      "bytes": 264309,
+      "sha256": "51c0804648656b03a19957937c88ad23abc5c14bafa7109cf0cdb9d5ae760e7c"
+    },
+    {
+      "path": "media/m9-walkthrough.vtt",
+      "bytes": 1251,
+      "sha256": "53777d86b16d8eca36f9611e90a9b355f1efd5cea9bbcfdd666548da4cc6949c"
+    },
+    {
+      "path": "media/recording.json",
+      "bytes": 47,
+      "sha256": "7f18e7dd7984935e7effe8d24a74f0c04cd5898a6b799d8cec8b89af8b97eb34"
+    }
+  ]
+}

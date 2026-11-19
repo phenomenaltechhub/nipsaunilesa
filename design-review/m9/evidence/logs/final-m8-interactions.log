@@ -1,0 +1,5 @@
+
+> pharm-project@0.1.0 test:m8:interactions
+> node scripts/pharmaideia-m8-interactions.mjs
+
+PASS M8 native touch long-press/scroll, role-filtered actions, official attribution, pin/suspension/restore, real assigned support, lost-ack retry, offline draft/privacy and actual read-by IDs.

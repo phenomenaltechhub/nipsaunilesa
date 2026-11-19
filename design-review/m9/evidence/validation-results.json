@@ -1,0 +1,536 @@
+{
+  "implementationCommit": "c200ba67667d5ccc5c9bf73e6b8ee28cb1dd11cc",
+  "baselineTests": 220,
+  "finalTests": 240,
+  "newM9TestsIncluded": 20,
+  "initialRun": [
+    {
+      "label": "clean-install",
+      "command": "npm ci --no-fund",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 13637,
+      "log": "logs/final-clean-install.log"
+    },
+    {
+      "label": "lint",
+      "command": "npm run lint",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 8283,
+      "log": "logs/final-lint.log"
+    },
+    {
+      "label": "pwa-types-integrity",
+      "command": "npm run check:pwa",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 2782,
+      "log": "logs/final-pwa-types-integrity.log"
+    },
+    {
+      "label": "all-unit-security",
+      "command": "npm test",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 194965,
+      "log": "logs/final-all-unit-security.log"
+    },
+    {
+      "label": "secrets",
+      "command": "npm run check:secrets",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 296,
+      "log": "logs/final-secrets.log"
+    },
+    {
+      "label": "audit-full",
+      "command": "npm audit --json",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 694,
+      "log": "logs/final-audit-full.json"
+    },
+    {
+      "label": "audit-production",
+      "command": "npm audit --omit=dev --json",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 753,
+      "log": "logs/final-audit-production.json"
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 6547,
+      "log": "logs/final-production-build.log"
+    },
+    {
+      "label": "website-types",
+      "command": "npm exec tsc -- --noEmit",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 1639,
+      "log": "logs/final-website-types.log"
+    },
+    {
+      "label": "static-export",
+      "command": "npm run check:export",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 335,
+      "log": "logs/final-static-export.log"
+    },
+    {
+      "label": "approved-brand",
+      "command": "npm run check:brand",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 339,
+      "log": "logs/final-approved-brand.log"
+    },
+    {
+      "label": "hero-video-assets",
+      "command": "npm run check:m5:assets",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 587,
+      "log": "logs/final-hero-video-assets.log"
+    },
+    {
+      "label": "pwa-offline-browser",
+      "command": "npm run test:pwa:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 21978,
+      "log": "logs/final-pwa-offline-browser.log"
+    },
+    {
+      "label": "m4-browser",
+      "command": "npm run test:m4:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 19020,
+      "log": "logs/final-m4-browser.log"
+    },
+    {
+      "label": "m5-visual-browser",
+      "command": "npm run test:m5:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 16201,
+      "log": "logs/final-m5-visual-browser.log"
+    },
+    {
+      "label": "m5-accounts-browser",
+      "command": "npm run test:m5:accounts:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 20162,
+      "log": "logs/final-m5-accounts-browser.log"
+    },
+    {
+      "label": "website-regressions",
+      "command": "npm run test:website:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 18534,
+      "log": "logs/final-website-regressions.log"
+    },
+    {
+      "label": "m6-browser",
+      "command": "npm run test:m6:browser",
+      "status": "failed",
+      "exitCode": 1,
+      "durationMs": 47925,
+      "log": "logs/final-m6-browser.log"
+    },
+    {
+      "label": "m6-workflows",
+      "command": "npm run test:m6:workflows",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 22585,
+      "log": "logs/final-m6-workflows.log"
+    },
+    {
+      "label": "m7-browser",
+      "command": "npm run test:m7:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 26079,
+      "log": "logs/final-m7-browser.log"
+    },
+    {
+      "label": "m7-workflows",
+      "command": "npm run test:m7:workflows",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 46683,
+      "log": "logs/final-m7-workflows.log"
+    },
+    {
+      "label": "m7-community",
+      "command": "npm run test:m7:community",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 59563,
+      "log": "logs/final-m7-community.log"
+    },
+    {
+      "label": "m8-browser",
+      "command": "npm run test:m8:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 64101,
+      "log": "logs/final-m8-browser.log"
+    },
+    {
+      "label": "m8-interactions",
+      "command": "npm run test:m8:interactions",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 24085,
+      "log": "logs/final-m8-interactions.log"
+    },
+    {
+      "label": "m8-private-lifecycle",
+      "command": "npm run test:m8:private",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 16712,
+      "log": "logs/final-m8-private-lifecycle.log"
+    },
+    {
+      "label": "m8-references",
+      "command": "npm run test:m8:references",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 55140,
+      "log": "logs/final-m8-references.log"
+    },
+    {
+      "label": "m8-review-browser",
+      "command": "npm run test:m8:review:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 10571,
+      "log": "logs/final-m8-review-browser.log"
+    },
+    {
+      "label": "m8-screenshot-comparisons",
+      "command": "npm run test:m8:visual",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 19387,
+      "log": "logs/final-m8-screenshot-comparisons.log"
+    },
+    {
+      "label": "m9-browser",
+      "command": "node scripts/pharmaideia-m9-browser.mjs",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 39367,
+      "log": "logs/final-m9-browser.log"
+    }
+  ],
+  "effectiveResults": [
+    {
+      "label": "clean-install",
+      "command": "npm ci --no-fund",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 13637,
+      "log": "logs/final-clean-install.log"
+    },
+    {
+      "label": "lint",
+      "command": "npm run lint",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": null,
+      "log": "logs/retest-lint.log",
+      "retested": true
+    },
+    {
+      "label": "pwa-types-integrity",
+      "command": "npm run check:pwa",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": null,
+      "log": "logs/retest-pwa.log",
+      "retested": true
+    },
+    {
+      "label": "all-unit-security",
+      "command": "npm test",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": null,
+      "log": "logs/current-all-tests.log",
+      "retested": true
+    },
+    {
+      "label": "secrets",
+      "command": "npm run check:secrets",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": null,
+      "log": "logs/retest-secrets.log",
+      "retested": true
+    },
+    {
+      "label": "audit-full",
+      "command": "npm audit --json",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 694,
+      "log": "logs/final-audit-full.json"
+    },
+    {
+      "label": "audit-production",
+      "command": "npm audit --omit=dev --json",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 753,
+      "log": "logs/final-audit-production.json"
+    },
+    {
+      "label": "production-build",
+      "command": "npm run build",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": null,
+      "log": "logs/current-build.log",
+      "retested": true
+    },
+    {
+      "label": "website-types",
+      "command": "npm exec tsc -- --noEmit",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": null,
+      "log": "logs/current-types.log",
+      "retested": true
+    },
+    {
+      "label": "static-export",
+      "command": "npm run check:export",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": null,
+      "log": "logs/current-export.log",
+      "retested": true
+    },
+    {
+      "label": "approved-brand",
+      "command": "npm run check:brand",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 339,
+      "log": "logs/final-approved-brand.log"
+    },
+    {
+      "label": "hero-video-assets",
+      "command": "npm run check:m5:assets",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 587,
+      "log": "logs/final-hero-video-assets.log"
+    },
+    {
+      "label": "pwa-offline-browser",
+      "command": "npm run test:pwa:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 21978,
+      "log": "logs/final-pwa-offline-browser.log"
+    },
+    {
+      "label": "m4-browser",
+      "command": "npm run test:m4:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 19020,
+      "log": "logs/final-m4-browser.log"
+    },
+    {
+      "label": "m5-visual-browser",
+      "command": "npm run test:m5:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 16201,
+      "log": "logs/final-m5-visual-browser.log"
+    },
+    {
+      "label": "m5-accounts-browser",
+      "command": "npm run test:m5:accounts:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 20162,
+      "log": "logs/final-m5-accounts-browser.log"
+    },
+    {
+      "label": "website-regressions",
+      "command": "npm run test:website:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 18534,
+      "log": "logs/final-website-regressions.log"
+    },
+    {
+      "label": "m6-browser",
+      "command": "npm run test:m6:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": null,
+      "log": "logs/retest-m6-browser.log",
+      "retested": true
+    },
+    {
+      "label": "m6-workflows",
+      "command": "npm run test:m6:workflows",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 22585,
+      "log": "logs/final-m6-workflows.log"
+    },
+    {
+      "label": "m7-browser",
+      "command": "npm run test:m7:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 26079,
+      "log": "logs/final-m7-browser.log"
+    },
+    {
+      "label": "m7-workflows",
+      "command": "npm run test:m7:workflows",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 46683,
+      "log": "logs/final-m7-workflows.log"
+    },
+    {
+      "label": "m7-community",
+      "command": "npm run test:m7:community",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 59563,
+      "log": "logs/final-m7-community.log"
+    },
+    {
+      "label": "m8-browser",
+      "command": "npm run test:m8:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 64101,
+      "log": "logs/final-m8-browser.log"
+    },
+    {
+      "label": "m8-interactions",
+      "command": "npm run test:m8:interactions",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 24085,
+      "log": "logs/final-m8-interactions.log"
+    },
+    {
+      "label": "m8-private-lifecycle",
+      "command": "npm run test:m8:private",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 16712,
+      "log": "logs/final-m8-private-lifecycle.log"
+    },
+    {
+      "label": "m8-references",
+      "command": "npm run test:m8:references",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 55140,
+      "log": "logs/final-m8-references.log"
+    },
+    {
+      "label": "m8-review-browser",
+      "command": "npm run test:m8:review:browser",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 10571,
+      "log": "logs/final-m8-review-browser.log"
+    },
+    {
+      "label": "m8-screenshot-comparisons",
+      "command": "npm run test:m8:visual",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": 19387,
+      "log": "logs/final-m8-screenshot-comparisons.log"
+    },
+    {
+      "label": "m9-browser",
+      "command": "node scripts/pharmaideia-m9-browser.mjs",
+      "status": "passed",
+      "exitCode": 0,
+      "durationMs": null,
+      "log": "logs/retest-m9-browser.log",
+      "retested": true
+    },
+    {
+      "label": "m9-security",
+      "status": "passed",
+      "exitCode": 0,
+      "log": "logs/retest-m9-security.log"
+    },
+    {
+      "label": "trial-final-guards",
+      "status": "passed",
+      "exitCode": 0,
+      "log": "logs/retest-trial-isolation.log"
+    },
+    {
+      "label": "m9-roles",
+      "status": "passed",
+      "exitCode": 0,
+      "log": "logs/retest-m9-roles.log"
+    },
+    {
+      "label": "contrast-followup",
+      "status": "passed",
+      "exitCode": 0,
+      "log": "logs/contrast-followup.log"
+    },
+    {
+      "label": "m9-recording",
+      "status": "passed",
+      "exitCode": 0,
+      "log": "logs/retest-m9-recording.log"
+    },
+    {
+      "label": "performance",
+      "status": "passed",
+      "exitCode": 0,
+      "log": "logs/performance-comparison.log"
+    }
+  ],
+  "transientFindings": "Initial M6 planner/offline regression corrected and retested; new-code nested transactions/calendar selector, frozen-clock rate-limit fixture and closed-dialog test selector corrected before completion. Raw initial logs remain available.",
+  "externalChecks": {
+    "physicalAndroid": "not run: no attached device/tester",
+    "installedAndroidPwa": "not run on physical device; browser SW/offline evidence is separate",
+    "TalkBack": "not run",
+    "publicFeed": "blocked: proxy CONNECT 403; no upstream response, no repeat",
+    "githubPrApi": "blocked: repository-scoped GET Forbidden",
+    "githubGit": "passed: normal implementation branch push 94e1c1f; final evidence update recorded in delivery receipt",
+    "productionProviders": "not run: external configuration/approval absent",
+    "productionDeployment": "not applicable: prohibited, not attempted",
+    "independentSecurity": "not run"
+  },
+  "scope": "Current code endpoint c200ba6; initial M9 implementation 94e1c1f and separate selected-cohort fix. No staging/production certification.",
+  "finalScopedAxeScans": 43,
+  "axeViolations": 0,
+  "axeIncomplete": 2,
+  "selectedActivationRoster": 500
+}

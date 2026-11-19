@@ -1,0 +1,5 @@
+
+> pharm-project@0.1.0 test:m8:review:browser
+> node scripts/pharmaideia-m8-review-browser.mjs
+
+PASS actual 2000-character send/oversized-message acknowledgement, touch viewport/landscape composer geometry and Enter behavior; physical devices remain untested.

@@ -1,0 +1,5 @@
+
+> pharm-project@0.1.0 test:m8:private
+> node scripts/pharmaideia-m8-private-lifecycle.mjs
+
+PASS real UI private decline/accept/send/confidential report/block, plus server-driven 24-hour expiry and live database cleanup after reauthentication.

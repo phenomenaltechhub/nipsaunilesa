@@ -1,0 +1,10 @@
+
+> pharm-project@0.1.0 test:pwa:browser
+> node scripts/student-pwa-browser-smoke.mjs
+
+PASS PWA 1440x1050: Dashboard/navigation/course tabs, timetable, real revision actions/focus controls, 20 avatars with denied storage, restricted services clearly identified, 46 public-only cached assets, offline reload, axe scans, no overflow/runtime/CSP errors or third-party requests.
+PASS PWA 390x844: Dashboard/navigation/course tabs, timetable, real revision actions/focus controls, 20 avatars with denied storage, restricted services clearly identified, 46 public-only cached assets, offline reload, axe scans, no overflow/runtime/CSP errors or third-party requests.
+PASS PWA 320x900: Dashboard/navigation/course tabs, timetable, real revision actions/focus controls, 20 avatars with denied storage, restricted services clearly identified, 46 public-only cached assets, offline reload, axe scans, no overflow/runtime/CSP errors or third-party requests.
+PASS PWA 768x1024: Dashboard/navigation/course tabs, timetable, real revision actions/focus controls, 20 avatars with denied storage, restricted services clearly identified, 46 public-only cached assets, offline reload, axe scans, no overflow/runtime/CSP errors or third-party requests.
+PASS PWA update: changed worker installs, waits without reloading, explicit reload applies the new shell cache and preserves unrelated caches.
+PASS avatar preference: opt-in persistence stores one curated ID, survives reload, and opt-out restores the unsaved default.

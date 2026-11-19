@@ -1,0 +1,13 @@
+✔ M9 disposable trial: private random identities, test-only banner, cold-closed gates, restart, expiry and explicit cleanup (8557.703093ms)
+✔ M9 trial cleanup refuses symlinks, unexpected files, existing directories and non-test activation (7949.270899ms)
+✔ M9 support attendant: explicit fresh role, claim confidentiality, no moderation/admin/CBT powers; immediate revocation (5314.81502ms)
+✔ M9 assistance inbox pagination is stable and never exposes another student’s cases (2422.199446ms)
+✔ M9 activation batches: closed creation, eligibility, exact window, generic responses and token invalidation when closed (3238.009159ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 27633.14103

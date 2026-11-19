@@ -1,0 +1,28 @@
+✔ M9 cold catalogue is unverified; accepted metadata and validator survive actual restart/offline/304 revalidation (3476.354096ms)
+✔ M9 withdrawals and renamed titles retain history and never reappear as active bundled links after restart (982.651867ms)
+✔ M9 corrupt durable representations reject conditional success and recover only through a validated complete feed (1011.981813ms)
+✔ M9 old versions/rollback and mismatched validators fail closed; explicit higher publication sequence permits a reviewed republish contract (520.852657ms)
+✔ M9 concurrent refresh is single-flight; an audit failure rolls back both durable and in-memory metadata (465.350016ms)
+✔ M9 malformed, duplicate, empty and oversized feeds cannot erase the last-good catalogue (500.220491ms)
+✔ M9 catalogue and withdrawal records survive the existing encrypted backup/restore boundary without claiming live freshness (1003.223576ms)
+✔ M9 lost ACK survives an actual backend restart: idempotent send, conflicting replay and atomic audit failure (8293.463072ms)
+✔ M9 restored temporary conversations expire before the listener accepts requests; normal group history remains and cleanup repeats safely (7878.715473ms)
+✔ M9 compression only covers static code: private APIs, untrusted input and HTML are never compressed or cached (1364.708172ms)
+✔ M9 authenticated calendar: level/selected-course scope, conflicting dates, correction, withdrawal and safe private ICS (7165.401484ms)
+✔ M9 reviewed study aids: independent review, question secrecy, scoped practice marking, own bookmarks and withdrawal (6722.552376ms)
+✔ M9 glossary: reviewed global content, search and stable UTC daily selection; withdrawal does not silently substitute a term (4923.454796ms)
+✔ M9 own preferences, encrypted planner and topic bookmarks use optimistic versions and current access after restart (6886.382113ms)
+✔ M9 study updates are atomic with audited publication and reject dangerous URLs, forged fields and stale revisions (6251.684534ms)
+✔ M9 disposable trial: private random identities, test-only banner, cold-closed gates, restart, expiry and explicit cleanup (7668.981889ms)
+✔ M9 trial cleanup refuses symlinks, unexpected files, existing directories and non-test activation (6219.529094ms)
+✔ M9 support attendant: explicit fresh role, claim confidentiality, no moderation/admin/CBT powers; immediate revocation (5681.667576ms)
+✔ M9 assistance inbox pagination is stable and never exposes another student’s cases (2438.647244ms)
+✔ M9 activation batches: closed creation, eligibility, exact window, generic responses and token invalidation when closed (3345.90207ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 33642.472282

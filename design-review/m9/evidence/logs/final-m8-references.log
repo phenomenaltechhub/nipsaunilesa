@@ -1,0 +1,22 @@
+
+> pharm-project@0.1.0 test:m8:references
+> node --test backend/tests/website-references.test.mjs && node scripts/pharmaideia-m8-website-references.mjs
+
+✔ website references accept canonical official destinations and reject unsafe schemes, credentials, foreign hosts and redirects (1.836699ms)
+✔ title and known-URL matching is bounded, Unicode-safe, exact and ambiguity-aware; missing examples never acquire invented slugs (12.142206ms)
+✔ public-export indexing excludes account/admin/private/person routes and preserves actual metadata without executing markup (2.121742ms)
+✔ automatic group references, explicit suggestions, dismissal, edit history and lost-ack replay use server-owned website records (3278.65626ms)
+✔ website references in private assistance and scoped notifications preserve their existing permissions and private storage (3669.50915ms)
+✔ actual bounded HTTP feed refresh changes the cached catalogue and uses conditional requests without forwarding message text (1297.04638ms)
+✔ invalid, oversized and proxy-blocked feeds retain the last verified index; blocked requests are not retried (527.688458ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8920.429715
+PASS 390px: attachment suggestions, missing-title empty state, keyword preview/highlight, canonical links, command selection, dismissal, XSS-safe rendering and dark/light scans.
+PASS 1440px: attachment suggestions, missing-title empty state, keyword preview/highlight, canonical links, command selection, dismissal, XSS-safe rendering and dark/light scans.
+PASS private assistance and authorized announcement references; 12 automated accessibility scans. No live provider/deployment claimed.

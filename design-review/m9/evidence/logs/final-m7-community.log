@@ -1,0 +1,9 @@
+
+> pharm-project@0.1.0 test:m7:community
+> node scripts/pharmaideia-m7-community.mjs
+
+PASS M8 360px: actual multiline/button send, reply/reaction toggle/large picker, member drawer, keyboard/focus, themes, locked/support and geometry.
+PASS M8 390px: actual multiline/button send, reply/reaction toggle/large picker, member drawer, keyboard/focus, themes, locked/support and geometry.
+PASS M8 768px: actual multiline/button send, reply/reaction toggle/large picker, member drawer, keyboard/focus, themes, locked/support and geometry.
+PASS M8 1440px: actual multiline/button send, reply/reaction toggle/large picker, member drawer, keyboard/focus, themes, locked/support and geometry.
+PASS M8 multi-client typing, protected image upload, recipient-consented persistence and confidential report.

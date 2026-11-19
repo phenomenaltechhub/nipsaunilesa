@@ -1,0 +1,7 @@
+
+> pharm-project@0.1.0 test:m4:browser
+> node scripts/student-pwa-m4-browser.mjs
+
+PASS M4 1440px: real progress, search, dark/large appearance, privacy clear, notification empty filters, offline Help, axe and no overflow/runtime/CSP errors.
+PASS M4 390px: real progress, search, dark/large appearance, privacy clear, notification empty filters, offline Help, axe and no overflow/runtime/CSP errors.
+PASS M4 notification integration harness, seven Standard icon dimensions and manifest eligibility inspection. Test fixtures are not shipped.

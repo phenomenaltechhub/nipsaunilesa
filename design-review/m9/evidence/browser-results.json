@@ -1,0 +1,276 @@
+{
+  "scope": "Synthetic controlled Chromium; not physical Android or installed-PWA certification",
+  "checks": [
+    {
+      "width": 320,
+      "courseTabs": true,
+      "reviewedFlashcard": true,
+      "bookmark": true,
+      "timetable": true,
+      "calendarExport": true,
+      "accountPlannerReload": true,
+      "lightDark": true,
+      "keyboardHeightEmulation": true,
+      "physicalKeyboard": false
+    },
+    {
+      "width": 360,
+      "courseTabs": true,
+      "reviewedFlashcard": true,
+      "bookmark": true,
+      "timetable": true,
+      "calendarExport": true,
+      "accountPlannerReload": true,
+      "lightDark": true,
+      "keyboardHeightEmulation": true,
+      "physicalKeyboard": false
+    },
+    {
+      "width": 390,
+      "courseTabs": true,
+      "reviewedFlashcard": true,
+      "bookmark": true,
+      "timetable": true,
+      "calendarExport": true,
+      "accountPlannerReload": true,
+      "lightDark": true,
+      "keyboardHeightEmulation": true,
+      "physicalKeyboard": false
+    },
+    {
+      "width": 768,
+      "courseTabs": true,
+      "reviewedFlashcard": true,
+      "bookmark": true,
+      "timetable": true,
+      "calendarExport": true,
+      "accountPlannerReload": true,
+      "lightDark": true,
+      "keyboardHeightEmulation": true,
+      "physicalKeyboard": false
+    },
+    {
+      "width": 1440,
+      "courseTabs": true,
+      "reviewedFlashcard": true,
+      "bookmark": true,
+      "timetable": true,
+      "calendarExport": true,
+      "accountPlannerReload": true,
+      "lightDark": true,
+      "keyboardHeightEmulation": true,
+      "physicalKeyboard": false
+    }
+  ],
+  "scans": [
+    {
+      "label": "320-course-schedule",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "320-study-aids",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "320-planner",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "320-community-light",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "320-community-dark",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "320-short-height",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "320-landscape",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "360-course-schedule",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "360-study-aids",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "360-planner",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "360-community-light",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "360-community-dark",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "360-short-height",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "360-landscape",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-course-schedule",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-study-aids",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-planner",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-community-light",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-community-dark",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-short-height",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-landscape",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "768-course-schedule",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "768-study-aids",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "768-planner",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "768-community-light",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              "article[data-message-id=\"68\"] > .chat-bubble > .chat-text"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "label": "768-community-dark",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              "article[data-message-id=\"68\"] > .chat-bubble > .chat-text"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "label": "768-short-height",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "768-landscape",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "1440-course-schedule",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "1440-study-aids",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "1440-planner",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "1440-community-light",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "1440-community-dark",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "1440-short-height",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "1440-landscape",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-representative-schedule",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-community-restricted",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-community-enabled-final",
+      "violations": [],
+      "incomplete": []
+    }
+  ],
+  "pageErrors": []
+}

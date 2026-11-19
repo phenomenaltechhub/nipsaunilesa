@@ -1,0 +1,5 @@
+
+> pharm-project@0.1.0 check:export
+> node scripts/check-static-export.mjs
+
+Static export verified: 35 HTML documents, 72 local assets, 65 valid JSON-LD blocks; no missing internal references.

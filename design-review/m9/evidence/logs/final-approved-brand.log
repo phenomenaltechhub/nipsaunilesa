@@ -1,0 +1,5 @@
+
+> pharm-project@0.1.0 check:brand
+> node scripts/check-approved-pwa-brand.mjs
+
+Approved Standard icons: seven dimensions/render/decode checks; both opaque maskable icons retain artwork within the safe circle.

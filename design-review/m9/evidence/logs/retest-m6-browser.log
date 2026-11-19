@@ -1,0 +1,6 @@
+
+> pharm-project@0.1.0 test:m6:browser
+> node scripts/pharmaideia-m6-browser.mjs
+
+PASS M6 1440px: authenticated courses/progress, scoped notices, real community interactions, closed CBT, searchable Help/video, offline privacy and preserved planner.
+PASS M6 390px: authenticated courses/progress, scoped notices, real community interactions, closed CBT, searchable Help/video, offline privacy and preserved planner.

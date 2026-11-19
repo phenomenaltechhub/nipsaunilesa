@@ -1,0 +1,8 @@
+
+> pharm-project@0.1.0 test:m5:browser
+> node scripts/pharmaideia-m5-visual.mjs
+
+PASS M5 1440px: exact navigation, hero crop, restricted Community/CBT, real captioned video playback, dark UI and axe.
+PASS M5 390px: exact navigation, hero crop, restricted Community/CBT, real captioned video playback, dark UI and axe.
+PASS M5 320px: exact navigation, hero crop, restricted Community/CBT, real captioned video playback, dark UI and axe.
+PASS optional hero offline fallback; measured emulated slow-network load separately from physical devices.

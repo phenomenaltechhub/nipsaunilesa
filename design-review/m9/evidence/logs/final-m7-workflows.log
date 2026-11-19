@@ -1,0 +1,5 @@
+
+> pharm-project@0.1.0 test:m7:workflows
+> node scripts/pharmaideia-m7-workflows.mjs
+
+PASS M7 admin UI result review/release, reviewed resource workflow, real cross-client community and notification polling, 50-request local concurrency, offline session expiry.

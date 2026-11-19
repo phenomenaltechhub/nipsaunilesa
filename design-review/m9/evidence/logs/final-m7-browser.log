@@ -1,0 +1,6 @@
+
+> pharm-project@0.1.0 test:m7:browser
+> node scripts/pharmaideia-m7-browser.mjs
+
+PASS M7 1440px: real CBT entry, save/flag, private offline clearing, resume, submit, server marking, protected release, results, Help, contrast and axe.
+PASS M7 390px: real CBT entry, save/flag, private offline clearing, resume, submit, server marking, protected release, results, Help, contrast and axe.

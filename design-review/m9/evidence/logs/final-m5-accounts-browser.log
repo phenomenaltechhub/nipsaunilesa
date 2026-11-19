@@ -1,0 +1,6 @@
+
+> pharm-project@0.1.0 test:m5:accounts:browser
+> node scripts/pharmaideia-m5-backend-browser.mjs
+
+PASS 1440px real account/admin UI: sign-in, MFA, role switch, DB status writes, gate open/close, audit, logout, no overflow or runtime errors.
+PASS 390px real account/admin UI: sign-in, MFA, role switch, DB status writes, gate open/close, audit, logout, no overflow or runtime errors.

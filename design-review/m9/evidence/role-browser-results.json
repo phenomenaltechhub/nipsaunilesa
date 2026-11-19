@@ -1,0 +1,39 @@
+{
+  "scope": "Isolated synthetic backend and actual Chromium; no production role or account",
+  "scans": [
+    {
+      "label": "390-assigned-support-role",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "1440-support-handover",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-updated-help",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "390-community-enabled-final",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "label": "1440-activation-batches",
+      "violations": [],
+      "incomplete": []
+    }
+  ],
+  "pageErrors": [],
+  "supportClaimReply": true,
+  "unclaimedConfidentiality": true,
+  "constrainedRole": true,
+  "administrativeHandover": true,
+  "oldAssigneeDenied": true,
+  "updatedHelp": true,
+  "finalChatEnabled": true,
+  "activationBatchSelection": true
+}

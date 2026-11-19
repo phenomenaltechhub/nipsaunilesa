@@ -1,0 +1,15 @@
+
+> pharm-project@0.1.0 test:m8:visual
+> node scripts/run-m8-visual.mjs
+
+
+Running 4 tests using 1 worker
+
+(node:14210) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 scripts/m8-visual/community.spec.mjs:1:356 › real Community screenshots 360 (2.2s)
+  ✓  2 scripts/m8-visual/community.spec.mjs:1:356 › real Community screenshots 390 (2.2s)
+  ✓  3 scripts/m8-visual/community.spec.mjs:1:356 › real Community screenshots 768 (2.4s)
+  ✓  4 scripts/m8-visual/community.spec.mjs:1:356 › real Community screenshots 1440 (2.6s)
+
+  4 passed (18.5s)

@@ -1,0 +1,107 @@
+{
+  "metric": "M8 readyMs: navigation begins through networkidle and visible composer; synthetic setup/login excluded. This includes a 500ms network-idle threshold, not pure input-ready time.",
+  "scope": "Same serial Chromium 390x844, 4x CPU, 180ms latency, 50,000 B/s down; local synthetic backend, not actual Android/hosting capacity.",
+  "before": [
+    {
+      "scope": "Controlled Chromium emulation, not physical Android or 887-student capacity certification",
+      "viewport": "390x844",
+      "cpuSlowdown": 4,
+      "network": {
+        "latencyMs": 180,
+        "downloadBytesPerSecond": 50000,
+        "uploadBytesPerSecond": 25000
+      },
+      "readyMs": 11322,
+      "persistedMessages": 360,
+      "maximumRenderedMessages": 300,
+      "latestRenderedMessages": 30,
+      "usedJSHeapBytes": 2871620,
+      "embedPrivateDataInOfflineCache": false
+    },
+    {
+      "scope": "Controlled Chromium emulation, not physical Android or 887-student capacity certification",
+      "viewport": "390x844",
+      "cpuSlowdown": 4,
+      "network": {
+        "latencyMs": 180,
+        "downloadBytesPerSecond": 50000,
+        "uploadBytesPerSecond": 25000
+      },
+      "readyMs": 11277,
+      "persistedMessages": 360,
+      "maximumRenderedMessages": 300,
+      "latestRenderedMessages": 30,
+      "usedJSHeapBytes": 2869092,
+      "embedPrivateDataInOfflineCache": false
+    },
+    {
+      "scope": "Controlled Chromium emulation, not physical Android or 887-student capacity certification",
+      "viewport": "390x844",
+      "cpuSlowdown": 4,
+      "network": {
+        "latencyMs": 180,
+        "downloadBytesPerSecond": 50000,
+        "uploadBytesPerSecond": 25000
+      },
+      "readyMs": 11560,
+      "persistedMessages": 360,
+      "maximumRenderedMessages": 300,
+      "latestRenderedMessages": 30,
+      "usedJSHeapBytes": 2869680,
+      "embedPrivateDataInOfflineCache": false
+    }
+  ],
+  "after": [
+    {
+      "scope": "Controlled Chromium emulation, not physical Android or 887-student capacity certification",
+      "viewport": "390x844",
+      "cpuSlowdown": 4,
+      "network": {
+        "latencyMs": 180,
+        "downloadBytesPerSecond": 50000,
+        "uploadBytesPerSecond": 25000
+      },
+      "readyMs": 7023,
+      "persistedMessages": 360,
+      "maximumRenderedMessages": 300,
+      "latestRenderedMessages": 30,
+      "usedJSHeapBytes": 2864844,
+      "embedPrivateDataInOfflineCache": false
+    },
+    {
+      "scope": "Controlled Chromium emulation, not physical Android or 887-student capacity certification",
+      "viewport": "390x844",
+      "cpuSlowdown": 4,
+      "network": {
+        "latencyMs": 180,
+        "downloadBytesPerSecond": 50000,
+        "uploadBytesPerSecond": 25000
+      },
+      "readyMs": 7214,
+      "persistedMessages": 360,
+      "maximumRenderedMessages": 300,
+      "latestRenderedMessages": 30,
+      "usedJSHeapBytes": 2867596,
+      "embedPrivateDataInOfflineCache": false
+    },
+    {
+      "scope": "Controlled Chromium emulation, not physical Android or 887-student capacity certification",
+      "viewport": "390x844",
+      "cpuSlowdown": 4,
+      "network": {
+        "latencyMs": 180,
+        "downloadBytesPerSecond": 50000,
+        "uploadBytesPerSecond": 25000
+      },
+      "readyMs": 7002,
+      "persistedMessages": 360,
+      "maximumRenderedMessages": 300,
+      "latestRenderedMessages": 30,
+      "usedJSHeapBytes": 2865588,
+      "embedPrivateDataInOfflineCache": false
+    }
+  ],
+  "beforeMedianMs": 11322,
+  "afterMedianMs": 7023,
+  "medianReductionPercent": 38
+}

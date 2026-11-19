@@ -1,0 +1,12 @@
+
+> pharm-project@0.1.0 test:website:browser
+> node scripts/website-platform-regression.mjs
+
+PASS 1440px public reference feed: actual metadata and directory deep link, candidate status retained.
+PASS 1440px gallery 100-level-physics-practical-01: 810x1080 valid JPEG, watermark pixels differ from Canvas control, original bytes/top content preserved.
+PASS 1440px gallery 100-level-biology-practical: 810x1080 valid JPEG, watermark pixels differ from Canvas control, original bytes/top content preserved.
+PASS website 1440px: home, Portal, resources, Ads, gallery and Navigator; no overflow or uncaught runtime errors.
+PASS 390px public reference feed: actual metadata and directory deep link, candidate status retained.
+PASS 390px gallery 100-level-physics-practical-01: 810x1080 valid JPEG, watermark pixels differ from Canvas control, original bytes/top content preserved.
+PASS 390px gallery 100-level-biology-practical: 810x1080 valid JPEG, watermark pixels differ from Canvas control, original bytes/top content preserved.
+PASS website 390px: home, Portal, resources, Ads, gallery and Navigator; no overflow or uncaught runtime errors.

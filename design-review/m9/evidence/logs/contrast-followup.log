@@ -1,0 +1,1 @@
+PASS fully visible 768px light/dark message text, timestamps and role labels: actual computed contrast >=4.5; scoped axe no violations.
