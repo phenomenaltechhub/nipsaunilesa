@@ -1,0 +1,33 @@
+export function m9Route(ops,session,method,url,body){
+    const route=url.pathname.replace('/api/v1',''),study=ops.study;const assignment=route.match(/^\/admin\/community\/support\/([a-f0-9-]{36})\/assignment$/);if(assignment&&method==='PUT')return ops.threads.assign(session,assignment[1],body);
+    if(route==='/admin/activation/batches'&&method==='GET')return ops.activation.list(session);
+    if(route==='/admin/activation/batches'&&method==='POST')return ops.activation.create(session,body);
+    if(route==='/admin/activation/policy'&&method==='PUT')return ops.activation.policy(session,body);
+    if(route==='/admin/community/support'&&method==='GET')return ops.threads.management(session,Number(url.searchParams.get('offset')??0));
+    const batch=route.match(/^\/admin\/activation\/batches\/([a-f0-9-]{36})$/);
+    if(batch&&method==='PATCH')return ops.activation.status(session,batch[1],body);
+    if(route==='/study/plan'&&method==='GET')return study.plan(session);
+    if(route==='/study/plan'&&method==='PUT')return study.plan(session,body);
+    if(route==='/study/bookmarks'&&method==='GET')return study.targets(session);
+    if(route==='/study/bookmarks'&&method==='PUT')return study.target(session,body);
+    if(route==='/academic/calendar'&&method==='GET')return study.calendar(session,{courseId:url.searchParams.get('courseId'),manage:url.searchParams.get('manage')==='true',from:url.searchParams.get('from'),to:url.searchParams.get('to')});
+    if(route==='/academic/calendar/export'&&method==='GET')return study.calendarExport(session,{courseId:url.searchParams.get('courseId')});
+    if(route==='/academic/calendar'&&method==='POST')return study.saveCalendar(session,body);
+    let match=route.match(/^\/academic\/calendar\/([a-f0-9-]{36})$/);
+    if(match&&method==='PUT')return study.saveCalendar(session,body,match[1]);
+    if(match&&method==='DELETE')return study.withdrawCalendar(session,match[1],body);
+    if(route==='/study/content'&&method==='GET')return study.published(session,{courseId:url.searchParams.get('courseId'),kind:url.searchParams.get('kind'),q:url.searchParams.get('q')??''});
+    if(route==='/study/daily'&&method==='GET')return study.daily(session);
+    if(route==='/study/personal'&&method==='GET')return study.personal(session);
+    if(route==='/study/preferences'&&method==='GET')return study.preferences(session);
+    if(route==='/study/preferences'&&method==='PUT')return study.preferences(session,body);
+    if(route==='/study/manage'&&method==='GET')return study.management(session,url.searchParams.get('courseId'));
+    if(route==='/study/manage'&&method==='POST')return study.create(session,body);
+    match=route.match(/^\/study\/manage\/([a-f0-9-]{36})$/);
+    if(match&&method==='PUT')return study.edit(session,match[1],body);
+    if(match&&method==='PATCH')return study.decide(session,match[1],body);
+    match=route.match(/^\/study\/content\/([a-f0-9-]{36})\/(bookmark|visit|practice)$/);
+    if(match&&match[2]==='bookmark'&&method==='PUT')return study.bookmark(session,match[1],body);
+    if(match&&match[2]==='visit'&&method==='POST')return study.visit(session,match[1]);
+    if(match&&match[2]==='practice'&&method==='POST')return study.practice(session,match[1],body);
+}

@@ -27,6 +27,7 @@ export async function courseView(root, ctx, target) {
         search.addEventListener('input', render);
         render();
         root.append(link('#/progress', 'Open personal study outlines'), link('#/timetable', 'Open Timetable'));
+        const study=await import('./study.mjs');await study.savedStudyLinks(root,ctx);if(!ctx.alive())return;
         if (manageRoles.includes(ctx.identity.activeRole)) {
             const tools = node('details', '', 'card');
             tools.className = 'card';
@@ -76,6 +77,7 @@ export async function courseView(root, ctx, target) {
         const row = node('details', '', 'topic-row');
         row.open = t === progress.topics[0] || t.difficult;
         row.append(node('summary', t.title + ' · ' + (t.covered ? 'Covered' : 'Not covered')));
+        const tools=await import('./study.mjs');await tools.bookmarkButton(row,ctx,'topic',t.id,course.id);if(!ctx.alive())return;
         if (t.parentId)
             row.append(node('p', 'Subtopic', 'muted'));
         row.append(form('Save progress: ' + t.title, [selectField('covered', 'Topic coverage', [['false', 'Not covered'], ['true', 'Covered']]), selectField('confidence', 'Understanding', [['unassessed', 'Not assessed'], ['low', 'Low'], ['developing', 'Developing'], ['confident', 'Confident']]), selectField('revision', 'Revision status', [['not-started', 'Not started'], ['planned', 'Planned'], ['reviewed', 'Reviewed']]), selectField('difficult', 'Area of difficulty', [['false', 'No'], ['true', 'Yes']]), selectField('priority', 'Study priority', [['normal', 'Normal'], ['high', 'High']])].map(f => ({ ...f, value: t[f.id] })), async (v, status) => { await api('/academic/courses/' + course.id + '/progress', 'PATCH', { courseRevision: progress.courseRevision, topicId: t.id, version: t.version, change: { ...v, covered: v.covered === 'true', difficult: v.difficult === 'true' } }); status.textContent = 'Progress saved to your account.'; ctx.refresh(); }));
@@ -117,8 +119,13 @@ export async function courseView(root, ctx, target) {
     else
         empty(syllabus, 'No syllabus added');
     const schedule = card('Course schedule');
-    empty(schedule, 'No timetable entries');
-    schedule.append(link('#/timetable', 'Browse Timetable'));
+    const study = await import('./study.mjs');
+    await study.courseSchedule(schedule,ctx,course);
+    if(!ctx.alive())return;
+    const aids=card('Reviewed study aids');
+    await study.courseStudyTools(aids,ctx,course);
+    if(!ctx.alive())return;
+    priorities.append(aids);
     priorities.append(link('#/planner', 'Open Study planner'), link('#/progress', 'Open personal study outlines'));
     for (const section of [detail, topics, priorities, materials])
         section.remove();
@@ -229,6 +236,7 @@ export async function courseManagement(root, ctx) {
         }
         for (const h of item.history.slice(0, 5))
             row.append(node('p', `${h.action} · revision ${h.revision}${h.note ? ' · ' + h.note : ''}`, 'muted'));
+        if(item.publishedRevision){const tools=await import('./study.mjs'),section=node('details');section.append(node('summary','Schedule and reviewed study aids'));row.append(section);await tools.courseSchedule(section,ctx,{id:item.id});await tools.studyManagement(section,ctx,item.id);if(!ctx.alive())return;}
         root.append(row);
     }
 }

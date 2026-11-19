@@ -1,0 +1,13 @@
+import fs from'node:fs/promises';import{spawn}from'node:child_process';
+const dir=process.env.PHARMAIDEIA_REVIEW_DIR??'/workspace/artifacts/pharmaideia-m9';await fs.mkdir(dir+'/validation',{recursive:true});
+const commands=[
+ ['clean-install',['npm','ci','--no-fund']],['lint',['npm','run','lint']],['pwa-types-integrity',['npm','run','check:pwa']],
+ ['all-unit-security',['npm','test']],['secrets',['npm','run','check:secrets']],['audit-full',['npm','audit','--json']],['audit-production',['npm','audit','--omit=dev','--json']],
+ ['production-build',['npm','run','build']],['website-types',['npm','exec','tsc','--','--noEmit']],['static-export',['npm','run','check:export']],['approved-brand',['npm','run','check:brand']],['hero-video-assets',['npm','run','check:m5:assets']],
+ ['pwa-offline-browser',['npm','run','test:pwa:browser']],['m4-browser',['npm','run','test:m4:browser']],['m5-visual-browser',['npm','run','test:m5:browser']],['m5-accounts-browser',['npm','run','test:m5:accounts:browser']],['website-regressions',['npm','run','test:website:browser']],
+ ['m6-browser',['npm','run','test:m6:browser']],['m6-workflows',['npm','run','test:m6:workflows']],['m7-browser',['npm','run','test:m7:browser']],['m7-workflows',['npm','run','test:m7:workflows']],['m7-community',['npm','run','test:m7:community']],
+ ['m8-browser',['npm','run','test:m8:browser']],['m8-interactions',['npm','run','test:m8:interactions']],['m8-private-lifecycle',['npm','run','test:m8:private']],['m8-references',['npm','run','test:m8:references']],['m8-review-browser',['npm','run','test:m8:review:browser']],['m8-screenshot-comparisons',['npm','run','test:m8:visual']],
+ ['m9-browser',['node','scripts/pharmaideia-m9-browser.mjs']],['m9-roles',['node','scripts/pharmaideia-m9-roles.mjs']],
+];const results=[];
+for(const [label,[bin,...args]]of commands){const began=Date.now(),logPath=dir+'/validation/final-'+label+(label.startsWith('audit-')?'.json':'.log'),log=await fs.open(logPath,'w');let code;try{code=await new Promise((resolve,reject)=>{const child=spawn(bin,args,{stdio:['ignore',log.fd,log.fd]});child.once('error',reject);child.once('exit',(n,signal)=>resolve(signal?'signal:'+signal:n));});}catch(error){code=error.code??'spawn-failed';}finally{await log.close();}results.push({label,command:[bin,...args].join(' '),status:code===0?'passed':'failed',exitCode:code,durationMs:Date.now()-began,log:logPath});await fs.writeFile(dir+'/validation/results.json',JSON.stringify(results,null,2));console.log(label+': '+results.at(-1).status);if(label==='clean-install'&&code!==0)break;}
+if(results.some(r=>r.status!=='passed'))process.exitCode=1;

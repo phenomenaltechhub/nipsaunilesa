@@ -35,7 +35,7 @@ test('M7 migration preserves actual M6 question/blueprint rows and never publish
         db.prepare('INSERT INTO cbt_blueprints VALUES(?,?)').run(exam, question);
         db.close();
         db = openStore(file);
-        assert.equal(db.prepare('SELECT count(*) AS n FROM schema_migrations').get().n, 7);
+        assert.equal(db.prepare('SELECT count(*) AS n FROM schema_migrations').get().n, 10);
         assert.equal(db.prepare('SELECT encrypted_payload FROM cbt_questions WHERE id=?').get(question).encrypted_payload, encrypted);
         assert.equal(db.prepare('SELECT question_id FROM cbt_blueprints WHERE exam_id=?').get(exam).question_id, question);
         assert.equal(db.prepare('SELECT published_payload FROM courses WHERE id=?').get(course).published_payload, null);

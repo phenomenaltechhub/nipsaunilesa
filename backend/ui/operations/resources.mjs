@@ -23,6 +23,7 @@ export async function resourceList(root, ctx, courseId) {
         if (r.fileId)
             box.append(link('/api/v1/academic/resources/' + r.id + '/download', 'Download protected resource'));
         root.append(box);
+        const study=await import('./study.mjs');await study.bookmarkButton(box,ctx,'resource',r.id,courseId);if(!ctx.alive())return;
     }
     if (['representative', 'reviewer', 'administrator'].includes(ctx.identity.activeRole)) {
         const holder = node('details');

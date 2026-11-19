@@ -11,11 +11,15 @@ import { CommunityThreads } from './community-threads.mjs';
 import { m8Route } from './m8-routes.mjs';
 import { CbtOperations } from './cbt.mjs';
 import { fail } from './common.mjs';
+import { StudyOperations } from './study.mjs';
+import { m9Route } from './m9-routes.mjs';
+import { ActivationBatches } from './activation-batches.mjs';
 export function createOperations(service) { const website=new WebsiteReferences(service);service.websiteReferences=website;const academic = new AcademicOperations(service), notifications = new NotificationOperations(service, academic), community = new CommunityOperations(service), cbt = new CbtOperations(service, academic, notifications); service.academicOperations = academic; const bank=new QuestionBank(service,academic),engine=new ExaminationEngine(service,cbt,bank),resources=new ResourceOperations(service,academic),payments=new PaymentOperations(service);
-cbt.bank=bank;const threads=new CommunityThreads(service,community);const ops={website,academic,notifications,community,cbt,bank,engine,resources,payments,threads,
+cbt.bank=bank;const threads=new CommunityThreads(service,community),study=new StudyOperations(service,academic),activation=new ActivationBatches(service);const ops={website,academic,notifications,community,cbt,bank,engine,resources,payments,threads,study,activation,
  communityVersion:()=>service.db.prepare('SELECT revision FROM community_stream WHERE id=1').get().revision,
  maintenance:()=>{website.maybeRefresh();community.maintain();threads.maintain();notifications.activateDue();const expired=engine.maintain();service.db.prepare("INSERT INTO maintenance_runs VALUES('delivery',?,'ok') ON CONFLICT(name) DO UPDATE SET last_at=excluded.last_at,status=excluded.status").run(service.now());return {...expired,notificationScheduler:'checked',production:false};}}; return ops; }
 export function operationRoute(ops, service, session, method, url, body) {
+    const study=m9Route(ops,session,method,url,body);if(study!==undefined)return study;
     const workspace=m8Route(ops,session,method,url,body);if(workspace!==undefined)return workspace;
     const extended=m7Route(ops,service,session,method,url,body);if(extended!==undefined)return extended;
     const route = url.pathname.replace('/api/v1', ''), parts = route.split('/'), id = parts[3];

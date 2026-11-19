@@ -14,7 +14,7 @@ export function m8Route(ops,session,method,url,body){const p=url.pathname.replac
  if(p==='/community/images'&&method==='POST')return ops.community.upload(session,body);
  if(/^\/community\/images\/[a-f0-9-]{36}$/.test(p)&&method==='GET')return ops.community.image(session,id);
  if(/^\/admin\/community\/offices\/[a-f0-9-]{36}$/.test(p)&&method==='PUT')return ops.community.office(session,parts[4],body);
- if(p==='/community/threads'&&method==='GET')return ops.threads.list(session);
+ if(p==='/community/threads'&&method==='GET')return ops.threads.list(session,Number(url.searchParams.get('offset')??0));
  if(p==='/community/threads'&&method==='POST')return ops.threads.request(session,body);
  if(p==='/community/support'&&method==='POST')return ops.threads.support(session,body);
  if(/^\/community\/threads\/[a-f0-9-]{36}$/.test(p)){if(method==='GET')return ops.threads.detail(session,id,Number(url.searchParams.get('before')??Number.MAX_SAFE_INTEGER));if(method==='PATCH')return ops.threads.action(session,id,body);}
