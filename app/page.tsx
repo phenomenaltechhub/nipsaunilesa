@@ -27,7 +27,7 @@ const stats = [
 
 const resources = [
   { title: "Study skills guide", description: "Practical study-planning and revision support for better academic routines and focus." },
-  { title: "Orientation checklist", description: "A quick reference for key onboarding steps and early-year preparation guidance." },
+  { title: "Orientation checklist", description: "The 2026 checklist for onboarding, academic preparation, study routines, and your first weeks at university." },
   { title: "Pharmacology handbook", description: "Student-facing guidance covering department expectations and academic support resources." },
 ];
 

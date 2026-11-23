@@ -69,6 +69,14 @@ assert.ok(readFileSync(join(root, 'robots.txt'), 'utf8').includes(`${site}/sitem
 assert.ok(readFileSync(join(root, 'resources/nipsa-study-skills-guide.pdf')).subarray(0, 5).equals(Buffer.from('%PDF-')),
   'Study guide must be an actual PDF');
 assert.ok(readFileSync(join(root, 'resources.html'), 'utf8').includes('/resources/nipsa-study-skills-guide.pdf'));
+const checklistPdf = '/resources/department-orientation-checklist.pdf';
+const resourcesHtml = readFileSync(join(root, 'resources.html'), 'utf8');
+assert.ok(readFileSync(join(root, checklistPdf)).subarray(0, 5).equals(Buffer.from('%PDF-')),
+  'Orientation checklist must export as an actual PDF');
+assert.ok(readFileSync(join(root, checklistPdf)).equals(readFileSync('public' + checklistPdf)),
+  'Exported checklist must preserve the supplied PDF bytes');
+assert.ok(resourcesHtml.includes('id="orientation-checklist"') && resourcesHtml.includes(checklistPdf)
+  && resourcesHtml.includes('Open checklist (PDF)'), 'Orientation PDF and navigation anchor must be exported');
 assert.ok(structuredData > 0, 'No JSON-LD was checked');
 assert.equal(failures.size, 0, [...failures].join('\n'));
 console.log(`Static export verified: ${pages.length} HTML documents, ${assets.size} local assets, ${structuredData} valid JSON-LD blocks; no missing internal references.`);

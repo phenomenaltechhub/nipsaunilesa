@@ -1388,6 +1388,7 @@
 .resource-action:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(13,87,58,.08);background:#f5fff8;border-color:rgba(0,200,83,.35)}
 .resource-action span{color:var(--emerald);font-size:17px}
 .resource-action:focus-visible{outline:3px solid rgba(0,200,83,.55);outline-offset:2px}
+#orientation-checklist{scroll-margin-top:110px}#orientation-checklist .resource-action{min-height:44px}
 .resource-preview-card{display:flex;flex-direction:column;justify-content:space-between}
 .resource-preview-tag{background:#eefcf4;color:var(--deep)}
 .resource-drive-card{background:linear-gradient(180deg,#003b24,#0c4d36);border-color:rgba(255,255,255,.16);box-shadow:0 20px 38px rgba(2,57,35,.18);color:#f9fffb}
