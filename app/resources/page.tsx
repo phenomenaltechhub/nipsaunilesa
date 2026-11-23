@@ -12,6 +12,7 @@ export const metadata: Metadata = createPageMetadata({
 });
 
 type Resource = {
+  id?: string;
   title: string;
   description: string;
   category: string;
@@ -20,6 +21,7 @@ type Resource = {
   actionLabel: string;
   audience?: string;
   format?: string;
+  previewHref?: string;
 };
 
 const resources: Resource[] = [
@@ -34,14 +36,16 @@ const resources: Resource[] = [
     format: "PDF",
   },
   {
+    id: "orientation-checklist",
     title: "Orientation checklist",
-    description: "An introductory checklist for new students covering key onboarding steps and department-facing guidance for early-year preparation.",
+    description: "The 2026 checklist for registration, campus familiarisation, academic preparation, study routines, student support, and your first weeks at university.",
     category: "Departmental and onboarding materials",
     type: "Checklist",
-    href: "/resources/department-orientation-checklist.txt",
+    href: "/resources/department-orientation-checklist.pdf",
+    previewHref: "/resources/department-orientation-checklist.pdf",
     actionLabel: "Download orientation checklist",
-    audience: "New students",
-    format: "TXT",
+    audience: "New students · 2026 edition",
+    format: "PDF · 11 pages",
   },
   {
     title: "Pharmacology handbook",
@@ -115,13 +119,13 @@ export default function ResourcesPage() {
           </div>
 
           <div className="resource-grid" role="list" aria-label="Academic resources">
-            {resources.map(({ category, title, description, href, actionLabel, audience, format, type }) => {
+            {resources.map(({ id, category, title, description, href, actionLabel, audience, format, type, previewHref }) => {
               const isDriveCollection = title === "NIPSA UNILESA Resource Drive";
               const actionClassName = isDriveCollection ? "resource-action resource-drive-action" : "resource-action";
               const cardClassName = isDriveCollection ? "resource-card resource-drive-card" : "resource-card";
 
               return (
-                <article className={cardClassName} key={title} role="listitem" id={isDriveCollection ? "resource-drive" : undefined}>
+                <article className={cardClassName} key={title} role="listitem" id={id ?? (isDriveCollection ? "resource-drive" : undefined)}>
                   <header className="resource-card-header">
                     <span className="resource-type">{type}</span>
                     <span className="resource-category">{category}</span>
@@ -136,6 +140,13 @@ export default function ResourcesPage() {
                     {audience ? <span>{audience}</span> : null}
                     {format ? <span>{format}</span> : null}
                   </div>
+
+                  {previewHref ? (
+                    <a className={actionClassName} href={previewHref} target="_blank" rel="noopener noreferrer" aria-label="Open orientation checklist PDF in a new tab">
+                      Open checklist (PDF)
+                      <Arrow />
+                    </a>
+                  ) : null}
 
                   {href.startsWith("/resources/") ? (
                     <a className={actionClassName} href={href} download aria-label={actionLabel}>

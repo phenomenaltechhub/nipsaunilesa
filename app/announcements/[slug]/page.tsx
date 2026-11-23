@@ -95,7 +95,7 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
             )}
             {announcement.slug === "departmental-orientation" && (
               <p>
-                Use the <Link href="/resources">student orientation checklist</Link> for available
+                Use the <Link href="/resources#orientation-checklist">student orientation checklist</Link> for available
                 onboarding guidance.
               </p>
             )}
