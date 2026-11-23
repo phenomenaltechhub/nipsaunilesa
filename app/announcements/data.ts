@@ -35,13 +35,13 @@ export const announcements: AnnouncementItem[] = [
     slug: "departmental-orientation",
     title: "Departmental Orientation",
     category: "Important notice",
-    summary: "A notice for dates, rooms and guidance that will be confirmed by the department.",
+    summary: "Coming Soon.",
     description:
       "This is a departmental orientation notice. The dates, rooms, and guidance will be added when they are confirmed by the department.",
-    date: "14 Aug 2026",
+    date: "1st Dec 2026",
     tone: "amber",
     additionalInfo: [
-      "Official orientation dates, rooms, and guidance are currently to be confirmed.",
+      "Other official orientation information will be communicated.",
     ],
     enquiries: {
       email: "info@nipsaunilesa.com.ng",
