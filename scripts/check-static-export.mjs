@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { isAbsolute, join, relative, resolve, sep } from 'node:path';
+import sharp from 'sharp';
 
 const root = resolve('out');
 const site = 'https://nipsaunilesa.com.ng';
@@ -60,6 +61,24 @@ for (const page of pages) {
 const required = ['index.html', 'ads.html', 'resources.html', 'campus-navigator.html', 'events.html',
   'executives.html', 'gallery.html', 'portal/tools.html', '404.html', 'robots.txt', 'sitemap.xml'];
 for (const file of required) assert.ok(existsSync(join(root, file)), `Missing expected output: ${file}`);
+const homeHtml = readFileSync(join(root, 'index.html'), 'utf8');
+assert.ok(homeHtml.includes('Learn boldly.') && homeHtml.includes('GALLERY PREVIEW'),
+  'Homepage hero and Gallery preview must be present in the static export');
+for (const [label, html] of [
+  ['homepage', homeHtml],
+  ['Gallery', readFileSync(join(root, 'gallery.html'), 'utf8')],
+]) {
+  const dialogs = [...html.matchAll(/<dialog\b[^>]*>/gi)].map(([tag]) => tag);
+  assert.ok(dialogs.length > 0, `${label} must include its image viewer dialog`);
+  assert.ok(dialogs.every(tag => !/\bopen(?:\s|=|>)/i.test(tag)),
+    `${label} must not server-render an unintentionally open image viewer`);
+}
+const cssFiles = walk(join(root, '_next', 'static', 'chunks')).filter(path => path.endsWith('.css'));
+assert.ok(cssFiles.length > 0, 'No application stylesheet was exported');
+const exportedCss = cssFiles.map(path => readFileSync(path, 'utf8')).join('\n');
+assert.ok(exportedCss.includes('.gallery-lightbox:not([open])')
+  && exportedCss.includes('display:none!important'),
+  'Closed Gallery dialogs must be removed from layout');
 const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
 for (const location of sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)) {
   const url = new URL(location[1]);
@@ -119,12 +138,18 @@ const galleryHtml = readFileSync(join(root, 'gallery.html'), 'utf8');
 for (const value of [
   'gallery-physics-practical',
   'gallery-biology-practical',
-  'photographer credits appear only when supplied',
-  'Download copy',
+  'PHENOMENAL Shot it',
+  'Browse photo albums',
+  'Download watermarked copy',
   'Zoom in',
 ]) {
   assert.ok(galleryHtml.includes(value), `Gallery is missing ${value}`);
 }
+const transparentLogo = readFileSync(join(root, 'nipsa-logo-watermark.png'));
+assert.ok(transparentLogo.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])),
+  'Transparent watermark logo must be an exported PNG');
+assert.equal((await sharp(transparentLogo).metadata()).hasAlpha, true,
+  'Watermark logo must preserve transparency');
 for (const photo of [
   '100-level-physics-practical-01.jpg',
   '100-level-physics-practical-02.jpg',

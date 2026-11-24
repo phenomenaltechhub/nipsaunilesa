@@ -86,7 +86,7 @@ export const announcements: AnnouncementItem[] = [
     programme: "Departmental Orientation",
     department: "Pharmacology",
     institution: "University of Ilesa",
-    eventDate: "1 December 2026",
+    eventDate: "1st December 2026",
     eventTime: "To be confirmed",
     venue: "To be communicated by the department",
     eventStatus: "Upcoming",

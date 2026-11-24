@@ -30,6 +30,7 @@ type GalleryImageViewerProps = {
   slug?: string;
   src?: string;
   alt?: string;
+  image?: GalleryImageRecord;
   initiallyOpen?: boolean;
   initialImageSlug?: string;
   images?: GalleryImageRecord[];
@@ -43,6 +44,7 @@ export default function GalleryImageViewer({
   slug,
   src = "",
   alt = "",
+  image,
   initiallyOpen = false,
   initialImageSlug,
   images,
@@ -52,8 +54,8 @@ export default function GalleryImageViewer({
   sizes = "(max-width: 640px) 100vw, (max-width: 900px) 50vw, 33vw",
 }: GalleryImageViewerProps) {
   const isGallery = Boolean(images && collections);
-  const requestedImage = images?.find((image) => image.slug === initialImageSlug) ?? null;
-  const [activeImage, setActiveImage] = useState<GalleryImageRecord | null>(requestedImage);
+  const requestedImage = images?.find((item) => item.slug === initialImageSlug) ?? null;
+  const [activeImage, setActiveImage] = useState<GalleryImageRecord | null>(requestedImage ?? image ?? null);
   const [isOpen, setIsOpen] = useState(Boolean(requestedImage) || initiallyOpen);
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadError, setDownloadError] = useState("");
@@ -61,6 +63,7 @@ export default function GalleryImageViewer({
   const [isZoomed, setIsZoomed] = useState(false);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const viewerHistoryEntry = useRef(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const pointerStart = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
   const currentImage = activeImage;
@@ -86,8 +89,9 @@ export default function GalleryImageViewer({
     if (!isGallery || !images) return;
 
     const syncViewerWithLocation = () => {
-      const pathSlug = window.location.pathname.replace(/\/+$/, "").split("/").pop();
+      const pathSlug = window.location.pathname.replace(/\/+$/, "").split("/").pop()?.replace(/\.html$/, "");
       const nextImage = images.find((image) => image.slug === pathSlug);
+      viewerHistoryEntry.current = Boolean(nextImage && window.history.state?.galleryViewer);
       resetImageView();
       setActiveImage(nextImage ?? null);
       setIsOpen(Boolean(nextImage));
@@ -101,7 +105,8 @@ export default function GalleryImageViewer({
     if (image && updateUrl && isGallery) {
       const imagePath = `/gallery/${image.slug}`;
       if (window.location.pathname.replace(/\/+$/, "") !== imagePath) {
-        window.history.pushState(null, "", imagePath);
+        window.history.pushState({ galleryViewer: true }, "", imagePath);
+        viewerHistoryEntry.current = true;
       }
     }
     resetImageView();
@@ -110,14 +115,21 @@ export default function GalleryImageViewer({
   }
 
   function openViewer() {
-    const image = images?.find((item) => item.slug === slug) ?? null;
-    selectImage(image, Boolean(image));
+    const selectedImage = images?.find((item) => item.slug === slug) ?? image ?? null;
+    selectImage(selectedImage, Boolean(selectedImage && isGallery));
   }
 
   function closeViewer() {
-    const currentPath = window.location.pathname.replace(/\/+$/, "");
-    if (isGallery && currentImage && currentPath === `/gallery/${currentImage.slug}`) {
-      window.history.replaceState(null, "", "/gallery");
+    if (isGallery && currentImage) {
+      if (viewerHistoryEntry.current) {
+        window.history.back();
+      } else {
+        const path = window.location.pathname.replace(/\/+$/, "");
+        if (path === `/gallery/${currentImage.slug}` || path === `/gallery/${currentImage.slug}.html`) {
+          window.history.replaceState(null, "", path.endsWith(".html") ? "/gallery.html" : "/gallery");
+        }
+      }
+      viewerHistoryEntry.current = false;
     }
     resetImageView();
     setIsOpen(false);
@@ -130,7 +142,7 @@ export default function GalleryImageViewer({
     const nextImage = images[nextIndex];
     if (!nextImage) return;
 
-    window.history.pushState(null, "", `/gallery/${nextImage.slug}`);
+    window.history.replaceState(window.history.state, "", `/gallery/${nextImage.slug}`);
     resetImageView();
     setActiveImage(nextImage);
   }
@@ -223,7 +235,7 @@ export default function GalleryImageViewer({
       const imageSrc = currentImage?.src ?? src;
       const [sourceImage, logo] = await Promise.all([
         loadImage(imageSrc, "original photo"),
-        loadImage("/nipsa-logo.png", "official NIPSA emblem"),
+        loadImage("/nipsa-logo-watermark.png", "transparent NIPSA watermark"),
       ]);
 
       if (!sourceImage.naturalWidth || !sourceImage.naturalHeight || !logo.naturalWidth || !logo.naturalHeight) {
@@ -244,18 +256,12 @@ export default function GalleryImageViewer({
       const logoAspect = logo.naturalWidth / logo.naturalHeight;
       const watermarkWidth = Math.min(canvas.width * 0.23, canvas.height * 0.18 * logoAspect);
       const watermarkHeight = watermarkWidth * (logo.naturalHeight / logo.naturalWidth);
-      const padding = Math.max(8, canvas.width * 0.012);
       const marginX = canvas.width * 0.035;
       const marginY = canvas.height * 0.035;
-      const plateWidth = watermarkWidth + padding * 2;
-      const plateHeight = watermarkHeight + padding * 2;
-      const plateX = canvas.width - plateWidth - marginX;
-      const plateY = canvas.height - plateHeight - marginY;
-
-      context.fillStyle = "rgba(255, 255, 255, 0.68)";
-      context.fillRect(plateX, plateY, plateWidth, plateHeight);
-      context.globalAlpha = 0.65;
-      context.drawImage(logo, plateX + padding, plateY + padding, watermarkWidth, watermarkHeight);
+      const logoX = canvas.width - watermarkWidth - marginX;
+      const logoY = canvas.height - watermarkHeight - marginY;
+      context.globalAlpha = 0.58;
+      context.drawImage(logo, logoX, logoY, watermarkWidth, watermarkHeight);
       context.globalAlpha = 1;
 
       const blob = await canvasToBlob(canvas);
@@ -357,7 +363,8 @@ export default function GalleryImageViewer({
                         />
                       </button>
                       <figcaption className="gallery-item-caption">
-                        <span>{image.caption ?? image.alt}</span>
+                        {image.title ? <span>{image.title}</span> : null}
+                        {image.caption ? <span>{image.caption}</span> : null}
                         {image.credit ? <small>{image.credit}</small> : null}
                       </figcaption>
                     </figure>
@@ -371,7 +378,7 @@ export default function GalleryImageViewer({
       <dialog
         ref={dialogRef}
         className="gallery-lightbox"
-        aria-label={`Full-screen image: ${currentImage?.alt ?? alt}`}
+        aria-labelledby="gallery-viewer-title"
         onCancel={(event) => {
           event.preventDefault();
           closeViewer();
@@ -388,57 +395,28 @@ export default function GalleryImageViewer({
             navigateImage(1);
           }
         }}
-        onClose={closeViewer}
+        onClose={() => {
+          if (isOpen) closeViewer();
+        }}
       >
-        <button
-          type="button"
-          className="gallery-lightbox-close"
-          aria-label="Close image viewer"
-          onClick={closeViewer}
-        >
-          <span aria-hidden="true">×</span>
-        </button>
-        {isGallery && images && currentImage ? (
-          <div className="gallery-lightbox-navigation">
-            <button
-              type="button"
-              className="gallery-lightbox-control"
-              aria-label="Previous image"
-              onClick={() => navigateImage(-1)}
-            >
-              <span aria-hidden="true">←</span>
-              Previous
-            </button>
-            <button
-              type="button"
-              className="gallery-lightbox-control"
-              aria-label="Next image"
-              onClick={() => navigateImage(1)}
-            >
-              Next
-              <span aria-hidden="true">→</span>
-            </button>
-          </div>
-        ) : null}
-        {isGallery && currentImage ? (
+        <header className="gallery-viewer-toolbar">
           <div className="gallery-lightbox-counter" aria-live="polite">
-            {currentCollection?.title ?? currentImage.title}
-            <span>Photo {collectionImageIndex + 1} of {currentCollection?.images.length ?? images?.length ?? 1}</span>
+            {currentCollection?.title ?? currentImage?.title ?? "Gallery photograph"}
+            {isGallery && currentImage ? (
+              <span>Photo {collectionImageIndex + 1} of {currentCollection?.images.length ?? images?.length ?? 1}</span>
+            ) : null}
           </div>
-        ) : null}
-        <div className="gallery-lightbox-actions">
-          {downloadError ? <p className="gallery-download-error" role="alert">{downloadError}</p> : null}
-          <button
-            type="button"
-            className="gallery-lightbox-control"
-            aria-label={isZoomed ? "Zoom out" : "Zoom in"}
-            aria-pressed={isZoomed}
-            onClick={toggleZoom}
-          >
-            {isZoomed ? "Zoom out" : "Zoom in"}
-          </button>
-          {isGallery && currentImage ? (
-            <>
+          <div className="gallery-lightbox-actions">
+            <button
+              type="button"
+              className="gallery-lightbox-control"
+              aria-label={isZoomed ? "Zoom out" : "Zoom in"}
+              aria-pressed={isZoomed}
+              onClick={toggleZoom}
+            >
+              {isZoomed ? "Zoom out" : "Zoom in"}
+            </button>
+            {isGallery && currentImage ? (
               <button
                 type="button"
                 className="gallery-lightbox-control"
@@ -447,49 +425,77 @@ export default function GalleryImageViewer({
               >
                 Share
               </button>
-              <span className="gallery-share-status" role="status" aria-live="polite">{shareStatus}</span>
-            </>
+            ) : null}
+            <button
+              type="button"
+              className="gallery-lightbox-download"
+              aria-label="Download watermarked copy"
+              onClick={downloadWatermarkedImage}
+              disabled={isDownloading}
+            >
+              {isDownloading ? "Preparing…" : "Download"}
+            </button>
+            <button
+              type="button"
+              className="gallery-lightbox-close"
+              aria-label="Close image viewer"
+              onClick={closeViewer}
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+        </header>
+        <div
+          className={`gallery-lightbox-image-stage${isZoomed ? " is-zoomed" : ""}`}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          onPointerDown={startPan}
+          onPointerMove={movePan}
+          onPointerUp={endPan}
+          onPointerCancel={endPan}
+          aria-label={isZoomed ? "Zoomed photograph; drag to pan" : "Photograph preview"}
+        >
+          <Image
+            src={currentImage?.src ?? src}
+            alt={currentImage?.alt ?? alt}
+            fill
+            sizes="100vw"
+            className="gallery-lightbox-image"
+            style={{ transform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${isZoomed ? 1.8 : 1})` }}
+            draggable={false}
+          />
+          {isGallery && currentImage && (currentCollection?.images.length ?? 0) > 1 ? (
+            <div className="gallery-lightbox-navigation" aria-label="Photograph navigation">
+              <button
+                type="button"
+                className="gallery-lightbox-control"
+                aria-label="Previous image"
+                onClick={() => navigateImage(-1)}
+              >
+                <span aria-hidden="true">←</span>
+              </button>
+              <button
+                type="button"
+                className="gallery-lightbox-control"
+                aria-label="Next image"
+                onClick={() => navigateImage(1)}
+              >
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
           ) : null}
-          <button
-            type="button"
-            className="gallery-lightbox-download"
-            aria-label="Download watermarked copy"
-            onClick={downloadWatermarkedImage}
-            disabled={isDownloading}
-          >
-            {isDownloading ? "Preparing…" : "Download copy"}
-          </button>
         </div>
-        {currentImage ? (
-          <div className="gallery-lightbox-caption">
-            <strong>{currentImage.title}</strong>
-            <p>{currentImage.caption ?? currentImage.alt}</p>
-            <small>{currentImage.credit ? `Photo credit: ${currentImage.credit}` : "Photographer credit not supplied"}</small>
-            <small>Original preview · NIPSA watermark is added to the downloaded copy only.</small>
-          </div>
-        ) : null}
-        {(currentImage?.src || src) ? (
-          <div
-            className={`gallery-lightbox-image-stage${isZoomed ? " is-zoomed" : ""}`}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            onPointerDown={startPan}
-            onPointerMove={movePan}
-            onPointerUp={endPan}
-            onPointerCancel={endPan}
-            aria-label={isZoomed ? "Zoomed photograph; drag to pan" : "Photograph preview"}
-          >
-            <Image
-              src={currentImage?.src ?? src}
-              alt={currentImage?.alt ?? alt}
-              fill
-              sizes="100vw"
-              className="gallery-lightbox-image"
-              style={{ transform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${isZoomed ? 1.8 : 1})` }}
-              draggable={false}
-            />
-          </div>
-        ) : null}
+        <aside className="gallery-lightbox-caption" aria-label="Photograph information">
+          <p className="eyebrow">{currentCollection?.title ?? "Gallery preview"}</p>
+          <h2 id="gallery-viewer-title">{currentImage?.title ?? currentImage?.alt ?? alt}</h2>
+          {currentImage?.caption ? <p>{currentImage.caption}</p> : null}
+          {currentImage?.story ? <p>{currentImage.story}</p> : null}
+          {currentImage?.location ? <p className="gallery-photo-metadata">{currentImage.location}</p> : null}
+          {currentImage?.date ? <p className="gallery-photo-metadata">{currentImage.date}</p> : null}
+          {currentImage?.credit ? <p className="gallery-photo-credit">{currentImage.credit}</p> : null}
+          {downloadError ? <p className="gallery-download-error" role="alert">{downloadError}</p> : null}
+          {shareStatus ? <p className="gallery-share-status" role="status" aria-live="polite">{shareStatus}</p> : null}
+        </aside>
       </dialog>
     </>
   );

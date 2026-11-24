@@ -18,8 +18,8 @@ export async function generateMetadata({ params }: GalleryImagePageProps): Promi
   if (!entry) notFound();
 
   return createPageMetadata({
-    title: entry.collection.title,
-    description: entry.collection.description,
+    title: entry.image.title ?? entry.collection.title,
+    description: entry.image.caption ?? entry.image.story ?? entry.collection.description,
     path: `/gallery/${entry.image.slug}`,
     image: entry.image.src,
     imageAlt: entry.image.alt,
