@@ -1,0 +1,32 @@
+{
+  "results": [
+    {
+      "width": 320,
+      "passed": true,
+      "requests": 206,
+      "physicalDevice": false
+    },
+    {
+      "width": 390,
+      "passed": true,
+      "requests": 206,
+      "physicalDevice": false
+    },
+    {
+      "width": 768,
+      "passed": true,
+      "requests": 191,
+      "physicalDevice": false
+    },
+    {
+      "width": 1440,
+      "passed": true,
+      "requests": 217,
+      "physicalDevice": false
+    }
+  ],
+  "oldVersion": true,
+  "blockedStorage": true,
+  "closedWithoutJavaScript": true,
+  "otherDialogCoordination": true
+}
