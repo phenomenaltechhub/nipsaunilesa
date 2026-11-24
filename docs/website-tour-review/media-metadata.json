@@ -1,0 +1,212 @@
+{
+  "sourceCommit": "f7a851aeab4295e002e989db639cf8ec4efc6340",
+  "encoding": {
+    "videoCodec": "h264",
+    "videoProfile": "High",
+    "width": 1280,
+    "height": 720,
+    "frameRate": "24/1",
+    "videoDurationSeconds": 286.5,
+    "videoFrames": 6876,
+    "audioCodec": "aac",
+    "audioProfile": "LC",
+    "audioSampleRateHz": 48000,
+    "audioChannels": 1,
+    "durationSeconds": 286.5,
+    "bytes": 8006573,
+    "sha256": "d0e14bc2a81694316233d66ee164b6c22d74f2943c8f21001f728c6c327899f3"
+  },
+  "chapters": [
+    {
+      "id": "welcome",
+      "title": "Welcome to NIPSA UNILESA",
+      "path": "/",
+      "start": 0,
+      "end": 20,
+      "paragraphs": [
+        "Welcome to the NIPSA UNILESA website, the public home of the University of Ilesa Pharmacology student chapter.",
+        "Use Menu to find a section, or choose Student Portal for academic support. About NIPSA explains the chapter's purpose."
+      ]
+    },
+    {
+      "id": "resources",
+      "title": "Academic Resources",
+      "path": "/resources",
+      "start": 20,
+      "end": 56,
+      "paragraphs": [
+        "Open Resources for the public study guides and departmental materials already available.",
+        "The eleven-page Orientation Checklist helps new students prepare. Choose Open to view the PDF in another tab, or Download to save a copy.",
+        "The Study Skills Guide is a separate document. Check a resource's title and file format before opening it.",
+        "The Resource Drive is an external collection. Use the published links for access; availability may change."
+      ]
+    },
+    {
+      "id": "portal",
+      "title": "Student Portal and study tools",
+      "path": "/portal",
+      "start": 56,
+      "end": 118.0,
+      "paragraphs": [
+        "The Student Portal brings together public academic support and links. Pharmaideia is introduced as an upcoming separate application; registration is not open.",
+        "Open Study Tools for GPA estimates, a weekly timetable and revision planning. These tools store entries only in this browser on this device.",
+        "For GPA, review the sample grading scale first. It is editable and is not verified University grading policy.",
+        "Here is an illustrative calculation, not a student's record. Three units at five points and two units at four points give an estimated GPA of four point six zero.",
+        "Use Timetable for your own schedule, and the study planner to prioritise topics. Export a backup before clearing browser storage."
+      ]
+    },
+    {
+      "id": "updates",
+      "title": "Announcements and Events",
+      "path": "/announcements",
+      "start": 118.0,
+      "end": 144.0,
+      "paragraphs": [
+        "Announcements contains dated chapter notices. Open a headline to read the full information and related links.",
+        "Check the publication date and event details. The orientation notice explains which arrangements are still awaiting confirmation.",
+        "Events is a separate directory. Check the dates: an archived activity is a reference, rather than a current invitation."
+      ]
+    },
+    {
+      "id": "community",
+      "title": "Community and Executives",
+      "path": "/community",
+      "start": 144.0,
+      "end": 169.0,
+      "paragraphs": [
+        "Community explains study circles, peer learning and support routes. Published links may take you to an external service.",
+        "Open Executives to read chapter leadership profiles and find the appropriate office.",
+        "This is public community information, not the future Pharmaideia group chat."
+      ]
+    },
+    {
+      "id": "gallery",
+      "title": "Gallery",
+      "path": "/gallery",
+      "start": 169.0,
+      "end": 204.0,
+      "paragraphs": [
+        "Gallery groups published departmental photographs into albums. Open a photograph for the corrected full-screen viewer.",
+        "Use Next and Previous, or the arrow keys, to browse. Zoom is available when you need a closer look.",
+        "Close the viewer with the Close button or Escape to return to the gallery.",
+        "Download copy prepares an image with the NIPSA watermark. The original image remains unchanged."
+      ]
+    },
+    {
+      "id": "ads",
+      "title": "Student Ads",
+      "path": "/ads",
+      "start": 204.0,
+      "end": 232.0,
+      "paragraphs": [
+        "Student Ads lists businesses and services with the details supplied for each entry.",
+        "Read a listing and choose its available contact action, such as a phone or external messaging link.",
+        "Entries labelled as samples are illustrative. For advertising enquiries, use the published contact route. This walkthrough does not place an order or make a payment."
+      ]
+    },
+    {
+      "id": "navigator",
+      "title": "Campus Navigator preview",
+      "path": "/campus-navigator",
+      "start": 232.0,
+      "end": 259.5,
+      "paragraphs": [
+        "Campus Navigator is an Interactive Preview. Try directory search, filters and record details.",
+        "Candidate records still await verification. The Map view explains why there are no verified destinations to display.",
+        "Building coordinates, full campus coverage and route directions are not available. Confirm practical directions through official university or departmental channels."
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Getting help",
+      "path": "/contact",
+      "start": 259.5,
+      "end": 286.5,
+      "paragraphs": [
+        "Use Contact to find the published office or support address that fits your enquiry.",
+        "For a broken link or outdated page, email the listed information address with the page URL and a short explanation.",
+        "Return to Menu, Resources or the Student Portal whenever you need another starting point. Explore at your own pace."
+      ]
+    }
+  ],
+  "cameraEmphasis": {
+    "resources": [
+      {
+        "label": "Orientation PDF Open and Download controls",
+        "start": 8,
+        "end": 19,
+        "zoom": 2.2,
+        "center": [
+          640,
+          560
+        ]
+      }
+    ],
+    "portal": [
+      {
+        "label": "Review the sample grade labels and points",
+        "start": 24,
+        "end": 29,
+        "zoom": 1.4,
+        "center": [
+          520,
+          450
+        ]
+      },
+      {
+        "label": "Explicitly labelled illustrative course entries",
+        "start": 33,
+        "end": 36,
+        "zoom": 1.6,
+        "center": [
+          380,
+          535
+        ]
+      },
+      {
+        "label": "Actual credit-unit and grade inputs",
+        "start": 36.5,
+        "end": 39.5,
+        "zoom": 1.9,
+        "center": [
+          900,
+          560
+        ]
+      },
+      {
+        "label": "Actual calculated GPA and confirmation",
+        "start": 40,
+        "end": 48,
+        "zoom": 2.2,
+        "center": [
+          360,
+          420
+        ]
+      }
+    ],
+    "gallery": [
+      {
+        "label": "Actual viewer zoom and navigation commands",
+        "start": 4,
+        "end": 8,
+        "zoom": 1.7,
+        "center": [
+          1000,
+          150
+        ]
+      },
+      {
+        "label": "Download watermarked copy control",
+        "start": 28,
+        "end": 34,
+        "zoom": 2,
+        "center": [
+          1080,
+          120
+        ]
+      }
+    ]
+  },
+  "captionsSha256": "af82b34e773ac984e873c9df93005841eb3bcf2cd53e2dac0234ce259ea3306d",
+  "transcriptSha256": "d80a528f42e4f421f4acc8e8a164fc83142a12b7c4f1eb3cce1fb9b8ed31c566"
+}
