@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
 import { BreadcrumbStructuredData } from "../components/seo-json-ld";
@@ -44,8 +45,8 @@ export default function GalleryPage({ initialImageSlug }: { initialImageSlug?: s
               Learning in <em>practice.</em>
             </h1>
             <p className="page-subtitle">
-              Browse the chapter&apos;s existing photographs, organised into practical-session albums.
-              Captions use available descriptions; photographer credits appear only when supplied.
+              Browse photographs from the chapter archive, organised into practical-session albums.
+              Image captions and contributor credits appear where supplied.
             </p>
             <p className="gallery-archive-count">
               {galleryCollections.length} albums <span aria-hidden="true">·</span> {galleryImages.length} photographs
@@ -53,13 +54,23 @@ export default function GalleryPage({ initialImageSlug }: { initialImageSlug?: s
           </div>
         </section>
 
-        <nav className="gallery-collection-nav" aria-label="Gallery collections">
-          {galleryCollections.map((collection) => (
-            <a href={`#gallery-${collection.slug}`} key={collection.slug}>
-              <span>{collection.title}</span>
-              <small>{collection.images.length} {collection.images.length === 1 ? "photograph" : "photographs"}</small>
-            </a>
-          ))}
+        <nav className="gallery-collection-nav" aria-label="Browse photo albums">
+          {galleryCollections.map((collection, index) => {
+            const cover = collection.images[0];
+            if (!cover) return null;
+            return (
+              <a href={`#gallery-${collection.slug}`} key={collection.slug}>
+                <span className="gallery-collection-cover">
+                  <Image src={cover.src} alt="" fill sizes="(max-width: 640px) 42vw, 220px" />
+                </span>
+                <span className="gallery-collection-card-copy">
+                  <small>Album {String(index + 1).padStart(2, "0")}</small>
+                  <strong>{collection.title}</strong>
+                  <small>{collection.images.length} {collection.images.length === 1 ? "photograph" : "photographs"}</small>
+                </span>
+              </a>
+            );
+          })}
         </nav>
 
         <GalleryImageViewer

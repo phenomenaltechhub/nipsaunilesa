@@ -6,7 +6,7 @@ import { announcements as homeAnnouncements, formatPublishedDate } from "./annou
 import { events as homeEvents, getEventTemporalStatus } from "./events/data";
 import { executives } from "./executives/data";
 import { ExecutiveShowcase } from "./executives/executive-showcase";
-import { galleryCollections } from "./gallery/data";
+import { galleryImages } from "./gallery/data";
 import GalleryImageViewer from "./gallery/gallery-image-viewer";
 import HomepageAdsNotification from "./ads/homepage-ads-notification";
 import { createPageMetadata } from "./seo";
@@ -134,19 +134,22 @@ export default function Home() {
           </div>
           <p className="gallery-preview-intro">A small preview of practical learning moments from the Department of Pharmacology. Visit the gallery for the complete archive.</p>
           <div className="gallery-preview-grid">
-            {galleryCollections.flatMap((collection) => collection.images).filter((image) => [
+            {galleryImages.filter((image) => [
               "/gallery/100-level-physics-practical-01.jpg",
               "/gallery/100-level-physics-practical-02.jpg",
               "/gallery/chubenz.jpg",
             ].includes(image.src)).map((image) => (
-              <GalleryImageViewer
-                key={image.src}
-                src={image.src}
-                alt={image.alt}
-                className="gallery-preview-image gallery-viewer-trigger"
-                thumbnailClassName="gallery-preview-thumbnail"
-                sizes="(max-width: 640px) 50vw, 33vw"
-              />
+              <figure className="gallery-preview-item" key={image.src}>
+                <GalleryImageViewer
+                  image={image}
+                  src={image.src}
+                  alt={image.alt}
+                  className="gallery-preview-image gallery-viewer-trigger"
+                  thumbnailClassName="gallery-preview-thumbnail"
+                  sizes="(max-width: 640px) 50vw, 33vw"
+                />
+                {image.credit ? <figcaption>{image.credit}</figcaption> : null}
+              </figure>
             ))}
           </div>
         </section>

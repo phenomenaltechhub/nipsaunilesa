@@ -2,8 +2,12 @@ export type GalleryImage = {
   slug: string;
   src: string;
   alt: string;
+  title?: string;
   caption?: string;
   credit?: string;
+  date?: string;
+  location?: string;
+  story?: string;
 };
 
 export type GalleryCollection = {
@@ -29,21 +33,25 @@ export const galleryCollections: GalleryCollection[] = [
         slug: "100-level-physics-practical-01",
         src: "/gallery/100-level-physics-practical-01.jpg",
         alt: "Students taking part in a 100-level physics practical session",
+        credit: "PHENOMENAL Shot it",
       },
       {
         slug: "100-level-physics-practical-02",
         src: "/gallery/100-level-physics-practical-02.jpg",
         alt: "Students working together during a 100-level physics practical session",
+        credit: "PHENOMENAL Shot it",
       },
       {
         slug: "100-level-physics-practical-03",
         src: "/gallery/100-level-physics-practical-03.jpg",
         alt: "Students learning during a 100-level physics practical session",
+        credit: "PHENOMENAL Shot it",
       },
       {
         slug: "100-level-physics-practical-04",
         src: "/gallery/100-level-physics-practical-04.jpg",
         alt: "Students carrying out work during a 100-level physics practical session",
+        credit: "PHENOMENAL Shot it",
       },
     ],
   },
@@ -56,6 +64,7 @@ export const galleryCollections: GalleryCollection[] = [
         slug: "100-level-biology-practical",
         src: "/gallery/chubenz.jpg",
         alt: "A student taking part in a 100-level biology practical session",
+        credit: "PHENOMENAL Shot it",
       },
     ],
   },
@@ -72,7 +81,7 @@ export function getGalleryImageBySlug(slug: string) {
 export const galleryImages = galleryCollections.flatMap((collection) =>
   collection.images.map((image) => ({
     ...image,
-    title: collection.title,
+    title: image.title ?? collection.title,
     description: collection.description,
     collectionSlug: collection.slug,
   })),
