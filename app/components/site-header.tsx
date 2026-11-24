@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { navItems } from "../config/navigation";
+import WebsiteTourEntry from "./website-tour-entry";
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -161,6 +162,7 @@ export default function Header({ currentPath = "/" }: { currentPath?: string }) 
           <Link className="portal-button" href={portalHref}>
             Student Portal <Arrow />
           </Link>
+          <WebsiteTourEntry placement="navigation" />
           <button
             ref={menuButtonRef}
             className="nav-menu-trigger"

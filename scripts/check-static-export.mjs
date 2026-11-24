@@ -37,8 +37,8 @@ for (const page of pages) {
     }
     return opening;
   });
-  for (const tag of markup.matchAll(/<(?:a|img|script|link|source)\b[^>]*>/gi)) {
-    for (const attribute of tag[0].matchAll(/\b(href|src)="([^"]*)"/gi)) {
+  for (const tag of markup.matchAll(/<(?:a|img|script|link|source|video|track)\b[^>]*>/gi)) {
+    for (const attribute of tag[0].matchAll(/\b(href|src|poster)="([^"]*)"/gi)) {
       const value = attribute[2].replaceAll('&amp;', '&');
       if (!value || value === '#') continue;
       let url;
@@ -59,8 +59,12 @@ for (const page of pages) {
   }
 }
 const required = ['index.html', 'ads.html', 'resources.html', 'campus-navigator.html', 'events.html',
-  'executives.html', 'gallery.html', 'portal/tools.html', '404.html', 'robots.txt', 'sitemap.xml'];
+  'executives.html', 'gallery.html', 'portal/tools.html', 'website-tour.html',
+  'media/website-tour/walkthrough.mp4', 'media/website-tour/captions.vtt', 'media/website-tour/transcript.txt',
+  'media/website-tour/poster.webp', '404.html', 'robots.txt', 'sitemap.xml'];
 for (const file of required) assert.ok(existsSync(join(root, file)), `Missing expected output: ${file}`);
+assert.ok(!existsSync('public/website-tour'),
+  'Keep Tour media separate from its clean HTML route; generated Next.js RSC files are permitted');
 const homeHtml = readFileSync(join(root, 'index.html'), 'utf8');
 assert.ok(homeHtml.includes('Learn boldly.') && homeHtml.includes('GALLERY PREVIEW'),
   'Homepage hero and Gallery preview must be present in the static export');
@@ -80,6 +84,7 @@ assert.ok(exportedCss.includes('.gallery-lightbox:not([open])')
   && exportedCss.includes('display:none!important'),
   'Closed Gallery dialogs must be removed from layout');
 const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
+assert.ok(sitemap.includes(`${site}/website-tour`), 'Tour must be discoverable in the sitemap');
 for (const location of sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)) {
   const url = new URL(location[1]);
   assert.equal(url.origin, site, 'Unexpected sitemap origin');
