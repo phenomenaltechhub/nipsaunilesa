@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
@@ -27,24 +28,39 @@ export default function PortalPage() {
 
       <main className="page-main container portal-page">
         <section className="page-hero portal-hero" aria-labelledby="portal-title">
-          <div className="page-hero-grid">
+          <div className="page-hero-grid portal-hero-grid">
             <div>
               <p className="page-kicker">Student portal</p>
               <h1 id="portal-title" className="page-title">A practical hub for <em>Pharmacology students</em></h1>
               <p className="page-subtitle">
-                The NIPSA UNILESA Student Portal is a place for Pharmacology students to find useful academic information,
-                study support, learning materials and tools in one place.
-              </p>
-              <p className="portal-hero-note">
-                Whether you are improving how you study, preparing for an examination, or keeping up with what is happening
-                around the department, this is where we will keep useful student-focused information.
+                Find public academic information, learning resources, and student support from NIPSA UNILESA in one place.
               </p>
             </div>
-            <aside className="page-hero-aside portal-status-panel">
-              <span className="mini-label">Portal status</span>
-              <strong className="big-stat">Public</strong>
-              <p>This is a public student resource space. It does not store confidential academic records, examination results, personal student data, or other private academic information.</p>
-            </aside>
+          </div>
+        </section>
+
+        <section className="portal-pharmaideia" aria-labelledby="pharmaideia-title">
+          <div className="portal-pharmaideia-brand">
+            <Image
+              src="/brand/pharmaideia/pharmaideia-logo-stacked.png"
+              alt="PHARMAIDEIA, NIPSA UNILESA"
+              width={311}
+              height={236}
+              priority
+            />
+            <span className="portal-pharmaideia-status">Coming Soon</span>
+          </div>
+          <div className="portal-pharmaideia-copy">
+            <p className="eyebrow">A separate student academic application</p>
+            <h2 id="pharmaideia-title">Introducing PHARMAIDEIA</h2>
+            <p>
+              PHARMAIDEIA is an upcoming NIPSA UNILESA academic application planned to bring
+              course-based resources, learning and revision support, practice and assessment
+              tools, academic planning, and student-focused community features together.
+            </p>
+            <p className="portal-pharmaideia-note">
+              More info will be shared when available.
+            </p>
           </div>
         </section>
 
@@ -139,13 +155,13 @@ export default function PortalPage() {
           <section className="portal-section portal-section--surface" aria-labelledby="student-tools">
             <div className="portal-section-heading">
               <p className="eyebrow">06 · Student tools</p>
-              <h2 id="student-tools">Simple utilities, when they are ready</h2>
-              <p>Some things are easier when you have a tool for them. We plan to add a few simple utilities that students can actually use.</p>
+              <h2 id="student-tools">Tools you can use privately</h2>
+              <p>Estimate grade averages, organise a weekly routine, and plan revision with tools that save your work only in this browser.</p>
             </div>
-            <div className="portal-coming-grid portal-coming-grid--three">
-              {["GPA Calculator", "Study Timetable", "What Should I Study Today?"].map((title) => (
-                <div className="portal-coming-item" key={title}><div><h3>{title}</h3><p>{title === "GPA Calculator" ? "Estimate GPA using course grades and credit units for personal academic planning." : title === "Study Timetable" ? "Organise study and revision around courses and other responsibilities." : "A future feature suggesting what to study based on courses, topics and revision needs."}</p></div><Status status="Coming Soon" /></div>
-              ))}
+            <div className="portal-tools-links">
+              <Link href="/portal/tools#gpa-calculator"><span className="portal-tools-number">01</span><span><strong>GPA and CGPA</strong><small>Calculate weighted estimates using a grading scale you can review and edit.</small></span><Arrow /></Link>
+              <Link href="/portal/tools#study-timetable"><span className="portal-tools-number">02</span><span><strong>Study timetable</strong><small>Arrange weekly study sessions and recorded lectures without overlap.</small></span><Arrow /></Link>
+              <Link href="/portal/tools#study-planner"><span className="portal-tools-number">03</span><span><strong>What should I study today?</strong><small>Build a transparent, adjustable plan from your topics and available time.</small></span><Arrow /></Link>
             </div>
           </section>
 

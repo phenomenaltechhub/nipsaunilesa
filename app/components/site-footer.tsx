@@ -49,7 +49,6 @@ export default function Footer({ currentPath = "/" }: { currentPath?: string }) 
           <Link href="/executives" aria-current={currentPath === "/executives" ? "page" : undefined}>Executives</Link>
           <Link href="/community" aria-current={currentPath === "/community" ? "page" : undefined}>Community</Link>
           <Link href="/contact" aria-current={currentPath === "/contact" ? "page" : undefined}>Contact</Link>
-          <Link href="/resources" aria-current={currentPath === "/resources" ? "page" : undefined}>Resource library</Link>
           <Link href="/portal" aria-current={currentPath === "/portal" ? "page" : undefined}>Student Portal</Link>
         </div>
       </div>

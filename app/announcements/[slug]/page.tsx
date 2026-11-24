@@ -5,7 +5,7 @@ import Header from "../../components/site-header";
 import Footer from "../../components/site-footer";
 import { BreadcrumbStructuredData } from "../../components/seo-json-ld";
 import SharePageButton from "../../components/share-page-button";
-import { announcements, getAnnouncementBySlug } from "../data";
+import { announcements, formatPublishedDate, getAnnouncementBySlug } from "../data";
 import { absoluteSiteUrl, createPageMetadata } from "../../seo";
 
 function Arrow() {
@@ -32,6 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     description: announcement.summary,
     path: `/announcements/${announcement.slug}`,
     type: "article",
+    publishedTime: new Date(`${announcement.publishedAt}T00:00:00.000Z`).toISOString(),
   });
 }
 
@@ -42,6 +43,8 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
   if (!announcement) {
     notFound();
   }
+
+  const hasEventDetails = Boolean(announcement.eventDate);
 
   return (
     <div className="nipsa-site page-shell">
@@ -68,6 +71,11 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
                 <Link className="button primary" href="/announcements">
                   Back to announcements <Arrow />
                 </Link>
+                {hasEventDetails && (
+                  <Link className="button secondary" href="/resources#orientation-checklist">
+                    Orientation checklist <Arrow />
+                  </Link>
+                )}
                 <SharePageButton
                   title={announcement.title}
                   text={announcement.summary}
@@ -77,57 +85,145 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
             </div>
             <aside className="page-hero-aside">
               <span className="mini-label">Published</span>
-              <strong className="big-stat">{announcement.date}</strong>
+              <time className="big-stat" dateTime={announcement.publishedAt}>
+                {formatPublishedDate(announcement.publishedAt)}
+              </time>
               <p>{announcement.category}</p>
             </aside>
           </div>
         </section>
 
-        <section className="route-grid" style={{ marginTop: "36px" }}>
-          <article className="page-card">
-            <span className="card-tag">Announcement details</span>
-            <h2 className="announcement-detail-title">{announcement.title}</h2>
-            <p>{announcement.description}</p>
-            {announcement.slug === "welcome-to-the-new-nipsa-student-resource-hub" && (
-              <p>
-                Browse the available <Link href="/resources">academic and student resources</Link>.
-              </p>
-            )}
-            {announcement.slug === "departmental-orientation" && (
-              <p>
-                Use the <Link href="/resources#orientation-checklist">student orientation checklist</Link> for available
-                onboarding guidance.
-              </p>
-            )}
-            {announcement.slug === "meet-your-student-community" && (
-              <p>
-                Explore the wider <Link href="/community">NIPSA student community</Link> for
-                study circles, mentorship, and campus updates.
-              </p>
-            )}
-            {announcement.enquiries && (
-              <p className="announcement-enquiries">
-                <strong>Enquiries:</strong>{" "}
-                <a href={`mailto:${announcement.enquiries.email}`}>{announcement.enquiries.email}</a>{" "}
-                ({announcement.enquiries.purpose}).
-              </p>
-            )}
-          </article>
+        {hasEventDetails ? (
+          <div className="orientation-content">
+            <section className="orientation-details" aria-labelledby="orientation-details-title">
+              <div className="orientation-section-heading">
+                <p className="page-kicker">Event information</p>
+                <h2 id="orientation-details-title">Orientation details</h2>
+                <p>These arrangements will be updated when confirmed by the department.</p>
+              </div>
+              <dl className="orientation-detail-grid">
+                <div><dt>Programme</dt><dd>{announcement.programme}</dd></div>
+                <div><dt>Department</dt><dd>{announcement.department}</dd></div>
+                <div><dt>Institution</dt><dd>{announcement.institution}</dd></div>
+                <div><dt>Date</dt><dd>{announcement.eventDate}</dd></div>
+                <div><dt>Time</dt><dd>{announcement.eventTime}</dd></div>
+                <div><dt>Venue</dt><dd>{announcement.venue}</dd></div>
+                <div className="orientation-detail-status"><dt>Status</dt><dd>{announcement.eventStatus}</dd></div>
+              </dl>
+            </section>
 
-          <article className="page-card">
-            <span className="card-tag">Date</span>
-            <h2 className="announcement-detail-title">Published</h2>
-            <p>{announcement.date}</p>
-          </article>
+            <section className="orientation-copy-grid" aria-label="Orientation guidance">
+              <article className="orientation-copy-card">
+                <p className="orientation-section-label">About the orientation</p>
+                <h2>Start your department journey informed</h2>
+                <p>
+                  Departmental orientation helps incoming students become familiar with their academic
+                  environment, understand departmental expectations, discover available student
+                  resources, and prepare for their studies. Specific programme activities will be
+                  shared only after they are officially confirmed.
+                </p>
+              </article>
+              <article className="orientation-copy-card orientation-preparation">
+                <p className="orientation-section-label">Preparing for orientation</p>
+                <h2>A few useful steps</h2>
+                <ul>
+                  <li>Review the existing student Orientation Checklist.</li>
+                  <li>Explore available academic and departmental resources.</li>
+                  <li>Follow official announcements for confirmed arrangements.</li>
+                  <li>Prepare questions about academic expectations and student support.</li>
+                </ul>
+              </article>
+            </section>
 
-          <article className="page-card" style={{ gridColumn: "1 / -1" }}>
-            <span className="card-tag">Notes</span>
-            <h2 className="announcement-detail-title">Additional information</h2>
-            <ul style={{ margin: 0, paddingLeft: "1.1rem", display: "grid", gap: "0.7rem", color: "#355a4c" }}>
-              {announcement.additionalInfo?.map((item) => <li key={item}>{item}</li>)}
-            </ul>
-          </article>
-        </section>
+            <section className="orientation-resource-card" aria-labelledby="orientation-resource-title">
+              <div>
+                <p className="orientation-section-label">Orientation resources</p>
+                <h2 id="orientation-resource-title">Get ready with the checklist</h2>
+                <p>
+                  Use the existing student checklist to explore practical guidance as you prepare
+                  for your transition into the department.
+                </p>
+              </div>
+              <div className="orientation-resource-actions">
+                <Link className="button primary" href="/resources#orientation-checklist">
+                  View orientation checklist <Arrow />
+                </Link>
+                <Link className="button secondary" href="/resources/department-orientation-checklist.pdf">
+                  Open checklist PDF <Arrow />
+                </Link>
+              </div>
+            </section>
+
+            <section className="orientation-updates" aria-labelledby="orientation-updates-title">
+              <div>
+                <p className="orientation-section-label">Updates and enquiries</p>
+                <h2 id="orientation-updates-title">Watch for official confirmation</h2>
+                <p>
+                  Confirmed date, time, and venue arrangements will be communicated through official
+                  departmental channels. Please rely on official announcements for updates.
+                </p>
+              </div>
+              {announcement.enquiries && (
+                <p className="announcement-enquiries">
+                  General enquiries:{" "}
+                  <a href={`mailto:${announcement.enquiries.email}`}>{announcement.enquiries.email}</a>
+                </p>
+              )}
+            </section>
+          </div>
+        ) : (
+          <section className="route-grid" style={{ marginTop: "36px" }}>
+            <article className="page-card">
+              <span className="card-tag">Announcement details</span>
+              <h2 className="announcement-detail-title">{announcement.title}</h2>
+              <p>{announcement.description}</p>
+              {announcement.contentSections?.map((section) => (
+                <section className="announcement-content-section" key={section.heading}>
+                  <h3>{section.heading}</h3>
+                  {section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                  {section.listItems && (
+                    <ul>
+                      {section.listItems.map((item) => <li key={item}>{item}</li>)}
+                    </ul>
+                  )}
+                </section>
+              ))}
+              {announcement.relatedLinks?.length ? (
+                <nav className="announcement-related-links" aria-label="Related resources">
+                  {announcement.relatedLinks.map((item) => {
+                    const isExternal = /^(https?:|mailto:)/.test(item.href);
+                    return isExternal ? (
+                      <a key={item.href} href={item.href}>{item.label} <Arrow /></a>
+                    ) : (
+                      <Link key={item.href} href={item.href}>{item.label} <Arrow /></Link>
+                    );
+                  })}
+                </nav>
+              ) : null}
+              {announcement.enquiries && (
+                <p className="announcement-enquiries">
+                  <strong>Enquiries:</strong>{" "}
+                  <a href={`mailto:${announcement.enquiries.email}`}>{announcement.enquiries.email}</a>{" "}
+                  ({announcement.enquiries.purpose}).
+                </p>
+              )}
+            </article>
+
+            <article className="page-card">
+              <span className="card-tag">Date</span>
+              <h2 className="announcement-detail-title">Published</h2>
+              <p>{formatPublishedDate(announcement.publishedAt)}</p>
+            </article>
+
+            <article className="page-card" style={{ gridColumn: "1 / -1" }}>
+              <span className="card-tag">Notes</span>
+              <h2 className="announcement-detail-title">Additional information</h2>
+              <ul style={{ margin: 0, paddingLeft: "1.1rem", display: "grid", gap: "0.7rem", color: "#355a4c" }}>
+                {announcement.additionalInfo?.map((item) => <li key={item}>{item}</li>)}
+              </ul>
+            </article>
+          </section>
+        )}
       </main>
 
       <Footer currentPath="/announcements" />

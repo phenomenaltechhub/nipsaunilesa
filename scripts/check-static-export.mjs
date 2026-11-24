@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, relative, resolve } from 'node:path';
+import { isAbsolute, join, relative, resolve, sep } from 'node:path';
 
 const root = resolve('out');
 const site = 'https://nipsaunilesa.com.ng';
@@ -18,7 +18,8 @@ const assets = new Set();
 let structuredData = 0;
 function localFile(pathname) {
   const path = resolve(root, `.${decodeURIComponent(pathname)}`);
-  if (path !== root && !path.startsWith(`${root}/`)) return null;
+  const relativePath = relative(root, path);
+  if (isAbsolute(relativePath) || relativePath === '..' || relativePath.startsWith(`..${sep}`)) return null;
   return [path, `${path}.html`, join(path, 'index.html')]
     .find(candidate => existsSync(candidate) && statSync(candidate).isFile());
 }
@@ -57,7 +58,7 @@ for (const page of pages) {
   }
 }
 const required = ['index.html', 'ads.html', 'resources.html', 'campus-navigator.html', 'events.html',
-  'executives.html', 'gallery.html', '404.html', 'robots.txt', 'sitemap.xml'];
+  'executives.html', 'gallery.html', 'portal/tools.html', '404.html', 'robots.txt', 'sitemap.xml'];
 for (const file of required) assert.ok(existsSync(join(root, file)), `Missing expected output: ${file}`);
 const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
 for (const location of sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)) {
@@ -77,6 +78,56 @@ assert.ok(readFileSync(join(root, checklistPdf)).equals(readFileSync('public' + 
   'Exported checklist must preserve the supplied PDF bytes');
 assert.ok(resourcesHtml.includes('id="orientation-checklist"') && resourcesHtml.includes(checklistPdf)
   && resourcesHtml.includes('Open checklist (PDF)'), 'Orientation PDF and navigation anchor must be exported');
+const orientationHtml = readFileSync(join(root, 'announcements/departmental-orientation.html'), 'utf8');
+for (const [label, html] of [
+  ['homepage', readFileSync(join(root, 'index.html'), 'utf8')],
+  ['announcements archive', readFileSync(join(root, 'announcements.html'), 'utf8')],
+  ['orientation detail', orientationHtml],
+]) {
+  assert.ok(html.includes('22 Nov 2026'), `${label} must show the publication date`);
+  assert.ok(!html.includes('1st Dec 2026'), `${label} must not use the former date`);
+}
+assert.ok(orientationHtml.includes('2026-11-22T00:00:00.000Z')
+  && orientationHtml.includes('article:published_time'), 'Orientation metadata must use the publication date');
+assert.ok(orientationHtml.includes('1 December 2026'), 'Orientation event date must be displayed independently');
+assert.ok(!orientationHtml.includes('orientation-status-pill'), 'Duplicate hero status indicator must not be exported');
+for (const value of [
+  'To be confirmed',
+  'To be communicated by the department',
+  'Upcoming',
+  '/resources#orientation-checklist',
+  checklistPdf,
+  'info@nipsaunilesa.com.ng',
+]) {
+  assert.ok(orientationHtml.includes(value), `Orientation detail is missing ${value}`);
+}
+const portalHtml = readFileSync(join(root, 'portal.html'), 'utf8');
+assert.ok(portalHtml.includes('/brand/pharmaideia/pharmaideia-logo-stacked.png')
+  && portalHtml.includes('Introducing PHARMAIDEIA')
+  && portalHtml.includes('Coming Soon'), 'Student Portal must include the approved PHARMAIDEIA introduction');
+for (const tool of [
+  ['/portal/tools#gpa-calculator', 'GPA and CGPA'],
+  ['/portal/tools#study-timetable', 'Study timetable'],
+  ['/portal/tools#study-planner', 'What should I study today?'],
+]) {
+  assert.ok(portalHtml.includes(tool[0]) && portalHtml.includes(tool[1]),
+    `Student Portal is missing the ${tool[1]} entry link`);
+}
+const studyToolsHtml = readFileSync(join(root, 'portal/tools.html'), 'utf8');
+for (const id of ['gpa-calculator', 'study-timetable', 'study-planner']) {
+  assert.ok(studyToolsHtml.includes(`id="${id}"`), `Study tools route must render the ${id} anchor`);
+}
+assert.ok(studyToolsHtml.includes("not a verified University of Ilesa policy")
+  && studyToolsHtml.includes("stored locally in this browser"),
+  'Study tools must identify the sample scale and local data storage');
+for (const slug of [
+  'welcome-to-the-new-nipsa-student-resource-hub',
+  'meet-your-student-community',
+]) {
+  const announcementHtml = readFileSync(join(root, `announcements/${slug}.html`), 'utf8');
+  assert.ok(announcementHtml.includes('Related resources'), `${slug} must include related links`);
+  assert.ok(announcementHtml.includes('Student Portal'), `${slug} must explain its Portal connection`);
+}
 assert.ok(structuredData > 0, 'No JSON-LD was checked');
 assert.equal(failures.size, 0, [...failures].join('\n'));
 console.log(`Static export verified: ${pages.length} HTML documents, ${assets.size} local assets, ${structuredData} valid JSON-LD blocks; no missing internal references.`);

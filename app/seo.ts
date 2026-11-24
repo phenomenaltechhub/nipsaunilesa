@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const siteUrl = "https://nipsaunilesa.com.ng";
-export const defaultSocialImage = "/unilesa-logo.png";
+export const defaultSocialImage = "/nipsa-logo.png";
 
 export function absoluteSiteUrl(path: string) {
   return path === "/" ? siteUrl : new URL(path, siteUrl).toString();
@@ -12,6 +12,7 @@ type PageMetadataOptions = {
   description: string;
   path: string;
   type?: "website" | "article" | "profile";
+  publishedTime?: string;
   image?: string;
   imageAlt?: string;
 };
@@ -21,6 +22,7 @@ export function createPageMetadata({
   description,
   path,
   type = "website",
+  publishedTime,
   image = defaultSocialImage,
   imageAlt = "NIPSA University of Ilesa logo",
 }: PageMetadataOptions): Metadata {
@@ -36,6 +38,7 @@ export function createPageMetadata({
       url: absoluteSiteUrl(path),
       siteName: "NIPSA UNILESA",
       type,
+      ...(type === "article" && publishedTime ? { publishedTime } : {}),
       images: [{ url: image, alt: imageAlt }],
     },
     twitter: {

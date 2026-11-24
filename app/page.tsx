@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "./components/site-header";
 import Footer from "./components/site-footer";
-import { announcements as homeAnnouncements } from "./announcements/data";
+import { announcements as homeAnnouncements, formatPublishedDate } from "./announcements/data";
 import { events as homeEvents, getEventTemporalStatus } from "./events/data";
 import { executives } from "./executives/data";
 import { ExecutiveShowcase } from "./executives/executive-showcase";
@@ -87,7 +87,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="updates section container"><div className="section-heading"><SectionIntro number="" eyebrow="ARCHIVED ANNOUNCEMENTS" title="What was shared" accent="with NIPSA." /><Link className="text-link" href="/announcements">View all announcements <Arrow /></Link></div><p className="announcement-archive-note">These announcements were published in August 2026 and remain available as dated reference notes.</p><div className="announcement-track"><div className="announcement-track-scroller">{homeAnnouncements.map((item) => <Link className={`announcement-card ${item.tone} announcement-slide`} key={item.slug} href={`/announcements/${item.slug}`}><div className="card-meta"><span>{item.category}</span><time>{item.date}</time></div><h3>{item.title}</h3><p>{item.summary}</p>{item.additionalInfo?.length ? <span className="announcement-status">{item.additionalInfo[0]}</span> : null}</Link>)}</div></div></section>
+        <section className="updates section container"><div className="section-heading"><SectionIntro number="" eyebrow="ANNOUNCEMENTS" title="What’s happening" accent="with NIPSA." /><Link className="text-link" href="/announcements">View all announcements <Arrow /></Link></div><p className="announcement-archive-note">Notices are shown with their publication dates and remain available as reference. Event details are shared separately and confirmed through official departmental announcements.</p><div className="announcement-track"><div className="announcement-track-scroller">{homeAnnouncements.map((item) => <Link className={`announcement-card ${item.tone} announcement-slide`} key={item.slug} href={`/announcements/${item.slug}`}><div className="card-meta"><span>{item.category}</span><time dateTime={item.publishedAt}>{formatPublishedDate(item.publishedAt)}</time></div><h3>{item.title}</h3><p>{item.summary}</p>{item.additionalInfo?.length ? <span className="announcement-status">{item.additionalInfo[0]}</span> : null}</Link>)}</div></div></section>
 
         <section className="events section" id="events"><div className="container"><div className="section-heading"><SectionIntro number="04" eyebrow="EVENTS" title="Make room for" accent="something new." /><Link className="text-link" href="/events">View all events <Arrow /></Link></div><div className="events-grid">{homeEvents.map((event) => {
           const parts = event.date.split(" ");

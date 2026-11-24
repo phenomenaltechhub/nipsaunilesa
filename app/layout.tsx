@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import GuidedTour from "./components/guided-tour";
 import { StructuredData, siteStructuredData } from "./components/seo-json-ld";
 import { defaultSocialImage, siteUrl } from "./seo";
 import "./globals.css";
@@ -54,7 +53,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             gtag('config', '${GA_MEASUREMENT_ID}');
           `}
         </Script>
-        <GuidedTour />
         <div className="site-watermark" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element -- Static export uses CSS-sized native images; preserve existing rendering without an image service. */}
           <img className="site-watermark-logo" src="/nipsa-logo.png" alt="" />

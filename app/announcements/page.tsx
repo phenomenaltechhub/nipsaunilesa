@@ -3,7 +3,7 @@ import Link from "next/link";
 import Header from "../components/site-header";
 import Footer from "../components/site-footer";
 import { BreadcrumbStructuredData } from "../components/seo-json-ld";
-import { announcements } from "./data";
+import { announcements, formatPublishedDate } from "./data";
 import { createPageMetadata } from "../seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -36,9 +36,9 @@ export default function AnnouncementsPage() {
               </p>
             </div>
             <aside className="page-hero-aside">
-              <span className="mini-label">August 2026 archive</span>
+              <span className="mini-label">Announcement archive</span>
               <strong className="big-stat">{String(announcements.length).padStart(2, "0")}</strong>
-              <p>These dated announcements remain available for reference while newer information is confirmed.</p>
+              <p>Publication dates show when each notice was shared. Event arrangements are listed separately when confirmed.</p>
             </aside>
           </div>
         </section>
@@ -55,7 +55,7 @@ export default function AnnouncementsPage() {
                 <article className={`announcement-card ${announcement.tone}`}>
                   <div className="card-meta">
                     <span>{announcement.category}</span>
-                    <time>{announcement.date}</time>
+                    <time dateTime={announcement.publishedAt}>{formatPublishedDate(announcement.publishedAt)}</time>
                   </div>
                   <h2 className="announcement-card-title">{announcement.title}</h2>
                   <p>{announcement.summary}</p>

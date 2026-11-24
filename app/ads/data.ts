@@ -170,10 +170,8 @@ export const advertisements: Advertisement[] = [
     homepageNotification:
       "Need help with your computer or software? PHENOMENAL TECH HUB offers repairs, upgrades, installation, technical support and device-selection guidance.",
     deliveryInfo: "Remote support, appointments, and physical/on-site assistance where possible",
-    socialHref: "mailto:officialpth.contact@gmail.com",
-    socialLabel: "Email officialpth.contact@gmail.com",
     phone: "07011130579",
-    email: "officialpth.contact@gmail.com",
+    email: "pescustomerassist@yahoo.com",
   },
   {
     id: "glowhaus",

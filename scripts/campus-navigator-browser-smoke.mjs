@@ -40,7 +40,6 @@ const server = createServer((req, res) => {
         if (route.request().url().startsWith('https://tile.openstreetmap.org/')) tileRequests++;
         return route.request().url().startsWith(base) ? route.continue() : route.abort();
       });
-      await context.addInitScript(() => localStorage.setItem('nipsa-guided-tour-dismissed', 'true'));
       const page = await context.newPage();
       const errors = [];page.on('pageerror', error => errors.push(error.message));
       const response = await page.goto(base + '/campus-navigator', { waitUntil: 'networkidle' });
