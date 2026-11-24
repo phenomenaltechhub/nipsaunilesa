@@ -44,11 +44,23 @@ export default function GalleryPage({ initialImageSlug }: { initialImageSlug?: s
               Learning in <em>practice.</em>
             </h1>
             <p className="page-subtitle">
-              A visual record of practical learning moments from our student community.
-              These collections focus on foundational practical sessions.
+              Browse the chapter&apos;s existing photographs, organised into practical-session albums.
+              Captions use available descriptions; photographer credits appear only when supplied.
+            </p>
+            <p className="gallery-archive-count">
+              {galleryCollections.length} albums <span aria-hidden="true">·</span> {galleryImages.length} photographs
             </p>
           </div>
         </section>
+
+        <nav className="gallery-collection-nav" aria-label="Gallery collections">
+          {galleryCollections.map((collection) => (
+            <a href={`#gallery-${collection.slug}`} key={collection.slug}>
+              <span>{collection.title}</span>
+              <small>{collection.images.length} {collection.images.length === 1 ? "photograph" : "photographs"}</small>
+            </a>
+          ))}
+        </nav>
 
         <GalleryImageViewer
           images={galleryImages}

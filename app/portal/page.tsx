@@ -159,9 +159,11 @@ export default function PortalPage() {
               <p>Estimate grade averages, organise a weekly routine, and plan revision with tools that save your work only in this browser.</p>
             </div>
             <div className="portal-tools-links">
-              <Link href="/portal/tools#gpa-calculator"><span className="portal-tools-number">01</span><span><strong>GPA and CGPA</strong><small>Calculate weighted estimates using a grading scale you can review and edit.</small></span><Arrow /></Link>
-              <Link href="/portal/tools#study-timetable"><span className="portal-tools-number">02</span><span><strong>Study timetable</strong><small>Arrange weekly study sessions and recorded lectures without overlap.</small></span><Arrow /></Link>
-              <Link href="/portal/tools#study-planner"><span className="portal-tools-number">03</span><span><strong>What should I study today?</strong><small>Build a transparent, adjustable plan from your topics and available time.</small></span><Arrow /></Link>
+              <Link href="/portal/tools">
+                <span className="portal-tools-number" aria-hidden="true">→</span>
+                <span><strong>Open study tools</strong><small>Access the GPA calculator, study timetable, and study planner in one place.</small></span>
+                <Arrow />
+              </Link>
             </div>
           </section>
 

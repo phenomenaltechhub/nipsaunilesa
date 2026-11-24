@@ -41,7 +41,7 @@ export default function StudyToolsPage() {
             <aside className="page-hero-aside">
               <span className="mini-label">Study tools</span>
               <strong className="big-stat">On-device</strong>
-              <p>No student account or backend is required.</p>
+              <p>No student account is required.</p>
               <Link className="portal-inline-link" href="/portal">Back to Student Portal</Link>
             </aside>
           </div>

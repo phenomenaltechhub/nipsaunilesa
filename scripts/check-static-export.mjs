@@ -105,14 +105,9 @@ const portalHtml = readFileSync(join(root, 'portal.html'), 'utf8');
 assert.ok(portalHtml.includes('/brand/pharmaideia/pharmaideia-logo-stacked.png')
   && portalHtml.includes('Introducing PHARMAIDEIA')
   && portalHtml.includes('Coming Soon'), 'Student Portal must include the approved PHARMAIDEIA introduction');
-for (const tool of [
-  ['/portal/tools#gpa-calculator', 'GPA and CGPA'],
-  ['/portal/tools#study-timetable', 'Study timetable'],
-  ['/portal/tools#study-planner', 'What should I study today?'],
-]) {
-  assert.ok(portalHtml.includes(tool[0]) && portalHtml.includes(tool[1]),
-    `Student Portal is missing the ${tool[1]} entry link`);
-}
+const portalToolsLinks = portalHtml.match(/href="\/portal\/tools(?:#[^"]*)?"/g) ?? [];
+assert.equal(portalToolsLinks.length, 1, 'Student Portal must have one link to the combined study tools page');
+assert.ok(portalHtml.includes('Open study tools'), 'Student Portal must label the combined study tools link');
 const studyToolsHtml = readFileSync(join(root, 'portal/tools.html'), 'utf8');
 for (const id of ['gpa-calculator', 'study-timetable', 'study-planner']) {
   assert.ok(studyToolsHtml.includes(`id="${id}"`), `Study tools route must render the ${id} anchor`);
@@ -120,6 +115,26 @@ for (const id of ['gpa-calculator', 'study-timetable', 'study-planner']) {
 assert.ok(studyToolsHtml.includes("not a verified University of Ilesa policy")
   && studyToolsHtml.includes("stored locally in this browser"),
   'Study tools must identify the sample scale and local data storage');
+const galleryHtml = readFileSync(join(root, 'gallery.html'), 'utf8');
+for (const value of [
+  'gallery-physics-practical',
+  'gallery-biology-practical',
+  'photographer credits appear only when supplied',
+  'Download copy',
+  'Zoom in',
+]) {
+  assert.ok(galleryHtml.includes(value), `Gallery is missing ${value}`);
+}
+for (const photo of [
+  '100-level-physics-practical-01.jpg',
+  '100-level-physics-practical-02.jpg',
+  '100-level-physics-practical-03.jpg',
+  '100-level-physics-practical-04.jpg',
+  'chubenz.jpg',
+]) {
+  assert.ok(readFileSync(join(root, 'gallery', photo)).equals(readFileSync(join('public', 'gallery', photo))),
+    `Exported original Gallery photo must remain unchanged: ${photo}`);
+}
 for (const slug of [
   'welcome-to-the-new-nipsa-student-resource-hub',
   'meet-your-student-community',

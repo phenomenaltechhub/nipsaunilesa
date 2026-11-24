@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import type { PointerEvent as ReactPointerEvent, TouchEvent as ReactTouchEvent } from "react";
 import type { GalleryCollection, GalleryImageRecord } from "./data";
 
-function loadImage(src: string) {
+function loadImage(src: string, label: string) {
   return new Promise<HTMLImageElement>((resolve, reject) => {
     const image = new window.Image();
     image.onload = () => resolve(image);
-    image.onerror = () => reject(new Error("An image could not be loaded for download."));
+    image.onerror = () => reject(new Error(`The ${label} could not be loaded for download.`));
     image.src = src;
   });
 }
@@ -21,7 +22,7 @@ function canvasToBlob(canvas: HTMLCanvasElement) {
       } else {
         reject(new Error("The watermarked image could not be created."));
       }
-    }, "image/jpeg", 0.92);
+    }, "image/png");
   });
 }
 
@@ -57,8 +58,21 @@ export default function GalleryImageViewer({
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadError, setDownloadError] = useState("");
   const [shareStatus, setShareStatus] = useState("");
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const pointerStart = useRef<{ x: number; y: number; panX: number; panY: number } | null>(null);
   const currentImage = activeImage;
+  const currentCollection = collections?.find((collection) => collection.slug === currentImage?.collectionSlug);
+  const collectionImageIndex = currentCollection?.images.findIndex((image) => image.slug === currentImage?.slug) ?? -1;
+
+  function resetImageView() {
+    setIsZoomed(false);
+    setPan({ x: 0, y: 0 });
+    touchStart.current = null;
+    pointerStart.current = null;
+  }
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -74,6 +88,7 @@ export default function GalleryImageViewer({
     const syncViewerWithLocation = () => {
       const pathSlug = window.location.pathname.replace(/\/+$/, "").split("/").pop();
       const nextImage = images.find((image) => image.slug === pathSlug);
+      resetImageView();
       setActiveImage(nextImage ?? null);
       setIsOpen(Boolean(nextImage));
     };
@@ -89,6 +104,7 @@ export default function GalleryImageViewer({
         window.history.pushState(null, "", imagePath);
       }
     }
+    resetImageView();
     setActiveImage(image);
     setIsOpen(true);
   }
@@ -101,8 +117,9 @@ export default function GalleryImageViewer({
   function closeViewer() {
     const currentPath = window.location.pathname.replace(/\/+$/, "");
     if (isGallery && currentImage && currentPath === `/gallery/${currentImage.slug}`) {
-      window.history.replaceState(null, "", "/gallery/");
+      window.history.replaceState(null, "", "/gallery");
     }
+    resetImageView();
     setIsOpen(false);
   }
 
@@ -114,7 +131,50 @@ export default function GalleryImageViewer({
     if (!nextImage) return;
 
     window.history.pushState(null, "", `/gallery/${nextImage.slug}`);
+    resetImageView();
     setActiveImage(nextImage);
+  }
+
+  function toggleZoom() {
+    setIsZoomed((current) => !current);
+    setPan({ x: 0, y: 0 });
+  }
+
+  function handleTouchStart(event: ReactTouchEvent<HTMLDivElement>) {
+    if (isZoomed || event.touches.length !== 1) return;
+    const touch = event.touches[0];
+    if (touch) touchStart.current = { x: touch.clientX, y: touch.clientY };
+  }
+
+  function handleTouchEnd(event: ReactTouchEvent<HTMLDivElement>) {
+    const start = touchStart.current;
+    const touch = event.changedTouches[0];
+    touchStart.current = null;
+    if (!start || !touch || !isGallery || !currentImage || isZoomed) return;
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    if (Math.abs(deltaX) > 55 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
+      navigateImage(deltaX < 0 ? 1 : -1);
+    }
+  }
+
+  function startPan(event: ReactPointerEvent<HTMLDivElement>) {
+    if (!isZoomed) return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    pointerStart.current = { x: event.clientX, y: event.clientY, panX: pan.x, panY: pan.y };
+  }
+
+  function movePan(event: ReactPointerEvent<HTMLDivElement>) {
+    const start = pointerStart.current;
+    if (!isZoomed || !start || !event.currentTarget.hasPointerCapture(event.pointerId)) return;
+    setPan({ x: start.panX + event.clientX - start.x, y: start.panY + event.clientY - start.y });
+  }
+
+  function endPan(event: ReactPointerEvent<HTMLDivElement>) {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    pointerStart.current = null;
   }
 
   async function shareImage() {
@@ -162,11 +222,11 @@ export default function GalleryImageViewer({
     try {
       const imageSrc = currentImage?.src ?? src;
       const [sourceImage, logo] = await Promise.all([
-        loadImage(imageSrc),
-        loadImage("/nipsa-logo.png"),
+        loadImage(imageSrc, "original photo"),
+        loadImage("/nipsa-logo.png", "official NIPSA emblem"),
       ]);
 
-      if (!sourceImage.naturalWidth || !sourceImage.naturalHeight || !logo.naturalWidth) {
+      if (!sourceImage.naturalWidth || !sourceImage.naturalHeight || !logo.naturalWidth || !logo.naturalHeight) {
         throw new Error("The source image or NIPSA logo has invalid dimensions.");
       }
 
@@ -181,34 +241,22 @@ export default function GalleryImageViewer({
 
       context.drawImage(sourceImage, 0, 0, canvas.width, canvas.height);
 
-      const watermarkWidth = canvas.width * 0.15;
+      const logoAspect = logo.naturalWidth / logo.naturalHeight;
+      const watermarkWidth = Math.min(canvas.width * 0.23, canvas.height * 0.18 * logoAspect);
       const watermarkHeight = watermarkWidth * (logo.naturalHeight / logo.naturalWidth);
-      const marginX = canvas.width * 0.03;
-      const marginY = canvas.height * 0.03;
-      const attribution = "Nigeria Pharmacology Students' Association | NIPSA UNILESA CHAPTER";
-      const fontSize = Math.max(10, canvas.width * 0.012);
-      const textGap = Math.max(4, canvas.height * 0.006);
-      const textBaseline = canvas.height - marginY;
-      const logoY = textBaseline - fontSize * 1.35 - textGap - watermarkHeight;
+      const padding = Math.max(8, canvas.width * 0.012);
+      const marginX = canvas.width * 0.035;
+      const marginY = canvas.height * 0.035;
+      const plateWidth = watermarkWidth + padding * 2;
+      const plateHeight = watermarkHeight + padding * 2;
+      const plateX = canvas.width - plateWidth - marginX;
+      const plateY = canvas.height - plateHeight - marginY;
 
-      context.globalAlpha = 0.3;
-      context.drawImage(
-        logo,
-        canvas.width - watermarkWidth - marginX,
-        logoY,
-        watermarkWidth,
-        watermarkHeight,
-      );
-      context.globalAlpha = 0.82;
-      context.font = `600 ${fontSize}px Arial, sans-serif`;
-      context.textAlign = "right";
-      context.textBaseline = "bottom";
-      context.shadowColor = "rgba(0, 0, 0, 0.75)";
-      context.shadowBlur = Math.max(1, fontSize * 0.18);
-      context.fillStyle = "#fff";
-      context.fillText(attribution, canvas.width - marginX, textBaseline);
+      context.fillStyle = "rgba(255, 255, 255, 0.68)";
+      context.fillRect(plateX, plateY, plateWidth, plateHeight);
+      context.globalAlpha = 0.65;
+      context.drawImage(logo, plateX + padding, plateY + padding, watermarkWidth, watermarkHeight);
       context.globalAlpha = 1;
-      context.shadowBlur = 0;
 
       const blob = await canvasToBlob(canvas);
       const downloadUrl = URL.createObjectURL(blob);
@@ -217,7 +265,7 @@ export default function GalleryImageViewer({
       const imageName = decodeURIComponent(new URL(imageSrc, window.location.href).pathname.split("/").pop() ?? "gallery-image");
       const baseName = imageName.replace(/\.[^.]+$/, "");
       link.href = downloadUrl;
-      link.download = `${baseName}-nipsa.jpg`;
+      link.download = `${baseName}-nipsa.png`;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -254,19 +302,42 @@ export default function GalleryImageViewer({
     <>
       {isGallery && images && collections ? (
         <div className="gallery-collections">
+          {images[0] && collections[0] ? (
+            <section className="gallery-featured" aria-labelledby="gallery-featured-title">
+              <button
+                type="button"
+                className="gallery-featured-image"
+                aria-label={`View featured photograph: ${images[0].alt}`}
+                onClick={() => selectImage(images[0] ?? null, true)}
+              >
+                <Image src={images[0].src} alt={images[0].alt} fill sizes="(max-width: 640px) 100vw, 30vw" priority />
+              </button>
+              <div className="gallery-featured-copy">
+                <p className="eyebrow">Featured album</p>
+                <h2 id="gallery-featured-title">{collections[0].title}</h2>
+                <p>{collections[0].description}</p>
+                <span>{collections[0].images.length} photographs · Original chapter images</span>
+                <a href={`#gallery-${collections[0].slug}`}>Explore this album <span aria-hidden="true">→</span></a>
+              </div>
+            </section>
+          ) : null}
           {collections.map((collection, collectionIndex) => (
             <section
-              className="gallery-collection"
+              className={`gallery-collection${collectionIndex === 0 ? " gallery-collection--featured" : ""}`}
               key={collection.title}
+              id={`gallery-${collection.slug}`}
               aria-labelledby={`gallery-collection-${collectionIndex}`}
             >
               <div className="gallery-collection-heading">
                 <p className="eyebrow">{String(collectionIndex + 1).padStart(2, "0")} / PRACTICAL SESSION</p>
                 <h2 id={`gallery-collection-${collectionIndex}`}>{collection.title}</h2>
                 <p>{collection.description}</p>
+                <span className="gallery-collection-count">
+                  {collection.images.length} {collection.images.length === 1 ? "photograph" : "photographs"}
+                </span>
               </div>
               <div className="gallery-grid">
-                {collection.images.map((image) => {
+                {collection.images.map((image, imageIndex) => {
                   const record = images.find((item) => item.slug === image.slug);
                   return (
                     <figure className="gallery-item" key={image.src}>
@@ -281,9 +352,14 @@ export default function GalleryImageViewer({
                           alt={image.alt}
                           fill
                           sizes={sizes}
+                          priority={collectionIndex === 0 && imageIndex === 0}
                           className="gallery-image"
                         />
                       </button>
+                      <figcaption className="gallery-item-caption">
+                        <span>{image.caption ?? image.alt}</span>
+                        {image.credit ? <small>{image.credit}</small> : null}
+                      </figcaption>
                     </figure>
                   );
                 })}
@@ -304,6 +380,12 @@ export default function GalleryImageViewer({
           if (event.key === "Escape") {
             event.preventDefault();
             closeViewer();
+          } else if (isGallery && event.key === "ArrowLeft") {
+            event.preventDefault();
+            navigateImage(-1);
+          } else if (isGallery && event.key === "ArrowRight") {
+            event.preventDefault();
+            navigateImage(1);
           }
         }}
         onClose={closeViewer}
@@ -338,8 +420,23 @@ export default function GalleryImageViewer({
             </button>
           </div>
         ) : null}
+        {isGallery && currentImage ? (
+          <div className="gallery-lightbox-counter" aria-live="polite">
+            {currentCollection?.title ?? currentImage.title}
+            <span>Photo {collectionImageIndex + 1} of {currentCollection?.images.length ?? images?.length ?? 1}</span>
+          </div>
+        ) : null}
         <div className="gallery-lightbox-actions">
           {downloadError ? <p className="gallery-download-error" role="alert">{downloadError}</p> : null}
+          <button
+            type="button"
+            className="gallery-lightbox-control"
+            aria-label={isZoomed ? "Zoom out" : "Zoom in"}
+            aria-pressed={isZoomed}
+            onClick={toggleZoom}
+          >
+            {isZoomed ? "Zoom out" : "Zoom in"}
+          </button>
           {isGallery && currentImage ? (
             <>
               <button
@@ -356,21 +453,42 @@ export default function GalleryImageViewer({
           <button
             type="button"
             className="gallery-lightbox-download"
-            aria-label="Download image"
+            aria-label="Download watermarked copy"
             onClick={downloadWatermarkedImage}
             disabled={isDownloading}
           >
-            {isDownloading ? "Preparing download…" : "Download"}
+            {isDownloading ? "Preparing…" : "Download copy"}
           </button>
         </div>
+        {currentImage ? (
+          <div className="gallery-lightbox-caption">
+            <strong>{currentImage.title}</strong>
+            <p>{currentImage.caption ?? currentImage.alt}</p>
+            <small>{currentImage.credit ? `Photo credit: ${currentImage.credit}` : "Photographer credit not supplied"}</small>
+            <small>Original preview · NIPSA watermark is added to the downloaded copy only.</small>
+          </div>
+        ) : null}
         {(currentImage?.src || src) ? (
-          <Image
-            src={currentImage?.src ?? src}
-            alt={currentImage?.alt ?? alt}
-            fill
-            sizes="100vw"
-            className="gallery-lightbox-image"
-          />
+          <div
+            className={`gallery-lightbox-image-stage${isZoomed ? " is-zoomed" : ""}`}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onPointerDown={startPan}
+            onPointerMove={movePan}
+            onPointerUp={endPan}
+            onPointerCancel={endPan}
+            aria-label={isZoomed ? "Zoomed photograph; drag to pan" : "Photograph preview"}
+          >
+            <Image
+              src={currentImage?.src ?? src}
+              alt={currentImage?.alt ?? alt}
+              fill
+              sizes="100vw"
+              className="gallery-lightbox-image"
+              style={{ transform: `translate3d(${pan.x}px, ${pan.y}px, 0) scale(${isZoomed ? 1.8 : 1})` }}
+              draggable={false}
+            />
+          </div>
         ) : null}
       </dialog>
     </>

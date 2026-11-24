@@ -169,6 +169,20 @@ export default function ResourcesPage() {
             })}
           </div>
         </section>
+
+        <section className="resource-planning" aria-labelledby="resource-planning-title">
+          <div>
+            <p className="eyebrow">Academic planning</p>
+            <h2 id="resource-planning-title">Turn study guidance into a routine.</h2>
+            <p>
+              Use the private GPA estimator, weekly timetable, and revision planner to organise
+              your own study. These tools run in your browser and are not official academic records.
+            </p>
+          </div>
+          <Link className="button primary" href="/portal/tools">
+            Open student tools <Arrow />
+          </Link>
+        </section>
       </main>
 
       <Footer currentPath="/resources" />
