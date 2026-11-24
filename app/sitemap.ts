@@ -14,6 +14,7 @@ const staticPaths = [
   "/announcements",
   "/events",
   "/resources",
+  "/website-tour",
   "/ads",
   "/campus-navigator",
   "/community",

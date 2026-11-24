@@ -1,0 +1,28 @@
+{
+  "sourceCommit": "f7a851aeab4295e002e989db639cf8ec4efc6340",
+  "capturedAt": "2026-11-24T08:17:48.540Z",
+  "basis": "Fresh Chromium captures of the corrected static export, not Stage 1 footage",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "imageSize": {
+    "width": 960,
+    "height": 675
+  },
+  "fontDelivery": "Existing font families locally fulfilled during private capture; no website styles or content changed",
+  "routes": {
+    "home": "/",
+    "resources": "/resources",
+    "portal": "/portal",
+    "tools": "/portal/tools",
+    "announcements": "/announcements",
+    "events": "/events",
+    "community": "/community",
+    "executives": "/executives",
+    "gallery": "/gallery",
+    "ads": "/ads",
+    "navigator": "/campus-navigator",
+    "contact": "/contact"
+  }
+}

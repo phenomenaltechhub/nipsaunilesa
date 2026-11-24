@@ -10,6 +10,7 @@ import { galleryImages } from "./gallery/data";
 import GalleryImageViewer from "./gallery/gallery-image-viewer";
 import HomepageAdsNotification from "./ads/homepage-ads-notification";
 import { createPageMetadata } from "./seo";
+import WebsiteTourEntry from "./components/website-tour-entry";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Pharmacology Students at University of Ilesa",
@@ -52,6 +53,7 @@ export default function Home() {
             <p className="hero-subtitle">The official student representative body for undergraduates studying Pharmacology at the University of Ilesa, connecting students with academic development, research opportunities, professional networks, student representation, and the wider university community.</p>
             <p className="institution">Department of Pharmacology <span>·</span> University of Ilesa</p>
             <div className="hero-actions"><Link className="button primary" href="/about">Explore NIPSA <Arrow /></Link><Link className="button secondary" href="/portal">Student Portal <span>→</span></Link></div>
+            <WebsiteTourEntry placement="home" />
             <div className="hero-trust"><div className="mini-avatars"><i>NP</i><i>HD</i><i>ST</i></div><span><strong>University of Ilesa Chapter</strong><br />Department of Pharmacology</span></div>
           </div>
             <div className="hero-image-wrap">

@@ -4,6 +4,7 @@ import Header from "../components/site-header";
 import Footer from "../components/site-footer";
 import { BreadcrumbStructuredData } from "../components/seo-json-ld";
 import { createPageMetadata } from "../seo";
+import WebsiteTourEntry from "../components/website-tour-entry";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Resources",
@@ -98,6 +99,7 @@ export default function ResourcesPage() {
                   Community support <Arrow />
                 </Link>
               </div>
+              <WebsiteTourEntry placement="context" />
             </div>
             <aside className="page-hero-aside">
               <span className="mini-label">Resource scope</span>
