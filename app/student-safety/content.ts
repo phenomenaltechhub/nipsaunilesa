@@ -24,7 +24,7 @@ export const safetyNotice: SafetyNotice = {
       "Do not send departmental registration payments to individuals claiming to represent the department without independent confirmation.",
     ] },
     { heading: "University tuition and admission fees", paragraphs: [
-      "University tuition, admission and other university-administered fees are separate from departmental procedures. Follow current payment instructions published by the University of Ilesa through its official website and authorised university channels, including official portals where applicable.",
+      "University tuition, admission and other university-administered fees are separate from departmental procedures. Use only the payment channels officially designated by the University of Ilesa, including its official Student Portal where applicable. Do not pay individuals or purported agents claiming authority to collect university fees; independently verify all payment instructions with the University.",
       "NIPSA’s public website does not process departmental academic registration fees, university tuition or admission payments. Separate authorised NIPSA membership-dues and Student Ads transactions are distinct from these academic fees.",
     ] },
     { heading: "Protect your information", paragraphs: [
