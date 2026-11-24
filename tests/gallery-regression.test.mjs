@@ -28,6 +28,7 @@ test("watermark generation is bound to the explicit download action", () => {
   assert.match(viewer, /context\.drawImage\(logo, logoX, logoY, watermarkWidth, watermarkHeight\)/);
   assert.match(viewer, /canvas\.toBlob\([\s\S]*"image\/png"\)/);
   assert.match(viewer, /link\.download = `\$\{baseName\}-nipsa\.png`/);
+  assert.doesNotMatch(viewer, /Original photograph · Watermark is added to the downloaded copy only\./);
   assert.doesNotMatch(viewer, /context\.fillRect\(/);
   assert.match(viewer, /URL\.revokeObjectURL/);
 });

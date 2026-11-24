@@ -495,7 +495,6 @@ export default function GalleryImageViewer({
           {currentImage?.credit ? <p className="gallery-photo-credit">{currentImage.credit}</p> : null}
           {downloadError ? <p className="gallery-download-error" role="alert">{downloadError}</p> : null}
           {shareStatus ? <p className="gallery-share-status" role="status" aria-live="polite">{shareStatus}</p> : null}
-          <small>Original photograph · Watermark is added to the downloaded copy only.</small>
         </aside>
       </dialog>
     </>
