@@ -1,0 +1,484 @@
+[
+  {
+    "width": 390,
+    "height": 8314,
+    "before": [
+      {
+        "src": "/media/website-tour/images/resources.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 2058
+      },
+      {
+        "src": "/media/website-tour/images/tools.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2529
+      },
+      {
+        "src": "/media/website-tour/images/announcements.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 3028
+      },
+      {
+        "src": "/media/website-tour/images/home.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 3497
+      },
+      {
+        "src": "/media/website-tour/images/events.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 3773
+      },
+      {
+        "src": "/media/website-tour/images/community.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 3999
+      },
+      {
+        "src": "/media/website-tour/images/executives.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 4248
+      },
+      {
+        "src": "/media/website-tour/images/gallery.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 4474
+      },
+      {
+        "src": "/media/website-tour/images/ads.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 4700
+      },
+      {
+        "src": "/media/website-tour/images/navigator.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 4927
+      },
+      {
+        "src": "/media/website-tour/images/contact.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 5203
+      }
+    ],
+    "screenshotOnly": [
+      {
+        "src": "/media/website-tour/images/resources.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 2058
+      },
+      {
+        "src": "/media/website-tour/images/tools.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2529
+      },
+      {
+        "src": "/media/website-tour/images/announcements.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 3028
+      },
+      {
+        "src": "/media/website-tour/images/home.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 3497
+      },
+      {
+        "src": "/media/website-tour/images/events.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 3773
+      },
+      {
+        "src": "/media/website-tour/images/community.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 3999
+      },
+      {
+        "src": "/media/website-tour/images/executives.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 4248
+      },
+      {
+        "src": "/media/website-tour/images/gallery.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 4474
+      },
+      {
+        "src": "/media/website-tour/images/ads.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 4700
+      },
+      {
+        "src": "/media/website-tour/images/navigator.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 4927
+      },
+      {
+        "src": "/media/website-tour/images/contact.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 5203
+      }
+    ],
+    "after": [
+      {
+        "src": "/media/website-tour/images/resources.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 2058
+      },
+      {
+        "src": "/media/website-tour/images/tools.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 2529
+      },
+      {
+        "src": "/media/website-tour/images/announcements.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 3028
+      },
+      {
+        "src": "/media/website-tour/images/home.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 3497
+      },
+      {
+        "src": "/media/website-tour/images/events.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 3773
+      },
+      {
+        "src": "/media/website-tour/images/community.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 3999
+      },
+      {
+        "src": "/media/website-tour/images/executives.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 4248
+      },
+      {
+        "src": "/media/website-tour/images/gallery.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 4474
+      },
+      {
+        "src": "/media/website-tour/images/ads.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 4700
+      },
+      {
+        "src": "/media/website-tour/images/navigator.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 4927
+      },
+      {
+        "src": "/media/website-tour/images/contact.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 5203
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "height": 4530,
+    "before": [
+      {
+        "src": "/media/website-tour/images/resources.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1423
+      },
+      {
+        "src": "/media/website-tour/images/tools.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1423
+      },
+      {
+        "src": "/media/website-tour/images/announcements.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1423
+      },
+      {
+        "src": "/media/website-tour/images/home.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1924
+      },
+      {
+        "src": "/media/website-tour/images/events.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1924
+      },
+      {
+        "src": "/media/website-tour/images/community.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1924
+      },
+      {
+        "src": "/media/website-tour/images/executives.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2186
+      },
+      {
+        "src": "/media/website-tour/images/gallery.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2186
+      },
+      {
+        "src": "/media/website-tour/images/ads.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2186
+      },
+      {
+        "src": "/media/website-tour/images/navigator.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2404
+      },
+      {
+        "src": "/media/website-tour/images/contact.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2404
+      }
+    ],
+    "screenshotOnly": [
+      {
+        "src": "/media/website-tour/images/resources.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1423
+      },
+      {
+        "src": "/media/website-tour/images/tools.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1423
+      },
+      {
+        "src": "/media/website-tour/images/announcements.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1423
+      },
+      {
+        "src": "/media/website-tour/images/home.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1924
+      },
+      {
+        "src": "/media/website-tour/images/events.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1924
+      },
+      {
+        "src": "/media/website-tour/images/community.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1924
+      },
+      {
+        "src": "/media/website-tour/images/executives.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2186
+      },
+      {
+        "src": "/media/website-tour/images/gallery.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2186
+      },
+      {
+        "src": "/media/website-tour/images/ads.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2186
+      },
+      {
+        "src": "/media/website-tour/images/navigator.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2404
+      },
+      {
+        "src": "/media/website-tour/images/contact.webp",
+        "loading": "lazy",
+        "complete": false,
+        "naturalWidth": 0,
+        "top": 2404
+      }
+    ],
+    "after": [
+      {
+        "src": "/media/website-tour/images/resources.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1423
+      },
+      {
+        "src": "/media/website-tour/images/tools.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1423
+      },
+      {
+        "src": "/media/website-tour/images/announcements.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1423
+      },
+      {
+        "src": "/media/website-tour/images/home.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1924
+      },
+      {
+        "src": "/media/website-tour/images/events.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1924
+      },
+      {
+        "src": "/media/website-tour/images/community.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 1924
+      },
+      {
+        "src": "/media/website-tour/images/executives.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 2186
+      },
+      {
+        "src": "/media/website-tour/images/gallery.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 2186
+      },
+      {
+        "src": "/media/website-tour/images/ads.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 2186
+      },
+      {
+        "src": "/media/website-tour/images/navigator.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 2404
+      },
+      {
+        "src": "/media/website-tour/images/contact.webp",
+        "loading": "lazy",
+        "complete": true,
+        "naturalWidth": 960,
+        "top": 2404
+      }
+    ]
+  }
+]

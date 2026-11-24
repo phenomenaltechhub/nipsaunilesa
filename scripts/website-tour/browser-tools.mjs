@@ -27,3 +27,22 @@ export async function go(page, base, path) {
   if (response.status() !== 200) throw new Error(`Unexpected HTTP ${response.status()}: ${path}`);
   await settle(page);
 }
+
+// A full-page screenshot does not scroll the browser and therefore does not load
+// below-the-fold lazy images. Exercise real scrolling, then verify decoded pixels.
+// Keep the product's lazy-loading behavior unchanged.
+export async function loadReviewImages(page) {
+  const images = page.locator('img:visible');
+  for (const image of await images.all()) {
+    await image.scrollIntoViewIfNeeded();
+    await image.evaluate(async element => {
+      await element.decode();
+      if (!element.complete || element.naturalWidth === 0) throw new Error(`Image failed: ${element.currentSrc}`);
+    });
+  }
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+  await settle(page);
+  return page.locator('img:visible').evaluateAll(elements => elements.map(image => ({
+    src: image.getAttribute('src'), complete: image.complete, width: image.naturalWidth, height: image.naturalHeight,
+  })));
+}

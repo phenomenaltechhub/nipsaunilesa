@@ -117,5 +117,21 @@
         "Return to Menu, Resources or the Student Portal whenever you need another starting point. Explore at your own pace."
       ]
     }
-  ]
+  ],
+  "encoding": {
+    "videoCodec": "h264",
+    "videoProfile": "High",
+    "width": 1280,
+    "height": 720,
+    "frameRate": "24/1",
+    "videoDurationSeconds": 286.5,
+    "videoFrames": 6876,
+    "audioCodec": "aac",
+    "audioProfile": "LC",
+    "audioSampleRateHz": 48000,
+    "audioChannels": 1,
+    "durationSeconds": 286.5,
+    "bytes": 8006573,
+    "sha256": "d0e14bc2a81694316233d66ee164b6c22d74f2943c8f21001f728c6c327899f3"
+  }
 }

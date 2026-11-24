@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import assert from 'node:assert/strict';
-import { configureCapture, go } from './browser-tools.mjs';
+import { configureCapture, go, loadReviewImages } from './browser-tools.mjs';
 const { chromium } = createRequire(import.meta.url)('playwright');
 
 const base = process.env.TOUR_PREVIEW_URL || 'http://127.0.0.1:3420';
@@ -28,6 +28,11 @@ try {
     assert.equal(await page.locator('img[src=""], source[src=""]').count(), 0);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Overflow at ${width}`);
     assert.ok((await page.locator('h1').boundingBox()).x >= 16, 'Keep readable side margins on narrow phones');
+    const loadedImages = await loadReviewImages(page);
+    assert.ok(loadedImages.every(image => image.complete && image.width > 0));
+    assert.equal(await page.locator('#tour-destinations img:visible').count(), width <= 760 ? 3 : 11);
+    const pageHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+    assert.equal(videoRequests.length, 0, 'Scrolling the directory must not request the movie');
     await page.screenshot({ path: resolve(output, `tour-${width}-full.png`), fullPage: true, animations: 'disabled' });
     await page.screenshot({ path: resolve(output, `tour-${width}-hero.png`), animations: 'disabled' });
 
@@ -55,7 +60,7 @@ try {
 
     await page.getByRole('button', { name: /03 Student Portal and study tools/ }).click();
     const video = page.locator('video');
-    await page.waitForFunction(() => { const video = document.querySelector('video'); return video.readyState >= 2 && !video.paused && video.currentTime > 50; });
+    await page.waitForFunction(() => { const video = document.querySelector('video'); return video.readyState >= 2 && !video.seeking && !video.paused && video.currentTime > 50; });
     assert.ok(Math.abs(await video.evaluate(video => video.currentTime) - media.chapters[2].start) < 5);
     await video.evaluate(video => video.pause());
     await video.focus(); await page.keyboard.press('Space');
@@ -85,10 +90,35 @@ try {
     await page.locator('#tour-transcript summary').focus(); await page.keyboard.press('Enter');
     assert.equal(await page.locator('#tour-transcript').evaluate(element => element.open), false);
 
+    // Seek forward and backward through the encoded file, including each chapter.
+    for (const [index, chapter] of media.chapters.entries()) {
+      await page.getByRole('group', { name: 'Video chapters' }).getByRole('button').nth(index).click();
+      await page.waitForFunction(target => { const video = document.querySelector('video'); return video.readyState >= 2 && !video.seeking && Math.abs(video.currentTime - target) < 2; }, chapter.start);
+      await video.evaluate(video => video.pause());
+      await video.evaluate((video, time) => { video.currentTime = time; }, chapter.start + 1);
+      await page.waitForFunction(text => { const video = document.querySelector('video'); return !video.seeking && video.readyState >= 2 && video.textTracks[0].activeCues?.[0]?.text.replace(/\s+/g, ' ') === text; }, chapter.paragraphs[0]);
+      if (chapter.id === 'portal' && [390, 1440].includes(width)) {
+        // Evidence of the real encoded calculation in the native player. Captions
+        // are temporarily off, an ordinary available player option, then restored.
+        await video.evaluate((video, time) => { video.textTracks[0].mode = 'hidden'; video.currentTime = time; }, chapter.start + 43);
+        await page.waitForFunction(() => { const video = document.querySelector('video'); return !video.seeking && video.readyState >= 2; });
+        // Rapid test navigation can leave competing smooth scrolls in flight.
+        // Use an ordinary centered scroll for this evidence frame; no UI is hidden.
+        await video.evaluate(video => video.scrollIntoView({ block: 'center', behavior: 'instant' }));
+        await page.waitForTimeout(350);
+        const frame = await video.boundingBox();
+        const headerBottom = await page.locator('header').evaluate(header => header.getBoundingClientRect().bottom);
+        assert.ok(frame.y >= headerBottom - 1 && frame.y + frame.height <= page.viewportSize().height);
+        await video.screenshot({ path: resolve(output, `player-${width}-gpa-captions-off.png`), animations: 'disabled' });
+        await video.evaluate(video => { video.textTracks[0].mode = 'showing'; });
+      }
+    }
+
     await go(page, base, '/');
     assert.equal(await page.locator('dialog:visible').count(), 0);
     assert.equal(await page.getByRole('heading', { name: /Learn boldly/ }).isVisible(), true);
     assert.equal(await page.getByRole('link', { name: /New here\? Explore the website/ }).isVisible(), true);
+    await loadReviewImages(page);
     await page.screenshot({ path: resolve(output, `home-${width}-entry.png`), fullPage: true, animations: 'disabled' });
     await page.getByRole('button', { name: 'Menu', exact: true }).click();
     const tourLink = page.locator('#site-navigation-overlay').getByRole('link', { name: 'Tour', exact: true });
@@ -99,7 +129,7 @@ try {
     await page.getByRole('dialog').waitFor({ state: 'visible' }); await page.keyboard.press('ArrowRight'); await page.keyboard.press('Escape');
     await page.waitForTimeout(200); assert.equal(await page.locator('dialog:visible').count(), 0);
     assert.deepEqual(errors, []);
-    results.push({ width, passed: true, axe: !!process.env.TOUR_AXE_PATH, physicalDevice: false, reducedMotion: width === 320 });
+    results.push({ width, passed: true, axe: !!process.env.TOUR_AXE_PATH, physicalDevice: false, reducedMotion: width === 320, pageHeight, loadedImages, chaptersSeeked: media.chapters.length });
     await context.close();
     console.log('PASS browser interactions, media, homepage and Gallery at', width);
   }

@@ -1,0 +1,18 @@
+{
+  "description": "Restrained camera emphasis on authentic recorded controls. Times are relative to each unchanged chapter; coordinates are pixels in the 1280×720 video frame.",
+  "chapters": {
+    "resources": [
+      { "label": "Orientation PDF Open and Download controls", "start": 8, "end": 19, "zoom": 2.2, "center": [640, 560] }
+    ],
+    "portal": [
+      { "label": "Review the sample grade labels and points", "start": 24, "end": 29, "zoom": 1.4, "center": [520, 450] },
+      { "label": "Explicitly labelled illustrative course entries", "start": 33, "end": 36, "zoom": 1.6, "center": [380, 535] },
+      { "label": "Actual credit-unit and grade inputs", "start": 36.5, "end": 39.5, "zoom": 1.9, "center": [900, 560] },
+      { "label": "Actual calculated GPA and confirmation", "start": 40, "end": 48, "zoom": 2.2, "center": [360, 420] }
+    ],
+    "gallery": [
+      { "label": "Actual viewer zoom and navigation commands", "start": 4, "end": 8, "zoom": 1.7, "center": [1000, 150] },
+      { "label": "Download watermarked copy control", "start": 28, "end": 34, "zoom": 2, "center": [1080, 120] }
+    ]
+  }
+}

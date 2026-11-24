@@ -1,6 +1,6 @@
 # Website Tour — implementation and maintenance
 
-The `/website-tour` page uses the provisional **Guided Canvas** direction. Its visual design and narration remain subject to owner review. No merge or production publication is authorized by this implementation.
+The `/website-tour` page retains the provisionally approved **Guided Canvas** layout, educational structure, nine chapters and Tour entry points. Final media and publication approval remain outstanding. The initial implementation was already merged externally through PR #7 before this refinement session; these refinements are confined to `feature/website-tour` and are not authorized for merge or deployment.
 
 ## Implemented experience
 
@@ -37,7 +37,7 @@ The shipped MP4 is an edited genuine screen recording, with original educational
 Production tools (outside website dependencies):
 
 - Playwright 1.62.1 and installed Chromium, for real navigation/controls/downloads and recordings. Playwright Apache-2.0; Chromium third-party notices remain with the installed browser.
-- FFmpeg 7, H.264/yuv420p at 1280×720/24 fps, AAC mono 64 kb/s, fast-start MP4. Codec/tool licensing remains with the installed binaries; neither is redistributed in the app.
+- FFmpeg 7, H.264/yuv420p at 1280×720/24 fps, 48 kHz AAC-LC mono at 64 kb/s, fast-start MP4. The output sample rate and profile are explicit encoder settings and are verified against the actual bitstream. Codec/tool licensing remains with the installed binaries; neither is redistributed in the app.
 - `sherpa-onnx==1.13.8`, Apache-2.0 ([licence](website-tour-licences/SHERPA_ONNX_LICENSE.txt)). Version 2.0.3 removed this model's built-in pronunciation frontend and was unsuitable for this workflow; it is not used.
 - Piper `en_US-ljspeech-high` neural model: [release archive](https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-ljspeech-high.tar.bz2), SHA-256 `00c6408d2409050312193b0d40ae07fde28af7d3d45a56efcc55440db516b935`. Its [model card](website-tour-licences/LJSPEECH_MODEL_CARD.txt) identifies the public-domain [LJ Speech dataset](https://keithito.com/LJ-Speech-Dataset/). Only generated narration is shipped; model weights and bundled pronunciation tools are not redistributed. The voice is synthetic, not an institutional spokesperson. Owner review of pronunciations is still appropriate.
 - Existing DM Sans and Space Grotesk families were fulfilled locally in the capture browser because Google Fonts is blocked here. OFL-1.1 fonts are tooling inputs only; no website font or styling substitutions were committed. Analytics was a no-op only in the private capture/test contexts.
@@ -60,9 +60,9 @@ TOUR_FONT_DIR=/path/to/fonts node scripts/website-tour/capture-sections.mjs
 python3 scripts/website-tour/encode.py /path/to/work
 ```
 
-Optional `TOUR_CHAPTER=gallery` re-records one chapter without discarding completed recordings; encoding reads each individual chapter log. `PLAYWRIGHT_BROWSERS_PATH` may be needed for the installed recording FFmpeg binary. `CHROMIUM_PATH` can override the browser path. `TOUR_SOURCE_URL` defaults to the private source server. Capture logs record genuine action times, raw media paths and errors. They contain only public site data and isolated examples.
+Optional `TOUR_CHAPTER=gallery` or a comma-separated list of chapter IDs re-records selected chapters without discarding completed recordings; encoding reads each individual chapter log. `PLAYWRIGHT_BROWSERS_PATH` may be needed for the installed recording FFmpeg binary. `CHROMIUM_PATH` can override the browser path. `TOUR_SOURCE_URL` defaults to the private source server. Preview stills are produced separately by `capture-sections.mjs`; recordings do not overwrite them unless `TOUR_CAPTURE_STILLS=1` is explicitly set. Capture logs record genuine action times, raw media paths and errors. They contain only public site data and isolated examples.
 
-Audio cue lengths are measured from generated PCM samples and padded to the storyboard's minimum action time. VTT cue boundaries follow those exact spoken segments, including the short lead-in; the same text generates the narration and transcript. The encoder trims capture pre-roll, adds the corresponding chapter narration, normalizes loudness and concatenates chapters. Navigator uses a narrower viewport with pillarboxing to demonstrate its actual Map/Directory controls. Pointer highlighting and the explicit GPA example annotation are recording aids only, not website modifications.
+Audio cue lengths are measured from generated PCM samples and padded to the storyboard's minimum action time. VTT cue boundaries follow those exact spoken segments, including the short lead-in; the same text generates the narration and transcript. The encoder trims capture pre-roll, adds the corresponding chapter narration, normalizes loudness and concatenates chapters. Navigator uses an authentic 640×360 responsive landscape viewport, scaled to the same 16:9 frame, so its actual Map/Directory controls and explanation are readable without pillarboxing. Pointer highlighting and the explicit GPA example annotation are recording aids only, not website modifications. Welcome/closing footage uses the real floating Ads control’s session-dismiss action; no CSS hides production functionality. `editing.json` defines short, smoothly eased camera zooms over the original recorded pixels for the PDF buttons, sample scale, example inputs/result and Gallery commands. The encoder keeps one continuous narration stream, forces 48 kHz AAC-LC after loudness normalization, and records verified encoding metadata in the application manifest and `docs/website-tour-review/media-metadata.json`. It does not retype, replace or fabricate website screens. Screencast tails can be slightly shorter than their wall-clock slots; the encoder holds each final genuine frame as needed and asserts exact 24 fps chapter frame counts, preventing cumulative drift against the unchanged narration. Both final streams must meet the original 286.5-second timeline.
 
 ### Hosting decision
 
@@ -85,6 +85,8 @@ TOUR_FONT_DIR=/path/to/fonts TOUR_AXE_PATH=/path/to/axe.min.js \
 ffprobe -v error -show_format -show_streams public/media/website-tour/walkthrough.mp4
 ffmpeg -v error -i public/media/website-tour/walkthrough.mp4 -f null -
 ```
+
+For screenshots, `loadReviewImages` scrolls each visible image into view, awaits `decode()`, checks intrinsic dimensions and then returns to the top. Full-page capture alone does not trigger all native lazy images. Keep product lazy loading intact. Secondary phone destinations are compact text rows with all descriptions and links retained; the three featured previews remain illustrated.
 
 See `WEBSITE_TOUR_VALIDATION.md` for executed results and remaining review requirements. A private server is not a public preview URL. Downloadable review screenshots and media are provided separately and linked in the PR/review report.
 
