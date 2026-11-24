@@ -22,7 +22,8 @@ test('content distinguishes owner-confirmed departmental procedures from univers
   const text = notice.sections.flatMap(s=>s.paragraphs).join(' ');
   assert.match(text,/handled physically at the department/);
   assert.match(text,/receipt arrangements/);
-  assert.match(text,/official portals where applicable/);
+  assert.match(text,/official Student Portal where applicable/);
+  assert.match(text,/Do not pay individuals or purported agents/);
   assert.match(text,/membership-dues and Student Ads transactions are distinct/);
   assert.match(text,/Do not publish private information/);
   assert.equal(notice.sections.length,5);
