@@ -14,36 +14,20 @@ export const metadata: Metadata = createPageMetadata({
 const communityAreas = [
   {
     title: "Study circles",
-    paragraphs: [
-      "Study circles are peer-led spaces where NIPSA students can learn together outside the formal classroom. They provide an opportunity to revise difficult pharmacology topics, compare notes, discuss concepts, ask questions, and test understanding through peer discussion.",
-      "The focus is not simply on group study, but on collaborative learning and academic support. Students can work through challenging topics together, share useful study materials, explain concepts to one another, and build confidence before tests, examinations, presentations, and other academic activities.",
-      "Study circles can also encourage consistency and accountability. Learning alongside peers makes it easier to identify areas that need more attention, exchange different approaches to understanding a topic, and maintain productive study habits throughout the semester.",
-    ],
-    ctaLabel: "Open NIPSA Telegram Notice Board",
-    href: "https://t.me/+FYZPQBrwE_U3N2Rk",
-     supportLabel: "Unable to join?",
-     supportText: "Contact the NIPSA administrator at",
-     supportHref: "mailto:admin@nipsaunilesa.com.ng",
-     supportEmail: "admin@nipsaunilesa.com.ng",
+    description: "You can arrange informal study sessions with classmates to compare notes, work through difficult topics and keep revision on track.",
+    action: "Browse study resources",
+    href: "/resources",
   },
   {
     title: "Mentorship",
-    paragraphs: [
-      "Mentorship provides students with an opportunity to seek guidance from more experienced members of the academic community. It can help students navigate university life, develop better academic habits, understand opportunities within pharmacology, and make more informed decisions about their academic and professional development.",
-      "Mentorship can cover practical questions that are not always answered in the classroom—from managing academic demands and improving study approaches to exploring research interests, professional opportunities, and possible career pathways.",
-      "The goal is to encourage guidance, knowledge-sharing, and personal development, while giving students a channel through which they can seek advice when they need it.",
-    ],
-    ctaLabel: "Connect with NIPSA",
+    description: "An experienced student can offer perspective on study routines, research interests and career choices. Contact NIPSA for guidance on where to seek advice.",
+    action: "Contact NIPSA",
     href: "/contact",
   },
   {
     title: "Campus updates",
-    paragraphs: [
-      "Campus Updates keeps students informed about the activities, announcements, and important information relevant to the NIPSA community.",
-      "This includes updates about NIPSA activities, departmental events, student programmes, important notices, deadlines, and changes that students need to know about. Having these updates in one place makes it easier for students to stay aware of what is happening around the department and participate when opportunities arise.",
-      "Students should regularly check the announcements channel for new information rather than relying solely on word of mouth or informal communication.",
-    ],
-    ctaLabel: "View Announcements",
+    description: "Check chapter announcements for departmental events, deadlines and changes. The NIPSA Telegram Notice Board carries public notices. Class groups are arranged separately.",
+    action: "View announcements",
     href: "/announcements",
   },
 ];
@@ -67,11 +51,11 @@ export default function CommunityPage() {
                 A community for <em>Pharmacology students</em>
               </h1>
               <p className="page-subtitle">
-                Learn with your peers, find support from mentors and keep up with what is happening around the department.
+                Find ideas for studying with peers, contacts for advice and updates from the chapter.
               </p>
               <div className="page-cta-row">
                 <Link className="button primary" href="/events">
-                  Join an event <Arrow />
+                  Browse events <Arrow />
                 </Link>
                 <Link className="button secondary" href="/resources">
                   Access resources <Arrow />
@@ -82,75 +66,31 @@ export default function CommunityPage() {
               <span className="mini-label">Community focus</span>
               <strong className="big-stat community-summary-stat">Peer learning</strong>
               <p>
-                Study groups, mentorship, and timely updates help students stay connected, supported, and informed.
+                Start with a classmate for informal revision or contact NIPSA for help finding support.
               </p>
             </aside>
           </div>
         </section>
 
-        <section className="community-panel-grid" aria-label="Community programme areas">
+        <section className="community-panel-grid" aria-label="Peer support and chapter updates">
           {communityAreas.map((group) => (
             <article className="community-panel" key={group.title}>
-              <span className="card-tag">Community</span>
-              <h3>{group.title}</h3>
-
-              {group.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-
-              {group.title === "Study circles" ? (
-                  <>
-                    <div className="community-access">
-                      <p>
-                        <strong>
-                          The NIPSA UNILESA Telegram Notice Board shares chapter announcements and student updates.
-                        </strong>{" "}
-                        Access to any separate class group is arranged independently and is not provided through this public notice board.
-                      </p>
-
-                      <p>
-                        <strong>Follow the official NIPSA Telegram channel for public notices:</strong>
-                      </p>
-                    </div>
-
-                    <div className="community-panel-actions">
-                      <Link
-                        className="community-panel-link"
-                        href={group.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {group.ctaLabel} <Arrow />
-                      </Link>
-
-                    </div>
-                  </>
-                ) : (
-                  <div className="community-panel-actions">
-                    <Link
-                      className="community-panel-link"
-                      href={group.href}
-                      target={group.href.startsWith("http") ? "_blank" : undefined}
-                      rel={group.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    >
-                      {group.ctaLabel} <Arrow />
-                    </Link>
-                  </div>
+              <h2>{group.title}</h2>
+              <p>{group.description}</p>
+              <div className="community-panel-actions">
+                <Link className="community-panel-link" href={group.href}>{group.action} <Arrow /></Link>
+                {group.href === "/announcements" && (
+                  <a className="community-panel-link" href="https://t.me/+FYZPQBrwE_U3N2Rk" target="_blank" rel="noopener noreferrer">
+                    Open NIPSA Telegram Notice Board <Arrow />
+                  </a>
                 )}
-
-                {group.supportHref && (
-                  <p className="community-panel-support">
-                    <strong>{group.supportLabel}</strong>{" "}
-                    {group.supportText}{" "}
-                    <Link
-                      href={group.supportHref}
-                      className="community-panel-support-link"
-                    >
-                      {group.supportEmail}
-                    </Link>{" "}
-                    for assistance.
-                  </p>
-                )}
+              </div>
+              {group.href === "/announcements" && (
+                <p className="community-panel-support">
+                  Trouble joining the notice board? Email{" "}
+                  <a className="community-panel-support-link" href="mailto:admin@nipsaunilesa.com.ng">admin@nipsaunilesa.com.ng</a>.
+                </p>
+              )}
             </article>
           ))}
         </section>

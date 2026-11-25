@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { navItems } from "../config/navigation";
 import WebsiteTourEntry from "./website-tour-entry";
 
@@ -34,6 +35,8 @@ function BrandLink() {
 }
 
 export default function Header({ currentPath = "/" }: { currentPath?: string }) {
+  const pathname = usePathname();
+  const activeLocation = pathname?.replace(/\/$/, "") === currentPath || currentPath === "/" ? "page" : "location";
   const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -154,12 +157,17 @@ export default function Header({ currentPath = "/" }: { currentPath?: string }) 
   return (
     <header
       ref={headerRef}
+      onBlur={(event) => {
+        if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) {
+          setIsMenuOpen(false);
+        }
+      }}
       className={`site-header${isScrolled ? " is-scrolled" : ""}${isHidden ? " is-hidden" : ""}`}
     >
       <nav className="nav container" aria-label="Site header">
         <BrandLink />
         <div className="header-controls">
-          <Link className="portal-button" href={portalHref}>
+          <Link className="portal-button" href={portalHref} aria-current={currentPath === portalHref ? activeLocation : undefined}>
             Student Portal <Arrow />
           </Link>
           <WebsiteTourEntry placement="navigation" />
@@ -190,7 +198,7 @@ export default function Header({ currentPath = "/" }: { currentPath?: string }) 
                 key={item.href}
                 href={item.href}
                 className={`nav-overlay-link${item.href === currentPath ? " active" : ""}`}
-                aria-current={item.href === currentPath ? "page" : undefined}
+                aria-current={item.href === currentPath ? activeLocation : undefined}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}

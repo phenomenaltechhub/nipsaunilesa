@@ -163,7 +163,7 @@ export default function AdsPageContent() {
             </h2>
           </div>
 
-          <div className="ads-category-filter" role="tablist" aria-label="Filter ads by category">
+          <div className="ads-category-filter" role="group" aria-label="Filter ads by category">
             {allCategories.map((category) => (
               <button
                 key={category}
