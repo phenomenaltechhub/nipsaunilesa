@@ -19,10 +19,8 @@ const communityAreas = [
       "The focus is not simply on group study, but on collaborative learning and academic support. Students can work through challenging topics together, share useful study materials, explain concepts to one another, and build confidence before tests, examinations, presentations, and other academic activities.",
       "Study circles can also encourage consistency and accountability. Learning alongside peers makes it easier to identify areas that need more attention, exchange different approaches to understanding a topic, and maintain productive study habits throughout the semester.",
     ],
-    ctaLabel: "Join the WhatsApp Community",
-    href: "https://chat.whatsapp.com/Lr9o3E6iXpmItO0hB8moG7",
-     secondaryCtaLabel: "Join the Telegram Channel",
-     secondaryHref: "https://t.me/+FYZPQBrwE_U3N2Rk",
+    ctaLabel: "Open NIPSA Telegram Notice Board",
+    href: "https://t.me/+FYZPQBrwE_U3N2Rk",
      supportLabel: "Unable to join?",
      supportText: "Contact the NIPSA administrator at",
      supportHref: "mailto:admin@nipsaunilesa.com.ng",
@@ -105,14 +103,13 @@ export default function CommunityPage() {
                     <div className="community-access">
                       <p>
                         <strong>
-                          The NIPSA UNILESA Community is open to members of the department.
+                          The NIPSA UNILESA Telegram Notice Board shares chapter announcements and student updates.
                         </strong>{" "}
-                        Individual class groups within the community will require admin
-                        approval before access is granted.
+                        Access to any separate class group is arranged independently and is not provided through this public notice board.
                       </p>
 
                       <p>
-                        <strong>Connect through either of the official NIPSA channels:</strong>
+                        <strong>Follow the official NIPSA Telegram channel for public notices:</strong>
                       </p>
                     </div>
 
@@ -126,16 +123,6 @@ export default function CommunityPage() {
                         {group.ctaLabel} <Arrow />
                       </Link>
 
-                      {group.secondaryHref && (
-                        <Link
-                          className="community-panel-link"
-                          href={group.secondaryHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {group.secondaryCtaLabel} <Arrow />
-                        </Link>
-                      )}
                     </div>
                   </>
                 ) : (
