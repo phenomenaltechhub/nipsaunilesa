@@ -77,9 +77,9 @@ export default function PortalPage() {
                 <p>Practical tips for studying smarter, remembering what you learn, revising effectively and preparing for tests and examinations.</p>
               </article>
               <article className="portal-feature">
-                <div className="portal-feature-heading"><h3>Study Circles</h3><Status status="Available" /></div>
-                <p>You do not always have to figure everything out alone. Study circles give students a chance to revise together, discuss difficult topics, compare notes and prepare for academic activities as a group.</p>
-                <a className="portal-inline-link" href="https://chat.whatsapp.com/Lr9o3E6iXpmItO0hB8moG7" target="_blank" rel="noopener noreferrer">Join the WhatsApp Community <Arrow /></a>
+                <div className="portal-feature-heading"><h3>Community Updates</h3><Status status="Available" /></div>
+                <p>Follow the official NIPSA Telegram Notice Board for chapter announcements, student information and relevant academic updates. Separate study circles and class groups are not provided through this channel.</p>
+                <a className="portal-inline-link" href="https://t.me/+FYZPQBrwE_U3N2Rk" target="_blank" rel="noopener noreferrer">Open Telegram Notice Board <Arrow /></a>
                 <Link className="portal-secondary-link" href="/community">Learn about the wider community</Link>
               </article>
               <article className="portal-feature">
@@ -171,7 +171,7 @@ export default function PortalPage() {
             <div className="portal-section-heading">
               <p className="eyebrow">What you can use now</p>
               <h2 id="what-you-can-use">Start with what is already available</h2>
-              <p>The Portal is already connected to resources available across the website, including Study Tips, Study Circles, public academic resources, academic announcements, NIPSA activities, community information and student support channels.</p>
+              <p>The Portal is already connected to resources available across the website, including Study Tips, the Telegram Notice Board, public academic resources, academic announcements, NIPSA activities, community information and student support channels.</p>
             </div>
             <p className="portal-note">More will be added over time. Anything marked <strong>Coming Soon</strong> is something we intend to make available, but it is not available yet.</p>
           </section>
@@ -185,7 +185,7 @@ export default function PortalPage() {
               <div><h3>Academic matters</h3><p>For academic questions and academic support.</p><a href="mailto:academics@nipsaunilesa.com.ng">academics@nipsaunilesa.com.ng</a></div>
               <div><h3>General enquiries</h3><p>For information, feedback, suggestions, concerns or help finding the right office.</p><a href="mailto:info@nipsaunilesa.com.ng">info@nipsaunilesa.com.ng</a></div>
               <div><h3>Administrative matters</h3><p>For general administrative enquiries.</p><a href="mailto:admin@nipsaunilesa.com.ng">admin@nipsaunilesa.com.ng</a></div>
-              <div><h3>Community matters</h3><p>For study circles, peer support and student community activities.</p><a href="https://chat.whatsapp.com/Lr9o3E6iXpmItO0hB8moG7" target="_blank" rel="noopener noreferrer">WhatsApp Community <Arrow /></a><Link href="/community">Community page</Link></div>
+              <div><h3>Community matters</h3><p>For official NIPSA public announcements, use the Telegram Notice Board. For community assistance or study-circle enquiries, visit the Community page.</p><a href="https://t.me/+FYZPQBrwE_U3N2Rk" target="_blank" rel="noopener noreferrer">Telegram Notice Board <Arrow /></a><Link href="/community">Community page</Link></div>
               <div><h3>Other contact routes</h3><p>Sports, social and public-facing matters can use the relevant additional contact addresses.</p><a href="mailto:sports@nipsaunilesa.com.ng">Sports</a><a href="mailto:social@nipsaunilesa.com.ng">Social</a><a href="mailto:publicrelations@nipsaunilesa.com.ng">Public relations</a></div>
             </div>
             <Link className="button secondary portal-directory-link" href="/contact">Contact Directory <Arrow /></Link>
