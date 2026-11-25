@@ -69,22 +69,23 @@ export default function PortalPage() {
             <div className="portal-section-heading">
               <p className="eyebrow">01 · Academic support</p>
               <h2 id="academic-support">Study with more direction</h2>
-              <p>University can get demanding when you are dealing with several courses, tests, assignments and examinations at the same time. These practical starting points can help you study effectively and make better use of the support around you.</p>
+              <p>Find a study guide, check chapter updates or ask for academic support.</p>
             </div>
             <div className="portal-support-grid">
               <article className="portal-feature">
                 <div className="portal-feature-heading"><h3>Study Tips</h3><Status status="Available" /></div>
-                <p>Practical tips for studying smarter, remembering what you learn, revising effectively and preparing for tests and examinations.</p>
+                <p>Plan revision and prepare for assessments with the study skills guide.</p>
+                <a className="portal-inline-link" href="/resources/nipsa-study-skills-guide.pdf">Read the study skills guide (PDF) <Arrow /></a>
               </article>
               <article className="portal-feature">
                 <div className="portal-feature-heading"><h3>Community Updates</h3><Status status="Available" /></div>
-                <p>Follow the official NIPSA Telegram Notice Board for chapter announcements, student information and relevant academic updates. Separate study circles and class groups are not provided through this channel.</p>
+                <p>Read public chapter notices and academic updates on Telegram.</p>
                 <a className="portal-inline-link" href="https://t.me/+FYZPQBrwE_U3N2Rk" target="_blank" rel="noopener noreferrer">Open Telegram Notice Board <Arrow /></a>
                 <Link className="portal-secondary-link" href="/community">Learn about the wider community</Link>
               </article>
               <article className="portal-feature">
                 <div className="portal-feature-heading"><h3>Academic Support</h3><Status status="Available" /></div>
-                <p>When you are stuck on a difficult topic or unsure where to find something, NIPSA can help point you towards the right academic resources and support.</p>
+                <p>Ask where to find materials or whom to contact about a course.</p>
                 <a className="portal-inline-link" href="mailto:academics@nipsaunilesa.com.ng">Email academic support <Arrow /></a>
                 <Link className="portal-secondary-link" href="/contact">Find broader assistance</Link>
               </article>
@@ -94,8 +95,8 @@ export default function PortalPage() {
           <section className="portal-section portal-section--surface" aria-labelledby="academic-toolkit">
             <div className="portal-section-heading">
               <p className="eyebrow">02 · Student academic toolkit</p>
-              <h2 id="academic-toolkit">Resources that grow with you</h2>
-              <p>This is where the Portal will gradually become more useful as more materials are added. Public materials already available through NIPSA are linked directly; planned resources are clearly marked.</p>
+              <h2 id="academic-toolkit">Academic resources and notices</h2>
+              <p>Browse published materials below. Planned collections are marked Coming Soon.</p>
             </div>
             <div className="portal-toolkit">
               <div className="portal-toolkit-row portal-toolkit-row--available">
@@ -122,8 +123,7 @@ export default function PortalPage() {
               <h2 id="semester-guide">Build habits before pressure builds</h2>
             </div>
             <div className="portal-reading">
-              <p>Good preparation is usually easier than trying to catch up when examinations are already close. Organise your notes and coursework, plan revision, keep track of tests and assignments, build a study routine, prepare deliberately for examinations and make time for activities outside academics.</p>
-              <p>The Portal will also share ideas for making better use of study circles and other forms of peer support. The goal is not to prescribe one perfect routine, but to help you find practical habits that work through the semester.</p>
+              <p>At the start of each week, check assignment dates and choose topics to revise. Leave time for breaks and activities outside class.</p>
             </div>
           </section>
 
@@ -131,7 +131,7 @@ export default function PortalPage() {
             <div className="portal-section-heading">
               <p className="eyebrow">04 · Pharmacology student guide</p>
               <h2 id="pharmacology-guide">Understand more than drug names</h2>
-              <p>Pharmacology is much more than memorising drug names. Understanding how drugs work, why they are used, what they affect and how they are applied in practice is an important part of becoming a good pharmacology student.</p>
+              <p>Planned guides cover how medicines work, how they are used and how to approach research.</p>
             </div>
             <div className="portal-coming-grid portal-coming-grid--three">
               <div className="portal-coming-item"><div><h3>Important Pharmacology Concepts</h3><p>Important concepts explained in a straightforward way, covering ideas students are likely to encounter throughout their studies.</p></div><Status status="Coming Soon" /></div>
@@ -144,7 +144,7 @@ export default function PortalPage() {
             <div className="portal-section-heading">
               <p className="eyebrow">05 · Student opportunities</p>
               <h2 id="opportunities">Stay connected to what is happening</h2>
-              <p>This section will keep students connected to NIPSA activities, academic events, seminars, workshops, research opportunities, peer learning, leadership and other opportunities to get involved. Whenever there is something students can participate in, the relevant information will be shared through the appropriate section of the website.</p>
+              <p>Check Events for published activities and Community for peer support.</p>
             </div>
             <div className="portal-link-row">
               <Link className="portal-inline-link" href="/events">See Events <Arrow /></Link>
@@ -167,14 +167,6 @@ export default function PortalPage() {
             </div>
           </section>
 
-          <section className="portal-section portal-now" aria-labelledby="what-you-can-use">
-            <div className="portal-section-heading">
-              <p className="eyebrow">What you can use now</p>
-              <h2 id="what-you-can-use">Start with what is already available</h2>
-              <p>The Portal is already connected to resources available across the website, including Study Tips, the Telegram Notice Board, public academic resources, academic announcements, NIPSA activities, community information and student support channels.</p>
-            </div>
-            <p className="portal-note">More will be added over time. Anything marked <strong>Coming Soon</strong> is something we intend to make available, but it is not available yet.</p>
-          </section>
 
           <section className="portal-section portal-help" aria-labelledby="need-help">
             <div className="portal-section-heading">
@@ -185,17 +177,12 @@ export default function PortalPage() {
               <div><h3>Academic matters</h3><p>For academic questions and academic support.</p><a href="mailto:academics@nipsaunilesa.com.ng">academics@nipsaunilesa.com.ng</a></div>
               <div><h3>General enquiries</h3><p>For information, feedback, suggestions, concerns or help finding the right office.</p><a href="mailto:info@nipsaunilesa.com.ng">info@nipsaunilesa.com.ng</a></div>
               <div><h3>Administrative matters</h3><p>For general administrative enquiries.</p><a href="mailto:admin@nipsaunilesa.com.ng">admin@nipsaunilesa.com.ng</a></div>
-              <div><h3>Community matters</h3><p>For official NIPSA public announcements, use the Telegram Notice Board. For community assistance or study-circle enquiries, visit the Community page.</p><a href="https://t.me/+FYZPQBrwE_U3N2Rk" target="_blank" rel="noopener noreferrer">Telegram Notice Board <Arrow /></a><Link href="/community">Community page</Link></div>
+              <div><h3>Community matters</h3><p>For peer support or help accessing the notice board.</p><Link href="/community">Community page</Link></div>
               <div><h3>Other contact routes</h3><p>Sports, social and public-facing matters can use the relevant additional contact addresses.</p><a href="mailto:sports@nipsaunilesa.com.ng">Sports</a><a href="mailto:social@nipsaunilesa.com.ng">Social</a><a href="mailto:publicrelations@nipsaunilesa.com.ng">Public relations</a></div>
             </div>
             <Link className="button secondary portal-directory-link" href="/contact">Contact Directory <Arrow /></Link>
           </section>
 
-          <section className="portal-section portal-closing" aria-labelledby="more-to-come">
-            <p className="eyebrow">More to come</p>
-            <h2 id="more-to-come">Make it easier to find what you need.</h2>
-            <p>The Student Portal will grow as more useful resources and tools are developed. The idea is simple: make it easier for NIPSA students to find what they need, learn more effectively and get the support they need when they need it.</p>
-          </section>
         </div>
       </main>
       <Footer currentPath="/portal" />

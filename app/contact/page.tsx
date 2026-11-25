@@ -66,26 +66,32 @@ const officialMailboxes = [
 
 const quickContactAddresses = [
   {
+    label: "General enquiries",
     email: "info@nipsaunilesa.com.ng",
-    purpose: "General information, official enquiries, feedback, suggestions, concerns, and guidance about NIPSA UNILESA, its activities, services, and the appropriate office to contact.",
+    purpose: "Ask about chapter activities and services, offer feedback or suggestions, raise a concern or find the right office.",
   },
   {
+    label: "Student support",
     email: "support@nipsaunilesa.com.ng",
-    purpose: "General student support and assistance for enquiries requiring administrative guidance or help from NIPSA UNILESA.",
+    purpose: "Get help with student enquiries that need administrative guidance.",
   },
   {
+    label: "Academic support",
     email: "academics@nipsaunilesa.com.ng",
     purpose: "Academic enquiries and support matters, including academic initiatives, study support, learning activities, and related student questions.",
   },
   {
+    label: "Sports",
     email: "sports@nipsaunilesa.com.ng",
     purpose: "Sports-related enquiries and activities, including team coordination, competitions, and participation.",
   },
   {
+    label: "Social activities",
     email: "social@nipsaunilesa.com.ng",
     purpose: "Social activities and student engagement, including association social programmes and related coordination.",
   },
   {
+    label: "Public relations",
     email: "publicrelations@nipsaunilesa.com.ng",
     purpose: "Public relations, official communications, information requests, and external-facing enquiries.",
   },
@@ -118,43 +124,44 @@ export default function ContactPage() {
           </div>
         </section>
 
+        <section className="quick-contact-section" aria-labelledby="quick-contact-addresses">
+          <div className="contact-directory-header">
+            <p className="eyebrow">Start here</p>
+            <h2 id="quick-contact-addresses">General enquiries and student support</h2>
+          </div>
+
+          <div className="quick-contact-list" aria-label="Other official NIPSA UNILESA contact addresses">
+            {quickContactAddresses.map((address) => (
+              <article className="quick-contact-item" key={address.email}>
+                <h3 className="contact-role">{address.label}</h3>
+                <p className="quick-contact-address">
+                  <ContactEmailLink email={address.email} />
+                </p>
+                <p className="quick-contact-purpose">{address.purpose}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="contact-directory" aria-labelledby="official-offices">
           <div className="contact-directory-header">
             <p className="eyebrow">Official offices</p>
-            <h2 id="official-offices">Official NIPSA Mailboxes</h2>
+            <h2 id="official-offices">Executive and administrative correspondence</h2>
           </div>
 
           <div className="contact-list" aria-label="Official NIPSA UNILESA organisational email mailboxes">
             {officialMailboxes.map((contact) => (
               <article className="contact-item" key={contact.email}>
                 <div className="contact-item-copy">
-                  <p className="contact-role">{contact.role}</p>
+                  <h3 className="contact-role">{contact.role}</h3>
                   <a className="contact-email" href={`mailto:${contact.email}`}>
                     {contact.email}
                   </a>
                   <p className="contact-description">{contact.description}</p>
                 </div>
-                <a className="button secondary contact-action" href={`mailto:${contact.email}`}>
+                <a className="button secondary contact-action" aria-label={`Email ${contact.role}`} href={`mailto:${contact.email}`}>
                   Email
                 </a>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="quick-contact-section" aria-labelledby="quick-contact-addresses">
-          <div className="contact-directory-header">
-            <p className="eyebrow">Other official contact addresses</p>
-            <h2 id="quick-contact-addresses">Other official contact addresses</h2>
-          </div>
-
-          <div className="quick-contact-list" aria-label="Other official NIPSA UNILESA contact addresses">
-            {quickContactAddresses.map((address) => (
-              <article className="quick-contact-item" key={address.email}>
-                <p className="quick-contact-address">
-                  <ContactEmailLink email={address.email} />
-                </p>
-                <p className="quick-contact-purpose">{address.purpose}</p>
               </article>
             ))}
           </div>

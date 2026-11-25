@@ -53,20 +53,20 @@ const resources: Resource[] = [
     description: "A student-facing academic guide covering department expectations, good practice, and relevant support information for Pharmacology students.",
     category: "Student-facing academic guides",
     type: "Guide",
-    href: "/resources/Academic Resource Handbook.docx",
+    href: "/resources/Academic%20Resource%20Handbook.docx",
     actionLabel: "Download handbook",
     audience: "Students",
     format: "DOCX",
   },
   {
     title: "NIPSA UNILESA Resource Drive",
-    description: "Access the central collection of NIPSA UNILESA academic and student-support materials, including study guidance, departmental resources, onboarding materials, and pharmacology-related student resources.",
+    description: "Browse study guidance, departmental resources and onboarding materials in the chapter’s Google Drive folder.",
     category: "Central collection",
     type: "Collection",
     href: "https://drive.google.com/drive/folders/1_ua5JRtKSouhX8b6ifkDlJx9D0Y_pwT9?usp=sharing",
-    actionLabel: "Access Resource Drive",
+    actionLabel: "Access Resource Drive (Google Drive)",
     audience: "Students",
-    format: "Collection",
+    format: "Google Drive",
   },
 ];
 
@@ -122,7 +122,7 @@ export default function ResourcesPage() {
 
           <div className="resource-grid" role="list" aria-label="Academic resources">
             {resources.map(({ id, category, title, description, href, actionLabel, audience, format, type, previewHref }) => {
-              const isDriveCollection = title === "NIPSA UNILESA Resource Drive";
+              const isDriveCollection = type === "Collection";
               const actionClassName = isDriveCollection ? "resource-action resource-drive-action" : "resource-action";
               const cardClassName = isDriveCollection ? "resource-card resource-drive-card" : "resource-card";
 
@@ -151,9 +151,9 @@ export default function ResourcesPage() {
                   ) : null}
 
                   {href.startsWith("/resources/") ? (
-                    <a className={actionClassName} href={href} download aria-label={actionLabel}>
+                    <a className={actionClassName} href={href} download>
                       {actionLabel}
-                      <span aria-hidden="true">↗</span>
+                      <span aria-hidden="true">↓</span>
                     </a>
                   ) : href.startsWith("http") ? (
                     <a className={actionClassName} href={href} target="_blank" rel="noopener noreferrer" aria-label={actionLabel}>
