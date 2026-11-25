@@ -113,11 +113,12 @@ for (const [label, html] of [
 }
 assert.ok(orientationHtml.includes('2026-11-22T00:00:00.000Z')
   && orientationHtml.includes('article:published_time'), 'Orientation metadata must use the publication date');
-assert.ok(orientationHtml.includes('1 December 2026'), 'Orientation event date must be displayed independently');
+assert.ok(orientationHtml.includes('1st December 2026'), 'Orientation event date must be displayed independently of the publication date');
 assert.ok(!orientationHtml.includes('orientation-status-pill'), 'Duplicate hero status indicator must not be exported');
 for (const value of [
-  'To be confirmed',
-  'To be communicated by the department',
+  '1st December 2026',
+  '11:00AM',
+  'Basic Medical Sciences Hall (BMSH)',
   'Upcoming',
   '/resources#orientation-checklist',
   checklistPdf,
