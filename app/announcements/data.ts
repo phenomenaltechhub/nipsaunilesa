@@ -78,20 +78,20 @@ export const announcements: AnnouncementItem[] = [
     title: "Departmental Orientation",
     category: "Important notice",
     summary:
-      "An upcoming activity for incoming Pharmacology students, scheduled for 1 December 2026. Time and venue details will be communicated by the department.",
+      "An upcoming activity for incoming Pharmacology students, scheduled for 1st December 2026. Additional information will be communicated by the department.",
     description:
-      "The Department of Pharmacology at the University of Ilesa will hold an orientation for incoming students on 1 December 2026. The event time is to be confirmed and the venue will be communicated by the department.",
+      "The Department of Pharmacology at the University of Ilesa will hold an orientation for incoming students on Tuesday 1st December 2026.",
     publishedAt: "2026-11-22",
     tone: "amber",
     programme: "Departmental Orientation",
     department: "Pharmacology",
     institution: "University of Ilesa",
     eventDate: "1st December 2026",
-    eventTime: "To be confirmed",
-    venue: "To be communicated by the department",
+    eventTime: "11:00AM",
+    venue: "Basic Medical Sciences Hall (BMSH)",
     eventStatus: "Upcoming",
     additionalInfo: [
-      "Time and venue to be confirmed",
+      "Reach out to the department for enquires",
     ],
     enquiries: {
       email: "info@nipsaunilesa.com.ng",
