@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "prebuild": "node scripts/generate-executive-social-images.mjs",
     "start": "next start",
     "lint": "eslint",
     "test": "node --test tests/*.test.mjs",

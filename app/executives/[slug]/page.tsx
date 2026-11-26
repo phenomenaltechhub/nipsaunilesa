@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     description: executive.intro,
     path: `/executives/${executive.slug}`,
     type: "profile",
-    image: executive.image,
+    image: executive.image ? `/social/executives/${executive.slug}.jpg` : undefined,
     imageAlt: `Portrait of ${executive.name}`,
   });
 }
