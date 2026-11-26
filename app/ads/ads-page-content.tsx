@@ -11,7 +11,6 @@ import { siteUrl } from "../seo";
 import {
   advertisementCategories,
   advertisements,
-  getAdSummary,
   getSanitizedAdImage,
   sanitizePublicAdCopy,
   hasDedicatedAdPage,
@@ -25,7 +24,6 @@ function Arrow() {
 }
 
 function AdCard({ ad, anchorId }: { ad: Advertisement; anchorId?: string }) {
-  const summary = getAdSummary(ad);
   const shareUrl = hasDedicatedAdPage(ad)
     ? `${siteUrl}/ads/${ad.slug}`
     : `${siteUrl}/ads#${anchorId ?? `ad-${ad.slug}`}`;
@@ -83,7 +81,6 @@ function AdCard({ ad, anchorId }: { ad: Advertisement; anchorId?: string }) {
           <AdActionLinks ad={ad} />
           <AdShareButton
             businessName={ad.businessName}
-            description={`${ad.category}. ${summary}`}
             url={shareUrl}
           />
         </div>
