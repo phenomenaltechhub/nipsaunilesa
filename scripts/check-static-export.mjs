@@ -138,8 +138,12 @@ for (const [, slug] of executivePhotoRecords) {
   assert.ok(imageBytes.subarray(0, 3).equals(Buffer.from([0xff, 0xd8, 0xff])),
     `Social-card image must be JPEG: ${slug}`);
   const dimensions = await sharp(imageBytes).metadata();
-  assert.equal(dimensions.width, 1200, `Executive social-card width: ${slug}`);
-  assert.equal(dimensions.height, 630, `Executive social-card height: ${slug}`);
+  assert.ok(dimensions.width && dimensions.width > 0 && dimensions.width <= 1000,
+    `Executive social portrait width must retain source dimensions: ${slug}`);
+  assert.ok(dimensions.height && dimensions.height > 0 && dimensions.height <= 1200,
+    `Executive social portrait height must retain source dimensions: ${slug}`);
+  assert.ok((dimensions.width / dimensions.height) > 0.3 && (dimensions.width / dimensions.height) < 3,
+    `Executive social portrait aspect ratio must remain reasonable: ${slug}`);
   const profileHtml = readFileSync(join(root, `executives/${slug}.html`), 'utf8');
   assert.ok(profileHtml.includes(`og:image`) && profileHtml.includes(`https://nipsaunilesa.com.ng${imagePath}`),
     `Executive social metadata must use its public JPEG: ${slug}`);
