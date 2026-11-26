@@ -197,7 +197,7 @@ export default function GalleryImageViewer({
     try {
       if (navigator.share) {
         try {
-          await navigator.share({ title: currentImage.title, url });
+          await navigator.share({ url });
           setShareStatus("Link shared.");
           return;
         } catch (error) {
