@@ -17,7 +17,7 @@ for (const [, slug, image] of records) {
   const sourceFile = join(root, "public", image.slice(1));
   // Preserve the original portrait's framing and aspect ratio for social crawlers.
   // Do not surround vertical portraits with a wide green canvas or upscale small photos.
-  const output = join(target, `${slug}.jpg`);
+  const output = join(target, `${slug}-portrait.jpg`);
   await sharp(sourceFile).rotate()
     .resize({ width: 1000, height: 1200, fit: "inside", withoutEnlargement: true })
     .flatten({ background: "#ffffff" })
