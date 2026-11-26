@@ -26,6 +26,10 @@ export function createPageMetadata({
   image = defaultSocialImage,
   imageAlt = "NIPSA University of Ilesa logo",
 }: PageMetadataOptions): Metadata {
+  // Social crawlers fetch the initial exported HTML and need a directly resolvable image URL.
+  // Use the page-specific media where supplied; never depend on client-side routing for previews.
+  const socialImage = absoluteSiteUrl(image);
+
   return {
     title,
     description,
@@ -39,13 +43,13 @@ export function createPageMetadata({
       siteName: "NIPSA UNILESA",
       type,
       ...(type === "article" && publishedTime ? { publishedTime } : {}),
-      images: [{ url: image, alt: imageAlt }],
+      images: [{ url: socialImage, alt: imageAlt }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [image],
+      images: [socialImage],
     },
   };
 }
