@@ -15,18 +15,21 @@ for (const [, slug, image] of records) {
     throw new Error(`Unexpected executive social image reference: ${slug}: ${image}`);
   }
   const sourceFile = join(root, "public", image.slice(1));
-  const portrait = await sharp(sourceFile).rotate()
-    .resize({ width: 1100, height: 600, fit: "inside", withoutEnlargement: true })
+  // Share the photograph itself, not a generated card: no crop, resize,
+  // padding or background canvas. Large PNGs are losslessly sourced and only
+  // re-encoded to JPEG for wide compatibility with social link crawlers.
+  const output = join(target, `${slug}-portrait.jpg`);
+  const original = await sharp(sourceFile).metadata();
+  await sharp(sourceFile).rotate()
     .flatten({ background: "#ffffff" })
-    .jpeg({ quality: 80, mozjpeg: true })
-    .toBuffer();
-  const output = join(target, `${slug}.jpg`);
-  await sharp({
-    create: { width: 1200, height: 630, channels: 3, background: "#075b46" },
-  }).composite([{ input: portrait, gravity: "centre" }])
-    .jpeg({ quality: 78, mozjpeg: true })
+    .jpeg({ quality: 92, mozjpeg: true })
     .toFile(output);
   const metadata = await sharp(output).metadata();
-  if (metadata.width !== 1200 || metadata.height !== 630) throw new Error(`Invalid social image dimensions: ${slug}`);
+  const rotated = [6, 8].includes(original.orientation ?? 1);
+  const expectedWidth = rotated ? original.height : original.width;
+  const expectedHeight = rotated ? original.width : original.height;
+  if (!metadata.width || !metadata.height || metadata.width !== expectedWidth || metadata.height !== expectedHeight) {
+    throw new Error(`Executive portrait preview changed original dimensions: ${slug}`);
+  }
   console.log(`Prepared executive preview ${slug}.jpg`);
 }
