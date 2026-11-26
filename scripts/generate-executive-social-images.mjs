@@ -15,17 +15,21 @@ for (const [, slug, image] of records) {
     throw new Error(`Unexpected executive social image reference: ${slug}: ${image}`);
   }
   const sourceFile = join(root, "public", image.slice(1));
-  // Preserve the original portrait's framing and aspect ratio for social crawlers.
-  // Do not surround vertical portraits with a wide green canvas or upscale small photos.
+  // Share the photograph itself, not a generated card: no crop, resize,
+  // padding or background canvas. Large PNGs are losslessly sourced and only
+  // re-encoded to JPEG for wide compatibility with social link crawlers.
   const output = join(target, `${slug}-portrait.jpg`);
+  const original = await sharp(sourceFile).metadata();
   await sharp(sourceFile).rotate()
-    .resize({ width: 1000, height: 1200, fit: "inside", withoutEnlargement: true })
     .flatten({ background: "#ffffff" })
-    .jpeg({ quality: 88, mozjpeg: true })
+    .jpeg({ quality: 92, mozjpeg: true })
     .toFile(output);
   const metadata = await sharp(output).metadata();
-  if (!metadata.width || !metadata.height || metadata.width > 1000 || metadata.height > 1200) {
-    throw new Error(`Invalid portrait preview dimensions: ${slug}`);
+  const rotated = [6, 8].includes(original.orientation ?? 1);
+  const expectedWidth = rotated ? original.height : original.width;
+  const expectedHeight = rotated ? original.width : original.height;
+  if (!metadata.width || !metadata.height || metadata.width !== expectedWidth || metadata.height !== expectedHeight) {
+    throw new Error(`Executive portrait preview changed original dimensions: ${slug}`);
   }
   console.log(`Prepared executive preview ${slug}.jpg`);
 }
