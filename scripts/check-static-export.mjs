@@ -131,7 +131,7 @@ const executiveSource = readFileSync('app/executives/data.ts', 'utf8');
 const executivePhotoRecords = [...executiveSource.matchAll(/\bslug:\s*"([^"]+)"[\s\S]*?\bimage:\s*"([^"]+)"/g)];
 assert.ok(executivePhotoRecords.length > 0, 'No executive portraits found for social-card checks');
 for (const [, slug] of executivePhotoRecords) {
-  const imagePath = `/social/executives/${slug}.jpg`;
+  const imagePath = `/social/executives/${slug}-portrait.jpg`;
   const exportedImage = localFile(imagePath);
   assert.ok(exportedImage, `Missing executive social-card image: ${slug}`);
   const imageBytes = readFileSync(exportedImage);
