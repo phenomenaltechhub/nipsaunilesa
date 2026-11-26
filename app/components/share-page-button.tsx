@@ -3,12 +3,10 @@
 import { useId, useState } from "react";
 
 type SharePageButtonProps = {
-  title: string;
-  text: string;
   url: string;
 };
 
-export default function SharePageButton({ title, text, url }: SharePageButtonProps) {
+export default function SharePageButton({ url }: SharePageButtonProps) {
   const inputId = useId();
   const [status, setStatus] = useState("");
   const [showManualCopy, setShowManualCopy] = useState(false);
@@ -32,7 +30,7 @@ export default function SharePageButton({ title, text, url }: SharePageButtonPro
 
     if (navigator.share) {
       try {
-        await navigator.share({ title, text, url });
+        await navigator.share({ url });
         setStatus("Page shared.");
         return;
       } catch (error) {
