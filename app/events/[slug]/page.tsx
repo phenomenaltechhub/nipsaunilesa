@@ -75,8 +75,6 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   Ask a question <Arrow />
                 </Link>
                 <SharePageButton
-                  title={event.title}
-                  text={event.summary}
                   url={absoluteSiteUrl(`/events/${event.slug}`)}
                 />
               </div>
