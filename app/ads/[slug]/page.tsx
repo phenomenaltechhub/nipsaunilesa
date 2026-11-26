@@ -95,7 +95,6 @@ export default async function AdvertisementDetailPage({ params }: { params: Prom
               <AdActionLinks ad={ad} />
               <AdShareButton
                 businessName={ad.businessName}
-                description={`${ad.category}. ${getAdSummary(ad)}`}
                 url={`${siteUrl}/ads/${ad.slug}`}
               />
               <Link className="ads-detail__action ads-detail__action--secondary" href="/ads">

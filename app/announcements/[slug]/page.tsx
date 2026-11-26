@@ -77,8 +77,6 @@ export default async function AnnouncementDetailPage({ params }: { params: Promi
                   </Link>
                 )}
                 <SharePageButton
-                  title={announcement.title}
-                  text={announcement.summary}
                   url={absoluteSiteUrl(`/announcements/${announcement.slug}`)}
                 />
               </div>

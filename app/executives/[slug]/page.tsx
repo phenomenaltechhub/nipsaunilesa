@@ -91,8 +91,6 @@ export default async function ExecutiveProfilePage({ params }: { params: Promise
             </Link>
             <div className="page-cta-row">
               <SharePageButton
-                title={`${executive.name} | ${getExecutiveOfficeLabel(executive.role)}`}
-                text={executive.intro}
                 url={absoluteSiteUrl(`/executives/${executive.slug}`)}
               />
             </div>
