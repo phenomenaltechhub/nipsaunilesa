@@ -130,7 +130,7 @@ for (const value of [
 const executiveSource = readFileSync('app/executives/data.ts', 'utf8');
 const executivePhotoRecords = [...executiveSource.matchAll(/\bslug:\s*"([^"]+)"[\s\S]*?\bimage:\s*"([^"]+)"/g)];
 assert.ok(executivePhotoRecords.length > 0, 'No executive portraits found for social-card checks');
-for (const [, slug] of executivePhotoRecords) {
+for (const [, slug, sourceImagePath] of executivePhotoRecords) {
   const imagePath = `/social/executives/${slug}-portrait.jpg`;
   const exportedImage = localFile(imagePath);
   assert.ok(exportedImage, `Missing executive social-card image: ${slug}`);
@@ -138,12 +138,12 @@ for (const [, slug] of executivePhotoRecords) {
   assert.ok(imageBytes.subarray(0, 3).equals(Buffer.from([0xff, 0xd8, 0xff])),
     `Social-card image must be JPEG: ${slug}`);
   const dimensions = await sharp(imageBytes).metadata();
-  assert.ok(dimensions.width && dimensions.width > 0 && dimensions.width <= 1000,
-    `Executive social portrait width must retain source dimensions: ${slug}`);
-  assert.ok(dimensions.height && dimensions.height > 0 && dimensions.height <= 1200,
-    `Executive social portrait height must retain source dimensions: ${slug}`);
-  assert.ok((dimensions.width / dimensions.height) > 0.3 && (dimensions.width / dimensions.height) < 3,
-    `Executive social portrait aspect ratio must remain reasonable: ${slug}`);
+  const sourceDimensions = await sharp(readFileSync(join('public', sourceImagePath.slice(1)))).metadata();
+  const rotated = [6, 8].includes(sourceDimensions.orientation ?? 1);
+  assert.equal(dimensions.width, rotated ? sourceDimensions.height : sourceDimensions.width,
+    `Executive social portrait must preserve the source's width: ${slug}`);
+  assert.equal(dimensions.height, rotated ? sourceDimensions.width : sourceDimensions.height,
+    `Executive social portrait must preserve the source's height: ${slug}`);
   const profileHtml = readFileSync(join(root, `executives/${slug}.html`), 'utf8');
   assert.ok(profileHtml.includes(`og:image`) && profileHtml.includes(`https://nipsaunilesa.com.ng${imagePath}`),
     `Executive social metadata must use its public JPEG: ${slug}`);
