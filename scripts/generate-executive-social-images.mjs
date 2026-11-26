@@ -15,18 +15,17 @@ for (const [, slug, image] of records) {
     throw new Error(`Unexpected executive social image reference: ${slug}: ${image}`);
   }
   const sourceFile = join(root, "public", image.slice(1));
-  const portrait = await sharp(sourceFile).rotate()
-    .resize({ width: 1100, height: 600, fit: "inside", withoutEnlargement: true })
-    .flatten({ background: "#ffffff" })
-    .jpeg({ quality: 80, mozjpeg: true })
-    .toBuffer();
+  // Preserve the original portrait's framing and aspect ratio for social crawlers.
+  // Do not surround vertical portraits with a wide green canvas or upscale small photos.
   const output = join(target, `${slug}.jpg`);
-  await sharp({
-    create: { width: 1200, height: 630, channels: 3, background: "#075b46" },
-  }).composite([{ input: portrait, gravity: "centre" }])
-    .jpeg({ quality: 78, mozjpeg: true })
+  await sharp(sourceFile).rotate()
+    .resize({ width: 1000, height: 1200, fit: "inside", withoutEnlargement: true })
+    .flatten({ background: "#ffffff" })
+    .jpeg({ quality: 88, mozjpeg: true })
     .toFile(output);
   const metadata = await sharp(output).metadata();
-  if (metadata.width !== 1200 || metadata.height !== 630) throw new Error(`Invalid social image dimensions: ${slug}`);
+  if (!metadata.width || !metadata.height || metadata.width > 1000 || metadata.height > 1200) {
+    throw new Error(`Invalid portrait preview dimensions: ${slug}`);
+  }
   console.log(`Prepared executive preview ${slug}.jpg`);
 }
