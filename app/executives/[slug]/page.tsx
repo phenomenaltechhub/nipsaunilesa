@@ -4,8 +4,9 @@ import { notFound } from "next/navigation";
 import Header from "../../components/site-header";
 import Footer from "../../components/site-footer";
 import { BreadcrumbStructuredData } from "../../components/seo-json-ld";
+import SharePageButton from "../../components/share-page-button";
 import { executives, getExecutiveBySlug, getExecutiveOfficeLabel } from "../data";
-import { createPageMetadata } from "../../seo";
+import { absoluteSiteUrl, createPageMetadata } from "../../seo";
 
 export async function generateStaticParams() {
   return executives.map((executive) => ({ slug: executive.slug }));
@@ -88,6 +89,13 @@ export default async function ExecutiveProfilePage({ params }: { params: Promise
             <Link className="button primary homepage-executive-contact" href={`mailto:${executive.email}`}>
               Contact Office <span aria-hidden="true">↗</span>
             </Link>
+            <div className="page-cta-row">
+              <SharePageButton
+                title={`${executive.name} | ${getExecutiveOfficeLabel(executive.role)}`}
+                text={executive.intro}
+                url={absoluteSiteUrl(`/executives/${executive.slug}`)}
+              />
+            </div>
           </div>
         </section>
 
