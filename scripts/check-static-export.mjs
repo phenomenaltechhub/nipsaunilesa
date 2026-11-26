@@ -128,7 +128,7 @@ for (const value of [
 }
 // Executive social cards must be present in the exported files, not just referenced in metadata.
 const executiveSource = readFileSync('app/executives/data.ts', 'utf8');
-const executivePhotoRecords = [...executiveSource.matchAll(/\\bslug:\\s*"([^"]+)"[\\s\\S]*?\\bimage:\\s*"([^"]+)"/g)];
+const executivePhotoRecords = [...executiveSource.matchAll(/\bslug:\s*"([^"]+)"[\s\S]*?\bimage:\s*"([^"]+)"/g)];
 assert.ok(executivePhotoRecords.length > 0, 'No executive portraits found for social-card checks');
 for (const [, slug] of executivePhotoRecords) {
   const imagePath = `/social/executives/${slug}.jpg`;
