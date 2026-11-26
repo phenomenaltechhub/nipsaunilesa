@@ -4,11 +4,10 @@ import { useId, useState } from "react";
 
 type AdShareButtonProps = {
   businessName: string;
-  description: string;
   url: string;
 };
 
-export default function AdShareButton({ businessName, description, url }: AdShareButtonProps) {
+export default function AdShareButton({ businessName, url }: AdShareButtonProps) {
   const inputId = useId();
   const [status, setStatus] = useState("");
   const [showManualCopy, setShowManualCopy] = useState(false);
@@ -31,7 +30,7 @@ export default function AdShareButton({ businessName, description, url }: AdShar
 
     if (navigator.share) {
       try {
-        await navigator.share({ title: businessName, text: description, url });
+        await navigator.share({ url });
         return;
       } catch (error) {
         if (
